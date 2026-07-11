@@ -62,7 +62,12 @@ export function appendLedger(current, entries) {
         : null,
     }));
   const byCommentVersion = new Map((current.commands ?? []).map((entry) => [ledgerEntryKey(entry), entry]));
-  for (const entry of compact) byCommentVersion.set(ledgerEntryKey(entry), entry);
+  for (const entry of compact) {
+    const key = ledgerEntryKey(entry);
+    const previous = byCommentVersion.get(key);
+    if (previous?.status === "executed" && entry.status !== "executed") continue;
+    byCommentVersion.set(key, entry);
+  }
   current.updated_at = new Date().toISOString();
   current.commands = [...byCommentVersion.values()].slice(-1000);
 }

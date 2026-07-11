@@ -76,3 +76,36 @@ test("appendLedger preserves a legacy automerge bridge replay", () => {
     ],
   );
 });
+
+test("appendLedger never downgrades an executed command to skipped", () => {
+  const idempotencyKey = "comment-router:openclaw/openclaw:2:202:2026-07-12T00:02:00Z:automerge";
+  const ledger = {
+    updated_at: null,
+    commands: [
+      {
+        idempotency_key: idempotencyKey,
+        comment_id: "202",
+        comment_version_key: "202:2026-07-12T00:02:00Z",
+        status: "executed",
+        intent: "automerge",
+        issue_number: 2,
+        repo: "openclaw/openclaw",
+      },
+    ],
+  };
+
+  appendLedger(ledger, [
+    {
+      idempotency_key: idempotencyKey,
+      comment_id: "202",
+      comment_version_key: "202:2026-07-12T00:02:00Z",
+      status: "skipped",
+      intent: "automerge",
+      issue_number: 2,
+      repo: "openclaw/openclaw",
+    },
+  ]);
+
+  assert.equal(ledger.commands.length, 1);
+  assert.equal(ledger.commands[0].status, "executed");
+});

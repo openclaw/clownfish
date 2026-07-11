@@ -6,6 +6,7 @@ import { promisify } from "node:util";
 import { assertAllowedOwner, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 
 const MERGE_ACTIONS = new Set(["merge_candidate", "merge_canonical"]);
+const PHASES = new Set(["preflight", "apply", "all"]);
 const execFileAsync = promisify(execFile);
 
 const args = parseArgs(process.argv.slice(2));
@@ -25,14 +26,20 @@ const childHeartbeatMs = positiveInteger(
   "CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS",
 );
 const runRootArg = args["run-root"];
+const phase = String(args.phase ?? "all");
 
 if (!jobPath) {
-  console.error("usage: node scripts/run-external-merge-preflights.mjs <job.md> [result.json] [--latest] [--dry-run]");
+  console.error(
+    "usage: node scripts/run-external-merge-preflights.mjs <job.md> [result.json] [--latest] [--dry-run] [--phase preflight|apply|all]",
+  );
   process.exit(2);
 }
 if (!resultPathArg && !latest) {
   console.error("result path is required unless --latest is set");
   process.exit(2);
+}
+if (!PHASES.has(phase)) {
+  throw new Error("--phase must be preflight, apply, or all");
 }
 
 const job = parseJob(jobPath);
@@ -50,34 +57,46 @@ if (result.cluster_id !== job.frontmatter.cluster_id) {
 }
 
 const runRoot = path.resolve(String(runRootArg ?? path.dirname(resultPath)));
-const requests = findPreflightRequests(result).slice(0, maxPrs);
-const report = {
-  repo: result.repo,
-  cluster_id: result.cluster_id,
-  result_path: path.relative(repoRoot(), resultPath),
-  dry_run: dryRun,
-  preflight_concurrency: concurrency,
-  generated_at: new Date().toISOString(),
-  status: requests.length > 0 ? "planned" : "skipped",
-  actions: [],
-};
-
-const reviewedActions = await mapLimit(requests, concurrency, runPreflightReview);
-for (const action of reviewedActions) {
-  report.actions.push(await applyReviewedPreflight(action));
-}
-
-if (report.actions.some((action) => action.status === "executed")) {
-  report.status = "executed";
-} else if (report.actions.some((action) => action.status === "passed")) {
-  report.status = "passed";
-} else if (report.actions.some((action) => action.status === "blocked")) {
-  report.status = "blocked";
-}
-
 const reportPath = path.join(runRoot, "external-merge-preflight-report.json");
-fs.mkdirSync(path.dirname(reportPath), { recursive: true });
-fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+let report;
+
+if (phase === "preflight" || phase === "all") {
+  const requests = findPreflightRequests(result).slice(0, maxPrs);
+  report = {
+    repo: result.repo,
+    cluster_id: result.cluster_id,
+    result_path: path.relative(repoRoot(), resultPath),
+    dry_run: dryRun,
+    preflight_concurrency: concurrency,
+    generated_at: new Date().toISOString(),
+    status: requests.length > 0 ? "planned" : "skipped",
+    actions: [],
+  };
+  const reviewedActions = await mapLimit(requests, concurrency, runPreflightReview);
+  report.actions = reviewedActions;
+  report.preflight_completed_at = new Date().toISOString();
+  updateReportStatus(report);
+  persistReport(report);
+}
+
+if (phase === "apply") {
+  report = loadReport();
+}
+
+if (phase === "apply" || phase === "all") {
+  report.dry_run = dryRun;
+  report.apply_started_at = new Date().toISOString();
+  for (let index = 0; index < report.actions.length; index += 1) {
+    if (report.actions[index].status !== "passed") continue;
+    report.actions[index] = await applyReviewedPreflight(report.actions[index]);
+    updateReportStatus(report);
+    persistReport(report);
+  }
+  report.apply_completed_at = new Date().toISOString();
+  updateReportStatus(report);
+  persistReport(report);
+}
+
 console.log(JSON.stringify(report, null, 2));
 
 function findPreflightRequests(workerResult) {
@@ -175,7 +194,16 @@ async function applyReviewedPreflight(action) {
     };
   }
 
-  const runDir = path.resolve(repoRoot(), action.run_dir);
+  const runDir = resolveRunDir(action);
+  const preflightReport = readJsonIfExists(path.join(runDir, "preflight-report.json"));
+  if (preflightReport?.status !== "passed") {
+    return {
+      ...action,
+      status: "blocked",
+      reason: preflightReport?.reason ?? "external merge preflight report is missing or no longer passed",
+    };
+  }
+
   const apply = await runNode([
     "scripts/apply-result.mjs",
     path.join(runDir, "preflight-job.md"),
@@ -187,6 +215,7 @@ async function applyReviewedPreflight(action) {
     return {
       ...action,
       status: "blocked",
+      reviewed_head_sha: preflightReport.reviewed_head_sha ?? action.reviewed_head_sha ?? null,
       reason: `guarded merge apply failed: ${compact(apply.stderr || apply.stdout)}`,
     };
   }
@@ -196,6 +225,7 @@ async function applyReviewedPreflight(action) {
   return {
     ...action,
     status: executed ? "executed" : "blocked",
+    reviewed_head_sha: preflightReport.reviewed_head_sha ?? action.reviewed_head_sha ?? null,
     apply_actions: applyReport?.actions ?? [],
     reason: executed ? "guarded external merge applied" : "guarded applicator did not execute a merge",
   };
@@ -227,6 +257,50 @@ async function runNode(commandArgs) {
     clearInterval(heartbeat);
     console.error(`${label}: finished after ${Math.round((Date.now() - started) / 1000)}s`);
   }
+}
+
+function loadReport() {
+  if (!fs.existsSync(reportPath)) {
+    throw new Error(`external merge preflight report does not exist: ${reportPath}`);
+  }
+  const existing = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  if (existing.repo !== result.repo) {
+    throw new Error(`preflight report repo ${existing.repo} does not match result repo ${result.repo}`);
+  }
+  if (existing.cluster_id !== result.cluster_id) {
+    throw new Error(
+      `preflight report cluster ${existing.cluster_id} does not match result cluster ${result.cluster_id}`,
+    );
+  }
+  if (existing.result_path !== path.relative(repoRoot(), resultPath)) {
+    throw new Error("preflight report result path does not match the requested worker result");
+  }
+  if (!Array.isArray(existing.actions)) {
+    throw new Error("preflight report actions must be an array");
+  }
+  return existing;
+}
+
+function persistReport(value) {
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function updateReportStatus(value) {
+  if (value.actions.some((action) => action.status === "executed")) {
+    value.status = "executed";
+  } else if (value.actions.some((action) => action.status === "passed")) {
+    value.status = "passed";
+  } else if (value.actions.some((action) => action.status === "blocked")) {
+    value.status = "blocked";
+  } else {
+    value.status = "skipped";
+  }
+}
+
+function resolveRunDir(action) {
+  if (!action.run_dir) throw new Error(`preflight action ${action.target ?? "unknown"} is missing run_dir`);
+  return path.resolve(repoRoot(), action.run_dir);
 }
 
 function findLatestResultPath() {

@@ -54,6 +54,11 @@ jobs:
   route-comments:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      execute: ${{ steps.route.outputs.execute }}
+      target_repo: ${{ steps.route.outputs.target_repo }}
+      merge_since: ${{ steps.route.outputs.merge_since }}
+      merge_comment_ids: ${{ steps.route.outputs.merge_comment_ids }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -77,6 +82,7 @@ jobs:
           node-version: "24"
 
       - name: Route Clownfish comments
+        id: route
         env:
           GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || github.token }}
           CLOWNFISH_CLAWSWEEPER_GH_TOKEN: ${{ secrets.CLOWNFISH_GH_TOKEN || steps.app_token.outputs.token || github.token }}
@@ -90,9 +96,12 @@ jobs:
           max_comments="${{ github.event_name == 'workflow_dispatch' && inputs.max_comments || vars.CLOWNFISH_COMMENT_MAX_COMMENTS || '100' }}"
           runner="${{ github.event_name == 'workflow_dispatch' && inputs.runner || vars.CLOWNFISH_WORKER_RUNNER || 'blacksmith-4vcpu-ubuntu-2404' }}"
           execution_runner="${{ github.event_name == 'workflow_dispatch' && inputs.execution_runner || vars.CLOWNFISH_EXECUTION_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}"
+          merge_scope_file=".projectclownfish/comment-router-deferred-merges.json"
 
           args=(
             --write-report
+            --defer-merges
+            --deferred-merge-file "$merge_scope_file"
             --repo "$target_repo"
             --lookback-minutes "$lookback_minutes"
             --max-comments "$max_comments"
@@ -108,6 +117,34 @@ jobs:
             args+=(--execute)
           fi
           npm run comment-router -- "${args[@]}"
+
+          SCOPE_FILE="$merge_scope_file" node --input-type=module <<'NODE'
+          import fs from "node:fs";
+
+          const scope = JSON.parse(fs.readFileSync(process.env.SCOPE_FILE, "utf8"));
+          if (!Array.isArray(scope.comment_ids)) throw new Error("deferred merge scope is missing comment_ids");
+          const outputs = {
+            execute: String(scope.execute === true),
+            target_repo: String(scope.repo ?? ""),
+            merge_since: String(scope.since ?? ""),
+            merge_comment_ids: scope.comment_ids.map(String).join(","),
+          };
+          for (const [name, value] of Object.entries(outputs)) {
+            if (value.includes("\n")) throw new Error(`invalid newline in ${name}`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`);
+          }
+          NODE
+
+      - name: Upload deferred merge scope
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: comment-router-merge-scope-${{ github.run_id }}
+          path: .projectclownfish/comment-router-deferred-merges.json
+          if-no-files-found: warn
+          include-hidden-files: true
+          overwrite: true
+          retention-days: 14
 
       - name: Commit comment router ledger
         if: always()
@@ -126,6 +163,9 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          route_report=".projectclownfish/comment-router-route-report.json"
+          mkdir -p "$(dirname "$route_report")"
+          cp results/comment-router-latest.json "$route_report"
           git add results/comment-router.json results/comment-router-latest.json jobs/ 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No comment router changes"
@@ -138,6 +178,196 @@ jobs:
               exit 0
             fi
             git fetch origin main
-            git rebase -X theirs origin/main
+            git rebase -X ours origin/main
+
+            REPORT_FILE="$route_report" node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import path from "node:path";
+          import { appendLedger, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
+
+          const report = JSON.parse(fs.readFileSync(process.env.REPORT_FILE, "utf8"));
+          const ledgerFile = path.join("results", "comment-router.json");
+          const latestFile = path.join("results", "comment-router-latest.json");
+          const recordable = (report.commands ?? []).filter((command) =>
+            ["executed", "skipped"].includes(command.status),
+          );
+          if (recordable.length > 0) {
+            const ledger = readLedger(ledgerFile);
+            appendLedger(ledger, recordable);
+            writeLedger(ledgerFile, ledger);
+          }
+          fs.copyFileSync(process.env.REPORT_FILE, latestFile);
+          NODE
+
+            git add results/comment-router.json results/comment-router-latest.json
+            if git diff --cached --quiet; then
+              if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+                echo "No comment router changes after refresh"
+                exit 0
+              fi
+            elif [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+              git commit -m "chore: record Clownfish comment routing"
+            else
+              git commit --amend --no-edit
+            fi
           done
-          git push
+          exit 1
+
+  merge-comments:
+    needs: route-comments
+    if: ${{ needs.route-comments.result == 'success' && needs.route-comments.outputs.execute == 'true' && needs.route-comments.outputs.merge_comment_ids != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: projectclownfish-merge-${{ needs.route-comments.outputs.target_repo }}
+      cancel-in-progress: false
+      queue: max
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download deferred merge scope
+        uses: actions/download-artifact@v8
+        with:
+          name: comment-router-merge-scope-${{ github.run_id }}
+          path: .projectclownfish/comment-router-merge-scope
+
+      - name: Create GitHub App token
+        id: app_token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.CLOWNFISH_APP_ID }}
+          private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
+          owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Replay deferred merge comments
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token || secrets.CLOWNFISH_GH_TOKEN || github.token }}
+          CLOWNFISH_ALLOW_AUTOMERGE: ${{ vars.CLOWNFISH_ALLOW_AUTOMERGE || '0' }}
+          CLOWNFISH_ALLOW_MERGE: ${{ vars.CLOWNFISH_ALLOW_MERGE || '0' }}
+          EXPECTED_TARGET_REPO: ${{ needs.route-comments.outputs.target_repo }}
+          EXPECTED_SINCE: ${{ needs.route-comments.outputs.merge_since }}
+          EXPECTED_COMMENT_IDS: ${{ needs.route-comments.outputs.merge_comment_ids }}
+        run: |
+          set -euo pipefail
+          scope_file=".projectclownfish/comment-router-merge-scope/comment-router-deferred-merges.json"
+          SCOPE_FILE="$scope_file" node --input-type=module <<'NODE'
+          import fs from "node:fs";
+
+          const scope = JSON.parse(fs.readFileSync(process.env.SCOPE_FILE, "utf8"));
+          const actualIds = Array.isArray(scope.comment_ids) ? scope.comment_ids.map(String).join(",") : "";
+          if (scope.execute !== true) throw new Error("deferred merge scope is not executable");
+          if (scope.repo !== process.env.EXPECTED_TARGET_REPO) throw new Error("deferred merge target repo changed");
+          if (scope.since !== process.env.EXPECTED_SINCE) throw new Error("deferred merge since scope changed");
+          if (actualIds !== process.env.EXPECTED_COMMENT_IDS) throw new Error("deferred merge comment IDs changed");
+          NODE
+
+          target_repo="$(node -p 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).repo' "$scope_file")"
+          since="$(node -p 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).since' "$scope_file")"
+          comment_ids="$(node -p 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).comment_ids.join(",")' "$scope_file")"
+          npm run comment-router -- \
+            --execute \
+            --write-report \
+            --merge-only \
+            --merge-scope-file "$scope_file" \
+            --repo "$target_repo" \
+            --since "$since" \
+            --comment-ids "$comment_ids"
+
+      - name: Commit merged comment ledger
+        env:
+          EXPECTED_TARGET_REPO: ${{ needs.route-comments.outputs.target_repo }}
+          EXPECTED_COMMENT_IDS: ${{ needs.route-comments.outputs.merge_comment_ids }}
+        run: |
+          set -euo pipefail
+          report_file=".projectclownfish/comment-router-merge-report.json"
+          cp results/comment-router-latest.json "$report_file"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          apply_report() {
+            REPORT_FILE="$report_file" node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import path from "node:path";
+          import { appendLedger, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
+
+          const report = JSON.parse(fs.readFileSync(process.env.REPORT_FILE, "utf8"));
+          const expectedIds = new Set(String(process.env.EXPECTED_COMMENT_IDS ?? "").split(",").filter(Boolean));
+          const actualIds = new Set((report.commands ?? []).map((command) => String(command.comment_id)));
+          if (report.mode !== "merge_only") throw new Error("merge replay report is not merge_only");
+          if (report.repo !== process.env.EXPECTED_TARGET_REPO) throw new Error("merge replay target repo changed");
+          if (expectedIds.size !== actualIds.size || [...expectedIds].some((id) => !actualIds.has(id))) {
+            throw new Error("merge replay report comment IDs changed");
+          }
+
+          const ledgerFile = path.join("results", "comment-router.json");
+          const latestFile = path.join("results", "comment-router-latest.json");
+          const recordable = (report.commands ?? []).filter((command) =>
+            ["executed", "skipped"].includes(command.status),
+          );
+          if (recordable.length > 0) {
+            const ledger = readLedger(ledgerFile);
+            appendLedger(ledger, recordable);
+            writeLedger(ledgerFile, ledger);
+          }
+          fs.mkdirSync(path.dirname(latestFile), { recursive: true });
+          fs.copyFileSync(process.env.REPORT_FILE, latestFile);
+          NODE
+          }
+
+          apply_report
+          git add results/comment-router.json results/comment-router-latest.json 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: record queued Clownfish merges"
+          fi
+
+          published=0
+          for attempt in 1 2 3; do
+            echo "Ledger push attempt ${attempt}"
+            if git push origin HEAD:main; then
+              published=1
+              break
+            fi
+            git fetch origin main
+            git rebase -X ours origin/main
+            apply_report
+            git add results/comment-router.json results/comment-router-latest.json
+            if git diff --cached --quiet; then
+              if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+                echo "Merged comment ledger already recorded"
+                published=1
+                break
+              fi
+            elif [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+              git commit -m "chore: record queued Clownfish merges"
+            else
+              git commit --amend --no-edit
+            fi
+          done
+          if [ "$published" != "1" ]; then
+            exit 1
+          fi
+
+          mkdir -p .projectclownfish/comment-router-merge-result
+          cp results/comment-router.json .projectclownfish/comment-router-merge-result/merge-ledger.json
+          cp "$report_file" .projectclownfish/comment-router-merge-result/merge-report.json
+
+      - name: Upload merge replay result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: comment-router-merge-result-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .projectclownfish/comment-router-merge-result/
+          if-no-files-found: warn
+          include-hidden-files: true
+          retention-days: 14

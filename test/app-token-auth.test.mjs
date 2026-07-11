@@ -425,7 +425,7 @@ test("cluster-worker exports a dedicated App token for exact checks", () => {
         /CLOWNFISH_CHECKS_GH_TOKEN: \$\{\{ steps\.app_token\.outputs\.token \|\| steps\.workflow_app_token\.outputs\.token \}\}/g,
       ) ?? []
     ).length,
-    3,
+    4,
   );
 });
 

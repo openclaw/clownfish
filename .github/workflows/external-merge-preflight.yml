@@ -39,6 +39,7 @@ jobs:
     timeout-minutes: 45
     outputs:
       preflight_passed: ${{ steps.outcome.outputs.preflight_passed }}
+      target_repo: ${{ steps.outcome.outputs.target_repo }}
     steps:
       - uses: actions/checkout@v5
 
@@ -110,7 +111,18 @@ jobs:
           run_dir=".projectclownfish/external-merge-preflight"
           npm run preflight-external-merge -- "$SOURCE_JOB" --pr "$PULL_REQUEST" --run-dir "$run_dir"
           npm run review-results -- "$run_dir"
-          node --input-type=module -e 'import fs from "node:fs"; const report = JSON.parse(fs.readFileSync(process.argv[1], "utf8")); const passed = report.status === "passed"; fs.appendFileSync(process.env.GITHUB_OUTPUT, `preflight_passed=${passed}\n`); if (!passed) console.log(`::notice title=External merge preflight blocked::${report.reason ?? "unknown"}`);' "$run_dir/preflight-report.json"
+          PREFLIGHT_REPORT="$run_dir/preflight-report.json" node --input-type=module <<'NODE'
+          import fs from "node:fs";
+          import { parseJob } from "./scripts/lib.mjs";
+
+          const report = JSON.parse(fs.readFileSync(process.env.PREFLIGHT_REPORT, "utf8"));
+          const passed = report.status === "passed";
+          const targetRepo = parseJob(process.env.SOURCE_JOB).frontmatter.repo;
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `preflight_passed=${passed}\ntarget_repo=${targetRepo}\n`);
+          if (!passed) {
+            console.log(`::notice title=External merge preflight blocked::${report.reason ?? "unknown"}`);
+          }
+          NODE
 
       - name: Upload preflight artifact
         if: always()
@@ -123,6 +135,8 @@ jobs:
             .projectclownfish/external-merge-preflight/cluster-plan.json
             .projectclownfish/external-merge-preflight/preflight-report.json
           if-no-files-found: warn
+          include-hidden-files: true
+          overwrite: true
 
       - name: Fail blocked preflight
         if: ${{ always() && steps.outcome.outputs.preflight_passed != 'true' }}
@@ -136,6 +150,10 @@ jobs:
     if: ${{ needs.preflight.result == 'success' && needs.preflight.outputs.preflight_passed == 'true' && inputs.apply && vars.CLOWNFISH_ALLOW_EXECUTE == '1' && vars.CLOWNFISH_ALLOW_MERGE == '1' }}
     runs-on: ${{ inputs.runner }}
     timeout-minutes: 15
+    concurrency:
+      group: projectclownfish-merge-${{ needs.preflight.outputs.target_repo }}
+      cancel-in-progress: false
+      queue: max
     steps:
       - uses: actions/checkout@v5
 
@@ -177,7 +195,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: external-merge-apply-${{ github.run_id }}
+          name: external-merge-apply-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             .projectclownfish/external-merge-preflight/preflight-job.md
             .projectclownfish/external-merge-preflight/result.json
@@ -185,3 +203,4 @@ jobs:
             .projectclownfish/external-merge-preflight/preflight-report.json
             .projectclownfish/external-merge-preflight/apply-report.json
           if-no-files-found: warn
+          include-hidden-files: true
