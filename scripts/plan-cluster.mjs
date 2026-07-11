@@ -115,6 +115,7 @@ while (pending.length > 0) {
 }
 
 const itemList = [...items.values()].sort((left, right) => left.number - right.number);
+assertExpectedHeadPins(job, itemList);
 const securitySensitiveItems = itemList.filter((item) => itemSecuritySensitive(item, job));
 const plan = {
   repo: job.frontmatter.repo,
@@ -456,7 +457,9 @@ function buildFixArtifact(plan, job) {
           : "Disabled by job frontmatter.",
       canonical_fix:
         job.frontmatter.allow_fix_pr === true
-          ? "If no viable canonical PR exists, first repair a useful contributor PR when maintainer_can_modify is true. If it is false, draft/unmergeable, stale, unsafe, or too broad, replace it with fix_needed plus build_fix_artifact/open_fix_pr using repair_strategy=replace_uneditable_branch, narrow files, tests, changelog, branch_update_blockers, and source PR credit. Do not ask whether to wait when fix PRs are allowed."
+          ? job.frontmatter.repair_strategy
+            ? `Worker must use repair_strategy=${job.frontmatter.repair_strategy}. Do not substitute a replacement or new-fix strategy, even when the requested repair is blocked.`
+            : "If no viable canonical PR exists, first repair a useful contributor PR when maintainer_can_modify is true. If it is false, draft/unmergeable, stale, unsafe, or too broad, replace it with fix_needed plus build_fix_artifact/open_fix_pr using repair_strategy=replace_uneditable_branch, narrow files, tests, changelog, branch_update_blockers, and source PR credit. Do not ask whether to wait when fix PRs are allowed."
           : "Worker may identify canonical fixes but must not plan a fix PR.",
       merge:
         job.frontmatter.allow_merge === true
@@ -505,10 +508,33 @@ function snapshotSourceJobPolicy(job) {
     allow_fix_pr: job.frontmatter.allow_fix_pr === true,
     allow_merge: job.frontmatter.allow_merge === true,
     require_external_merge_preflight: job.frontmatter.require_external_merge_preflight === true,
+    repair_strategy: job.frontmatter.repair_strategy ?? null,
+    rebase_only: job.frontmatter.rebase_only === true,
+    expected_head_shas: [...(job.frontmatter.expected_head_shas ?? [])],
     maintainer_calibration: Array.isArray(job.frontmatter.maintainer_calibration)
       ? [...job.frontmatter.maintainer_calibration]
       : [],
   };
+}
+
+function assertExpectedHeadPins(job, items) {
+  const expected = new Map();
+  for (const entry of job.frontmatter.expected_head_shas ?? []) {
+    const match = String(entry).match(/^(#[0-9]+)=([0-9a-f]{40})$/i);
+    if (match) expected.set(match[1], match[2].toLowerCase());
+  }
+  if (expected.size === 0) return;
+
+  const byRef = new Map(items.map((item) => [item.ref, item]));
+  for (const [ref, expectedSha] of expected) {
+    const actualSha = String(byRef.get(ref)?.pull_request?.head_sha ?? "").toLowerCase();
+    if (!actualSha) {
+      throw new Error(`${ref} expected head ${expectedSha} could not be verified during live hydration`);
+    }
+    if (actualSha !== expectedSha) {
+      throw new Error(`${ref} head changed after intake: expected ${expectedSha}, found ${actualSha}`);
+    }
+  }
 }
 
 function canonicalCandidates(items, job) {

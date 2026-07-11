@@ -318,6 +318,7 @@ function reviewResult(resultPath) {
     }
     validateFixActionPermissions(sourceJobPolicy, fixActions, failures);
     validateFixArtifact(result.fix_artifact, failures);
+    validatePinnedFixPolicy(sourceJobPolicy, result.fix_artifact, failures);
     validateExecutableFixTargetLabels({
       fixActions,
       fixArtifact: result.fix_artifact,
@@ -786,6 +787,42 @@ function validateFixArtifact(fixArtifact, failures) {
   }
 }
 
+function validatePinnedFixPolicy(sourceJobPolicy, fixArtifact, failures) {
+  const requiredStrategy = String(sourceJobPolicy?.repair_strategy ?? "");
+  if (requiredStrategy && fixArtifact?.repair_strategy !== requiredStrategy) {
+    failures.push(
+      `fix_artifact.repair_strategy must match source job policy: expected ${requiredStrategy}, found ${String(fixArtifact?.repair_strategy ?? "missing")}`,
+    );
+  }
+  if (sourceJobPolicy?.rebase_only === true && fixArtifact?.repair_strategy !== "repair_contributor_branch") {
+    failures.push("rebase-only source jobs require fix_artifact.repair_strategy=repair_contributor_branch");
+  }
+  if (requiredStrategy !== "repair_contributor_branch") return;
+
+  const sourceRefs = [...new Set((fixArtifact?.source_prs ?? []).map(normalizeRef).filter(Boolean))];
+  const canonicalRefs = [...new Set((sourceJobPolicy?.canonical ?? []).map(normalizeRef).filter(Boolean))];
+  const pinnedRefs = [
+    ...new Set(
+      (sourceJobPolicy?.expected_head_shas ?? [])
+        .map((entry) => String(entry).match(/^(#[0-9]+)=([0-9a-f]{40})$/i)?.[1] ?? "")
+        .filter(Boolean),
+    ),
+  ];
+  if (canonicalRefs.length === 1 && (sourceRefs.length !== 1 || sourceRefs[0] !== canonicalRefs[0])) {
+    failures.push(
+      `repair_contributor_branch source_prs must contain only the canonical PR ${canonicalRefs[0]}`,
+    );
+  }
+  if (
+    pinnedRefs.length > 0 &&
+    (sourceRefs.length !== pinnedRefs.length || pinnedRefs.some((ref) => !sourceRefs.includes(ref)))
+  ) {
+    failures.push(
+      `repair_contributor_branch source_prs must exactly match expected_head_shas refs: ${pinnedRefs.join(", ")}`,
+    );
+  }
+}
+
 function validateExecutableFixTargetLabels({ fixActions, fixArtifact, itemByRef, sourceJobPolicy, failures }) {
   if (!EXECUTABLE_FIX_REPAIR_STRATEGIES.has(fixArtifact?.repair_strategy)) return;
 
@@ -920,6 +957,13 @@ function readSourceJobPolicySnapshot(plan) {
     typeof permissions.allow_merge !== "boolean" ||
     (permissions.require_external_merge_preflight !== undefined &&
       typeof permissions.require_external_merge_preflight !== "boolean") ||
+    (permissions.repair_strategy !== undefined &&
+      permissions.repair_strategy !== null &&
+      typeof permissions.repair_strategy !== "string") ||
+    (permissions.rebase_only !== undefined && typeof permissions.rebase_only !== "boolean") ||
+    (permissions.expected_head_shas !== undefined &&
+      (!Array.isArray(permissions.expected_head_shas) ||
+        !permissions.expected_head_shas.every((entry) => typeof entry === "string"))) ||
     !Array.isArray(permissions.maintainer_calibration) ||
     !permissions.maintainer_calibration.every((entry) => typeof entry === "string") ||
     (permissions.source !== undefined && permissions.source !== null && typeof permissions.source !== "string") ||

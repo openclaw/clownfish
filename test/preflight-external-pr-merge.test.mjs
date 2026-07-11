@@ -250,6 +250,30 @@ test("daily checks-success intake feeds guarded external merge preflights", () =
   assert.match(intakeWorkflow, /git commit -m "chore: add daily checks-success preflight jobs"/);
   assert.match(intakeWorkflow, /gh workflow run external-merge-preflight\.yml/);
   assert.match(intakeWorkflow, /-f "apply=\$\{apply\}"/);
+  assert.match(intakeWorkflow, /--bucket conflicting_branch_repair/);
+  assert.match(intakeWorkflow, /CLOWNFISH_CONFLICTING_BRANCH_REPAIR_LIMIT \|\| '5'/);
+  assert.match(intakeWorkflow, /--skip-existing false/);
+  assert.match(intakeWorkflow, /--search-limit 100/);
+  assert.match(intakeWorkflow, /--batch-size 1/);
+  assert.match(intakeWorkflow, /gh workflow run cluster-worker\.yml/);
+  assert.match(intakeWorkflow, /-f "mode=autonomous"/);
+  assert.match(intakeWorkflow, /-f "execution_runner=\$\{REPAIR_EXECUTION_RUNNER\}"/);
+  assert.match(intakeWorkflow, /repair_runner:[\s\S]*?default: blacksmith-4vcpu-ubuntu-2404/);
+  assert.match(intakeWorkflow, /execution_runner:[\s\S]*?default: blacksmith-16vcpu-ubuntu-2404/);
+  assert.match(
+    intakeWorkflow,
+    /REPAIR_RUNNER: \$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.repair_runner \|\| vars\.CLOWNFISH_WORKER_RUNNER \|\| 'blacksmith-4vcpu-ubuntu-2404' \}\}/,
+  );
+  assert.match(
+    intakeWorkflow,
+    /REPAIR_EXECUTION_RUNNER: \$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.execution_runner \|\| vars\.CLOWNFISH_EXECUTION_RUNNER \|\| 'blacksmith-16vcpu-ubuntu-2404' \}\}/,
+  );
+  assert.match(
+    intakeWorkflow,
+    /if \[ "\$\{\{ github\.event_name \}\}" = "workflow_dispatch" \]; then\s+apply="\$\{\{ inputs\.apply \}\}"/,
+  );
+  assert.doesNotMatch(intakeWorkflow, /APPLY: \$\{\{ github\.event_name == 'workflow_dispatch' && inputs\.apply \|\|/);
+  assert.match(intakeWorkflow, /dispatch_failed=0[\s\S]*?if ! gh workflow run cluster-worker\.yml[\s\S]*?dispatch_failed=1[\s\S]*?exit "\$dispatch_failed"/);
 });
 
 test("external merge preflight emits an applicator-valid exact-head merge artifact", () => {

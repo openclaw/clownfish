@@ -27,6 +27,16 @@ on:
         required: true
         default: ubuntu-latest
         type: string
+      repair_runner:
+        description: "Runner for conflicting branch planning and review"
+        required: true
+        default: blacksmith-4vcpu-ubuntu-2404
+        type: string
+      execution_runner:
+        description: "Runner for conflicting branch fix execution"
+        required: true
+        default: blacksmith-16vcpu-ubuntu-2404
+        type: string
       apply:
         description: "Dispatch guarded apply after preflight passes"
         required: true
@@ -82,9 +92,12 @@ jobs:
           TARGET_REPO: ${{ github.event_name == 'workflow_dispatch' && inputs.target_repo || vars.CLOWNFISH_TARGET_REPO || 'openclaw/openclaw' }}
           LIMIT: ${{ github.event_name == 'workflow_dispatch' && inputs.limit || vars.CLOWNFISH_CHECKS_SUCCESS_LIMIT || '30' }}
           BATCH_SIZE: ${{ github.event_name == 'workflow_dispatch' && inputs.batch_size || vars.CLOWNFISH_CHECKS_SUCCESS_BATCH_SIZE || '2' }}
+          CONFLICT_REPAIR_LIMIT: ${{ vars.CLOWNFISH_CONFLICTING_BRANCH_REPAIR_LIMIT || '5' }}
           IMPORT_JSON: ${{ runner.temp }}/checks-success-import.json
+          CONFLICT_IMPORT_JSON: ${{ runner.temp }}/conflicting-branch-repair-import.json
           GENERATED_PATHS: ${{ runner.temp }}/checks-success-generated-paths.txt
           DISPATCH_TSV: ${{ runner.temp }}/checks-success-dispatch.tsv
+          CONFLICT_DISPATCH_PATHS: ${{ runner.temp }}/conflicting-branch-repair-dispatch-paths.txt
         run: |
           set -euo pipefail
           node scripts/import-github-pr-inventory.mjs \
@@ -98,12 +111,26 @@ jobs:
             --batch-size "$BATCH_SIZE" \
             --json > "$IMPORT_JSON"
 
+          node scripts/import-github-pr-inventory.mjs \
+            --repo "$TARGET_REPO" \
+            --mode autonomous \
+            --strategy remediation \
+            --bucket conflicting_branch_repair \
+            --sort stale \
+            --skip-existing false \
+            --search-limit 100 \
+            --limit "$CONFLICT_REPAIR_LIMIT" \
+            --batch-size 1 \
+            --json > "$CONFLICT_IMPORT_JSON"
+
           node --input-type=module <<'EOF'
           import fs from "node:fs";
 
           const payload = JSON.parse(fs.readFileSync(process.env.IMPORT_JSON, "utf8"));
+          const conflictPayload = JSON.parse(fs.readFileSync(process.env.CONFLICT_IMPORT_JSON, "utf8"));
           const generated = Array.isArray(payload.generated) ? payload.generated : [];
-          const paths = generated.map((item) => String(item.path ?? "")).filter(Boolean);
+          const conflictGenerated = Array.isArray(conflictPayload.generated) ? conflictPayload.generated : [];
+          const paths = [...generated, ...conflictGenerated].map((item) => String(item.path ?? "")).filter(Boolean);
           const rows = [];
           for (const item of generated) {
             const sourceJob = String(item.path ?? "");
@@ -116,14 +143,22 @@ jobs:
 
           fs.writeFileSync(process.env.GENERATED_PATHS, paths.join("\n") + (paths.length ? "\n" : ""));
           fs.writeFileSync(process.env.DISPATCH_TSV, rows.join("\n") + (rows.length ? "\n" : ""));
+          const conflictPaths = conflictGenerated.map((item) => String(item.path ?? "")).filter(Boolean);
+          fs.writeFileSync(
+            process.env.CONFLICT_DISPATCH_PATHS,
+            conflictPaths.join("\n") + (conflictPaths.length ? "\n" : ""),
+          );
 
           const output = [
             ["generated_count", String(paths.length)],
             ["candidate_count", String(payload?.totals?.candidates ?? rows.length)],
             ["dispatch_count", String(rows.length)],
+            ["conflict_generated_count", String(conflictPaths.length)],
           ];
           fs.appendFileSync(process.env.GITHUB_OUTPUT, output.map(([key, value]) => `${key}=${value}`).join("\n") + "\n");
-          console.log(`generated ${paths.length} source shard(s), ${rows.length} external preflight dispatch(es)`);
+          console.log(
+            `generated ${paths.length} source shard(s), ${rows.length} external preflight dispatch(es), ${conflictPaths.length} conflicting branch repair dispatch(es)`,
+          );
           EOF
 
       - name: Commit generated source shards
@@ -182,3 +217,44 @@ jobs:
               -f "apply=${apply}"
             sleep "$DISPATCH_DELAY_SECONDS"
           done < "${{ runner.temp }}/checks-success-dispatch.tsv"
+
+      - name: Dispatch conflicting branch repairs
+        if: ${{ steps.intake.outputs.conflict_generated_count != '0' }}
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token || github.token }}
+          REPAIR_RUNNER: ${{ github.event_name == 'workflow_dispatch' && inputs.repair_runner || vars.CLOWNFISH_WORKER_RUNNER || 'blacksmith-4vcpu-ubuntu-2404' }}
+          REPAIR_EXECUTION_RUNNER: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_runner || vars.CLOWNFISH_EXECUTION_RUNNER || 'blacksmith-16vcpu-ubuntu-2404' }}
+          DISPATCH_DELAY_SECONDS: ${{ vars.CLOWNFISH_CONFLICTING_BRANCH_REPAIR_DISPATCH_DELAY_SECONDS || '5' }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            apply="${{ inputs.apply }}"
+          else
+            apply="${{ vars.CLOWNFISH_CHECKS_SUCCESS_APPLY || 'true' }}"
+          fi
+          if [ "$apply" != "true" ]; then
+            echo "Guarded apply is disabled; skipping conflicting branch repair dispatches"
+            exit 0
+          fi
+
+          dispatch_failed=0
+          while IFS= read -r source_job; do
+            if [ -z "$source_job" ]; then
+              continue
+            fi
+            echo "Dispatching conflicting branch repair for ${source_job}"
+            if ! gh workflow run cluster-worker.yml \
+              --repo "$GITHUB_REPOSITORY" \
+              --ref main \
+              -f "job=${source_job}" \
+              -f "mode=autonomous" \
+              -f "runner=${REPAIR_RUNNER}" \
+              -f "execution_runner=${REPAIR_EXECUTION_RUNNER}" \
+              -f "dry_run=false"; then
+              echo "::error::Failed to dispatch conflicting branch repair for ${source_job}"
+              dispatch_failed=1
+              continue
+            fi
+            sleep "$DISPATCH_DELAY_SECONDS"
+          done < "${{ runner.temp }}/conflicting-branch-repair-dispatch-paths.txt"
+          exit "$dispatch_failed"

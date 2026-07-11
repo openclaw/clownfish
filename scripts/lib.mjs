@@ -439,6 +439,7 @@ export function validateJob(job) {
     "source",
     "commit_sha",
     "expected_head_sha",
+    "repair_strategy",
     "clawsweeper_report_repo",
     "clawsweeper_report_path",
   ]) {
@@ -451,6 +452,12 @@ export function validateJob(job) {
   }
   if (fm.expected_head_sha !== undefined && !/^[0-9a-f]{40}$/i.test(fm.expected_head_sha)) {
     errors.push("expected_head_sha must be a 40-character Git SHA");
+  }
+  if (
+    fm.repair_strategy !== undefined &&
+    !["repair_contributor_branch", "replace_uneditable_branch", "new_fix_pr"].includes(fm.repair_strategy)
+  ) {
+    errors.push("repair_strategy must be repair_contributor_branch, replace_uneditable_branch, or new_fix_pr");
   }
   if (
     fm.require_external_merge_preflight === true &&

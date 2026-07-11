@@ -105,6 +105,29 @@ candidates:
   ]);
 });
 
+test("validateJob rejects an unsupported pinned repair strategy", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-repair-strategy-"));
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: repair-strategy
+mode: autonomous
+repair_strategy: improvise
+allowed_actions:
+  - fix
+candidates:
+  - "#1"
+---
+`,
+  );
+
+  assert.deepEqual(validateJob(parseJob(jobPath)), [
+    "repair_strategy must be repair_contributor_branch, replace_uneditable_branch, or new_fix_pr",
+  ]);
+});
+
 test("validateJob requires merge permission for deterministic external preflight", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-external-preflight-"));
   const jobPath = path.join(tmp, "job.md");
