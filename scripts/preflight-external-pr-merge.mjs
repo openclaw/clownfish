@@ -2605,7 +2605,7 @@ function hasClawSweeperReadyReviewSignal(body) {
   return (
     isClawSweeperMaintainerReviewHeader(firstLine) &&
     /result:\s*ready for maintainer review\./.test(body) &&
-    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
+    /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no (?:clawsweeper |automated )?repair(?: or product decision)? remains|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
       body,
     )
   );

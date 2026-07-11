@@ -1082,6 +1082,39 @@ test("external merge preflight tolerates non-actionable automation comments", ()
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight accepts an exact-head ClawSweeper review with no repair or product decision remaining", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "",
+          "**Merge readiness**",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No automated repair or product decision remains; normal maintainer review should gate merging the already clean exact head.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${headSha} confidence=high updated_at=2026-07-11T22:30:53Z reviewed_at=2026-07-11T22:34:04.182Z lease_owner=github-run-29170593449-1 -->`,
+          "<!-- clawsweeper-review-version item=123 reviewed_at=2026-07-11T22:34:04.182Z sha=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa v=1 -->",
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-ready",
+      },
+    ],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
 test("external merge preflight accepts current guard clearance and structured author proof", () => {
   const headSha = "a".repeat(40);
   const fixture = makeFixture({
