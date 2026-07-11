@@ -1082,6 +1082,156 @@ test("external merge preflight tolerates non-actionable automation comments", ()
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight ignores a stale ready review and exact-head ClawSweeper review-start lease", () => {
+  const headSha = "a".repeat(40);
+  const startedAt = new Date(Date.now() - 60_000).toISOString();
+  const leaseExpiresAt = new Date(Date.now() + 30 * 60_000).toISOString();
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "Codex review: needs maintainer review before merge.",
+          "",
+          "**Review metrics:** none identified.",
+          "Result: ready for maintainer review.",
+          "",
+          "**Next step before merge**",
+          "- No automated repair is needed; the remaining action is normal maintainer review.",
+          "",
+          `<!-- clawsweeper-verdict:needs-human item=123 sha=${"b".repeat(40)} confidence=high -->`,
+          "<!-- clawsweeper-review item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-stale-ready",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: [
+          "ClawSweeper status: review started.",
+          "",
+          "I am starting a fresh review of this pull request.",
+          "",
+          "This placeholder means the worker is alive and reading the current context.",
+          "",
+          `<!-- clawsweeper-review-status:started item=123 sha=${headSha} started_at=${startedAt} lease_expires_at=${leaseExpiresAt} v=1 -->`,
+          "<!-- clawsweeper-review-lease item=123 -->",
+        ].join("\n"),
+        url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-review-started",
+      },
+    ],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(result.actions[0]?.action, "merge_canonical");
+});
+
+for (const [name, startedAt, leaseExpiresAt, extraLine, trailingLine = ""] of [
+  [
+    "expired",
+    "1999-12-31T23:30:00.000Z",
+    "2000-01-01T00:00:00.000Z",
+    "This placeholder means the worker is alive and reading the current context.",
+  ],
+  [
+    "contradictory",
+    new Date(Date.now() - 60_000).toISOString(),
+    new Date(Date.now() + 30 * 60_000).toISOString(),
+    "Do not merge; security issue remains.",
+  ],
+  [
+    "trailing contradictory",
+    new Date(Date.now() - 60_000).toISOString(),
+    new Date(Date.now() + 30 * 60_000).toISOString(),
+    "This placeholder means the worker is alive and reading the current context.",
+    "Do not merge; security issue remains.",
+  ],
+]) {
+  test(`external merge preflight keeps ${name} ClawSweeper review-start leases blocking`, () => {
+    const headSha = "a".repeat(40);
+    const fixture = makeFixture({
+      headSha,
+      issueComments: [
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "Codex review: needs maintainer review before merge.",
+            "",
+            "**Review metrics:** none identified.",
+            "Result: ready for maintainer review.",
+            "",
+            "**Next step before merge**",
+            "- No automated repair is needed; the remaining action is normal maintainer review.",
+            "",
+            `<!-- clawsweeper-verdict:needs-human item=123 sha=${"b".repeat(40)} confidence=high -->`,
+            "<!-- clawsweeper-review item=123 -->",
+          ].join("\n"),
+          url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-stale-ready",
+        },
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body: [
+            "ClawSweeper status: review started.",
+            "",
+            extraLine,
+            "",
+            `<!-- clawsweeper-review-status:started item=123 sha=${headSha} started_at=${startedAt} lease_expires_at=${leaseExpiresAt} v=1 -->`,
+            "<!-- clawsweeper-review-lease item=123 -->",
+            trailingLine,
+          ].join("\n"),
+          url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-review-started-${name}`,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /security-sensitive signal|actionable top-level issue comment/);
+  });
+}
+
+for (const [name, body] of [
+  [
+    "unmarked",
+    [
+      "ClawSweeper status: review started.",
+      "",
+      "I am starting a fresh review of this pull request.",
+    ].join("\n"),
+  ],
+  [
+    "wrong item",
+    [
+      "ClawSweeper status: review started.",
+      "",
+      `<!-- clawsweeper-review-status:started item=456 sha=${"a".repeat(40)} started_at=2026-07-11T22:30:53.000Z lease_expires_at=2026-07-11T23:00:53.000Z v=1 -->`,
+      "<!-- clawsweeper-review-lease item=456 -->",
+    ].join("\n"),
+  ],
+]) {
+  test(`external merge preflight keeps ${name} ClawSweeper review-start prose blocking`, () => {
+    const fixture = makeFixture({
+      issueComments: [
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body,
+          url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-${name}`,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
 test("external merge preflight accepts current guard clearance and structured author proof", () => {
   const headSha = "a".repeat(40);
   const fixture = makeFixture({
