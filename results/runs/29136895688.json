@@ -1,0 +1,161 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260711T024006-002",
+  "mode": "autonomous",
+  "run_id": "29136895688",
+  "workflow_run_id": "29136895688",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29136895688",
+  "head_sha": "e07fd3b2ea38b16298afdc721aebdade27ed0992",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-11T02:46:18Z",
+  "workflow_updated_at": "2026-07-11T03:05:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260711T024006-002.md",
+  "published_at": "2026-07-11T03:05:53.679Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/81778",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/81751",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/81778",
+  "summary": "Repair-only remediation shard for #81778. The hydrated state shows #81778 is the open, maintainer-editable canonical PR for #81751, with current main still missing shell-wrapped argv recognition in service audit. Merge and close actions are blocked by the job, so the result plans an in-place contributor-branch repair plus a cluster-scoped executable fix artifact.",
+  "actions": [
+    {
+      "target": "#81751",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81751",
+      "candidate_fix": "#81778",
+      "reason": null
+    },
+    {
+      "target": "#81778",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#81778",
+      "candidate_fix": "#81778",
+      "reason": "Repair #81778 in place: rebase/update the maintainer-editable contributor branch against current main, address the Codex needs-changes review, preserve the narrow service-audit surface, then run the repo changed gate before any future merge lane."
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260711T024006-002",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#81778",
+      "candidate_fix": "#81778",
+      "reason": null
+    },
+    {
+      "target": "#81755",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#81778",
+      "candidate_fix": "#81778",
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "#81847",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#81778",
+      "candidate_fix": "#81778",
+      "reason": "Already closed; no mutation planned."
+    },
+    {
+      "target": "#87199",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#81778",
+      "candidate_fix": null,
+      "reason": "Already closed and distinct from the #81751/#81778 service-audit repair."
+    },
+    {
+      "target": "#89967",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#81778",
+      "candidate_fix": null,
+      "reason": "Already merged/closed and out of this repair shard's executable scope."
+    }
+  ],
+  "action_counts": {
+    "keep_canonical": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "failed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#81778",
+    "source_refs": [
+      "#81778",
+      "#81751",
+      "#81755",
+      "#81847",
+      "#89967",
+      "#87199"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the existing maintainer-editable contributor PR #81778 in place so gateway service audit recognizes shell-wrapped LaunchAgent commands and reuses the expanded argv for port checks without broadening the parser to unsafe substring matching.",
+    "pr_title": "fix(status): detect shell-wrapped gateway services",
+    "pr_body": "## What Problem This Solves\n\nFixes #81751. `openclaw gateway status` can falsely report `Service command does not include the gateway subcommand` when a macOS LaunchAgent starts OpenClaw through a shell wrapper such as `/bin/zsh -lc \"... index.js gateway --port 18890\"`.\n\n## Why This Change Was Made\n\nCurrent main only checks top-level `ProgramArguments` entries for an exact `gateway` token and only scans top-level argv for `--port`. The repair should derive the effective command tokens from recognized shell `-c`/`-lc` wrapper forms, then feed those tokens through the existing gateway-subcommand and port-audit decisions. Keep the parser bounded: recognize common shell command flags and token boundaries, do not treat arbitrary substrings such as `--gateway-url` as a gateway subcommand or port.\n\n## User Impact\n\nHealthy shell-wrapped LaunchAgent gateway services stop showing a false aggressive service-config warning, and matching wrapped `--port` values do not produce stale/missing port diagnostics.\n\n## Evidence\n\n- Current main at bb267537057fa00824f9d5bda25b2702ade1003a still has `hasGatewaySubcommand` checking only `arg === \"gateway\"` in `src/daemon/service-audit.ts`.\n- The canonical issue is #81751 and the repair source PR is #81778 by @liaoandi.\n- Required validation: `pnpm test src/daemon/service-audit.test.ts` and `pnpm check:changed` after rebasing/updating the branch.",
+    "likely_files": [
+      "src/daemon/service-audit.ts",
+      "src/daemon/service-audit.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/daemon/service-audit.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair contributor PR https://github.com/openclaw/openclaw/pull/81778 by @liaoandi in place; keep the contributor branch and attribution when updating it.",
+      "Preserve source issue credit for https://github.com/openclaw/openclaw/issues/81751 by @liaoandi.",
+      "Mention earlier superseded attempts https://github.com/openclaw/openclaw/pull/81755 by @Bartok9 and https://github.com/openclaw/openclaw/pull/81847 by @IWhatsskill only as historical related context if the final PR body needs provenance."
+    ],
+    "source_job": "jobs/openclaw/inbox/live-pr-inventory-20260711T024006-002.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "base branch advanced again during validation; reuse blocked: validated_base_not_ancestor_of_head",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
