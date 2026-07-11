@@ -1,6 +1,6 @@
 ---
 repo: "openclaw/openclaw"
-cluster_id: "live-pr-inventory-20260711T100648-001"
+cluster_id: "external-merge-preflight-103731-57a7ead2d9a2"
 mode: "autonomous"
 run_id: "29150185069"
 workflow_run_id: "29150185069"
@@ -8,21 +8,21 @@ run_url: "https://github.com/openclaw/clownfish/actions/runs/29150185069"
 head_sha: "158a4730832b5f0bfafa32c8a6c135a438c787e5"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-11T11:01:39.434Z"
+published_at: "2026-07-11T11:01:39.423Z"
 canonical: "https://github.com/openclaw/openclaw/pull/103731"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/103731"
-actions_total: 3
+actions_total: 0
 fix_executed: 0
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
-apply_skipped: 1
+apply_skipped: 0
 needs_human_count: 0
 ---
 
-# live-pr-inventory-20260711T100648-001
+# external-merge-preflight-103731-57a7ead2d9a2
 
 Repo: openclaw/openclaw
 
@@ -36,19 +36,19 @@ Canonical: https://github.com/openclaw/openclaw/pull/103731
 
 ## Summary
 
-#103731 is the canonical PR for the empty document extractor scope fix. Current main still collapses explicit empty plugin scopes in the bundled manifest contract resolver and the document extractor allowlist branch, while #103731 is the narrow functional superset of #103730. It is not merge-ready inside this worker because the required exact-head Codex review and deterministic merge preflight are missing, and the artifact shows a ClawSweeper review lease in progress at the current head.
+External merge preflight blocked: PR has 2 actionable top-level issue comment(s): https://github.com/openclaw/openclaw/pull/103731#issuecomment-4936530938, https://github.com/openclaw/openclaw/pull/103731#issuecomment-4945087722
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 3 |
+| Worker actions | 0 |
 | Fix executed | 0 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
-| Apply skipped | 1 |
+| Apply skipped | 0 |
 | Needs human | 0 |
 
 ## Fix Execution Actions
@@ -61,22 +61,19 @@ Canonical: https://github.com/openclaw/openclaw/pull/103731
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #103731 | merge_candidate | skipped | canonical | action status is blocked |
+| _None_ |  |  |  |  |
 
 ## Apply Audit
 
 | Attempt | Source | Target | Action | Status | Reason |
 | --- | --- | --- | --- | --- |
-| 1 | apply | #103731 | merge_candidate | skipped | action status is blocked |
-| 2 | apply | #103731 | merge_candidate | skipped | action status is blocked |
+| _None_ |  |  |  |  |  |
 
 ## Worker Action Matrix
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #103731 | merge_candidate | blocked | canonical | external_merge_preflight_required |
-| #103730 | keep_related | planned | superseded | Superseded by the broader canonical #103731, but closure is not allowed in this job. |
-| #65298 | keep_closed | skipped | related | Already closed historical context; current main still needs the #103731 fix path. |
+| _None_ |  |  |  |  |
 
 ## Needs Human
 
