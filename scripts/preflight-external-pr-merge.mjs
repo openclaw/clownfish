@@ -2636,6 +2636,13 @@ function isClawSweeperReviewStartComment({ author, body, pull }) {
   const normalized = String(body ?? "").trim();
   if (!/^clawsweeper status: review started\.(?:\r?\n|$)/i.test(normalized)) return false;
   if (/<!--\s*clawsweeper-(?:verdict|action):/i.test(normalized)) return false;
+  const visibleBody = normalized.replace(/<!--[\s\S]*?-->/g, "").trim().toLowerCase();
+  if (
+    hasActionableClawSweeperReviewSignal(visibleBody) ||
+    hasSecuritySensitiveText([visibleBody])
+  ) {
+    return false;
+  }
 
   const statusOpeners =
     normalized.match(/<!--\s*clawsweeper-review-status:started\b/gi) ?? [];
@@ -2673,7 +2680,8 @@ function isClawSweeperReviewStartComment({ author, body, pull }) {
     lease.item === pullNumber &&
     Number.isFinite(startedAt) &&
     Number.isFinite(leaseExpiresAt) &&
-    leaseExpiresAt > startedAt
+    leaseExpiresAt > startedAt &&
+    leaseExpiresAt > Date.now()
   );
 }
 
