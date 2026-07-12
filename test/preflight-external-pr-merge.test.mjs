@@ -1636,6 +1636,82 @@ test("external merge preflight ignores #89997 positive review, maintainer status
   assert.equal(report.status, "passed", report.reason);
 });
 
+const maintainerRefreshComment = [
+  "Maintainer refresh complete at `0a1b721ae6a1a4eeffd21d0b31ad4969cb0f2d53`.",
+  "",
+  "- Enforced the MCP Streamable HTTP handshake boundary.",
+  "- Added a focused regression proving the request order and bounded error.",
+  "- Exact-head CI: green.",
+  "",
+  "Ready for the next landing batch.",
+].join("\n");
+
+test("external merge preflight trusts proof-shaped comments from live admins with stale contributor association", () => {
+  const fixture = makeFixture({
+    collaboratorPermissions: { steipete: "admin" },
+    issueComments: [
+      {
+        author: { login: "steipete" },
+        authorAssociation: "CONTRIBUTOR",
+        isMinimized: false,
+        body: maintainerRefreshComment,
+        url: "https://github.com/openclaw/openclaw/pull/104554#issuecomment-4949173508",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [kind, objection] of [
+  ["request", "Please add another regression test before merge."],
+  ["finding", "I found a regression: the tool call still runs after the failed acknowledgement."],
+]) {
+  test(`external merge preflight keeps admin ${kind} comments blocking`, () => {
+    const fixture = makeFixture({
+      collaboratorPermissions: { steipete: "admin" },
+      issueComments: [
+        {
+          author: { login: "steipete" },
+          authorAssociation: "CONTRIBUTOR",
+          isMinimized: false,
+          body: `${maintainerRefreshComment}\n\n${objection}`,
+          url: `https://github.com/openclaw/openclaw/pull/104554#issuecomment-${kind}`,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+for (const [kind, fixtureOptions] of [
+  ["read-only", { collaboratorPermissions: { steipete: "read" } }],
+  ["lookup failure", { collaboratorPermissionErrors: ["steipete"] }],
+]) {
+  test(`external merge preflight fails closed for ${kind} proof commenters`, () => {
+    const fixture = makeFixture({
+      ...fixtureOptions,
+      issueComments: [
+        {
+          author: { login: "steipete" },
+          authorAssociation: "CONTRIBUTOR",
+          isMinimized: false,
+          body: maintainerRefreshComment,
+          url: `https://github.com/openclaw/openclaw/pull/104554#issuecomment-${kind}`,
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
 for (const [kind, body] of [
   [
     "ask",
@@ -3998,6 +4074,8 @@ function makeFixture({
     findings_addressed: true,
     evidence: ["Codex /review clean"],
   },
+  collaboratorPermissions = {},
+  collaboratorPermissionErrors = [],
 } = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-external-preflight-"));
   const binDir = path.join(root, "bin");
@@ -4110,6 +4188,8 @@ const mergeViews = ${JSON.stringify(mergeViews)};
 const mergedStatePath = ${JSON.stringify(mergedStatePath)};
 const mergeLogPath = ${JSON.stringify(mergeLogPath)};
 const exactMergeCheckStatePath = ${JSON.stringify(exactMergeCheckStatePath)};
+const collaboratorPermissions = ${JSON.stringify(collaboratorPermissions)};
+const collaboratorPermissionErrors = new Set(${JSON.stringify(collaboratorPermissionErrors)});
 const isMerged = () => fs.existsSync(mergedStatePath);
 function write(value) {
   process.stdout.write(JSON.stringify(value));
@@ -4167,6 +4247,18 @@ if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
 if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
   const comments = ${JSON.stringify(issueComments)};
   console.log(JSON.stringify(args.includes("--slurp") ? [comments] : comments));
+  process.exit(0);
+}
+if (
+  args[0] === "api" &&
+  /^repos\\/openclaw\\/openclaw\\/collaborators\\/[^/]+\\/permission$/.test(args[1])
+) {
+  const login = decodeURIComponent(args[1].split("/").at(-2)).toLowerCase();
+  if (collaboratorPermissionErrors.has(login)) {
+    process.stderr.write("fixture collaborator permission failure");
+    process.exit(1);
+  }
+  write({ permission: collaboratorPermissions[login] ?? "read" });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {

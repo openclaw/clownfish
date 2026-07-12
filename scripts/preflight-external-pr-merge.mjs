@@ -23,6 +23,8 @@ const FAILURE_STREAM_MAX_CHARS = 1800;
 const ADOPTION_MANIFEST_SCHEMA_VERSION = 1;
 const ADOPTION_POLICY = "bounded-fast-forward-v1";
 const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
+const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
+const collaboratorPermissionCache = new Map();
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
@@ -2463,7 +2465,7 @@ function isNonBlockingCommentEvidence(
   ) {
     return true;
   }
-  if (isMaintainerProofOrStatusComment({ association, body })) return true;
+  if (isMaintainerProofOrStatusComment({ association, author, body })) return true;
   if (isMaintainerEvidenceApprovalComment(comment)) return true;
   if (isReviewRequestComment(normalized)) return true;
   if (
@@ -2600,11 +2602,31 @@ function isMaintainerDecisionApprovalComment({
   return !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view });
 }
 
-function isMaintainerProofOrStatusComment({ association, body }) {
-  return (
-    ["MEMBER", "OWNER", "COLLABORATOR"].includes(association) &&
-    isAuthorProofOrStatusComment(body)
-  );
+function isMaintainerProofOrStatusComment({ association, author, body }) {
+  if (!isAuthorProofOrStatusComment(body)) return false;
+  if (["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return true;
+  return MAINTAINER_REPOSITORY_PERMISSIONS.has(fetchCollaboratorPermission(author));
+}
+
+function fetchCollaboratorPermission(login) {
+  const normalized = String(login ?? "").trim().toLowerCase();
+  if (!normalized) return null;
+  if (collaboratorPermissionCache.has(normalized)) {
+    return collaboratorPermissionCache.get(normalized);
+  }
+
+  let permission = null;
+  try {
+    const result = ghJson([
+      "api",
+      `repos/${sourceJob.frontmatter.repo}/collaborators/${encodeURIComponent(normalized)}/permission`,
+    ]);
+    permission = result?.permission ? String(result.permission).toLowerCase() : null;
+  } catch {
+    permission = null;
+  }
+  collaboratorPermissionCache.set(normalized, permission);
+  return permission;
 }
 
 function isClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
