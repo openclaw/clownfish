@@ -1009,6 +1009,43 @@ test("remediation fallback starts fixed hydration windows and limits accepted re
   assert.ok(secondWindowStart > hydrationEventIndex(events, "finish", 105));
 });
 
+test("remediation fallback retries an async hydration timeout", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    failPrList: true,
+    searchNumbers: [109],
+    timeoutHydrateOnceNumber: 109,
+  });
+
+  const result = runImportWithEnv(
+    fixture,
+    {
+      CLOWNFISH_GITHUB_IMPORT_RETRIES: "2",
+      CLOWNFISH_GITHUB_IMPORT_PAGE_TIMEOUT_MS: "2000",
+    },
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "all",
+    "--skip-existing",
+    "false",
+    "--hydration-concurrency",
+    "1",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.match(result.stderr, /hydrate pull request #109 failed on attempt 1\/2; retrying/);
+  assert.deepEqual(JSON.parse(result.stdout).candidates.map((candidate) => candidate.ref), ["#109"]);
+
+  const hydrationCalls = readFakeGhCalls(fixture).filter(
+    (call) => call[0] === "pr" && call[1] === "view" && call[2] === "109",
+  );
+  assert.equal(hydrationCalls.length, 2);
+});
+
 test("remediation fallback skips one PR when hydration keeps failing", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, {
@@ -1443,6 +1480,13 @@ const hydrationNumber =
   process.argv[2] === "pr" && process.argv[3] === "view"
     ? String(process.argv[4])
     : null;
+const callsPath = ${JSON.stringify(`${filePath}.calls`)};
+const priorCalls = fs.existsSync(callsPath)
+  ? fs.readFileSync(callsPath, "utf8").trim().split(/\\r?\\n/).filter(Boolean).map((line) => JSON.parse(line))
+  : [];
+const hydrationAttempt = hydrationNumber
+  ? priorCalls.filter((call) => call[0] === "pr" && call[1] === "view" && String(call[2]) === hydrationNumber).length + 1
+  : 0;
 function recordHydrationEvent(event) {
   if (!hydrationNumber) return;
   fs.appendFileSync(
@@ -1450,10 +1494,13 @@ function recordHydrationEvent(event) {
     JSON.stringify({ event, number: Number(hydrationNumber) }) + "\\n",
   );
 }
-fs.appendFileSync(${JSON.stringify(`${filePath}.calls`)}, JSON.stringify(process.argv.slice(2)) + "\\n");
+fs.appendFileSync(callsPath, JSON.stringify(process.argv.slice(2)) + "\\n");
 if (hydrationNumber) {
   recordHydrationEvent("start");
-  const delayMs = Number(hydrationDelays[hydrationNumber] ?? 0);
+  const timeoutOnce =
+    hydrationNumber === ${JSON.stringify(String(options.timeoutHydrateOnceNumber ?? ""))} &&
+    hydrationAttempt === 1;
+  const delayMs = timeoutOnce ? 5000 : Number(hydrationDelays[hydrationNumber] ?? 0);
   if (delayMs > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, delayMs);
 }
 if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(Boolean(options.failPrList))}) {

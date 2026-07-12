@@ -1924,15 +1924,24 @@ async function ghJsonWithRetryAsync(ghArgs, { operation }) {
 }
 
 function isRetryableGhError(error) {
-  const message = String(error?.stderr ?? error?.message ?? error);
+  if (error?.killed === true || error?.code === "ETIMEDOUT" || error?.signal === "SIGTERM") return true;
+  const message = ghErrorText(error);
   return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate|Something went wrong while executing your query/i.test(
     message,
   );
 }
 
 function isMissingPullRequestError(error) {
-  const message = String(error?.stderr ?? error?.message ?? error);
+  const message = ghErrorText(error);
   return /Could not resolve to a PullRequest with the number of \d+\.|HTTP 404: Not Found/i.test(message);
+}
+
+function ghErrorText(error) {
+  const text = [error?.stderr, error?.stdout, error?.message]
+    .map((value) => String(value ?? "").trim())
+    .filter(Boolean)
+    .join("\n");
+  return text || String(error);
 }
 
 function numberFromEnv(name, fallback) {
