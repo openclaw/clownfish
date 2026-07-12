@@ -93,6 +93,34 @@ test("cluster import can live-skip stale local open refs", { skip: hasSqlite ? f
   assert.equal(payload.skipped[0].reason, "closed_only");
 });
 
+test("autonomous cluster repair jobs require explicit guarded force-push authorization", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db);
+
+  const defaultResult = runWrittenImport(fixture, "--mode", "autonomous", "--allow-fix-pr", "true");
+  assert.equal(defaultResult.status, 0, defaultResult.stderr || defaultResult.stdout);
+  const defaultPayload = JSON.parse(defaultResult.stdout);
+  const defaultJob = fs.readFileSync(path.join(fixture.out, path.basename(defaultPayload.generated[0].path)), "utf8");
+  assert.match(defaultJob, /blocked_actions:\n(?:  - .+\n)*  - force_push/);
+
+  const result = runWrittenImport(
+    fixture,
+    "--mode",
+    "autonomous",
+    "--allow-fix-pr",
+    "true",
+    "--allow-force-push",
+    "true",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+
+  assert.equal(payload.options.allow_force_push, true);
+  assert.match(job, /allowed_actions:\n(?:  - .+\n)*  - force_push\nblocked_actions:/);
+  assert.doesNotMatch(job, /blocked_actions:\n(?:  - .+\n)*  - force_push/);
+});
+
 function runImport(fixture, ...extraArgs) {
   return spawnSync(
     process.execPath,
@@ -110,6 +138,29 @@ function runImport(fixture, ...extraArgs) {
       "--existing-results-dir",
       fixture.results,
       "--dry-run",
+      "--json",
+      ...extraArgs,
+    ],
+    { cwd: repoRoot, encoding: "utf8" },
+  );
+}
+
+function runWrittenImport(fixture, ...extraArgs) {
+  return spawnSync(
+    process.execPath,
+    [
+      "scripts/import-gitcrawl-clusters.mjs",
+      "--from-gitcrawl",
+      "--limit",
+      "1",
+      "--db",
+      fixture.db,
+      "--out",
+      fixture.out,
+      "--existing-dir",
+      fixture.existing,
+      "--existing-results-dir",
+      fixture.results,
       "--json",
       ...extraArgs,
     ],

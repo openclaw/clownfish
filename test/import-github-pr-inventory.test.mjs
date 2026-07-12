@@ -87,6 +87,7 @@ test("remediation inventory enables plan and autonomous finalization recommendat
   assert.match(job, /  - "merge"/);
   assert.match(job, /  - "fix"/);
   assert.match(job, /blocked_actions:\n  - "comment"/);
+  assert.match(job, /blocked_actions:[\s\S]*  - "force_push"/);
   assert.match(job, /allow_fix_pr: true/);
   assert.match(job, /allow_merge: true/);
   assert.match(job, /allow_post_merge_close: false/);
@@ -110,9 +111,55 @@ test("remediation inventory enables plan and autonomous finalization recommendat
   const autonomousPayload = JSON.parse(autonomous.stdout);
   const autonomousJob = fs.readFileSync(path.join(fixture.out, path.basename(autonomousPayload.generated[0].path)), "utf8");
   assert.match(autonomousJob, /mode: autonomous/);
+  assert.match(autonomousJob, /blocked_actions:[\s\S]*  - "force_push"/);
   assert.match(autonomousJob, /autonomous remediation assessment/);
   assert.match(autonomousJob, /Mutations are limited to deterministic merge\/fix gates/);
   assert.match(autonomousJob, /deterministic applicator\/executor owns the actual merge or fix PR mutation/);
+
+  const autonomousWithPush = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--bucket",
+    "ready_for_maintainer",
+    "--skip-existing",
+    "false",
+    "--allow-force-push",
+  );
+  assert.equal(autonomousWithPush.status, 0, autonomousWithPush.stderr || autonomousWithPush.stdout);
+  const autonomousWithPushPayload = JSON.parse(autonomousWithPush.stdout);
+  const autonomousWithPushJob = fs.readFileSync(
+    path.join(fixture.out, path.basename(autonomousWithPushPayload.generated[0].path)),
+    "utf8",
+  );
+  assert.equal(autonomousWithPushPayload.options.allow_force_push, true);
+  assert.match(autonomousWithPushJob, /allowed_actions:[\s\S]*  - "force_push"/);
+  assert.doesNotMatch(autonomousWithPushJob, /blocked_actions:\n(?:  - ".+"\n)*  - "force_push"/);
+});
+
+test("force-push authorization rejects malformed or non-autonomous use", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+
+  const malformed = runImport(fixture, "--allow-force-push=garbage");
+  assert.notEqual(malformed.status, 0);
+  assert.match(malformed.stderr, /--allow-force-push must be true or false/);
+
+  const plan = runImport(
+    fixture,
+    "--mode",
+    "plan",
+    "--strategy",
+    "remediation",
+    "--allow-force-push",
+  );
+  assert.notEqual(plan.status, 0);
+  assert.match(plan.stderr, /--allow-force-push requires autonomous remediation mode/);
+
+  const triage = runImport(fixture, "--strategy", "triage", "--allow-force-push");
+  assert.notEqual(triage.status, 0);
+  assert.match(triage.stderr, /--allow-force-push requires autonomous remediation mode/);
 });
 
 test("autonomous remediation defaults to hydrated pr-list intake", () => {
@@ -274,6 +321,7 @@ test("remediation inventory routes opted-in merge-risk candidates to repair-only
     "--inventory-source",
     "pr-list",
     "--include-merge-risk-candidates",
+    "--allow-force-push",
     "--bucket",
     "merge_risk_remediation",
     "--batch-size",
@@ -292,6 +340,7 @@ test("remediation inventory routes opted-in merge-risk candidates to repair-only
   const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
   assert.match(job, /candidates:\n  - "#113"\ncluster_refs:\n  - "#113"/);
   assert.match(job, /allowed_actions:\n  - "fix"\n  - "raise_pr"/);
+  assert.match(job, /allowed_actions:[\s\S]*  - "force_push"/);
   assert.match(job, /blocked_actions:[\s\S]*  - "merge"/);
   assert.match(job, /allow_merge: false/);
   assert.match(job, /Merge-risk candidates are repair-only and must not be merged from this shard/);
