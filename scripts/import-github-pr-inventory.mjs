@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFile, execFileSync, spawnSync } from "node:child_process";
+import { promisify } from "node:util";
 import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
+const execFileAsync = promisify(execFile);
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
 const [owner, name] = repo.split("/");
@@ -82,6 +84,15 @@ const hydrateIncludeRefs = Boolean(args["hydrate-include-refs"] ?? args.hydrate_
 const minScore = numberArg("min-score", 2);
 const maxFiles = numberArg("max-files", 120);
 const limitForHydration = limit === "all" ? 500 : Number(limit);
+const hydrationConcurrency = boundedInteger(
+  args["hydration-concurrency"] ??
+    args.hydration_concurrency ??
+    process.env.CLOWNFISH_GITHUB_IMPORT_HYDRATION_CONCURRENCY,
+  4,
+  "--hydration-concurrency",
+  1,
+  8,
+);
 const defaultSearchLimit = checksSuccessPreflight
   ? 1000
   : Math.min(Math.max(limitForHydration * 20, 200), 1000);
@@ -137,7 +148,7 @@ const publishedConflictingRepairClusterIds =
 const checksSuccessAttempts =
   skipExisting && checksSuccessPreflight ? existingChecksSuccessAttempts(existingDir) : new Map();
 if (checksSuccessPreflight) checksSuccessMainSha = fetchChecksSuccessMainSha();
-const rawOpenPullRequests = fetchOpenPullRequests();
+const rawOpenPullRequests = await fetchOpenPullRequests();
 if (strategy === "low-signal") hydrateLowSignalPullRequestFiles(rawOpenPullRequests);
 const candidates = dedupeCandidates(
   rawOpenPullRequests
@@ -172,6 +183,7 @@ const payload = sanitizeJsonValue({
     bucket: bucketFilter,
     min_score: strategy === "low-signal" ? minScore : null,
     max_files: strategy === "low-signal" ? maxFiles : null,
+    hydration_concurrency: hydrationConcurrency,
     low_signal_hydrate_limit: strategy === "low-signal" ? lowSignalHydrateLimit : null,
     low_signal_blocked_labels:
       strategy === "low-signal" ? blockedLowSignalLabelPatterns.map((pattern) => pattern.source) : [],
@@ -213,14 +225,14 @@ if (jsonOutput) {
   for (const item of generated) console.log(item.path);
 }
 
-function fetchOpenPullRequests() {
+async function fetchOpenPullRequests() {
   if (fetchOpenPullRequests.cache) return fetchOpenPullRequests.cache;
   if (inventorySource === "search") {
-    fetchOpenPullRequests.cache = fetchOpenPullRequestsFromSearch();
+    fetchOpenPullRequests.cache = await fetchOpenPullRequestsFromSearch();
     return fetchOpenPullRequests.cache;
   }
   if (inventorySource === "pr-list") {
-    fetchOpenPullRequests.cache = fetchOpenPullRequestsFromPrList();
+    fetchOpenPullRequests.cache = await fetchOpenPullRequestsFromPrList();
     return fetchOpenPullRequests.cache;
   }
   const query = `query($endCursor:String){
@@ -263,7 +275,7 @@ function fetchOpenPullRequests() {
   return pulls;
 }
 
-function fetchOpenPullRequestsFromSearch() {
+async function fetchOpenPullRequestsFromSearch() {
   const fields = [
     "assignees",
     "author",
@@ -305,32 +317,37 @@ function fetchOpenPullRequestsFromSearch() {
   if (!Array.isArray(pulls)) throw new Error("GitHub PR search returned a non-array payload");
   const normalized = pulls.map(normalizeSearchPullRequest);
   if (!checksSuccessPreflight) return normalized;
-  return hydrateChecksSuccessPullRequests(
+  return await hydrateChecksSuccessPullRequests(
     normalized
       .filter((pull) => !prListMergeBlocker(pull, { requireExactHead: false }))
       .filter((pull) => shouldRetryChecksSuccessPullRequest(pull)),
   );
 }
 
-function hydrateChecksSuccessPullRequests(pulls) {
+async function hydrateChecksSuccessPullRequests(pulls) {
   const hydratedPulls = [];
-  for (const pull of pulls) {
-    let hydrated;
-    try {
-      hydrated = hydrateChecksSuccessPullRequest(pull.number);
-    } catch (error) {
-      const retryable = isRetryableGhError(error);
-      const missing = isMissingPullRequestError(error);
-      if (!retryable && !missing) throw error;
-      const failure = retryable ? "failed after retries" : "could not be hydrated";
-      console.error(`hydrate pull request #${pull.number} ${failure}; skipping candidate`);
-      continue;
+  for (let index = 0; index < pulls.length; index += hydrationConcurrency) {
+    const window = pulls.slice(index, index + hydrationConcurrency);
+    const outcomes = await hydratePullRequestWindow(window, hydrateChecksSuccessPullRequest);
+    let acceptedLimitReached = false;
+
+    for (const { pull, hydrated, error } of outcomes) {
+      if (error) {
+        const retryable = isRetryableGhError(error);
+        const missing = isMissingPullRequestError(error);
+        if (!retryable && !missing) throw error;
+        const failure = retryable ? "failed after retries" : "could not be hydrated";
+        console.error(`hydrate pull request #${pull.number} ${failure}; skipping candidate`);
+        continue;
+      }
+      if (acceptedLimitReached || !hydrated) continue;
+      const normalized = normalizePrListPullRequest(hydrated);
+      if (!acceptHydratedChecksSuccessPullRequest(normalized)) continue;
+      hydratedPulls.push(normalized);
+      if (limit !== "all" && hydratedPulls.length >= limitForHydration) acceptedLimitReached = true;
     }
-    if (!hydrated) continue;
-    const normalized = normalizePrListPullRequest(hydrated);
-    if (!acceptHydratedChecksSuccessPullRequest(normalized)) continue;
-    hydratedPulls.push(normalized);
-    if (limit !== "all" && hydratedPulls.length >= limitForHydration) break;
+
+    if (acceptedLimitReached) break;
   }
   return hydratedPulls;
 }
@@ -521,16 +538,16 @@ function normalizedGitSha(value) {
   return /^[0-9a-f]{40}$/.test(sha) ? sha : null;
 }
 
-function hydrateChecksSuccessPullRequest(number) {
+async function hydrateChecksSuccessPullRequest(number) {
   const attempts = numberFromEnv("CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_ATTEMPTS", 3);
   const delayMs = nonNegativeNumberFromEnv("CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_DELAY_MS", 1_000);
   let hydrated = null;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    hydrated = hydratePullRequestForPrListFallback(number);
+    hydrated = await hydratePullRequestForPrListFallbackAsync(number);
     if (!hasUnknownMergeability(hydrated)) return hydrated;
     if (attempt < attempts) {
       console.error(`pull request #${number} mergeability is UNKNOWN on attempt ${attempt}/${attempts}; polling`);
-      if (delayMs > 0) sleepMs(delayMs);
+      if (delayMs > 0) await sleepMsAsync(delayMs);
     }
   }
   return hydrated;
@@ -566,7 +583,7 @@ function hydratedPullRequestSummary(pull) {
   ].join(" ");
 }
 
-function fetchOpenPullRequestsFromPrList() {
+async function fetchOpenPullRequestsFromPrList() {
   if (hydrateIncludeRefs) {
     const pulls = fetchOpenPullRequestsFromIncludedRefs();
     if (!checksSuccessPreflight) return pulls;
@@ -583,7 +600,7 @@ function fetchOpenPullRequestsFromPrList() {
   );
   let pulls;
   if (conflictingBranchRepairInventory) {
-    pulls = fetchOpenPullRequestsFromPrListFallback();
+    pulls = await fetchOpenPullRequestsFromPrListFallback();
   } else {
     try {
       pulls = ghJsonWithRetry(
@@ -606,7 +623,7 @@ function fetchOpenPullRequestsFromPrList() {
     } catch (error) {
       if (!isRetryableGhError(error)) throw error;
       console.error("list open pull request inventory failed after retries; falling back to search plus per-PR hydration");
-      pulls = fetchOpenPullRequestsFromPrListFallback();
+      pulls = await fetchOpenPullRequestsFromPrListFallback();
     }
   }
   if (!Array.isArray(pulls)) throw new Error("GitHub PR list returned a non-array payload");
@@ -640,8 +657,8 @@ function fetchOpenPullRequestsFromIncludedRefs() {
   return pulls;
 }
 
-function fetchOpenPullRequestsFromPrListFallback() {
-  const searchCandidates = fetchOpenPullRequestsFromSearch()
+async function fetchOpenPullRequestsFromPrListFallback() {
+  const searchCandidates = (await fetchOpenPullRequestsFromSearch())
     .filter((pull) => {
       const ref = `#${pull.number}`;
       if (includeRefs && !includeRefs.has(ref)) return false;
@@ -652,27 +669,61 @@ function fetchOpenPullRequestsFromPrListFallback() {
     })
     .slice(0, prListFallbackSearchLimit);
   const pulls = [];
-  for (const pull of searchCandidates) {
-    let hydrated;
-    try {
-      hydrated = hydratePullRequestForPrListFallback(pull.number);
-    } catch (error) {
-      if (!isRetryableGhError(error)) throw error;
-      console.error(`hydrate pull request #${pull.number} failed after retries; skipping candidate`);
-      continue;
+  for (let index = 0; index < searchCandidates.length; index += hydrationConcurrency) {
+    const window = searchCandidates.slice(index, index + hydrationConcurrency);
+    const outcomes = await hydratePullRequestWindow(window, hydratePullRequestForPrListFallbackAsync);
+    let acceptedLimitReached = false;
+
+    for (const { pull, hydrated, error } of outcomes) {
+      if (error) {
+        if (!isRetryableGhError(error)) throw error;
+        console.error(`hydrate pull request #${pull.number} failed after retries; skipping candidate`);
+        continue;
+      }
+      if (acceptedLimitReached || !hydrated) continue;
+      const normalized = normalizePrListPullRequest(hydrated);
+      if (!conflictingBranchRepairInventory && prListMergeBlocker(normalized)) continue;
+      if (conflictingBranchRepairInventory && !conflictingBranchRepairProfile(normalized)) continue;
+      pulls.push(hydrated);
+      if (limit !== "all" && pulls.length >= limitForHydration) acceptedLimitReached = true;
     }
-    if (!hydrated) continue;
-    const normalized = normalizePrListPullRequest(hydrated);
-    if (!conflictingBranchRepairInventory && prListMergeBlocker(normalized)) continue;
-    if (conflictingBranchRepairInventory && !conflictingBranchRepairProfile(normalized)) continue;
-    pulls.push(hydrated);
-    if (limit !== "all" && pulls.length >= limitForHydration) break;
+
+    if (acceptedLimitReached) break;
   }
   return pulls;
 }
 
+async function hydratePullRequestWindow(pulls, hydrate) {
+  return await Promise.all(
+    pulls.map(async (pull) => {
+      try {
+        return { pull, hydrated: await hydrate(pull.number), error: null };
+      } catch (error) {
+        return { pull, hydrated: null, error };
+      }
+    }),
+  );
+}
+
 function hydratePullRequestForPrListFallback(number) {
   const pull = ghJsonWithRetry(
+    [
+      "pr",
+      "view",
+      String(number),
+      "--repo",
+      repo,
+      "--json",
+      prListFields(),
+    ],
+    { operation: `hydrate pull request #${number}` },
+  );
+  if (!pull || typeof pull !== "object") return null;
+  return pull;
+}
+
+async function hydratePullRequestForPrListFallbackAsync(number) {
+  const pull = await ghJsonWithRetryAsync(
     [
       "pr",
       "view",
@@ -1767,6 +1818,15 @@ function numberArg(name, fallback) {
   return value;
 }
 
+function boundedInteger(value, fallback, label, minimum, maximum) {
+  if (value === undefined || value === null || value === "") return fallback;
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < minimum || parsed > maximum) {
+    throw new Error(`${label} must be an integer from ${minimum} to ${maximum}`);
+  }
+  return parsed;
+}
+
 function booleanFlag(value) {
   if (value === true) return true;
   if (value === false || value == null) return false;
@@ -1816,6 +1876,19 @@ function ghRaw(ghArgs) {
   });
 }
 
+async function ghRawAsync(ghArgs) {
+  const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
+  delete env.FORCE_COLOR;
+  const { stdout } = await execFileAsync(ghCommand, ghArgs, {
+    cwd: repoRoot(),
+    env,
+    encoding: "utf8",
+    maxBuffer: 128 * 1024 * 1024,
+    timeout: Number(process.env.CLOWNFISH_GITHUB_IMPORT_PAGE_TIMEOUT_MS ?? 180_000),
+  });
+  return stdout;
+}
+
 function ghJsonWithRetry(ghArgs, { operation }) {
   const attempts = numberFromEnv("CLOWNFISH_GITHUB_IMPORT_RETRIES", 4);
   let lastError = null;
@@ -1833,16 +1906,42 @@ function ghJsonWithRetry(ghArgs, { operation }) {
   throw lastError;
 }
 
+async function ghJsonWithRetryAsync(ghArgs, { operation }) {
+  const attempts = numberFromEnv("CLOWNFISH_GITHUB_IMPORT_RETRIES", 4);
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return JSON.parse(stripAnsi(await ghRawAsync(ghArgs)) || "null");
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts || !isRetryableGhError(error)) break;
+      const delayMs = Math.min(30_000, 1_000 * 2 ** (attempt - 1));
+      console.error(`${operation} failed on attempt ${attempt}/${attempts}; retrying in ${delayMs}ms`);
+      await sleepMsAsync(delayMs);
+    }
+  }
+  throw lastError;
+}
+
 function isRetryableGhError(error) {
-  const message = String(error?.stderr ?? error?.message ?? error);
+  if (error?.killed === true || error?.code === "ETIMEDOUT" || error?.signal === "SIGTERM") return true;
+  const message = ghErrorText(error);
   return /timed out|timeout|TLS handshake|connection reset|502 Bad Gateway|503 Service Unavailable|504 Gateway Timeout|secondary rate|Something went wrong while executing your query/i.test(
     message,
   );
 }
 
 function isMissingPullRequestError(error) {
-  const message = String(error?.stderr ?? error?.message ?? error);
+  const message = ghErrorText(error);
   return /Could not resolve to a PullRequest with the number of \d+\.|HTTP 404: Not Found/i.test(message);
+}
+
+function ghErrorText(error) {
+  const text = [error?.stderr, error?.stdout, error?.message]
+    .map((value) => String(value ?? "").trim())
+    .filter(Boolean)
+    .join("\n");
+  return text || String(error);
 }
 
 function numberFromEnv(name, fallback) {
@@ -1859,6 +1958,10 @@ function nonNegativeNumberFromEnv(name, fallback) {
 
 function sleepMs(milliseconds) {
   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, milliseconds);
+}
+
+function sleepMsAsync(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
 function stripAnsi(text) {
