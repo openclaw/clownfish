@@ -1,0 +1,212 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "live-pr-inventory-20260623T065553-006",
+  "mode": "autonomous",
+  "run_id": "29174408362",
+  "workflow_run_id": "29174408362",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29174408362",
+  "head_sha": "4d043828d2d9cb7577da1eb87df37abe78b21c46",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-12T00:53:04Z",
+  "workflow_updated_at": "2026-07-12T00:58:20Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/live-pr-inventory-20260623T065553-006.md",
+  "published_at": "2026-07-12T00:58:59.365Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/95113",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/95113",
+  "summary": "Classified the inventory shard as two independent lanes: #89855 is already merged and closed for the Telegram DM context issue, while #95113 remains the open memory-core canonical repair path. No merge is recommended because #95113 lacks a fresh complete merge preflight and has one failed check; a narrow in-place repair artifact is planned for the editable contributor branch. #83633 is routed to central security because the hydrated artifact marks it security-sensitive. #92891 is retained only as non-mutating historical evidence because it carries a blocked merge-risk label and is not executable repair lineage.",
+  "actions": [
+    {
+      "target": "#78640",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#94646",
+      "candidate_fix": "#94646",
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#82040",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89855",
+      "candidate_fix": "#89855",
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#82194",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89855",
+      "candidate_fix": "#89855",
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#83633",
+      "action": "route_security",
+      "status": "planned",
+      "classification": "security_sensitive",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "central_security_only"
+    },
+    {
+      "target": "#87566",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "fixed_by_candidate",
+      "canonical": "#89855",
+      "candidate_fix": "#89855",
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#87626",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#89855",
+      "candidate_fix": "#89855",
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#89855",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "canonical",
+      "canonical": "#89855",
+      "candidate_fix": "#89855",
+      "reason": "already_merged_canonical_for_telegram_lane"
+    },
+    {
+      "target": "#92891",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#95113",
+      "candidate_fix": null,
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#94646",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#95113",
+      "candidate_fix": null,
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "#95113",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#95113",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch_before_merge"
+    },
+    {
+      "target": "#95390",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#89855",
+      "candidate_fix": null,
+      "reason": "already_closed_historical_context"
+    },
+    {
+      "target": "cluster:live-pr-inventory-20260623T065553-006",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#95113",
+      "candidate_fix": null,
+      "reason": "repair_contributor_branch"
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 9,
+    "route_security": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 9,
+    "planned": 3
+  },
+  "fix_counts": {
+    "failed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#95113",
+    "source_refs": [
+      "#95113",
+      "#78640",
+      "#94646",
+      "#82194",
+      "#83633",
+      "#87626",
+      "#89855",
+      "#92891",
+      "#95390",
+      "#82040",
+      "#87566"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the editable #95113 contributor branch in place so the memory-core shadow database sidecar cleanup fix can reach merge gates. The intended repair is narrow: preserve the contributor's behavior change, inspect the failed checks-node-compact-small-7 lane for branch-caused failures, adjust only the memory cleanup implementation or focused regression tests if needed, then rerun changed validation and require a fresh clean Codex review before any merge recommendation.",
+    "pr_title": "fix(memory): keep cleaning reindex sidecars after lock errors",
+    "pr_body": "## What Problem This Solves\nRefs #78640 and repairs #95113 in place. Current main can stop direct memory reindex sidecar cleanup after the first filesystem deletion error, leaving later `.memory-reindex-*` SQLite sidecars behind.\n\n## Why This Change Was Made\n#94646 removed the old full-file rename path, but the current SQLite shadow cleanup path still needs to keep attempting all owned sidecars before surfacing the first cleanup failure. #95113 is the narrow contributor PR for that behavior and is editable by maintainers, so the safest path is to repair that branch rather than replace it.\n\n## User Impact\nMemory reindex cleanup is more robust after lock or filesystem errors, especially on Windows-style failure modes where one sidecar deletion can fail while later sidecars are still removable.\n\n## Evidence\n- Current main `extensions/memory-core/src/memory/manager-db.ts` aborts direct `removeMemoryDatabaseFiles` cleanup on an uncaught `fs.rmSync` error.\n- #95113 is a two-file memory-core patch with proof supplied, but the hydrated artifact shows one failed `checks-node-compact-small-7` check and no fresh complete merge preflight.\n- Validation plan: `pnpm test extensions/memory-core/src/memory/manager-db.test.ts`, then `pnpm check:changed`; deterministic merge tooling must also run Codex `/review` and exact-head gates before merge.",
+    "likely_files": [
+      "extensions/memory-core/src/memory/manager-db.ts",
+      "extensions/memory-core/src/memory/manager-db.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test extensions/memory-core/src/memory/manager-db.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair #95113 in place; preserve contributor @849261680 as the source author for the memory-core sidecar cleanup fix.",
+      "If a follow-up commit is needed, keep the PR lineage and PR body attribution tied to https://github.com/openclaw/openclaw/pull/95113."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/live-pr-inventory-20260623T065553-006.md",
+    "security_sensitive": false,
+    "security_routed_refs": [
+      "#83633"
+    ],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "job blocks force_push required to update rebased contributor branch fix/78640-memory-reindex-windows-fallback",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
