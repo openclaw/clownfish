@@ -1446,7 +1446,6 @@ function verifyExternalMergeBinding({
         lastProblem === "awaiting_adopted_test_merge"
           ? lastVerifiedMainSha
           : reviewedBaseSha,
-      adoptingNewerMain: lastProblem === "awaiting_adopted_test_merge",
     });
   }
 
@@ -1464,6 +1463,7 @@ function runApplyTimeBaseAdoptionValidation({
   preflight,
   target,
   adoptedBaseSha,
+  refreshBaseSha = adoptedBaseSha,
   expectedHeadSha,
   mergeHeadSha = expectedHeadSha,
   testMergeSha,
@@ -1493,6 +1493,8 @@ function runApplyTimeBaseAdoptionValidation({
         manifestPath,
         "--adopted-base-sha",
         adoptedBaseSha,
+        "--refresh-base-sha",
+        refreshBaseSha,
         "--expected-head-sha",
         expectedHeadSha,
         "--merge-head-sha",
@@ -1610,7 +1612,6 @@ function refreshStaleExternalMergeBinding({
   view,
   staleTestMerge,
   refreshBaseSha = reviewedBaseSha,
-  adoptingNewerMain = false,
 }) {
   const branchRefresh = {
     status: "blocked",
@@ -1699,14 +1700,32 @@ function refreshStaleExternalMergeBinding({
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS, 2000);
   let lastReason = "branch refresh did not produce a new head and current-main test merge";
   let lastMergeHeadSha = expectedHeadSha;
+  let adoptedBaseSha = refreshBaseSha;
+  let mainRolloverCount = 0;
+
+  const observeMain = (currentMainSha) => {
+    if (currentMainSha === adoptedBaseSha) return "";
+    if (mainRolloverCount >= 1) {
+      return "main changed again during stale test merge branch refresh";
+    }
+    if (!preflight.base_adoption_manifest) {
+      return "main changed during stale test merge branch refresh";
+    }
+    adoptedBaseSha = currentMainSha;
+    mainRolloverCount = 1;
+    branchRefresh.adopted_base_sha = adoptedBaseSha;
+    branchRefresh.main_rollover_count = mainRolloverCount;
+    return "";
+  };
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
     branchRefresh.poll_attempts = attempt;
     try {
       const currentMainSha = fetchBranchHeadSha(result.repo, "main");
-      if (currentMainSha !== refreshBaseSha) {
+      const mainRolloverBlock = observeMain(currentMainSha);
+      if (mainRolloverBlock) {
         return {
-          reason: "main changed during stale test merge branch refresh",
+          reason: mainRolloverBlock,
           retry_recommended: true,
           reviewed_effective_diff_sha256: reviewedFingerprint,
           verified_main_sha: currentMainSha,
@@ -1775,14 +1794,14 @@ function refreshStaleExternalMergeBinding({
           const testMergeHeadSha = String(testMergeParents[1]?.sha ?? "").toLowerCase();
           if (
             testMergeParents.length !== 2 ||
-            testMergeBaseSha !== refreshBaseSha ||
+            testMergeBaseSha !== adoptedBaseSha ||
             testMergeHeadSha !== refreshedHeadSha
           ) {
-            lastReason = "refreshed GitHub test merge is not bound to refresh main and refreshed head";
+            lastReason = "refreshed GitHub test merge is not bound to adopted main and refreshed head";
           } else {
             const baseCommit = ghJson([
               "api",
-              `repos/${result.repo}/git/commits/${refreshBaseSha}`,
+              `repos/${result.repo}/git/commits/${adoptedBaseSha}`,
             ]);
             const baseEntries = fetchGitTreeEntries(result.repo, baseCommit.tree?.sha);
             const mergeEntries = fetchGitTreeEntries(
@@ -1861,9 +1880,10 @@ function refreshStaleExternalMergeBinding({
               expectedHeadSha,
             });
             const currentMainAfterChecks = fetchBranchHeadSha(result.repo, "main");
-            if (currentMainAfterChecks !== refreshBaseSha) {
+            const settledMainRolloverBlock = observeMain(currentMainAfterChecks);
+            if (settledMainRolloverBlock) {
               return {
-                reason: "main changed during stale test merge branch refresh",
+                reason: settledMainRolloverBlock,
                 retry_recommended: true,
                 reviewed_effective_diff_sha256: reviewedFingerprint,
                 live_effective_diff_sha256: refreshedFingerprint.sha256,
@@ -1897,12 +1917,18 @@ function refreshStaleExternalMergeBinding({
                 branch_refresh: branchRefresh,
               };
             }
+            if (testMergeBaseSha !== adoptedBaseSha) {
+              lastReason =
+                "branch refresh is waiting for GitHub to regenerate the adopted-main test merge";
+              continue;
+            }
             let baseAdoption = null;
-            if (adoptingNewerMain) {
+            if (refreshBaseSha !== reviewedBaseSha || mainRolloverCount > 0) {
               baseAdoption = runApplyTimeBaseAdoptionValidation({
                 preflight,
                 target,
-                adoptedBaseSha: refreshBaseSha,
+                adoptedBaseSha,
+                refreshBaseSha,
                 expectedHeadSha,
                 mergeHeadSha: refreshedHeadSha,
                 testMergeSha: refreshedTestMergeSha,
@@ -1928,7 +1954,7 @@ function refreshStaleExternalMergeBinding({
               reviewed_effective_diff_sha256: reviewedFingerprint,
               live_effective_diff_sha256: refreshedFingerprint.sha256,
               effective_diff_files: refreshedFingerprint.files,
-              verified_main_sha: currentMainAfterChecks,
+              verified_main_sha: adoptedBaseSha,
               merge_commit_sha: refreshedTestMergeSha,
               reviewed_head_sha: expectedHeadSha,
               merge_head_sha: refreshedHeadSha,
@@ -1945,6 +1971,8 @@ function refreshStaleExternalMergeBinding({
                 refreshed_test_merge_sha: refreshedTestMergeSha,
                 effective_diff_sha256: refreshedFingerprint.sha256,
                 effective_diff_files: refreshedFingerprint.files,
+                adopted_base_sha: adoptedBaseSha,
+                main_rollover_count: mainRolloverCount,
               },
               refreshed_live: refreshedLive,
               refreshed_pull_request: settledRefreshedPull,
@@ -1963,7 +1991,7 @@ function refreshStaleExternalMergeBinding({
     reason: lastReason,
     retry_recommended: true,
     reviewed_effective_diff_sha256: reviewedFingerprint,
-    verified_main_sha: refreshBaseSha,
+    verified_main_sha: adoptedBaseSha,
     reviewed_head_sha: expectedHeadSha,
     merge_head_sha: lastMergeHeadSha,
     branch_refresh: branchRefresh,
@@ -2123,6 +2151,7 @@ function baseAdoptionAuthorization(proof) {
     policy: proof.policy,
     reviewed_base_sha: proof.reviewed_base_sha,
     adopted_base_sha: proof.adopted_base_sha,
+    ...(proof.refresh_base_sha ? { refresh_base_sha: proof.refresh_base_sha } : {}),
     reviewed_head_sha: proof.reviewed_head_sha,
     ...(proof.merge_head_sha ? { merge_head_sha: proof.merge_head_sha } : {}),
     test_merge_sha: proof.test_merge_sha,
