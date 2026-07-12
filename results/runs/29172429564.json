@@ -1,0 +1,143 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "repair-104026-zod-locale-refresh-20260711",
+  "mode": "autonomous",
+  "run_id": "29172429564",
+  "workflow_run_id": "29172429564",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29172429564",
+  "head_sha": "e369e603e04980f21775563e01a758848df4a176",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-11T23:37:55Z",
+  "workflow_updated_at": "2026-07-12T00:00:22Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/repair-104026-zod-locale-refresh-20260711.md",
+  "published_at": "2026-07-12T00:01:08.702Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/104026",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/104014",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/104026",
+  "summary": "Plan a narrow repair of the existing maintainer-editable contributor PR #104026. The preflight artifact identifies #104026 as the canonical writable fix for #104014, with #89445 only partially overlapping through degraded validation messages and #103956 already closed; current main is ff6dc43b8b8563f8bcc054c1430c980ecca66ae1 and still lacks the explicit Zod locale registration in src/config/zod-schema.ts.",
+  "actions": [
+    {
+      "target": "#104026",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#104026",
+      "candidate_fix": null,
+      "reason": "The canonical PR is useful and writable but must be refreshed against current main before any merge path; merge/comment/close/force-push are blocked by the job."
+    },
+    {
+      "target": "#104014",
+      "action": "keep_canonical",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#104014",
+      "candidate_fix": "#104026",
+      "reason": "Keep the root issue open as the canonical issue while #104026 is repaired."
+    },
+    {
+      "target": "#89445",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#104014",
+      "candidate_fix": "#104026",
+      "reason": "Related through validation-message degradation, but it may still contain a separate config/image reproduction gap."
+    },
+    {
+      "target": "#103956",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#104014",
+      "candidate_fix": "#104026",
+      "reason": "Closed context only; no action target for this repair run."
+    },
+    {
+      "target": "cluster:repair-104026-zod-locale-refresh-20260711",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#104026",
+      "candidate_fix": null,
+      "reason": "Executor should refresh and validate the existing contributor branch; merge/comment/close/label/force-push remain blocked."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_canonical": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 4,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#104026",
+    "source_refs": [
+      "#104026",
+      "#104014",
+      "#89445",
+      "#103956"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Refresh contributor PR #104026 onto current main ff6dc43b8b8563f8bcc054c1430c980ecca66ae1, preserving the explicit Zod English-locale registration at the config-schema boundary and the focused packaged-validation-message regression proof.",
+    "pr_title": "fix(config): register zod locale explicitly so packaged builds keep real validation messages",
+    "pr_body": "## What Problem This Solves\nPackaged OpenClaw builds can lose Zod's English locale formatter and collapse config validation details to bare `Invalid input`, making startup/config errors unactionable.\n\n## Why This Change Was Made\nThis refresh keeps #104026's narrow fix: explicitly register the Zod English locale once at the canonical config schema boundary so packaged builds retain detailed validation messages.\n\n## User Impact\nUsers should see actionable config diagnostics such as unrecognized keys or expected/received type details instead of a generic `Invalid input` fallback.\n\n## Evidence\n- Focused locale regression: `pnpm test src/config/zod-schema.locale.test.ts`\n- Packaged proof after `pnpm build`: invalid config output must be more specific than bare `Invalid input`\n- Changed gate: `pnpm check:changed`\n\nCredit: based on @ObliviateRickLin's source PR https://github.com/openclaw/openclaw/pull/104026 for #104014.",
+    "likely_files": [
+      "src/config/zod-schema.ts",
+      "src/config/zod-schema.locale.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test src/config/zod-schema.locale.test.ts",
+      "pnpm build",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for @ObliviateRickLin's PR https://github.com/openclaw/openclaw/pull/104026; preserve the author commit where possible.",
+      "PR body or final repair note should retain attribution to @ObliviateRickLin and link #104014 and #104026.",
+      "Packaged CLI proof is required: after build, run an invalid packaged config through the CLI and confirm the output contains a specific Zod diagnostic such as an unrecognized key or expected/received type, not only bare Invalid input."
+    ],
+    "source_job": "jobs/openclaw/inbox/repair-104026-zod-locale-refresh-20260711.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "rebase-only repair stopped: rebase-only repair could not prove a new head based on current main",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
