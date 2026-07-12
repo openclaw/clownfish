@@ -101,6 +101,9 @@ if (adoptionManifestPath) {
       pullRequest,
       manifest: JSON.parse(fs.readFileSync(adoptionManifestPath, "utf8")),
       adoptedBaseSha: String(args["adopted-base-sha"] ?? "").toLowerCase(),
+      refreshBaseSha: String(
+        args["refresh-base-sha"] ?? args["adopted-base-sha"] ?? "",
+      ).toLowerCase(),
       expectedHeadSha: String(args["expected-head-sha"] ?? "").toLowerCase(),
       mergeHeadSha: String(
         args["merge-head-sha"] ?? args["expected-head-sha"] ?? "",
@@ -1566,6 +1569,7 @@ function runBaseAdoptionValidation({
   pullRequest,
   manifest,
   adoptedBaseSha,
+  refreshBaseSha = adoptedBaseSha,
   expectedHeadSha,
   mergeHeadSha = expectedHeadSha,
   expectedTestMergeSha,
@@ -1576,6 +1580,7 @@ function runBaseAdoptionValidation({
   for (const [label, value] of [
     ["merge head", mergeHeadSha],
     ["GitHub test merge", expectedTestMergeSha],
+    ["refresh base", refreshBaseSha],
   ]) {
     if (!/^[0-9a-f]{40}$/i.test(value)) {
       throw new Error(`${label} SHA is missing or invalid`);
@@ -1596,12 +1601,18 @@ function runBaseAdoptionValidation({
     if (
       refreshedParents.length !== 2 ||
       String(refreshedParents[0]?.sha ?? "").toLowerCase() !== expectedHeadSha ||
-      String(refreshedParents[1]?.sha ?? "").toLowerCase() !== adoptedBaseSha
+      String(refreshedParents[1]?.sha ?? "").toLowerCase() !== refreshBaseSha
     ) {
       throw new Error(
         "merge head is not the expected non-destructive refresh of the reviewed head",
       );
     }
+    assertLinearBaseProgression({
+      targetDir,
+      reviewedBaseSha: manifest.reviewed_base_sha,
+      refreshBaseSha,
+      adoptedBaseSha,
+    });
   }
   const fetchedMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], {
     cwd: targetDir,
@@ -1735,6 +1746,7 @@ function runBaseAdoptionValidation({
     policy: ADOPTION_POLICY,
     reviewed_base_sha: manifest.reviewed_base_sha,
     adopted_base_sha: adoptedBaseSha,
+    ...(mergeHeadSha !== expectedHeadSha ? { refresh_base_sha: refreshBaseSha } : {}),
     reviewed_head_sha: expectedHeadSha,
     merge_head_sha: mergeHeadSha,
     test_merge_sha: expectedTestMergeSha,
@@ -1770,6 +1782,33 @@ function runBaseAdoptionValidation({
     },
     validated_at: new Date().toISOString(),
   };
+}
+
+function assertLinearBaseProgression({
+  targetDir,
+  reviewedBaseSha,
+  refreshBaseSha,
+  adoptedBaseSha,
+}) {
+  for (const [label, ancestorSha, descendantSha] of [
+    ["reviewed base is not an ancestor of refresh base", reviewedBaseSha, refreshBaseSha],
+    ["refresh base is not an ancestor of adopted main", refreshBaseSha, adoptedBaseSha],
+  ]) {
+    if (ancestorSha === descendantSha) continue;
+    const ancestor = spawnSync(
+      "git",
+      ["merge-base", "--is-ancestor", ancestorSha, descendantSha],
+      {
+        cwd: targetDir,
+        env: gitIntegrityEnv(),
+        encoding: "utf8",
+        maxBuffer: 1024 * 1024,
+      },
+    );
+    if (ancestor.status !== 0) {
+      throw new Error(`${label}: ${ancestorSha} !<= ${descendantSha}`);
+    }
+  }
 }
 
 function verifyBaseAdoptionSnapshots({
