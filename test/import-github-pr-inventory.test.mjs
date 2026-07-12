@@ -195,6 +195,44 @@ test("live PR inventory accepts --key=value argument form", () => {
   assert.equal(payload.candidates.some((candidate) => candidate.ref === "#101"), true);
 });
 
+test("hydration concurrency reports defaults and enforces CLI and env bounds", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh);
+
+  const defaults = runImport(fixture);
+  assert.equal(defaults.status, 0, defaults.stderr || defaults.stdout);
+  assert.equal(JSON.parse(defaults.stdout).options.hydration_concurrency, 4);
+
+  const fromEnv = runImportWithEnv(
+    fixture,
+    { CLOWNFISH_GITHUB_IMPORT_HYDRATION_CONCURRENCY: "8" },
+  );
+  assert.equal(fromEnv.status, 0, fromEnv.stderr || fromEnv.stdout);
+  assert.equal(JSON.parse(fromEnv.stdout).options.hydration_concurrency, 8);
+
+  const fromCli = runImportWithEnv(
+    fixture,
+    { CLOWNFISH_GITHUB_IMPORT_HYDRATION_CONCURRENCY: "8" },
+    "--hydration-concurrency",
+    "1",
+  );
+  assert.equal(fromCli.status, 0, fromCli.stderr || fromCli.stdout);
+  assert.equal(JSON.parse(fromCli.stdout).options.hydration_concurrency, 1);
+
+  for (const value of ["0", "9", "1.5"]) {
+    const invalid = runImport(fixture, "--hydration-concurrency", value);
+    assert.notEqual(invalid.status, 0);
+    assert.match(invalid.stderr, /--hydration-concurrency must be an integer from 1 to 8/);
+  }
+
+  const invalidEnv = runImportWithEnv(
+    fixture,
+    { CLOWNFISH_GITHUB_IMPORT_HYDRATION_CONCURRENCY: "9" },
+  );
+  assert.notEqual(invalidEnv.status, 0);
+  assert.match(invalidEnv.stderr, /--hydration-concurrency must be an integer from 1 to 8/);
+});
+
 test("live low-signal inventory blocks proof, merge-risk, maintainer, and focused fix candidates", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, { includeLowSignal: true });
@@ -485,6 +523,14 @@ test("remediation inventory can hydrate only included refs", () => {
   assert.equal(payload.totals.include_refs, 4);
   assert.deepEqual(payload.candidates.map((candidate) => candidate.ref), ["#110"]);
   assert.equal(payload.totals.fetched_open_prs, 1);
+
+  const events = readFakeGhEvents(fixture);
+  for (const [current, next] of [[110, 111], [111, 112], [112, 113]]) {
+    assert.ok(
+      hydrationEventIndex(events, "start", next) > hydrationEventIndex(events, "finish", current),
+      `expected included ref #${next} to start after #${current} finished`,
+    );
+  }
 });
 
 test("checks-success remediation intake filters noisy preflight blockers", () => {
@@ -765,10 +811,38 @@ test("checks-success remediation skips hydrated candidates without an exact head
   assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#116"), false);
 });
 
+test("checks-success hydration consumes out-of-order completions in source order", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    searchNumbers: [114, 116],
+    hydrateDelays: { 114: 120, 116: 0 },
+  });
+  const result = runImport(
+    fixture,
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "1",
+    "--hydration-concurrency",
+    "2",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.deepEqual(JSON.parse(result.stdout).candidates.map((candidate) => candidate.ref), ["#114"]);
+
+  const events = readFakeGhEvents(fixture);
+  assert.ok(
+    hydrationEventIndex(events, "finish", 116) < hydrationEventIndex(events, "finish", 114),
+    "expected #116 to finish before #114",
+  );
+});
+
 test("checks-success remediation fails closed on hydration auth errors", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, {
     includeChecksSuccessPreflight: true,
+    searchNumbers: [114, 116],
     failHydrateNumber: 116,
     failHydrateAuth: true,
   });
@@ -778,7 +852,9 @@ test("checks-success remediation fails closed on hydration auth errors", () => {
     "remediation",
     "--checks-success",
     "--limit",
-    "all",
+    "1",
+    "--hydration-concurrency",
+    "2",
   );
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /HTTP 401: Bad credentials/);
@@ -897,12 +973,54 @@ test("remediation inventory pr-list source falls back to per-PR hydration on Git
   assert.equal(payload.totals.fetched_open_prs, 1);
 });
 
+test("remediation fallback starts fixed hydration windows and limits accepted results", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    failPrList: true,
+    searchNumbers: [106, 105, 109, 110],
+    hydrateDelays: { 106: 100, 105: 100 },
+  });
+
+  const result = runImportWithEnv(
+    fixture,
+    { CLOWNFISH_GITHUB_IMPORT_RETRIES: "1" },
+    "--strategy",
+    "remediation",
+    "--inventory-source",
+    "pr-list",
+    "--bucket",
+    "ready_for_maintainer",
+    "--limit",
+    "1",
+    "--skip-existing",
+    "false",
+    "--hydration-concurrency",
+    "2",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.deepEqual(JSON.parse(result.stdout).candidates.map((candidate) => candidate.ref), ["#109"]);
+
+  const events = readFakeGhEvents(fixture);
+  const secondWindowStart = Math.min(
+    hydrationEventIndex(events, "start", 109),
+    hydrationEventIndex(events, "start", 110),
+  );
+  assert.ok(secondWindowStart > hydrationEventIndex(events, "finish", 106));
+  assert.ok(secondWindowStart > hydrationEventIndex(events, "finish", 105));
+});
+
 test("remediation fallback skips one PR when hydration keeps failing", () => {
   const fixture = makeFixture();
-  writeFakeGh(fixture.gh, { failPrList: true, failHydrateNumber: 109, failHydrateIncident: true });
+  writeFakeGh(fixture.gh, {
+    failPrList: true,
+    searchNumbers: [109, 110],
+    failHydrateNumber: 109,
+    failHydrateIncident: true,
+  });
 
-  const result = runImport(
+  const result = runImportWithEnv(
     fixture,
+    { CLOWNFISH_GITHUB_IMPORT_RETRIES: "1" },
     "--strategy",
     "remediation",
     "--bucket",
@@ -920,6 +1038,10 @@ test("remediation fallback skips one PR when hydration keeps failing", () => {
 });
 
 function runImport(fixture, ...extraArgs) {
+  return runImportWithEnv(fixture, {}, ...extraArgs);
+}
+
+function runImportWithEnv(fixture, extraEnv, ...extraArgs) {
   const write = extraArgs.includes("--write");
   const defaultExistingDir = extraArgs.includes("--default-existing-dir");
   const args = extraArgs.filter((arg) => arg !== "--write" && arg !== "--default-existing-dir");
@@ -952,6 +1074,7 @@ function runImport(fixture, ...extraArgs) {
       env: {
         ...process.env,
         CLOWNFISH_CHECKS_SUCCESS_MERGEABILITY_POLL_DELAY_MS: "0",
+        ...extraEnv,
       },
     },
   );
@@ -964,10 +1087,11 @@ function makeFixture() {
   const results = path.join(root, "results");
   const gh = path.join(root, "fake-gh.mjs");
   const ghCalls = `${gh}.calls`;
+  const ghEvents = `${gh}.events`;
   fs.mkdirSync(out, { recursive: true });
   fs.mkdirSync(existing, { recursive: true });
   fs.mkdirSync(results, { recursive: true });
-  return { root, out, existing, results, gh, ghCalls };
+  return { root, out, existing, results, gh, ghCalls, ghEvents };
 }
 
 function writeFakeGh(filePath, options = {}) {
@@ -1306,17 +1430,38 @@ function writeFakeGh(filePath, options = {}) {
     ...conflictingRepairPulls,
     cleanPrListPull,
   ];
+  const filteredSearchPulls = Array.isArray(options.searchNumbers)
+    ? searchPulls.filter((pull) => options.searchNumbers.includes(pull.number))
+    : searchPulls;
   fs.writeFileSync(
     filePath,
     `#!/usr/bin/env node
 import fs from "node:fs";
 const prListPulls = ${JSON.stringify(prListPulls)};
+const hydrationDelays = ${JSON.stringify(options.hydrateDelays ?? {})};
+const hydrationNumber =
+  process.argv[2] === "pr" && process.argv[3] === "view"
+    ? String(process.argv[4])
+    : null;
+function recordHydrationEvent(event) {
+  if (!hydrationNumber) return;
+  fs.appendFileSync(
+    ${JSON.stringify(`${filePath}.events`)},
+    JSON.stringify({ event, number: Number(hydrationNumber) }) + "\\n",
+  );
+}
 fs.appendFileSync(${JSON.stringify(`${filePath}.calls`)}, JSON.stringify(process.argv.slice(2)) + "\\n");
+if (hydrationNumber) {
+  recordHydrationEvent("start");
+  const delayMs = Number(hydrationDelays[hydrationNumber] ?? 0);
+  if (delayMs > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, delayMs);
+}
 if (process.argv[2] === "pr" && process.argv[3] === "list" && ${JSON.stringify(Boolean(options.failPrList))}) {
   console.error("HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)");
   process.exit(1);
 }
 if (process.argv[2] === "pr" && process.argv[3] === "view" && String(process.argv[4]) === ${JSON.stringify(String(options.failHydrateNumber ?? ""))}) {
+  recordHydrationEvent("finish");
   console.error(${JSON.stringify(
     options.failHydrateNotFound
       ? "Could not resolve to a PullRequest with the number of 116."
@@ -1346,7 +1491,7 @@ if (process.argv[2] === "api" && process.argv.includes("repos/openclaw/openclaw/
 ) {
   payload = { data: { updatePullRequestBranch: { pullRequest: { headRefOid: ${JSON.stringify("a".repeat(40))} } } } };
 } else if (process.argv[2] === "search") {
-  payload = ${JSON.stringify(searchPulls)};
+  payload = ${JSON.stringify(filteredSearchPulls)};
 } else if (process.argv[2] === "pr" && process.argv[3] === "view") {
   payload = prListPulls.find((pull) => String(pull.number) === String(process.argv[4])) ?? null;
   if (String(process.argv[4]) === ${JSON.stringify(String(options.staleBaseNumber ?? ""))} && payload) {
@@ -1387,6 +1532,7 @@ if (process.argv[2] === "api" && process.argv.includes("repos/openclaw/openclaw/
   },
 })};
 }
+recordHydrationEvent("finish");
 console.log(JSON.stringify(payload));
 `,
     { mode: 0o755 },
@@ -1505,6 +1651,22 @@ function readFakeGhCalls(fixture) {
     .split(/\r?\n/)
     .filter(Boolean)
     .map((line) => JSON.parse(line));
+}
+
+function readFakeGhEvents(fixture) {
+  if (!fs.existsSync(fixture.ghEvents)) return [];
+  return fs
+    .readFileSync(fixture.ghEvents, "utf8")
+    .trim()
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map((line) => JSON.parse(line));
+}
+
+function hydrationEventIndex(events, event, number) {
+  const index = events.findIndex((entry) => entry.event === event && entry.number === number);
+  assert.notEqual(index, -1, `missing ${event} event for pull request #${number}`);
+  return index;
 }
 
 function writePublishedResult(filePath) {
