@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "external-merge-preflight-98852-93514ba061cd"
 mode: "autonomous"
-run_id: "28776625477"
-workflow_run_id: "28776625477"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/28776625477"
-head_sha: "677ab54a78b21d41a830a17961d76c5d10bb18ba"
+run_id: "29174408151"
+workflow_run_id: "29174408151"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/29174408151"
+head_sha: "4d043828d2d9cb7577da1eb87df37abe78b21c46"
 workflow_conclusion: "success"
 result_status: "planned"
-published_at: "2026-07-06T08:37:45.646Z"
+published_at: "2026-07-12T00:56:45.360Z"
 canonical: "https://github.com/openclaw/openclaw/pull/98852"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/98852"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/28776625477](https://github.com/openclaw/clownfish/actions/runs/28776625477)
+Run: [https://github.com/openclaw/clownfish/actions/runs/29174408151](https://github.com/openclaw/clownfish/actions/runs/29174408151)
 
 Workflow conclusion: success
 
@@ -36,7 +36,9 @@ Canonical: https://github.com/openclaw/openclaw/pull/98852
 
 ## Summary
 
-External merge preflight blocked: PR mergeability is CONFLICTING; PR merge state is DIRTY
+External merge preflight blocked: command failed with exit 1: gh pr view 98852 --repo openclaw/openclaw --json comments,headRefOid,isDraft,mergeStateStatus,mergeable,reviewDecision,reviews,statusCheckRollup,updatedAt,url
+stderr:
+HTTP 503: 503 Service Unavailable (https://api.github.com/graphql)
 
 ## Impact
 
