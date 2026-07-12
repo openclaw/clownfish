@@ -7,9 +7,9 @@ allowed_actions:
   - label
   - close
   - merge
+blocked_actions:
   - fix
   - raise_pr
-blocked_actions:
   - force_push
   - bypass_checks
 require_human_for:
@@ -31,7 +31,7 @@ security_policy: central_security_only
 import_security_policy: "skip-any"
 security_sensitive: false
 allow_instant_close: true
-allow_fix_pr: true
+allow_fix_pr: false
 allow_merge: true
 allow_post_merge_close: true
 require_fix_before_close: true
