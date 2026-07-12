@@ -9,8 +9,8 @@ allowed_actions:
   - merge
   - fix
   - raise_pr
-  - force_push
 blocked_actions:
+  - force_push
   - bypass_checks
 require_human_for:
   - security_sensitive
