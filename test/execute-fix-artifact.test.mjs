@@ -446,7 +446,7 @@ test("execute-fix-artifact permits non-security merge-risk labels for repair-onl
   const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
   const ghLog = path.join(fixture.root, "gh.log");
 
-  fs.writeFileSync(fixture.jobPath, repairOnlyRiskJobFile(clusterId));
+  fs.writeFileSync(fixture.jobPath, repairOnlyRiskJobFile(clusterId, { allowForcePush: true }));
   const result = resultFile(clusterId);
   result.actions = [
     { action: "fix_needed", status: "planned", target: "#1" },
@@ -2265,7 +2265,7 @@ security_sensitive: false
 `;
 }
 
-function repairOnlyRiskJobFile(clusterId) {
+function repairOnlyRiskJobFile(clusterId, { allowForcePush = false } = {}) {
   return `---
 repo: openclaw/openclaw
 cluster_id: ${clusterId}
@@ -2273,13 +2273,12 @@ mode: autonomous
 allowed_actions:
   - fix
   - raise_pr
-blocked_actions:
+${allowForcePush ? "  - force_push\n" : ""}blocked_actions:
   - comment
   - label
   - close
   - merge
-  - force_push
-  - bypass_checks
+${allowForcePush ? "" : "  - force_push\n"}  - bypass_checks
 require_human_for:
   - security_sensitive
 canonical: []

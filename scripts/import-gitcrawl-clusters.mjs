@@ -37,6 +37,8 @@ const allowInstantClose = booleanArg("allow-instant-close", false);
 const editEnabledByDefault = mode === "autonomous" || mode === "execute";
 const allowMerge = booleanArg("allow-merge", editEnabledByDefault);
 const allowFixPr = booleanArg("allow-fix-pr", editEnabledByDefault);
+const allowForcePush = booleanArg("allow-force-push", false);
+const allowGuardedForcePush = allowFixPr && editEnabledByDefault && allowForcePush;
 const allowPostMergeClose = booleanArg("allow-post-merge-close", allowMerge || allowFixPr);
 const skipExisting = args["skip-existing"] !== "false";
 const existingResultsOnly = Boolean(args["existing-results-only"] ?? args.existing_results_only);
@@ -67,7 +69,7 @@ if (selectingFromGitcrawl) {
 
 if (clusterIds.length === 0) {
   console.error(
-    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--existing-results-action-policy all|terminal] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--block-label pattern] [--include-blocked-labels] [--live-state-filter] [--gh-bin gh] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-post-merge-close true|false]",
+    "usage: node scripts/import-gitcrawl-clusters.mjs <cluster-id> [...] [--from-gitcrawl] [--limit N] [--min-size N] [--min-open-members N] [--repo owner/repo] [--db path] [--out dir] [--existing-dir dir] [--existing-results-dir dir] [--existing-results-only] [--existing-results-action-policy all|terminal] [--mode plan|autonomous] [--suffix name] [--overlap-policy skip-any|skip-full|exclude-existing] [--security-policy skip-full|skip-any|include] [--block-label pattern] [--include-blocked-labels] [--live-state-filter] [--gh-bin gh] [--dry-run] [--json] [--allow-instant-close] [--allow-merge true|false] [--allow-fix-pr true|false] [--allow-force-push true|false] [--allow-post-merge-close true|false]",
   );
   process.exit(2);
 }
@@ -85,6 +87,10 @@ if (!["skip-full", "skip-any", "include"].includes(securityPolicy)) {
 }
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) {
   console.error("existing-results-action-policy must be all or terminal");
+  process.exit(2);
+}
+if (allowForcePush && !allowGuardedForcePush) {
+  console.error("--allow-force-push requires execute/autonomous mode with --allow-fix-pr true");
   process.exit(2);
 }
 
@@ -241,8 +247,9 @@ for (const clusterId of clusterIds) {
     "  - close",
     ...(allowMerge ? ["  - merge"] : []),
     ...(allowFixPr ? ["  - fix", "  - raise_pr"] : []),
+    ...(allowGuardedForcePush ? ["  - force_push"] : []),
     "blocked_actions:",
-    "  - force_push",
+    ...(allowGuardedForcePush ? [] : ["  - force_push"]),
     "  - bypass_checks",
     ...(allowMerge ? [] : ["  - merge"]),
     ...(allowFixPr ? [] : ["  - fix", "  - raise_pr"]),
@@ -364,6 +371,7 @@ if (jsonOutput) {
       limit,
       min_size: minSize,
       min_open_members: minOpenMembers,
+      allow_force_push: allowForcePush,
     },
     totals: {
       generated: generated.length,

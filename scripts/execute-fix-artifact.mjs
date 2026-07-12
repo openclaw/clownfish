@@ -2678,10 +2678,12 @@ function expectedHeadShaForSource(job, number) {
 function isRepairOnlyMergeRiskRemediationJob(job) {
   const allowed = new Set(job.frontmatter.allowed_actions ?? []);
   const blocked = new Set(job.frontmatter.blocked_actions ?? []);
+  const allowedActionSet =
+    allowed.size === 2 || (allowed.size === 3 && allowed.has("force_push"));
   return (
     job.frontmatter.allow_fix_pr === true &&
     job.frontmatter.allow_merge === false &&
-    allowed.size === 2 &&
+    allowedActionSet &&
     allowed.has("fix") &&
     allowed.has("raise_pr") &&
     blocked.has("comment") &&

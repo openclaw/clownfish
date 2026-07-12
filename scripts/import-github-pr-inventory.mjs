@@ -68,6 +68,10 @@ const bucketFilter = String(args.bucket ?? defaultBucketFor({ mode, strategy }))
 const skipExisting = args["skip-existing"] !== "false";
 const includeSecurity = Boolean(args["include-security-candidates"]);
 const includeMergeRisk = Boolean(args["include-merge-risk-candidates"] ?? args.include_merge_risk_candidates);
+const allowForcePush = strictBooleanFlag(
+  args["allow-force-push"] ?? args.allow_force_push,
+  "allow-force-push",
+);
 const repairOnlyMergeRiskInventory =
   strategy === "remediation" && includeMergeRisk && bucketFilter === "merge_risk_remediation";
 const conflictingBranchRepairInventory =
@@ -116,6 +120,9 @@ if (hydrateIncludeRefs && inventorySource !== "pr-list") die("--hydrate-include-
 if (hydrateIncludeRefs && !includeRefs) die("--hydrate-include-refs requires --include-refs-file");
 if (!["stale", "recent", "bucket"].includes(sort)) die("--sort must be stale, recent, or bucket");
 if (!["all", "terminal"].includes(existingResultsActionPolicy)) die("--existing-results-action-policy must be all or terminal");
+if (allowForcePush && (mode !== "autonomous" || strategy !== "remediation")) {
+  die("--allow-force-push requires autonomous remediation mode");
+}
 
 const existingRefs = skipExisting ? existingRefsForStrategy() : new Set();
 if (skipExisting) mergeRefs(existingRefs, existingPublishedResultRefs(existingResultsDir, repo, existingResultsActionPolicy));
@@ -171,6 +178,7 @@ const payload = sanitizeJsonValue({
     skip_existing: skipExisting,
     include_security_candidates: includeSecurity,
     include_merge_risk_candidates: strategy === "remediation" ? includeMergeRisk : null,
+    allow_force_push: strategy === "remediation" ? allowForcePush : null,
     checks_success_preflight: strategy === "remediation" ? checksSuccessPreflight : null,
     checks_success_retry_cooldown_hours: checksSuccessPreflight ? checksSuccessRetryCooldownHours : null,
     checks_success_main_sha: checksSuccessPreflight ? checksSuccessMainSha : null,
@@ -1220,16 +1228,24 @@ function writeJob(batch, index) {
   const refs = batch.map((candidate) => candidate.ref);
   const remediation = strategy === "remediation";
   const autonomousRemediation = remediation && mode === "autonomous";
+  const allowGuardedForcePush = autonomousRemediation && allowForcePush;
   const mergeRiskRemediation = remediation && batch.some((candidate) => hasMergeRiskLabel(candidate.labels));
   const allowedActions = remediation
     ? mergeRiskRemediation
-      ? ["fix", "raise_pr"]
-      : ["merge", "fix", "raise_pr"]
+      ? ["fix", "raise_pr", ...(allowGuardedForcePush ? ["force_push"] : [])]
+      : ["merge", "fix", "raise_pr", ...(allowGuardedForcePush ? ["force_push"] : [])]
     : lowSignal
       ? ["comment", "close"]
       : ["comment", "label", "close"];
   const blockedActions = remediation
-    ? ["comment", "label", "close", ...(mergeRiskRemediation ? ["merge"] : []), "force_push", "bypass_checks"]
+    ? [
+        "comment",
+        "label",
+        "close",
+        ...(mergeRiskRemediation ? ["merge"] : []),
+        ...(allowGuardedForcePush ? [] : ["force_push"]),
+        "bypass_checks",
+      ]
     : lowSignal
       ? ["force_push", "bypass_checks", "merge", "fix", "raise_pr", "label"]
     : ["force_push", "bypass_checks", "merge", "fix", "raise_pr"];
@@ -1755,6 +1771,15 @@ function booleanFlag(value) {
   if (value === true) return true;
   if (value === false || value == null) return false;
   return ["1", "true", "yes", "on"].includes(String(value).trim().toLowerCase());
+}
+
+function strictBooleanFlag(value, name) {
+  if (value === true) return true;
+  if (value === false || value == null) return false;
+  const normalized = String(value).trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) return true;
+  if (["0", "false", "no", "off"].includes(normalized)) return false;
+  die(`--${name} must be true or false`);
 }
 
 function limitArg(name, fallback) {
