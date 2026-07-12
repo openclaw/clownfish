@@ -339,6 +339,8 @@ test("remediation inventory emits exact-head singleton conflicting branch repair
   assert.match(rebaseJob, /expected_head_shas:\n  - "#130=[0-9a-f]{40}"/);
   assert.match(rebaseJob, /repair_strategy: repair_contributor_branch/);
   assert.match(rebaseJob, /rebase_only: true/);
+  assert.match(rebaseJob, /allowed_actions:\n  - "fix"\n  - "raise_pr"\n  - "force_push"/);
+  assert.doesNotMatch(rebaseJob, /blocked_actions:\n(?:  - ".+"\n)*  - "force_push"/);
   assert.match(rebaseJob, /maintainer_calibration:/);
   assert.match(rebaseJob, /profile=rebase_only/);
 

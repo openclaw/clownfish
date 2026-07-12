@@ -128,6 +128,27 @@ candidates:
   ]);
 });
 
+test("validateJob permits explicit force-push capability for guarded branch repair", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-force-push-"));
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: force-push-capability
+mode: autonomous
+allowed_actions:
+  - fix
+  - force_push
+candidates:
+  - "#1"
+---
+`,
+  );
+
+  assert.deepEqual(validateJob(parseJob(jobPath)), []);
+});
+
 test("validateJob requires merge permission for deterministic external preflight", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-job-external-preflight-"));
   const jobPath = path.join(tmp, "job.md");

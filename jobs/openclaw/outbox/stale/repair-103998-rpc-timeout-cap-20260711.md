@@ -6,12 +6,12 @@ expected_head_sha: 5fb33b7c0cd5df9b231fde41b3c7fb5ea61037c1
 allowed_actions:
   - "fix"
   - "raise_pr"
+  - "force_push"
 blocked_actions:
   - "merge"
   - "comment"
   - "label"
   - "close"
-  - "force_push"
   - "bypass_checks"
 require_human_for:
   - "security_sensitive"

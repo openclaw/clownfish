@@ -814,6 +814,9 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
       evidence: scopeBlock?.evidence ?? [`source_head_before=${pull.head.sha}`, `base_branch=${baseBranch}`],
     };
   }
+  if (rebased && !jobAllowsAction("force_push")) {
+    throw new Error(`job blocks force_push required to update rebased contributor branch ${pull.head.ref}`);
+  }
   if (!sameRepoBranch && rebased && process.env.CLOWNFISH_ALLOW_REBASED_FORK_REPAIR !== "1") {
     throw new Error(
       `source PR #${sourcePr.number} is a fork branch requiring rebase; use replacement branch because GitHub App pushes to contributor forks can be rejected when rebased upstream history includes workflow files`,
@@ -872,15 +875,32 @@ function executeRepairBranch({ fixArtifact, job, targetDir, scopeBlock = null, r
     }
   }
   prep.merge_preflight.target = `#${sourcePr.number}`;
+  const currentBaseSha = rebaseOnly
+    ? run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim()
+    : null;
+  const baseIsAncestor = rebaseOnly
+    ? isAncestor({ targetDir, ancestor: `origin/${baseBranch}`, descendant: "HEAD" })
+    : false;
+  const validationBaseDrift = finalBaseRefresh.validation_base_drift ?? null;
+  const validatedDisjointDrift =
+    rebaseOnly &&
+    finalBaseRefresh.status === "validated" &&
+    finalBaseRefresh.head_sha === prep.commit &&
+    finalBaseRefresh.base_sha === currentBaseSha &&
+    validationBaseDrift?.status === "reused" &&
+    validationBaseDrift.validated_head_sha === prep.commit &&
+    validationBaseDrift.reviewed_base_sha === currentBaseSha;
   const rebaseProof = rebaseOnly
     ? {
         source_head_before: pull.head.sha,
         head_after: prep.commit,
-        base_sha: run("git", ["rev-parse", `origin/${baseBranch}`], { cwd: targetDir }).trim(),
-        base_is_ancestor: isAncestor({ targetDir, ancestor: `origin/${baseBranch}`, descendant: "HEAD" }),
+        base_sha: currentBaseSha,
+        base_is_ancestor: baseIsAncestor,
+        base_coverage: baseIsAncestor ? "ancestor" : validatedDisjointDrift ? "validated_disjoint_drift" : "missing",
+        validation_base_drift: validatedDisjointDrift ? validationBaseDrift : null,
       }
     : null;
-  if (rebaseProof && (!rebaseProof.base_is_ancestor || rebaseProof.source_head_before === rebaseProof.head_after)) {
+  if (rebaseProof && (rebaseProof.base_coverage === "missing" || rebaseProof.source_head_before === rebaseProof.head_after)) {
     throw new Error("rebase-only repair could not prove a new head based on current main");
   }
   if (dryRun) {
