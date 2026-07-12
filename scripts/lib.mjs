@@ -369,7 +369,7 @@ export function validateJob(job) {
     }
   }
   for (const action of fm.allowed_actions ?? []) {
-    if (!["comment", "label", "close", "merge", "fix", "raise_pr"].includes(action)) {
+    if (!["comment", "label", "close", "merge", "fix", "raise_pr", "force_push"].includes(action)) {
       errors.push(`unsupported allowed action: ${action}`);
     }
   }

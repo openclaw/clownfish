@@ -793,6 +793,44 @@ test("execute-fix-artifact pushes a contributor repair once after successful val
   assert.ok(pushCompleteIndex > pushStartIndex);
 });
 
+test("execute-fix-artifact blocks rebased contributor updates without force-push permission", () => {
+  const run = runContributorRepairPushOrderFixture({
+    clusterId: "contributor-force-push-blocked",
+    validationPasses: true,
+    reviewPasses: true,
+    allowForcePush: false,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "blocked");
+  assert.match(run.report.reason, /job blocks force_push required to update rebased contributor branch/);
+  assert.equal(run.remoteHeadAfter, run.sourceHead);
+  assert.equal(run.stages.includes("branch_push_start"), false);
+});
+
+test("execute-fix-artifact publishes rebase-only repairs with validated disjoint main drift", () => {
+  const run = runContributorRepairPushOrderFixture({
+    clusterId: "contributor-rebase-only-disjoint-drift",
+    validationPasses: true,
+    reviewPasses: true,
+    rebaseOnly: true,
+    advanceMainDuringValidation: true,
+  });
+
+  assert.equal(run.child.status, 0, run.child.stderr || run.child.stdout);
+  assert.equal(run.report.status, "pushed");
+  assert.notEqual(run.remoteHeadAfter, run.sourceHead);
+  assert.equal(run.remoteHeadAfter, run.report.actions[0].commit);
+
+  const proof = run.report.actions[0].rebase_proof;
+  assert.equal(proof.base_is_ancestor, false);
+  assert.equal(proof.base_coverage, "validated_disjoint_drift");
+  assert.equal(proof.validation_base_drift.status, "reused");
+  assert.equal(proof.validation_base_drift.reviewed_base_sha, proof.base_sha);
+  assert.equal(proof.validation_base_drift.validated_head_sha, run.report.actions[0].commit);
+  assert.equal(fs.readFileSync(run.validationMarker, "utf8"), "2");
+});
+
 test("execute-fix-artifact defers a broad scope block only for explicit rebase-only repairs", () => {
   const source = fs.readFileSync(path.join(repoRoot, "scripts", "execute-fix-artifact.mjs"), "utf8");
 
@@ -1861,11 +1899,19 @@ process.exit(0);
   };
 }
 
-function runContributorRepairPushOrderFixture({ clusterId, validationPasses, reviewPasses }) {
+function runContributorRepairPushOrderFixture({
+  clusterId,
+  validationPasses,
+  reviewPasses,
+  rebaseOnly = false,
+  advanceMainDuringValidation = false,
+  allowForcePush = true,
+}) {
   const fixture = makeFixture();
   const contributorBranch = `contributor-${clusterId}`;
   const resultPath = path.join(fixture.runDir, "result.json");
   const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const validationMarker = path.join(fixture.root, "validation-calls");
 
   git(["checkout", "-b", contributorBranch, fixture.initialHead], { cwd: fixture.seedDir });
   fs.appendFileSync(path.join(fixture.seedDir, "src", "app.js"), `\n// ${clusterId} source change\n`);
@@ -1885,13 +1931,20 @@ function runContributorRepairPushOrderFixture({ clusterId, validationPasses, rev
   git(["config", `url.${fixture.originDir}.insteadOf`, "https://github.com/openclaw/openclaw.git"], {
     cwd: fixture.targetDir,
   });
-  fs.writeFileSync(
-    fixture.jobPath,
-    repairOnlyRiskJobFile(clusterId).replace(
+  let repairJob = repairOnlyRiskJobFile(clusterId).replace(
       "security_sensitive: false",
-      "security_sensitive: false\nrepair_strategy: repair_contributor_branch",
-    ),
+      [
+        "security_sensitive: false",
+        "repair_strategy: repair_contributor_branch",
+        ...(rebaseOnly ? ["rebase_only: true"] : []),
+      ].join("\n"),
   );
+  if (allowForcePush) {
+    repairJob = repairJob
+      .replace("  - raise_pr\nblocked_actions:", "  - raise_pr\n  - force_push\nblocked_actions:")
+      .replace("  - force_push\n  - bypass_checks", "  - bypass_checks");
+  }
+  fs.writeFileSync(fixture.jobPath, repairJob);
   const result = resultFile(clusterId);
   result.actions = [{ action: "fix_needed", status: "planned", target: "#1" }];
   result.fix_artifact.repair_strategy = "repair_contributor_branch";
@@ -1961,7 +2014,31 @@ if (output) fs.writeFileSync(output, "edited\\n");
   writeExecutable(
     path.join(fixture.binDir, "pnpm"),
     `#!/usr/bin/env node
+const { spawnSync } = require("node:child_process");
+const fs = require("node:fs");
+const path = require("node:path");
 if (process.argv.slice(2)[0] !== "check:changed") process.exit(0);
+if (${advanceMainDuringValidation ? "true" : "false"}) {
+  const marker = ${JSON.stringify(validationMarker)};
+  const count = fs.existsSync(marker) ? Number(fs.readFileSync(marker, "utf8")) : 0;
+  if (count < 2) {
+    const cwd = ${JSON.stringify(fixture.seedDir)};
+    fs.mkdirSync(path.join(cwd, "docs"), { recursive: true });
+    fs.writeFileSync(path.join(cwd, "docs", "validation-drift-" + (count + 1) + ".md"), "main drift\\n");
+    for (const gitArgs of [
+      ["add", "."],
+      ["commit", "-m", "docs: validation drift " + (count + 1)],
+      ["push", "origin", "HEAD:main"],
+    ]) {
+      const child = spawnSync("git", gitArgs, { cwd, encoding: "utf8" });
+      if (child.status !== 0) {
+        console.error(child.stderr || child.stdout);
+        process.exit(child.status || 1);
+      }
+    }
+  }
+  fs.writeFileSync(marker, String(count + 1));
+}
 if (${validationPasses ? "true" : "false"}) process.exit(0);
 console.error("fixture validation failed");
 process.exit(1);
@@ -2021,6 +2098,7 @@ process.exit(1);
     sourceHead,
     remoteHeadAfter: git(["rev-parse", `refs/heads/${contributorBranch}`], { cwd: fixture.originDir }),
     stages,
+    validationMarker,
   };
 }
 
