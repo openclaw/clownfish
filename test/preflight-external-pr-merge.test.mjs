@@ -84,7 +84,10 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /- name: Verify mutation integrity[\s\S]*?- name: Upload apply artifact/);
   assert.match(workflow, /permission-pull-requests: write/);
   assert.match(workflow, /permission-checks: write/);
+  assert.match(workflow, /permission-administration: write/);
   assert.match(workflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
+  assert.match(workflow, /CLOWNFISH_CHECKS_GH_TOKEN: \$\{\{ steps\.app_token\.outputs\.token \}\}/);
+  assert.match(workflow, /CLOWNFISH_RULES_GH_TOKEN: \$\{\{ steps\.rules_app_token\.outputs\.token \}\}/);
   assert.match(
     workflow,
     /CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX \|\| 'read-only' \}\}/,
@@ -142,6 +145,11 @@ test("cluster worker chains blocked merge candidates through external preflight"
     /CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES: \$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_DISJOINT_BASE_FILES \|\| '128' \}\}/,
   );
   assert.equal((clusterWorkflow.match(/permission-checks: write/g) ?? []).length >= 2, true);
+  assert.match(clusterWorkflow, /permission-administration: write/);
+  assert.match(
+    clusterWorkflow,
+    /CLOWNFISH_RULES_GH_TOKEN: \$\{\{ steps\.rules_app_token\.outputs\.token \}\}/,
+  );
   assert.match(
     clusterWorkflow,
     /npm run run-external-merge-preflights -- "\$\{\{ needs\.prepare\.outputs\.job \}\}"[\s\S]*?--phase preflight[\s\S]*?--max-prs "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_MAX_PRS \|\| '5' \}\}"[\s\S]*?--concurrency "\$\{\{ vars\.CLOWNFISH_EXTERNAL_PREFLIGHT_CONCURRENCY \|\| '3' \}\}"/,
@@ -743,6 +751,35 @@ for (const guardedDrift of [
     assert.match(report.reason, guardedDrift.reason);
   });
 }
+
+test("external merge preflight ignores coordinator check churn owned by final authorization", () => {
+  const { report } = runPreflightFixture(
+    makeFixture({
+      mergeViews: [
+        {},
+        {
+          statusCheckRollup: [
+            {
+              name: "openclaw/ci-gate",
+              workflowName: "CI",
+              status: "COMPLETED",
+              conclusion: "FAILURE",
+              completedAt: "2026-07-06T14:11:07Z",
+            },
+            {
+              name: "clownfish/exact-merge",
+              status: "IN_PROGRESS",
+              conclusion: null,
+              startedAt: "2026-07-06T14:11:08Z",
+            },
+          ],
+        },
+      ],
+    }),
+  );
+
+  assert.equal(report.status, "passed", report.reason);
+});
 
 test("external merge preflight tolerates base drift when exact head remains clean", () => {
   const fixture = makeFixture({ currentMainSha: "9".repeat(40) });
@@ -4265,9 +4302,75 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main
   write({ object: { sha: base } });
   process.exit(0);
 }
+if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" + head + "/check-runs?")) {
+  const page = {
+    total_count: 1,
+    check_runs: [{
+      id: 7070,
+      name: "openclaw/ci-gate",
+      head_sha: head,
+      status: "completed",
+      conclusion: "success",
+      completed_at: new Date().toISOString(),
+      details_url: "https://github.com/openclaw/openclaw/actions/runs/7071/job/7070",
+      app: { id: 15368 },
+    }],
+  };
+  write(args.includes("--slurp") ? [page] : page);
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/jobs/7070") {
+  write({
+    id: 7070,
+    run_id: 7071,
+    name: "openclaw/ci-gate",
+    head_sha: head,
+    status: "completed",
+    conclusion: "success",
+    check_run_url: "https://api.github.com/repos/openclaw/openclaw/check-runs/7070",
+    html_url: "https://github.com/openclaw/openclaw/actions/runs/7071/job/7070",
+  });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/runs/7071") {
+  write({
+    id: 7071,
+    workflow_id: 8081,
+    path: ".github/workflows/ci.yml",
+    event: "pull_request",
+    head_sha: head,
+    status: "completed",
+    conclusion: "success",
+    pull_requests: [{ number: 123, head: { sha: head }, base: { ref: "main" } }],
+  });
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/workflows/ci.yml") {
+  write({ id: 8081, path: ".github/workflows/ci.yml", state: "active" });
+  process.exit(0);
+}
 if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/main") {
-  write([
-    {
+  write([{
+    type: "required_status_checks",
+    ruleset_source_type: "Repository",
+    ruleset_source: "openclaw/openclaw",
+    ruleset_id: 18588237,
+    parameters: {
+      strict_required_status_checks_policy: true,
+      required_status_checks: [
+        { context: "clownfish/exact-merge", integration_id: 3535277 },
+      ],
+    },
+  }]);
+  process.exit(0);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rulesets/18588237") {
+  write({
+    id: 18588237,
+    enforcement: "active",
+    target: "branch",
+    bypass_actors: [],
+    rules: [{
       type: "required_status_checks",
       parameters: {
         strict_required_status_checks_policy: true,
@@ -4275,8 +4378,8 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/mai
           { context: "clownfish/exact-merge", integration_id: 3535277 },
         ],
       },
-    },
-  ]);
+    }],
+  });
   process.exit(0);
 }
 if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" + testMerge + "/check-runs?")) {

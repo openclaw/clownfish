@@ -580,13 +580,11 @@ test("checks-success remediation intake filters noisy preflight blockers", () =>
   assert.match(job, /expected_head_shas:\n  - "#114=[0-9a-f]{40}"/);
 });
 
-test("checks-success remediation refreshes stale writable branches and defers their preflight", () => {
+test("checks-success remediation preserves exact heads reported behind stable main", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh, {
     includeChecksSuccessPreflight: true,
-    staleBaseNumber: 116,
-    maintainerCanModifyNumber: 116,
-    maintainerCanModifyValue: true,
+    behindNumber: 116,
   });
 
   const result = runImport(
@@ -595,107 +593,67 @@ test("checks-success remediation refreshes stale writable branches and defers th
     "--strategy",
     "remediation",
     "--checks-success",
-    "--refresh-stale-checks-success-branches",
     "--limit",
     "30",
   );
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const payload = JSON.parse(result.stdout);
 
-  assert.equal(payload.options.refresh_stale_checks_success_branches, true);
-  assert.match(payload.options.checks_success_main_sha, /^[0-9a-f]{40}$/);
-  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#116"), false);
-  assert.deepEqual(payload.checks_success_refreshes, [
-    {
-      ref: "#116",
-      status: "requested",
-      reason: "stale_base",
-      expected_head_sha: "a".repeat(40),
-      base_ref_oid: "c".repeat(40),
-      live_main_sha: "b".repeat(40),
-      update_method: "rebase",
-    },
-  ]);
-  assert.equal(payload.totals.checks_success_refresh_requested, 1);
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#116"), true);
+  assert.equal(payload.totals.checks_success_behind_heads, 1);
+  assert.match(result.stderr, /merge state is BEHIND; preserving exact head a{40}/);
 
   const calls = readFakeGhCalls(fixture);
-  assert.equal(calls.filter((call) => call.join(" ") === "api repos/openclaw/openclaw/git/ref/heads/main").length, 1);
-  const updateCall = calls.find(
-    (call) => call.includes("graphql") && call.some((arg) => arg.includes("updatePullRequestBranch")),
+  assert.equal(calls.some((call) => call.join(" ") === "api repos/openclaw/openclaw/git/ref/heads/main"), false);
+  assert.equal(calls.some((call) => call.includes("graphql")), false);
+});
+
+test("checks-success remediation does not require a misleading live base-ref OID", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+  });
+  const result = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "30",
   );
-  assert.ok(updateCall);
-  assert.equal(updateCall.includes("pullRequestId=PR_116"), true);
-  assert.equal(updateCall.includes(`expectedHeadOid=${"a".repeat(40)}`), true);
-  assert.equal(updateCall.includes("updateMethod=REBASE"), true);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#116"), true);
+  assert.doesNotMatch(result.stderr, /base snapshot unavailable/);
+  assert.equal(payload.totals.checks_success_behind_heads, 0);
 });
 
-test("checks-success remediation skips stale unwritable or ambiguous branches without mutation", () => {
-  for (const scenario of [
-    {
-      name: "unwritable",
-      options: {
-        staleBaseNumber: 116,
-        maintainerCanModifyNumber: 116,
-        maintainerCanModifyValue: false,
-      },
-      reason: "maintainer_cannot_modify",
-      refresh: true,
-    },
-    {
-      name: "missing base snapshot",
-      options: { missingBaseNumber: 116 },
-      reason: "base_snapshot_unavailable",
-      refresh: true,
-    },
-    {
-      name: "refresh disabled",
-      options: {
-        staleBaseNumber: 116,
-        maintainerCanModifyNumber: 116,
-        maintainerCanModifyValue: true,
-      },
-      reason: "refresh_disabled",
-      refresh: false,
-    },
-  ]) {
-    const fixture = makeFixture();
-    writeFakeGh(fixture.gh, {
-      includeChecksSuccessPreflight: true,
-      ...scenario.options,
-    });
-    const result = runImport(
-      fixture,
-      "--write",
-      "--strategy",
-      "remediation",
-      "--checks-success",
-      ...(scenario.refresh ? ["--refresh-stale-checks-success-branches"] : ["--refresh-stale-checks-success-branches=false"]),
-      "--limit",
-      "30",
-    );
-    assert.equal(result.status, 0, `${scenario.name}: ${result.stderr || result.stdout}`);
-    const payload = JSON.parse(result.stdout);
+test("checks-success remediation defers canonical gate history to final authorization", () => {
+  const fixture = makeFixture();
+  writeFakeGh(fixture.gh, {
+    includeChecksSuccessPreflight: true,
+    ciGateFailureNumber: 116,
+  });
 
-    assert.equal(payload.candidates.some((candidate) => candidate.ref === "#116"), false, scenario.name);
-    assert.equal(
-      payload.checks_success_refreshes.some(
-        (refresh) => refresh.ref === "#116" && refresh.status === "skipped" && refresh.reason === scenario.reason,
-      ),
-      true,
-      scenario.name,
-    );
-    assert.equal(
-      readFakeGhCalls(fixture).some(
-        (call) => call.includes("graphql") && call.some((arg) => arg.includes("updatePullRequestBranch")),
-      ),
-      false,
-      scenario.name,
-    );
-  }
+  const result = runImport(
+    fixture,
+    "--write",
+    "--strategy",
+    "remediation",
+    "--checks-success",
+    "--limit",
+    "30",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+
+  assert.equal(payload.candidates.some((candidate) => candidate.ref === "#116"), true);
 });
 
-test("daily checks-success workflow opts into bounded branch refresh with minimal App permissions", () => {
-  assert.match(intakeWorkflow, /--refresh-stale-checks-success-branches/);
+test("daily checks-success workflow preserves contributor heads with required App permissions", () => {
+  assert.doesNotMatch(intakeWorkflow, /refresh-stale-checks-success|updatePullRequestBranch/);
   assert.match(intakeWorkflow, /permission-actions: write/);
   assert.match(intakeWorkflow, /permission-contents: write/);
   assert.match(intakeWorkflow, /permission-pull-requests: read/);
@@ -1132,7 +1090,6 @@ function makeFixture() {
 }
 
 function writeFakeGh(filePath, options = {}) {
-  const mainSha = "b".repeat(40);
   const pulls = [101, 102, 103, 104].map((number) => ({
     number,
     title: `candidate ${number}`,
@@ -1229,7 +1186,6 @@ function writeFakeGh(filePath, options = {}) {
     isDraft: false,
     author: { login: "contributor-110" },
     baseRefName: "main",
-    baseRefOid: mainSha,
     headRefOid: "a".repeat(40),
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
@@ -1529,29 +1485,33 @@ if (
   process.exit(1);
 }
 let payload;
-if (process.argv[2] === "api" && process.argv.includes("repos/openclaw/openclaw/git/ref/heads/main")) {
-  payload = { object: { sha: ${JSON.stringify(mainSha)} } };
-} else if (
-  process.argv[2] === "api" &&
-  process.argv.includes("graphql") &&
-  process.argv.some((arg) => arg.includes("updatePullRequestBranch"))
-) {
-  payload = { data: { updatePullRequestBranch: { pullRequest: { headRefOid: ${JSON.stringify("a".repeat(40))} } } } };
-} else if (process.argv[2] === "search") {
+if (process.argv[2] === "search") {
   payload = ${JSON.stringify(filteredSearchPulls)};
 } else if (process.argv[2] === "pr" && process.argv[3] === "view") {
   payload = prListPulls.find((pull) => String(pull.number) === String(process.argv[4])) ?? null;
-  if (String(process.argv[4]) === ${JSON.stringify(String(options.staleBaseNumber ?? ""))} && payload) {
-    payload = { ...payload, baseRefOid: ${JSON.stringify("c".repeat(40))} };
+  if (String(process.argv[4]) === ${JSON.stringify(String(options.behindNumber ?? ""))} && payload) {
+    payload = { ...payload, mergeStateStatus: "BEHIND" };
+  }
+  if (String(process.argv[4]) === ${JSON.stringify(String(options.ciGateFailureNumber ?? ""))} && payload) {
+    payload = {
+      ...payload,
+      statusCheckRollup: [
+        ...(payload.statusCheckRollup ?? []),
+        {
+          name: "openclaw/ci-gate",
+          workflowName: "CI",
+          status: "COMPLETED",
+          conclusion: "FAILURE",
+          completedAt: "2026-01-16T00:01:00Z",
+        },
+      ],
+    };
   }
   if (String(process.argv[4]) === ${JSON.stringify(String(options.maintainerCanModifyNumber ?? ""))} && payload) {
     payload = { ...payload, maintainerCanModify: ${JSON.stringify(options.maintainerCanModifyValue)} };
   }
   if (String(process.argv[4]) === ${JSON.stringify(String(options.missingHeadNumber ?? ""))} && payload) {
     payload = { ...payload, headRefOid: undefined };
-  }
-  if (String(process.argv[4]) === ${JSON.stringify(String(options.missingBaseNumber ?? ""))} && payload) {
-    payload = { ...payload, baseRefOid: undefined };
   }
   if (String(process.argv[4]) === ${JSON.stringify(String(options.unknownHydrateNumber ?? ""))} && payload) {
     const countPath = ${JSON.stringify(path.join(path.dirname(filePath), "unknown-mergeability-count"))};

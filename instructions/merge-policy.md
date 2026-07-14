@@ -9,7 +9,9 @@ Safe-ish merge candidate:
 - actionable review comments and review threads have been addressed or explicitly blocked;
 - automated review bot comments have been addressed or explicitly blocked, including Greptile, Codex, Asile, CodeRabbit, Copilot, and similar reviewers;
 - Codex `/review` has run before merge, passed cleanly, and every finding is addressed;
-- branch is current with `main` or has been rebased/refreshed;
+- exact PR head has a successful `openclaw/ci-gate` from GitHub Actions within 24 hours;
+- the gate is authenticated to the canonical CI workflow, Actions job/run, PR, and exact head; PRs changing that workflow need maintainer handling;
+- Clownfish has rebuilt the synthetic merge against current `main`, with unchanged effective diff and clean validation, and GitHub's matching test-merge commit carries the strict App-owned `clownfish/exact-merge` authorization; a disjoint `main` advance does not require a contributor-branch rebase;
 - no conflicts;
 - small focused diff;
 - no broad setup, generated, lockfile, or unrelated churn;
@@ -24,7 +26,8 @@ they do not require whole-cluster `needs_human`. Use `keep_related`,
 When a job includes maintainer calibration approving finalization of a specific
 ProjectClownfish PR, do not stop at the first stale branch, unstable merge
 state, missing review preflight, or failing relevant check. Treat those as
-repair tasks: rebase onto current `main`, make the smallest needed fix/refactor,
+repair tasks: reconcile the exact head against current `main`, rebase only for a
+real conflict or changed effective diff, make the smallest needed fix/refactor,
 address human and review-bot comments, run Codex `/review`, run
 `pnpm check:changed`, and then emit merge or a precise blocked result. Block
 only with concrete proof that the PR is nonsense, crosses a real security or
@@ -49,7 +52,7 @@ For multiple PRs:
 For fix work:
 
 - only create a fix PR when the job allows `fix` or `raise_pr`;
-- first try to make the best useful contributor PR landable when `maintainer_can_modify` is true: address review and bot findings, narrow the diff, rebase, validate, then merge if clean;
+- first try to make the best useful contributor PR landable when `maintainer_can_modify` is true: address review and bot findings, narrow the diff, validate its synthetic merge on current `main`, and merge if clean; rebase only for a real conflict or changed effective diff;
 - if `maintainer_can_modify` is false or the branch cannot be safely repaired, do not force it. Close/supersede only after creating a replacement fix plan that credits the contributor and original PR URL;
 - keep the patch tiny;
 - refactor only when it makes the fix narrower or removes review blockers;
