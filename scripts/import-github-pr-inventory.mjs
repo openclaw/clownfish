@@ -5,10 +5,16 @@ import { execFile, execFileSync, spawnSync } from "node:child_process";
 import { promisify } from "node:util";
 import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
+import { COORDINATOR_CHECK_NAMES } from "./external-merge-checks.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
-const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
+const IGNORED_CHECKS = new Set([
+  "auto-response",
+  "Labeler",
+  "Stale",
+  ...COORDINATOR_CHECK_NAMES,
+]);
 const execFileAsync = promisify(execFile);
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? "openclaw/openclaw");
@@ -27,24 +33,6 @@ const DEFAULT_LOW_SIGNAL_BLOCK_LABELS = [
   "maintainer",
   "merge-risk:*",
 ];
-const UPDATE_PULL_REQUEST_BRANCH_MUTATION = `
-mutation UpdatePullRequestBranch(
-  $pullRequestId: ID!
-  $expectedHeadOid: GitObjectID!
-  $updateMethod: PullRequestBranchUpdateMethod!
-) {
-  updatePullRequestBranch(
-    input: {
-      pullRequestId: $pullRequestId
-      expectedHeadOid: $expectedHeadOid
-      updateMethod: $updateMethod
-    }
-  ) {
-    pullRequest {
-      headRefOid
-    }
-  }
-}`;
 const outDir = path.resolve(String(args.out ?? path.join(repoRoot(), "jobs", owner, "inbox")));
 const mode = String(args.mode ?? "autonomous");
 const strategy = String(args.strategy ?? "triage");
@@ -103,27 +91,19 @@ const prListFallbackSearchLimit = numberArg(
 );
 const lowSignalHydrateLimit = numberArg("low-signal-hydrate-limit", Math.max(limitForHydration * 12, 300));
 const checksSuccessRetryCooldownHours = numberArg("checks-success-retry-cooldown-hours", 72);
-const refreshStaleChecksSuccessBranches = booleanFlag(
-  args["refresh-stale-checks-success-branches"] ?? args.refresh_stale_checks_success_branches,
-);
 const blockedLowSignalLabelPatterns = compileLabelPatterns(
   argValues(process.argv.slice(2), ["block-label", "block_label"], args["block-label"] ?? args.block_label ?? DEFAULT_LOW_SIGNAL_BLOCK_LABELS),
 );
 const dryRun = Boolean(args["dry-run"] ?? args.dry_run);
 const jsonOutput = Boolean(args.json);
 const ghCommand = String(args["gh-bin"] ?? args.gh_bin ?? process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]));
-const checksSuccessRefreshes = [];
-let checksSuccessMainSha = null;
-let checksSuccessRefreshAttempts = 0;
+let checksSuccessBehindHeads = 0;
 
 if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) die("--repo must be owner/repo");
 if (!["plan", "autonomous"].includes(mode)) die("--mode must be plan or autonomous");
 if (!["graphql", "search", "pr-list"].includes(inventorySource)) die("--inventory-source must be graphql, search, or pr-list");
 if (!["triage", "remediation", "low-signal"].includes(strategy)) die("--strategy must be triage, remediation, or low-signal");
 if (checksSuccessPreflight && strategy !== "remediation") die("--checks-success requires --strategy remediation");
-if (refreshStaleChecksSuccessBranches && !checksSuccessPreflight) {
-  die("--refresh-stale-checks-success-branches requires --checks-success");
-}
 if (checksSuccessPreflight && inventorySource === "graphql") {
   die("--checks-success does not support --inventory-source graphql; use search or pr-list");
 }
@@ -147,7 +127,6 @@ const publishedConflictingRepairClusterIds =
     : new Set();
 const checksSuccessAttempts =
   skipExisting && checksSuccessPreflight ? existingChecksSuccessAttempts(existingDir) : new Map();
-if (checksSuccessPreflight) checksSuccessMainSha = fetchChecksSuccessMainSha();
 const rawOpenPullRequests = await fetchOpenPullRequests();
 if (strategy === "low-signal") hydrateLowSignalPullRequestFiles(rawOpenPullRequests);
 const candidates = dedupeCandidates(
@@ -171,7 +150,6 @@ const generated = batches.map((batch, index) => writeJob(batch, index + 1)).filt
 const payload = sanitizeJsonValue({
   generated,
   candidates: limitedCandidates,
-  checks_success_refreshes: checksSuccessPreflight ? checksSuccessRefreshes : [],
   options: {
     repo,
     mode,
@@ -193,8 +171,6 @@ const payload = sanitizeJsonValue({
     allow_force_push: strategy === "remediation" ? allowForcePush : null,
     checks_success_preflight: strategy === "remediation" ? checksSuccessPreflight : null,
     checks_success_retry_cooldown_hours: checksSuccessPreflight ? checksSuccessRetryCooldownHours : null,
-    checks_success_main_sha: checksSuccessPreflight ? checksSuccessMainSha : null,
-    refresh_stale_checks_success_branches: checksSuccessPreflight ? refreshStaleChecksSuccessBranches : null,
     search_limit: inventorySource === "search" ? searchLimit : null,
     include_refs_file: includeRefs
       ? path.relative(repoRoot(), path.resolve(String(args["include-refs-file"] ?? args.include_refs_file)))
@@ -213,9 +189,7 @@ const payload = sanitizeJsonValue({
     fetched_open_prs: fetchOpenPullRequests.cache?.length ?? null,
     include_refs: includeRefs?.size ?? null,
     existing_refs: existingRefs.size,
-    checks_success_refresh_requested: checksSuccessRefreshes.filter((refresh) => refresh.status === "requested").length,
-    checks_success_refresh_failed: checksSuccessRefreshes.filter((refresh) => refresh.status === "failed").length,
-    checks_success_refresh_skipped: checksSuccessRefreshes.filter((refresh) => refresh.status === "skipped").length,
+    checks_success_behind_heads: checksSuccessPreflight ? checksSuccessBehindHeads : null,
   },
 });
 
@@ -360,27 +334,21 @@ function acceptHydratedChecksSuccessPullRequest(pull) {
     return false;
   }
 
-  const baseSha = normalizedGitSha(pull.baseRefOid);
-  if (!baseSha) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "base_snapshot_unavailable",
-      headSha,
-      baseSha: null,
-    });
-    console.error(`skip pull request ${ref} after hydration: base snapshot unavailable`);
-    return false;
-  }
-
-  if (baseSha !== checksSuccessMainSha) {
-    return refreshStaleChecksSuccessPullRequest(pull, { headSha, baseSha });
-  }
-
   const hasUnsettledMergeability = hasUnknownMergeability(pull);
-  const blockerView = hasUnsettledMergeability ? omitUnknownMergeability(pull) : pull;
+  let blockerView = hasUnsettledMergeability ? omitUnknownMergeability(pull) : pull;
+  const behind = String(blockerView.mergeStateStatus ?? "").toUpperCase() === "BEHIND";
+  if (behind) {
+    blockerView = { ...blockerView, mergeStateStatus: "CLEAN" };
+  }
   if (prListMergeBlocker(blockerView)) {
     console.error(`skip pull request ${ref} after hydration: ${hydratedPullRequestSummary(pull)}`);
     return false;
+  }
+  if (behind) {
+    checksSuccessBehindHeads += 1;
+    console.error(
+      `pull request ${ref} merge state is BEHIND; preserving exact head ${headSha} for external preflight`,
+    );
   }
   if (hasUnsettledMergeability) {
     console.error(
@@ -388,149 +356,6 @@ function acceptHydratedChecksSuccessPullRequest(pull) {
     );
   }
   return true;
-}
-
-function refreshStaleChecksSuccessPullRequest(pull, { headSha, baseSha }) {
-  const ref = `#${pull.number}`;
-  if (hasUnknownMergeability(pull)) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "mergeability_unknown",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: mergeability is ambiguous`);
-    return false;
-  }
-
-  const refreshBlockerView =
-    String(pull.mergeStateStatus ?? "").toUpperCase() === "BEHIND"
-      ? { ...pull, mergeStateStatus: "CLEAN" }
-      : pull;
-  if (prListMergeBlocker(refreshBlockerView)) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "preflight_blocker",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: ${hydratedPullRequestSummary(pull)}`);
-    return false;
-  }
-
-  if (!refreshStaleChecksSuccessBranches) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "refresh_disabled",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: branch refresh is disabled`);
-    return false;
-  }
-  if (dryRun) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "dry_run",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: dry-run does not update branches`);
-    return false;
-  }
-  if (pull.maintainerCanModify !== true) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: pull.maintainerCanModify === false ? "maintainer_cannot_modify" : "maintainer_modify_permission_unknown",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: maintainer branch write is unavailable`);
-    return false;
-  }
-  const pullRequestId = String(pull.id ?? "").trim();
-  if (!pullRequestId) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "pull_request_id_unavailable",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: GraphQL node ID unavailable`);
-    return false;
-  }
-  if (checksSuccessRefreshAttempts >= limitForHydration) {
-    recordChecksSuccessRefresh(pull, {
-      status: "skipped",
-      reason: "refresh_limit_reached",
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: branch refresh limit reached`);
-    return false;
-  }
-
-  checksSuccessRefreshAttempts += 1;
-  try {
-    ghRaw([
-      "api",
-      "graphql",
-      "-f",
-      `query=${UPDATE_PULL_REQUEST_BRANCH_MUTATION}`,
-      "-F",
-      `pullRequestId=${pullRequestId}`,
-      "-F",
-      `expectedHeadOid=${headSha}`,
-      "-F",
-      "updateMethod=REBASE",
-    ]);
-    recordChecksSuccessRefresh(pull, {
-      status: "requested",
-      reason: "stale_base",
-      headSha,
-      baseSha,
-    });
-    console.error(`requested rebase refresh for stale-base pull request ${ref} at head ${headSha}`);
-  } catch (error) {
-    const reason = checksSuccessRefreshFailureReason(error);
-    recordChecksSuccessRefresh(pull, {
-      status: "failed",
-      reason,
-      headSha,
-      baseSha,
-    });
-    console.error(`skip stale-base pull request ${ref}: ${reason}`);
-  }
-  return false;
-}
-
-function recordChecksSuccessRefresh(pull, { status, reason, headSha, baseSha }) {
-  checksSuccessRefreshes.push({
-    ref: `#${pull.number}`,
-    status,
-    reason,
-    expected_head_sha: headSha,
-    base_ref_oid: baseSha,
-    live_main_sha: checksSuccessMainSha,
-    update_method: status === "requested" || status === "failed" ? "rebase" : null,
-  });
-}
-
-function checksSuccessRefreshFailureReason(error) {
-  const message = String(error?.stderr ?? error?.message ?? error);
-  if (/HTTP 403|Resource not accessible|forbidden|not permitted/i.test(message)) return "update_branch_forbidden";
-  if (/HTTP 409|Conflict/i.test(message)) return "update_branch_conflict";
-  if (/HTTP 422|expectedHeadOid|expected head|Validation Failed/i.test(message)) return "update_branch_rejected";
-  return "update_branch_failed";
-}
-
-function fetchChecksSuccessMainSha() {
-  const payload = ghJsonWithRetry(["api", `repos/${repo}/git/ref/heads/main`], {
-    operation: "fetch checks-success main SHA",
-  });
-  const sha = normalizedGitSha(payload?.object?.sha);
-  if (!sha) throw new Error(`GitHub ref heads/main for ${repo} did not return a 40-character SHA`);
-  return sha;
 }
 
 function normalizedGitSha(value) {
@@ -744,7 +569,6 @@ function prListFields() {
     "assignees",
     "author",
     "baseRefName",
-    "baseRefOid",
     "body",
     "changedFiles",
     "createdAt",
@@ -832,7 +656,6 @@ function normalizePrListPullRequest(raw) {
     author: typeof raw.author === "string" ? { login: raw.author } : raw.author,
     authorAssociation: raw.authorAssociation,
     baseRefName: raw.baseRefName,
-    baseRefOid: raw.baseRefOid,
     headRefOid: raw.headRefOid,
     mergeable: raw.mergeable,
     mergeStateStatus: raw.mergeStateStatus,
@@ -1825,12 +1648,6 @@ function boundedInteger(value, fallback, label, minimum, maximum) {
     throw new Error(`${label} must be an integer from ${minimum} to ${maximum}`);
   }
   return parsed;
-}
-
-function booleanFlag(value) {
-  if (value === true) return true;
-  if (value === false || value == null) return false;
-  return ["1", "true", "yes", "on"].includes(String(value).trim().toLowerCase());
 }
 
 function strictBooleanFlag(value, name) {

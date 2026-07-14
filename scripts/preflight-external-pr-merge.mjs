@@ -9,12 +9,17 @@ import {
   isValidationDriftControlFile,
 } from "./base-drift-validation.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
+import { COORDINATOR_CHECK_NAMES } from "./external-merge-checks.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const PRE_AUTHORIZATION_MERGE_STATES = new Set(["UNSTABLE", "BLOCKED", "BEHIND"]);
-const IGNORED_CHECKS = new Set(["auto-response", "Labeler", "Stale"]);
-const EXACT_MERGE_CHECK_NAME = "clownfish/exact-merge";
+const IGNORED_CHECKS = new Set([
+  "auto-response",
+  "Labeler",
+  "Stale",
+  ...COORDINATOR_CHECK_NAMES,
+]);
 const REVIEW_BOT_PATTERN = /\b(?:greptile|codex|asile|coderabbit|copilot)\b/i;
 const INSTALL_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_INSTALL_TIMEOUT_MS, 10 * 60 * 1000);
 const VALIDATION_TIMEOUT_MS = positiveInteger(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_VALIDATION_TIMEOUT_MS, 20 * 60 * 1000);
@@ -73,10 +78,6 @@ if (args["adoption-state-only"]) {
       sourceJob,
       pullRequest,
       expectedHeadSha: String(args["expected-head-sha"] ?? "").toLowerCase(),
-      mergeHeadSha: String(
-        args["merge-head-sha"] ?? args["expected-head-sha"] ?? "",
-      ).toLowerCase(),
-      expectedTestMergeSha: String(args["test-merge-sha"] ?? "").toLowerCase(),
       adoptedBaseSha: String(args["adopted-base-sha"] ?? "").toLowerCase(),
     });
   } catch (error) {
@@ -101,14 +102,7 @@ if (adoptionManifestPath) {
       pullRequest,
       manifest: JSON.parse(fs.readFileSync(adoptionManifestPath, "utf8")),
       adoptedBaseSha: String(args["adopted-base-sha"] ?? "").toLowerCase(),
-      refreshBaseSha: String(
-        args["refresh-base-sha"] ?? args["adopted-base-sha"] ?? "",
-      ).toLowerCase(),
       expectedHeadSha: String(args["expected-head-sha"] ?? "").toLowerCase(),
-      mergeHeadSha: String(
-        args["merge-head-sha"] ?? args["expected-head-sha"] ?? "",
-      ).toLowerCase(),
-      expectedTestMergeSha: String(args["test-merge-sha"] ?? "").toLowerCase(),
       targetDir,
       baseBranch,
     });
@@ -1373,14 +1367,10 @@ function captureFreshAdoptionGithubState({
   sourceJob,
   pullRequest,
   expectedHeadSha,
-  mergeHeadSha = expectedHeadSha,
-  expectedTestMergeSha,
   adoptedBaseSha,
 }) {
   for (const [label, value] of [
     ["expected head", expectedHeadSha],
-    ["merge head", mergeHeadSha],
-    ["GitHub test merge", expectedTestMergeSha],
     ["adopted base", adoptedBaseSha],
   ]) {
     if (!/^[0-9a-f]{40}$/i.test(String(value ?? ""))) {
@@ -1412,11 +1402,8 @@ function captureFreshAdoptionGithubState({
     pullRequest,
   });
   const blockers = [
-    ...(String(pull.head?.sha ?? "").toLowerCase() !== mergeHeadSha
+    ...(String(pull.head?.sha ?? "").toLowerCase() !== expectedHeadSha
       ? ["PR head changed during apply-time adoption validation"]
-      : []),
-    ...(String(pull.merge_commit_sha ?? "").toLowerCase() !== expectedTestMergeSha
-      ? ["GitHub test merge changed during apply-time adoption validation"]
       : []),
     ...readOnlyBlockers({
       sourceJob,
@@ -1437,18 +1424,6 @@ function captureFreshAdoptionGithubState({
     blockers.push(
       `main changed during apply-time adoption validation: expected ${adoptedBaseSha}, current ${currentMainSha || "unknown"}`,
     );
-  }
-  const testMerge = ghJson([
-    "api",
-    `repos/${sourceJob.frontmatter.repo}/git/commits/${expectedTestMergeSha}`,
-  ]);
-  const testMergeParents = testMerge.parents ?? [];
-  if (
-    testMergeParents.length !== 2 ||
-    String(testMergeParents[0]?.sha ?? "").toLowerCase() !== adoptedBaseSha ||
-    String(testMergeParents[1]?.sha ?? "").toLowerCase() !== mergeHeadSha
-  ) {
-    blockers.push("GitHub test merge is not bound to [adopted main, merge head]");
   }
   if (blockers.length > 0) {
     throw new Error(blockers.join("; "));
@@ -1475,7 +1450,6 @@ function captureFreshAdoptionGithubState({
       head_ref: pull.head?.ref ?? null,
       head_sha: String(pull.head?.sha ?? "").toLowerCase() || null,
       head_repo: pull.head?.repo?.full_name ?? null,
-      merge_commit_sha: String(pull.merge_commit_sha ?? "").toLowerCase() || null,
     },
     view: {
       mergeable: view.mergeable ?? null,
@@ -1483,7 +1457,9 @@ function captureFreshAdoptionGithubState({
       reviews: sortedObjects((view.reviews ?? []).map(normalizeReviewState)),
       checks: sortedObjects(
         latestStatusChecks(view.statusCheckRollup ?? [])
-          .filter((check) => checkName(check) !== EXACT_MERGE_CHECK_NAME)
+          // Coordinator checks can change between adoption snapshots. Their
+          // dedicated verifiers own freshness and authorization semantics.
+          .filter((check) => !COORDINATOR_CHECK_NAMES.includes(checkName(check)))
           .map(normalizeCheckState),
       ),
     },
@@ -1505,7 +1481,6 @@ function captureFreshAdoptionGithubState({
       .digest("hex"),
     issue_updated_at: issue.updated_at ?? null,
     pull_updated_at: pull.updated_at ?? null,
-    test_merge_tree_sha: String(testMerge.tree?.sha ?? "").toLowerCase() || null,
   };
 }
 
@@ -1569,18 +1544,14 @@ function runBaseAdoptionValidation({
   pullRequest,
   manifest,
   adoptedBaseSha,
-  refreshBaseSha = adoptedBaseSha,
   expectedHeadSha,
-  mergeHeadSha = expectedHeadSha,
-  expectedTestMergeSha,
   targetDir,
   baseBranch,
 }) {
   assertBaseAdoptionManifest(manifest, { expectedHeadSha, adoptedBaseSha });
   for (const [label, value] of [
-    ["merge head", mergeHeadSha],
-    ["GitHub test merge", expectedTestMergeSha],
-    ["refresh base", refreshBaseSha],
+    ["expected head", expectedHeadSha],
+    ["adopted base", adoptedBaseSha],
   ]) {
     if (!/^[0-9a-f]{40}$/i.test(value)) {
       throw new Error(`${label} SHA is missing or invalid`);
@@ -1590,30 +1561,8 @@ function runBaseAdoptionValidation({
   checkoutExactPullHead({
     repo: sourceJob.frontmatter.repo,
     pullRequest,
-    expectedHeadSha: mergeHeadSha,
+    expectedHeadSha,
   });
-  if (mergeHeadSha !== expectedHeadSha) {
-    const refreshedHead = ghJson([
-      "api",
-      `repos/${sourceJob.frontmatter.repo}/git/commits/${mergeHeadSha}`,
-    ]);
-    const refreshedParents = refreshedHead.parents ?? [];
-    if (
-      refreshedParents.length !== 2 ||
-      String(refreshedParents[0]?.sha ?? "").toLowerCase() !== expectedHeadSha ||
-      String(refreshedParents[1]?.sha ?? "").toLowerCase() !== refreshBaseSha
-    ) {
-      throw new Error(
-        "merge head is not the expected non-destructive refresh of the reviewed head",
-      );
-    }
-    assertLinearBaseProgression({
-      targetDir,
-      reviewedBaseSha: manifest.reviewed_base_sha,
-      refreshBaseSha,
-      adoptedBaseSha,
-    });
-  }
   const fetchedMainSha = run("git", ["rev-parse", `origin/${baseBranch}`], {
     cwd: targetDir,
     env: gitIntegrityEnv(),
@@ -1728,13 +1677,8 @@ function runBaseAdoptionValidation({
     sourceJob,
     pullRequest,
     expectedHeadSha,
-    mergeHeadSha,
-    expectedTestMergeSha,
     adoptedBaseSha,
   });
-  if (githubState.test_merge_tree_sha !== adoptedReviewContext.mergeTreeSha) {
-    throw new Error("GitHub test merge is not the validated [adopted main, merge head] merge");
-  }
   const finalMainSha = refreshTargetMain({ targetDir, baseBranch });
   if (finalMainSha !== adoptedBaseSha) {
     throw new Error(
@@ -1746,11 +1690,8 @@ function runBaseAdoptionValidation({
     policy: ADOPTION_POLICY,
     reviewed_base_sha: manifest.reviewed_base_sha,
     adopted_base_sha: adoptedBaseSha,
-    ...(mergeHeadSha !== expectedHeadSha ? { refresh_base_sha: refreshBaseSha } : {}),
     reviewed_head_sha: expectedHeadSha,
-    merge_head_sha: mergeHeadSha,
-    test_merge_sha: expectedTestMergeSha,
-    test_merge_tree_sha: adoptedReviewContext.mergeTreeSha,
+    synthetic_merge_tree_sha: adoptedReviewContext.mergeTreeSha,
     effective_diff_files: adoptedReviewContext.effectiveDiffFiles,
     effective_diff_sha256: adoptedReviewContext.effectiveDiffSha256,
     drift_commit_count: driftEligibility.drift_commit_count,
@@ -1782,33 +1723,6 @@ function runBaseAdoptionValidation({
     },
     validated_at: new Date().toISOString(),
   };
-}
-
-function assertLinearBaseProgression({
-  targetDir,
-  reviewedBaseSha,
-  refreshBaseSha,
-  adoptedBaseSha,
-}) {
-  for (const [label, ancestorSha, descendantSha] of [
-    ["reviewed base is not an ancestor of refresh base", reviewedBaseSha, refreshBaseSha],
-    ["refresh base is not an ancestor of adopted main", refreshBaseSha, adoptedBaseSha],
-  ]) {
-    if (ancestorSha === descendantSha) continue;
-    const ancestor = spawnSync(
-      "git",
-      ["merge-base", "--is-ancestor", ancestorSha, descendantSha],
-      {
-        cwd: targetDir,
-        env: gitIntegrityEnv(),
-        encoding: "utf8",
-        maxBuffer: 1024 * 1024,
-      },
-    );
-    if (ancestor.status !== 0) {
-      throw new Error(`${label}: ${ancestorSha} !<= ${descendantSha}`);
-    }
-  }
 }
 
 function verifyBaseAdoptionSnapshots({
@@ -2249,6 +2163,7 @@ function buildMergeResult({
         target: `#${pullRequest}`,
         reviewed_base_sha: reviewContext.reviewedBaseSha,
         reviewed_head_sha: pull.head.sha,
+        synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
         effective_diff_sha256: reviewContext.effectiveDiffSha256,
         effective_diff_files: reviewContext.effectiveDiffFiles,
         security_status: "cleared",

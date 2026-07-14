@@ -5,6 +5,11 @@ import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { defaultCloseComment, externalMessageProvenance } from "./external-messages.mjs";
+import {
+  COORDINATOR_CHECK_NAMES,
+  EXACT_MERGE_CHECK_NAME,
+  REQUIRED_CI_GATE_NAME,
+} from "./external-merge-checks.mjs";
 
 const MAINTAINER_AUTHOR_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 const CLOSE_ACTIONS = new Set([
@@ -22,7 +27,9 @@ const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const CLOWNFISH_LABEL = "clownfish";
 const CLOWNFISH_LABEL_COLOR = "F97316";
 const CLOWNFISH_LABEL_DESCRIPTION = "Tracked by Clownfish automation";
-const EXACT_MERGE_CHECK_NAME = "clownfish/exact-merge";
+const DEFAULT_REQUIRED_CI_GATE_APP_ID = 15368;
+const DEFAULT_REQUIRED_CI_GATE_MAX_AGE_HOURS = 24;
+const DEFAULT_REQUIRED_CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
 let activeExactMergeAuthorization = null;
 let exactMergeCleanupRunning = false;
 
@@ -433,6 +440,8 @@ function applyCloseAction({
 function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, target, base }) {
   const policyBlock = validateMergePolicy({ job, action });
   if (policyBlock) return { ...base, status: "blocked", reason: policyBlock };
+  const externalMergeAction = isExternalMergeAction(action);
+  const ignoredCheckNames = externalMergeAction ? COORDINATOR_CHECK_NAMES : [];
   if (!allowedRefs.has(target)) {
     return { ...base, status: "blocked", reason: "merge target is not listed in job refs" };
   }
@@ -476,7 +485,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   const metadataDrifted = Boolean(expectedUpdatedAt && expectedUpdatedAt !== live.updated_at);
 
   let pullRequest = fetchPullRequest(result.repo, target);
-  let view = fetchSettledPullRequestView(result.repo, target);
+  let view = fetchSettledPullRequestView(
+    result.repo,
+    target,
+    externalMergeAction ? { allowedPendingCheckNames: ignoredCheckNames } : {},
+  );
   const mergedAt = pullRequest.merged_at ?? view.mergedAt ?? null;
   const expectedHeadSha = String(action.expected_head_sha ?? "");
   if (!/^[0-9a-f]{40}$/i.test(expectedHeadSha)) {
@@ -530,7 +543,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       return {
         ...base,
         status: "blocked",
-        reason: "merged pull request head does not match the authorized merge head",
+        reason: "merged pull request head does not match the verified merge head",
         expected_head_sha: expectedHeadSha,
         authorized_merge_head_sha: authorizedMergeHeadSha,
         live_head_sha: liveHeadSha || null,
@@ -595,11 +608,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     };
   }
 
-  const externalMergeAction = isExternalMergeAction(action);
   const mergeBlock = validateMergeablePullRequest({
     pullRequest,
     view,
     allowExactMergeState: externalMergeAction,
+    ignoredCheckNames,
   });
   if (mergeBlock) {
     return {
@@ -625,29 +638,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_updated_at: live.updated_at,
     };
   }
-  if (
-    externalMergeAction &&
-    !dryRun &&
-    process.env.CLOWNFISH_ALLOW_MERGE === "1" &&
-    !process.env.CLOWNFISH_CHECKS_GH_TOKEN
-  ) {
-    return {
-      ...base,
-      status: "blocked",
-      reason: "external merge requires CLOWNFISH_CHECKS_GH_TOKEN before branch refresh",
-      live_state: live.state,
-      live_updated_at: live.updated_at,
-    };
-  }
   const effectiveDiffBinding = verifyExternalMergeBinding({
     result,
     action,
     target,
     expectedHeadSha,
-    live,
-    pullRequest,
-    view,
-    allowBranchRefresh: !dryRun && process.env.CLOWNFISH_ALLOW_MERGE === "1",
   });
   if (effectiveDiffBinding?.reason) {
     return {
@@ -665,23 +660,18 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     };
   }
   const mergeHeadSha = effectiveDiffBinding?.merge_head_sha ?? expectedHeadSha;
-  if (effectiveDiffBinding?.refreshed_live) live = effectiveDiffBinding.refreshed_live;
-  if (effectiveDiffBinding?.refreshed_pull_request) {
-    pullRequest = effectiveDiffBinding.refreshed_pull_request;
-  }
-  if (effectiveDiffBinding?.refreshed_view) view = effectiveDiffBinding.refreshed_view;
   const currentBaseBlock = validatePullRequestCurrentBase({
     repo: result.repo,
     pullRequest,
     view,
     allowExactMergeState: externalMergeAction,
+    ignoredCheckNames,
   });
   if (currentBaseBlock) {
     return {
       ...base,
       status: "blocked",
       reason: currentBaseBlock.reason,
-      ...(effectiveDiffBinding?.branch_refresh ? { retry_recommended: true } : {}),
       live_state: live.state,
       live_updated_at: live.updated_at,
       pull_request_base_sha: currentBaseBlock.pull_request_base_sha,
@@ -705,6 +695,29 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       };
     }
   }
+  const ciGate = effectiveDiffBinding
+    ? verifyFreshExactHeadCiGate({
+        repo: result.repo,
+        target,
+        headSha: expectedHeadSha,
+        preflight: findMergePreflight(result, target),
+      })
+    : null;
+  if (ciGate?.reason) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: ciGate.reason,
+      retry_recommended: true,
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      expected_head_sha: expectedHeadSha,
+      effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
+      verified_main_sha: effectiveDiffBinding.verified_main_sha,
+      ci_gate: ciGate,
+      ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
+    };
+  }
 
   if (process.env.CLOWNFISH_ALLOW_MERGE !== "1") {
     if (!dryRun) labelForClownfishReview(result.repo, target);
@@ -718,6 +731,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
       verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
       base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
+      ci_gate: ciGate,
       ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
     };
   }
@@ -733,12 +747,39 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
       verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
       base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
+      ci_gate: ciGate,
+      ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
+    };
+  }
+
+  // Executable merges have one authorization path. Worker-authored preflight
+  // can inform planning, but only deterministic external preflight binds the
+  // reviewed diff, current main, canonical CI, and the non-bypassed App actor.
+  if (!effectiveDiffBinding) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "merge execution requires deterministic external preflight",
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      expected_head_sha: expectedHeadSha,
+    };
+  }
+
+  if (!process.env.CLOWNFISH_CHECKS_GH_TOKEN) {
+    return {
+      ...base,
+      status: "blocked",
+      reason: "external merge requires CLOWNFISH_CHECKS_GH_TOKEN for exact-merge authorization",
+      live_state: live.state,
+      live_updated_at: live.updated_at,
+      ci_gate: ciGate,
       ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
     };
   }
 
   let exactMergeCheck = null;
-  if (effectiveDiffBinding) {
+  {
     const ruleBlock = validateExactMergeRule(result.repo);
     if (ruleBlock) {
       return {
@@ -750,6 +791,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expected_head_sha: expectedHeadSha,
         effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        ci_gate: ciGate,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
@@ -760,7 +802,9 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     try {
       checkedIssue = fetchIssue(result.repo, target);
       checkedPull = fetchPullRequest(result.repo, target);
-      checkedView = fetchSettledPullRequestView(result.repo, target);
+      checkedView = fetchSettledPullRequestView(result.repo, target, {
+        allowedPendingCheckNames: ignoredCheckNames,
+      });
       checkedMainSha = fetchBranchHeadSha(result.repo, "main");
     } catch (error) {
       return {
@@ -773,6 +817,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expected_head_sha: expectedHeadSha,
         effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        ci_gate: ciGate,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
@@ -780,6 +825,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       pullRequest: checkedPull,
       view: checkedView,
       allowExactMergeState: externalMergeAction,
+      ignoredCheckNames,
     });
     const checkedPreflightBlock = validateMergePreflight({
       result,
@@ -793,9 +839,8 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         effectiveDiffBinding.merge_commit_sha.toLowerCase() ||
       checkedMainSha !== effectiveDiffBinding.verified_main_sha ||
       checkedIssue.updated_at !== live.updated_at ||
-      (effectiveDiffBinding.branch_refresh || effectiveDiffBinding.base_adoption
-        ? externalRefreshMetadataBlock({
-            repo: result.repo,
+      (effectiveDiffBinding.base_adoption
+        ? externalMergeMetadataBlock({
             beforeIssue: live,
             beforePull: pullRequest,
             afterIssue: checkedIssue,
@@ -820,6 +865,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expected_head_sha: expectedHeadSha,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
         current_main_sha: checkedMainSha,
+        ci_gate: ciGate,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
@@ -849,10 +895,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expected_head_sha: expectedHeadSha,
         effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        ci_gate: ciGate,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
-    const authorizationState = verifyExactMergeAuthorizationState({
+    const mergeState = verifyExactMergeAuthorizationState({
       result,
       action,
       target,
@@ -862,21 +909,22 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       beforeIssue: checkedIssue,
       beforePull: checkedPull,
     });
-    if (authorizationState.reason) {
+    if (mergeState.reason) {
       return withExactMergeRevocation({
         repo: result.repo,
         exactMergeCheck,
         result: {
           ...base,
           status: "blocked",
-          reason: authorizationState.reason,
+          reason: mergeState.reason,
           retry_recommended: true,
           live_state: live.state,
           live_updated_at: live.updated_at,
           expected_head_sha: expectedHeadSha,
           effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
           verified_main_sha: effectiveDiffBinding.verified_main_sha,
-          current_main_sha: authorizationState.current_main_sha ?? null,
+          current_main_sha: mergeState.current_main_sha ?? null,
+          ci_gate: mergeState.ci_gate ?? ciGate,
           exact_merge_check: exactMergeCheck,
           ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
         },
@@ -890,6 +938,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expectedHeadSha,
         mergeHeadSha,
         effectiveDiffBinding,
+        ciGate,
       });
     } catch (error) {
       return {
@@ -902,12 +951,16 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         expected_head_sha: expectedHeadSha,
         effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        ci_gate: ciGate,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
   }
 
   try {
+    // The actor checked for ruleset bypass must also consume the authorization;
+    // a fallback maintainer token may have a role-based bypass of its own.
+    const mergeEnv = githubCliEnv({ ghToken: process.env.CLOWNFISH_CHECKS_GH_TOKEN });
     ghOnce([
       "pr",
       "merge",
@@ -917,7 +970,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       "--squash",
       "--match-head-commit",
       mergeHeadSha,
-    ]);
+    ], mergeEnv);
   } catch (error) {
     const mergedAfterError = fetchPullRequestAfterMergeAttempt(result.repo, target);
     if (mergedAfterError?.merged_at) {
@@ -932,6 +985,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         merged: mergedAfterError,
         effectiveDiffBinding,
         exactMergeCheck,
+        ciGate,
         reason: "merge command failed after GitHub accepted the merge",
       });
     }
@@ -948,13 +1002,13 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
         verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
         base_drift_proof: effectiveDiffBinding?.base_drift_proof ?? null,
+        ci_gate: ciGate,
         exact_merge_check: exactMergeCheck,
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     return exactMergeCheck
       ? withExactMergeRevocation({
           repo: result.repo,
-          target,
           exactMergeCheck,
           result: blockedResult,
         })
@@ -972,6 +1026,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     merged,
     effectiveDiffBinding,
     exactMergeCheck,
+    ciGate,
     reason: "merged by projectclownfish",
   });
 }
@@ -995,6 +1050,7 @@ function buildMergedActionResult({
   merged,
   effectiveDiffBinding,
   exactMergeCheck,
+  ciGate,
   reason,
 }) {
   if (!merged?.merged_at || !/^[0-9a-f]{40}$/i.test(String(merged?.merge_commit_sha ?? ""))) {
@@ -1008,6 +1064,7 @@ function buildMergedActionResult({
       expected_head_sha: expectedHeadSha,
       effective_diff_sha256: effectiveDiffBinding?.live_effective_diff_sha256 ?? null,
       verified_main_sha: effectiveDiffBinding?.verified_main_sha ?? null,
+      ci_gate: ciGate,
       exact_merge_check: exactMergeCheck,
       ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
     };
@@ -1043,6 +1100,7 @@ function buildMergedActionResult({
       reviewed_effective_diff_sha256: mergedProof.reviewed_effective_diff_sha256 ?? null,
       merged_effective_diff_sha256: mergedProof.merged_effective_diff_sha256 ?? null,
       verified_main_sha: mergedProof.verified_parent_sha ?? effectiveDiffBinding?.verified_main_sha ?? null,
+      ci_gate: ciGate,
       exact_merge_check: exactMergeCheck,
       ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
     };
@@ -1065,6 +1123,7 @@ function buildMergedActionResult({
       mergedProof?.verified_parent_sha ??
       effectiveDiffBinding?.verified_main_sha ??
       null,
+    ci_gate: ciGate,
     exact_merge_check: exactMergeCheck,
     ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
   };
@@ -1225,21 +1284,24 @@ function validateExternalMergeBindingFields({ action, preflight, expectedHeadSha
   if (!Number.isInteger(preflight.effective_diff_files) || preflight.effective_diff_files < 0) {
     return "external merge preflight effective_diff_files is missing or invalid";
   }
+  if (!/^[0-9a-f]{40}$/i.test(String(preflight.synthetic_merge_tree_sha ?? ""))) {
+    return "external merge preflight synthetic_merge_tree_sha is missing or invalid";
+  }
   const manifest = preflight.base_adoption_manifest;
-  if (manifest != null) {
-    if (manifest.schema_version !== 1 || manifest.policy !== "bounded-fast-forward-v1") {
-      return "external merge preflight base adoption manifest is unsupported";
-    }
-    if (
-      String(manifest.reviewed_base_sha ?? "").toLowerCase() !==
-        String(preflight.reviewed_base_sha).toLowerCase() ||
-      String(manifest.reviewed_head_sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase() ||
-      String(manifest.effective_diff_sha256 ?? "").toLowerCase() !==
-        String(preflight.effective_diff_sha256).toLowerCase() ||
-      manifest.effective_diff_files !== preflight.effective_diff_files
-    ) {
-      return "external merge preflight base adoption manifest does not match reviewed binding";
-    }
+  if (manifest?.schema_version !== 1 || manifest?.policy !== "bounded-fast-forward-v1") {
+    return "external merge preflight base adoption manifest is missing or unsupported";
+  }
+  if (
+    String(manifest.reviewed_base_sha ?? "").toLowerCase() !==
+      String(preflight.reviewed_base_sha).toLowerCase() ||
+    String(manifest.reviewed_head_sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase() ||
+    String(manifest.reviewed_merge_tree_sha ?? "").toLowerCase() !==
+      String(preflight.synthetic_merge_tree_sha).toLowerCase() ||
+    String(manifest.effective_diff_sha256 ?? "").toLowerCase() !==
+      String(preflight.effective_diff_sha256).toLowerCase() ||
+    manifest.effective_diff_files !== preflight.effective_diff_files
+  ) {
+    return "external merge preflight base adoption manifest does not match reviewed binding";
   }
   return "";
 }
@@ -1253,42 +1315,40 @@ function externalMergeHeadReport(action, expectedHeadSha, binding) {
   return {
     reviewed_head_sha: binding?.reviewed_head_sha ?? expectedHeadSha,
     merge_head_sha: binding?.merge_head_sha ?? expectedHeadSha,
+    ...(binding?.merge_commit_sha ? { test_merge_sha: binding.merge_commit_sha } : {}),
     ...(binding?.base_adoption ? { base_adoption: binding.base_adoption } : {}),
-    ...(binding?.branch_refresh ? { branch_refresh: binding.branch_refresh } : {}),
   };
 }
 
-function verifyExternalMergeBinding({
-  result,
-  action,
-  target,
-  expectedHeadSha,
-  live,
-  pullRequest,
-  view,
-  allowBranchRefresh = false,
-}) {
+function verifyExternalMergeBinding({ result, action, target, expectedHeadSha }) {
   if (!isExternalMergeAction(action)) return null;
   const preflight = findMergePreflight(result, target);
   const reviewedFingerprint = String(preflight.effective_diff_sha256).toLowerCase();
   const reviewedBaseSha = String(preflight.reviewed_base_sha).toLowerCase();
-  const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS, 6);
-  const adoptionAttempts = Math.max(
-    attempts,
-    positiveInteger(process.env.CLOWNFISH_APPLY_ADOPTED_TEST_MERGE_ATTEMPTS, 30),
-  );
+  const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_ATTEMPTS, 60);
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_MERGE_BINDING_DELAY_MS, 2000);
   let lastReason = "GitHub test merge ref was unavailable";
-  let lastProblem = "unavailable";
-  let staleTestMerge = null;
   let lastVerifiedMainSha = reviewedBaseSha;
 
-  for (let attempt = 1; attempt <= adoptionAttempts; attempt += 1) {
+  // GET /pulls/{number} asks GitHub to (re)compute the test merge. Wait for that
+  // server-owned ref instead of rewriting the contributor branch when main advances.
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
     try {
       const verifiedMainSha = fetchBranchHeadSha(result.repo, "main");
       lastVerifiedMainSha = verifiedMainSha;
-      const adoptingNewerMain = verifiedMainSha !== reviewedBaseSha;
-      if (adoptingNewerMain && !preflight.base_adoption_manifest) {
+      const pull = fetchPullRequest(result.repo, target);
+      const liveHeadSha = String(pull.head?.sha ?? "").toLowerCase();
+      if (liveHeadSha !== expectedHeadSha.toLowerCase()) {
+        return {
+          reason: "pull request head changed during effective merge diff verification",
+          reviewed_effective_diff_sha256: reviewedFingerprint,
+          verified_main_sha: verifiedMainSha,
+          retry_recommended: true,
+          reviewed_head_sha: expectedHeadSha,
+          merge_head_sha: liveHeadSha || null,
+        };
+      }
+      if (verifiedMainSha !== reviewedBaseSha && !preflight.base_adoption_manifest) {
         return {
           reason: "main changed since external validation and Codex review",
           reviewed_effective_diff_sha256: reviewedFingerprint,
@@ -1298,70 +1358,37 @@ function verifyExternalMergeBinding({
           merge_head_sha: expectedHeadSha,
         };
       }
-      const pull = fetchPullRequest(result.repo, target);
-      if (String(pull.head?.sha ?? "").toLowerCase() !== expectedHeadSha.toLowerCase()) {
-        return {
-          reason: "pull request head changed during effective merge diff verification",
-          reviewed_effective_diff_sha256: reviewedFingerprint,
-          verified_main_sha: verifiedMainSha,
-          retry_recommended: true,
-          reviewed_head_sha: expectedHeadSha,
-          merge_head_sha: String(pull.head?.sha ?? "") || null,
-        };
-      }
-      const mergeCommitSha = String(pull.merge_commit_sha ?? "");
-      if (!/^[0-9a-f]{40}$/i.test(mergeCommitSha)) {
+
+      const mergeCommitSha = String(pull.merge_commit_sha ?? "").toLowerCase();
+      if (!/^[0-9a-f]{40}$/.test(mergeCommitSha)) {
         lastReason = "GitHub test merge commit SHA is unavailable";
-        lastProblem = "unavailable";
       } else {
-        const mergeCommit = ghJson(["api", `repos/${result.repo}/git/commits/${mergeCommitSha}`]);
+        const mergeCommit = ghJson([
+          "api",
+          `repos/${result.repo}/git/commits/${mergeCommitSha}`,
+        ]);
         const parents = mergeCommit.parents ?? [];
-        const mergeBaseSha = String(parents[0]?.sha ?? "");
-        const mergeHeadSha = String(parents[1]?.sha ?? "");
-        const requiredMergeBaseSha = adoptingNewerMain ? verifiedMainSha : reviewedBaseSha;
-        if (parents.length !== 2) {
-          lastReason = "GitHub test merge commit does not have exactly two parents";
-          lastProblem = "ambiguous";
-        } else if (mergeBaseSha.toLowerCase() !== requiredMergeBaseSha) {
-          lastReason = adoptingNewerMain
-            ? "GitHub test merge commit is not based on the current main SHA"
-            : "GitHub test merge commit is not based on the reviewed main SHA";
-          if (mergeHeadSha.toLowerCase() === expectedHeadSha.toLowerCase()) {
-            staleTestMerge = {
-              merge_commit_sha: mergeCommitSha.toLowerCase(),
-              merge_base_sha: mergeBaseSha.toLowerCase(),
-              merge_head_sha: mergeHeadSha.toLowerCase(),
-            };
-            if (adoptingNewerMain) {
-              lastProblem = "awaiting_adopted_test_merge";
-            } else {
-              lastProblem = "stale_test_merge";
-            }
-          } else {
-            lastProblem = "ambiguous";
-          }
-        } else if (mergeHeadSha.toLowerCase() !== expectedHeadSha.toLowerCase()) {
-          lastReason = "GitHub test merge commit does not contain the reviewed PR head";
-          lastProblem = "ambiguous";
+        const mergeBaseSha = String(parents[0]?.sha ?? "").toLowerCase();
+        const mergeHeadSha = String(parents[1]?.sha ?? "").toLowerCase();
+        if (
+          parents.length !== 2 ||
+          mergeBaseSha !== verifiedMainSha ||
+          mergeHeadSha !== expectedHeadSha.toLowerCase()
+        ) {
+          lastReason =
+            "GitHub is still regenerating the test merge for current main and the exact PR head";
         } else {
-          const baseCommit = ghJson(["api", `repos/${result.repo}/git/commits/${mergeBaseSha}`]);
+          const baseCommit = ghJson([
+            "api",
+            `repos/${result.repo}/git/commits/${mergeBaseSha}`,
+          ]);
           const baseEntries = fetchGitTreeEntries(result.repo, baseCommit.tree?.sha);
           const mergeEntries = fetchGitTreeEntries(result.repo, mergeCommit.tree?.sha);
           const liveFingerprint = fingerprintTreeEntries(baseEntries, mergeEntries);
-          if (liveFingerprint.files !== preflight.effective_diff_files) {
-            return {
-              reason:
-                `effective merge file count changed since review: reviewed ${preflight.effective_diff_files}, ` +
-                `current ${liveFingerprint.files}`,
-              reviewed_effective_diff_sha256: reviewedFingerprint,
-              live_effective_diff_sha256: liveFingerprint.sha256,
-              verified_main_sha: verifiedMainSha,
-              retry_recommended: true,
-              reviewed_head_sha: expectedHeadSha,
-              merge_head_sha: expectedHeadSha,
-            };
-          }
-          if (liveFingerprint.sha256 !== reviewedFingerprint) {
+          if (
+            liveFingerprint.files !== preflight.effective_diff_files ||
+            liveFingerprint.sha256 !== reviewedFingerprint
+          ) {
             return {
               reason: "effective merge diff changed since Codex review",
               reviewed_effective_diff_sha256: reviewedFingerprint,
@@ -1372,13 +1399,14 @@ function verifyExternalMergeBinding({
               merge_head_sha: expectedHeadSha,
             };
           }
-          if (adoptingNewerMain) {
-            const baseAdoption = runApplyTimeBaseAdoptionValidation({
+
+          let baseAdoption = null;
+          if (verifiedMainSha !== reviewedBaseSha) {
+            baseAdoption = runApplyTimeBaseAdoptionValidation({
               preflight,
               target,
               adoptedBaseSha: verifiedMainSha,
               expectedHeadSha,
-              testMergeSha: mergeCommitSha.toLowerCase(),
             });
             if (baseAdoption.status !== "adopted") {
               return {
@@ -1392,16 +1420,20 @@ function verifyExternalMergeBinding({
                 base_adoption: baseAdoption,
               };
             }
+          }
+          const expectedTreeSha = String(
+            baseAdoption?.synthetic_merge_tree_sha ?? preflight.synthetic_merge_tree_sha,
+          ).toLowerCase();
+          const liveTreeSha = String(mergeCommit.tree?.sha ?? "").toLowerCase();
+          if (liveTreeSha !== expectedTreeSha) {
             return {
+              reason: "GitHub test merge tree does not match the validated synthetic merge tree",
               reviewed_effective_diff_sha256: reviewedFingerprint,
               live_effective_diff_sha256: liveFingerprint.sha256,
-              effective_diff_files: liveFingerprint.files,
               verified_main_sha: verifiedMainSha,
-              merge_commit_sha: mergeCommitSha,
+              retry_recommended: true,
               reviewed_head_sha: expectedHeadSha,
               merge_head_sha: expectedHeadSha,
-              base_drift_proof: baseAdoption.drift_proof,
-              base_adoption: baseAdoption,
             };
           }
           return {
@@ -1410,43 +1442,22 @@ function verifyExternalMergeBinding({
             effective_diff_files: liveFingerprint.files,
             verified_main_sha: verifiedMainSha,
             merge_commit_sha: mergeCommitSha,
+            synthetic_merge_tree_sha: liveTreeSha,
             reviewed_head_sha: expectedHeadSha,
             merge_head_sha: expectedHeadSha,
+            ...(baseAdoption
+              ? {
+                  base_drift_proof: baseAdoption.drift_proof,
+                  base_adoption: baseAdoption,
+                }
+              : {}),
           };
         }
       }
     } catch (error) {
-      lastReason = `could not verify GitHub test merge commit: ${String(error?.message ?? error)}`;
-      lastProblem = "error";
+      lastReason = `could not verify GitHub test merge commit: ${compactErrorText(commandErrorText(error), 500)}`;
     }
-    const attemptLimit =
-      lastProblem === "awaiting_adopted_test_merge" ? adoptionAttempts : attempts;
-    if (attempt >= attemptLimit) break;
-    if (delayMs > 0) sleepMs(delayMs);
-  }
-
-  if (
-    ["stale_test_merge", "awaiting_adopted_test_merge"].includes(lastProblem) &&
-    staleTestMerge &&
-    allowBranchRefresh
-  ) {
-    return refreshStaleExternalMergeBinding({
-      result,
-      action,
-      target,
-      expectedHeadSha,
-      reviewedBaseSha,
-      reviewedFingerprint,
-      preflight,
-      live,
-      pullRequest,
-      view,
-      staleTestMerge,
-      refreshBaseSha:
-        lastProblem === "awaiting_adopted_test_merge"
-          ? lastVerifiedMainSha
-          : reviewedBaseSha,
-    });
+    if (attempt < attempts && delayMs > 0) sleepMs(delayMs);
   }
 
   return {
@@ -1463,10 +1474,7 @@ function runApplyTimeBaseAdoptionValidation({
   preflight,
   target,
   adoptedBaseSha,
-  refreshBaseSha = adoptedBaseSha,
   expectedHeadSha,
-  mergeHeadSha = expectedHeadSha,
-  testMergeSha,
 }) {
   const tempRoot = fs.mkdtempSync(
     path.join(path.dirname(resultPath), `.base-adoption-${target}-`),
@@ -1493,14 +1501,8 @@ function runApplyTimeBaseAdoptionValidation({
         manifestPath,
         "--adopted-base-sha",
         adoptedBaseSha,
-        "--refresh-base-sha",
-        refreshBaseSha,
         "--expected-head-sha",
         expectedHeadSha,
-        "--merge-head-sha",
-        mergeHeadSha,
-        "--test-merge-sha",
-        testMergeSha,
         "--output",
         proofPath,
       ],
@@ -1541,8 +1543,6 @@ function captureApplyTimeAdoptionState({
   target,
   adoptedBaseSha,
   expectedHeadSha,
-  mergeHeadSha = expectedHeadSha,
-  testMergeSha,
 }) {
   const tempRoot = fs.mkdtempSync(
     path.join(path.dirname(resultPath), `.base-adoption-state-${target}-`),
@@ -1563,10 +1563,6 @@ function captureApplyTimeAdoptionState({
         adoptedBaseSha,
         "--expected-head-sha",
         expectedHeadSha,
-        "--merge-head-sha",
-        mergeHeadSha,
-        "--test-merge-sha",
-        testMergeSha,
         "--output",
         statePath,
       ],
@@ -1599,420 +1595,7 @@ function captureApplyTimeAdoptionState({
   }
 }
 
-function refreshStaleExternalMergeBinding({
-  result,
-  action,
-  target,
-  expectedHeadSha,
-  reviewedBaseSha,
-  reviewedFingerprint,
-  preflight,
-  live,
-  pullRequest,
-  view,
-  staleTestMerge,
-  refreshBaseSha = reviewedBaseSha,
-}) {
-  const branchRefresh = {
-    status: "blocked",
-    method: "merge",
-    expected_old_head_sha: expectedHeadSha,
-    reviewed_base_sha: reviewedBaseSha,
-    refresh_base_sha: refreshBaseSha,
-    stale_test_merge_sha: staleTestMerge.merge_commit_sha,
-    stale_test_merge_base_sha: staleTestMerge.merge_base_sha,
-  };
-  if (!isPullRequestBranchWritable(result.repo, pullRequest)) {
-    return {
-      reason: "stale GitHub test merge cannot be refreshed because the pull request branch is not writable",
-      retry_recommended: true,
-      reviewed_effective_diff_sha256: reviewedFingerprint,
-      verified_main_sha: refreshBaseSha,
-      reviewed_head_sha: expectedHeadSha,
-      merge_head_sha: expectedHeadSha,
-      branch_refresh: branchRefresh,
-    };
-  }
-  const initialMetadataBlock = externalRefreshMetadataBlock({
-    repo: result.repo,
-    beforeIssue: live,
-    beforePull: pullRequest,
-    afterIssue: live,
-    afterPull: pullRequest,
-  });
-  const initialMergeBlock = validateMergeablePullRequest({
-    pullRequest,
-    view,
-    allowExactMergeState: true,
-  });
-  if (initialMetadataBlock || initialMergeBlock) {
-    return {
-      reason: initialMetadataBlock || initialMergeBlock,
-      retry_recommended: true,
-      reviewed_effective_diff_sha256: reviewedFingerprint,
-      verified_main_sha: refreshBaseSha,
-      reviewed_head_sha: expectedHeadSha,
-      merge_head_sha: expectedHeadSha,
-      branch_refresh: branchRefresh,
-    };
-  }
-  const mainBeforeRefresh = fetchBranchHeadSha(result.repo, "main");
-  if (mainBeforeRefresh !== refreshBaseSha) {
-    return {
-      reason: "main changed before stale test merge branch refresh",
-      retry_recommended: true,
-      reviewed_effective_diff_sha256: reviewedFingerprint,
-      verified_main_sha: mainBeforeRefresh,
-      reviewed_head_sha: expectedHeadSha,
-      merge_head_sha: expectedHeadSha,
-      branch_refresh: branchRefresh,
-    };
-  }
-
-  const payloadPath = writePayload(`refresh-external-merge-${target}`, {
-    expected_head_sha: expectedHeadSha,
-  });
-  let updateResponse;
-  try {
-    updateResponse = ghJson([
-      "api",
-      `repos/${result.repo}/pulls/${target}/update-branch`,
-      "--method",
-      "PUT",
-      "--input",
-      payloadPath,
-    ]);
-  } catch (error) {
-    return {
-      reason: `could not request non-destructive branch refresh: ${compactErrorText(commandErrorText(error), 500)}`,
-      retry_recommended: true,
-      reviewed_effective_diff_sha256: reviewedFingerprint,
-      verified_main_sha: refreshBaseSha,
-      reviewed_head_sha: expectedHeadSha,
-      merge_head_sha: expectedHeadSha,
-      branch_refresh: branchRefresh,
-    };
-  }
-
-  branchRefresh.status = "requested";
-  branchRefresh.response_message = String(updateResponse?.message ?? "") || null;
-  const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_BRANCH_REFRESH_ATTEMPTS, 30);
-  const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_BRANCH_REFRESH_DELAY_MS, 2000);
-  let lastReason = "branch refresh did not produce a new head and current-main test merge";
-  let lastMergeHeadSha = expectedHeadSha;
-  let adoptedBaseSha = refreshBaseSha;
-  let mainRolloverCount = 0;
-
-  const observeMain = (currentMainSha) => {
-    if (currentMainSha === adoptedBaseSha) return "";
-    if (mainRolloverCount >= 1) {
-      return "main changed again during stale test merge branch refresh";
-    }
-    if (!preflight.base_adoption_manifest) {
-      return "main changed during stale test merge branch refresh";
-    }
-    adoptedBaseSha = currentMainSha;
-    mainRolloverCount = 1;
-    branchRefresh.adopted_base_sha = adoptedBaseSha;
-    branchRefresh.main_rollover_count = mainRolloverCount;
-    return "";
-  };
-
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    branchRefresh.poll_attempts = attempt;
-    try {
-      const currentMainSha = fetchBranchHeadSha(result.repo, "main");
-      const mainRolloverBlock = observeMain(currentMainSha);
-      if (mainRolloverBlock) {
-        return {
-          reason: mainRolloverBlock,
-          retry_recommended: true,
-          reviewed_effective_diff_sha256: reviewedFingerprint,
-          verified_main_sha: currentMainSha,
-          reviewed_head_sha: expectedHeadSha,
-          merge_head_sha: lastMergeHeadSha,
-          branch_refresh: branchRefresh,
-        };
-      }
-
-      const refreshedPull = fetchPullRequest(result.repo, target);
-      const refreshedHeadSha = String(refreshedPull.head?.sha ?? "").toLowerCase();
-      lastMergeHeadSha = refreshedHeadSha || lastMergeHeadSha;
-      if (refreshedHeadSha === expectedHeadSha.toLowerCase()) {
-        lastReason = "branch refresh is still waiting for a new pull request head";
-      } else if (!/^[0-9a-f]{40}$/.test(refreshedHeadSha)) {
-        return {
-          reason: "branch refresh produced an invalid pull request head",
-          retry_recommended: true,
-          reviewed_effective_diff_sha256: reviewedFingerprint,
-          verified_main_sha: currentMainSha,
-          reviewed_head_sha: expectedHeadSha,
-          merge_head_sha: refreshedHeadSha || null,
-          branch_refresh: branchRefresh,
-        };
-      } else {
-        branchRefresh.refreshed_head_sha = refreshedHeadSha;
-        const refreshedHeadCommit = ghJson([
-          "api",
-          `repos/${result.repo}/git/commits/${refreshedHeadSha}`,
-        ]);
-        const refreshedHeadParents = (refreshedHeadCommit.parents ?? []).map((parent) =>
-          String(parent?.sha ?? "").toLowerCase(),
-        );
-        if (
-          refreshedHeadParents.length !== 2 ||
-          refreshedHeadParents[0] !== expectedHeadSha.toLowerCase() ||
-          refreshedHeadParents[1] !== refreshBaseSha
-        ) {
-          return {
-            reason: "branch refresh head is not the expected non-destructive merge of reviewed main",
-            retry_recommended: true,
-            reviewed_effective_diff_sha256: reviewedFingerprint,
-            verified_main_sha: currentMainSha,
-            reviewed_head_sha: expectedHeadSha,
-            merge_head_sha: refreshedHeadSha,
-            branch_refresh: branchRefresh,
-          };
-        }
-
-        const refreshedTestMergeSha = String(refreshedPull.merge_commit_sha ?? "").toLowerCase();
-        if (/^[0-9a-f]{40}$/.test(refreshedTestMergeSha)) {
-          branchRefresh.refreshed_test_merge_sha = refreshedTestMergeSha;
-        }
-        if (
-          !/^[0-9a-f]{40}$/.test(refreshedTestMergeSha) ||
-          refreshedTestMergeSha === staleTestMerge.merge_commit_sha
-        ) {
-          lastReason = "branch refresh is still waiting for a new GitHub test merge commit";
-        } else {
-          const refreshedTestMerge = ghJson([
-            "api",
-            `repos/${result.repo}/git/commits/${refreshedTestMergeSha}`,
-          ]);
-          const testMergeParents = refreshedTestMerge.parents ?? [];
-          const testMergeBaseSha = String(testMergeParents[0]?.sha ?? "").toLowerCase();
-          const testMergeHeadSha = String(testMergeParents[1]?.sha ?? "").toLowerCase();
-          if (
-            testMergeParents.length !== 2 ||
-            testMergeBaseSha !== adoptedBaseSha ||
-            testMergeHeadSha !== refreshedHeadSha
-          ) {
-            lastReason = "refreshed GitHub test merge is not bound to adopted main and refreshed head";
-          } else {
-            const baseCommit = ghJson([
-              "api",
-              `repos/${result.repo}/git/commits/${adoptedBaseSha}`,
-            ]);
-            const baseEntries = fetchGitTreeEntries(result.repo, baseCommit.tree?.sha);
-            const mergeEntries = fetchGitTreeEntries(
-              result.repo,
-              refreshedTestMerge.tree?.sha,
-            );
-            const refreshedFingerprint = fingerprintTreeEntries(baseEntries, mergeEntries);
-            if (refreshedFingerprint.files !== preflight.effective_diff_files) {
-              return {
-                reason:
-                  `effective merge file count changed after branch refresh: reviewed ${preflight.effective_diff_files}, ` +
-                  `current ${refreshedFingerprint.files}`,
-                retry_recommended: true,
-                reviewed_effective_diff_sha256: reviewedFingerprint,
-                live_effective_diff_sha256: refreshedFingerprint.sha256,
-                verified_main_sha: currentMainSha,
-                reviewed_head_sha: expectedHeadSha,
-                merge_head_sha: refreshedHeadSha,
-                branch_refresh: branchRefresh,
-              };
-            }
-            if (refreshedFingerprint.sha256 !== reviewedFingerprint) {
-              return {
-                reason: "effective merge diff changed after branch refresh",
-                retry_recommended: true,
-                reviewed_effective_diff_sha256: reviewedFingerprint,
-                live_effective_diff_sha256: refreshedFingerprint.sha256,
-                verified_main_sha: currentMainSha,
-                reviewed_head_sha: expectedHeadSha,
-                merge_head_sha: refreshedHeadSha,
-                branch_refresh: branchRefresh,
-              };
-            }
-
-            const refreshedView = fetchSettledRefreshedPullRequestView(
-              result.repo,
-              target,
-            );
-            const settledRefreshedPull = fetchPullRequest(result.repo, target);
-            if (
-              String(settledRefreshedPull.head?.sha ?? "").toLowerCase() !==
-                refreshedHeadSha ||
-              String(settledRefreshedPull.merge_commit_sha ?? "").toLowerCase() !==
-                refreshedTestMergeSha
-            ) {
-              lastReason =
-                "pull request head or GitHub test merge changed while refreshed checks settled";
-              continue;
-            }
-            const refreshedLive = fetchIssue(result.repo, target);
-            const metadataBlock = externalRefreshMetadataBlock({
-              repo: result.repo,
-              beforeIssue: live,
-              beforePull: pullRequest,
-              afterIssue: refreshedLive,
-              afterPull: settledRefreshedPull,
-            });
-            const riskLabel = findHighRiskMergeLabel(refreshedLive.labels);
-            const riskBlock = hasSecuritySignal(refreshedLive)
-              ? "security-sensitive target requires central security triage"
-              : riskLabel
-                ? `target has blocked live label: ${riskLabel}`
-                : "";
-            const checkSettlementBlock = validateSettledStatusChecks(
-              refreshedView.statusCheckRollup ?? [],
-            );
-            const mergeBlock = validateMergeablePullRequest({
-              pullRequest: settledRefreshedPull,
-              view: refreshedView,
-              allowExactMergeState: true,
-            });
-            const preflightBlock = validateMergePreflight({
-              result,
-              action,
-              target,
-              expectedHeadSha,
-            });
-            const currentMainAfterChecks = fetchBranchHeadSha(result.repo, "main");
-            const settledMainRolloverBlock = observeMain(currentMainAfterChecks);
-            if (settledMainRolloverBlock) {
-              return {
-                reason: settledMainRolloverBlock,
-                retry_recommended: true,
-                reviewed_effective_diff_sha256: reviewedFingerprint,
-                live_effective_diff_sha256: refreshedFingerprint.sha256,
-                verified_main_sha: currentMainAfterChecks,
-                reviewed_head_sha: expectedHeadSha,
-                merge_head_sha: refreshedHeadSha,
-                branch_refresh: branchRefresh,
-              };
-            }
-            if (
-              metadataBlock ||
-              riskBlock ||
-              checkSettlementBlock ||
-              mergeBlock ||
-              preflightBlock
-            ) {
-              return {
-                reason:
-                  metadataBlock ||
-                  riskBlock ||
-                  checkSettlementBlock ||
-                  mergeBlock ||
-                  preflightBlock ||
-                  "pull request state changed during branch refresh",
-                retry_recommended: true,
-                reviewed_effective_diff_sha256: reviewedFingerprint,
-                live_effective_diff_sha256: refreshedFingerprint.sha256,
-                verified_main_sha: currentMainAfterChecks,
-                reviewed_head_sha: expectedHeadSha,
-                merge_head_sha: refreshedHeadSha,
-                branch_refresh: branchRefresh,
-              };
-            }
-            if (testMergeBaseSha !== adoptedBaseSha) {
-              lastReason =
-                "branch refresh is waiting for GitHub to regenerate the adopted-main test merge";
-              continue;
-            }
-            let baseAdoption = null;
-            if (refreshBaseSha !== reviewedBaseSha || mainRolloverCount > 0) {
-              baseAdoption = runApplyTimeBaseAdoptionValidation({
-                preflight,
-                target,
-                adoptedBaseSha,
-                refreshBaseSha,
-                expectedHeadSha,
-                mergeHeadSha: refreshedHeadSha,
-                testMergeSha: refreshedTestMergeSha,
-              });
-              if (baseAdoption.status !== "adopted") {
-                return {
-                  reason:
-                    baseAdoption.reason ||
-                    "apply-time main adoption validation failed after branch refresh",
-                  retry_recommended: true,
-                  reviewed_effective_diff_sha256: reviewedFingerprint,
-                  live_effective_diff_sha256: refreshedFingerprint.sha256,
-                  verified_main_sha: currentMainAfterChecks,
-                  reviewed_head_sha: expectedHeadSha,
-                  merge_head_sha: refreshedHeadSha,
-                  base_adoption: baseAdoption,
-                  branch_refresh: branchRefresh,
-                };
-              }
-            }
-
-            return {
-              reviewed_effective_diff_sha256: reviewedFingerprint,
-              live_effective_diff_sha256: refreshedFingerprint.sha256,
-              effective_diff_files: refreshedFingerprint.files,
-              verified_main_sha: adoptedBaseSha,
-              merge_commit_sha: refreshedTestMergeSha,
-              reviewed_head_sha: expectedHeadSha,
-              merge_head_sha: refreshedHeadSha,
-              ...(baseAdoption
-                ? {
-                    base_drift_proof: baseAdoption.drift_proof,
-                    base_adoption: baseAdoption,
-                  }
-                : {}),
-              branch_refresh: {
-                ...branchRefresh,
-                status: "adopted",
-                refreshed_head_sha: refreshedHeadSha,
-                refreshed_test_merge_sha: refreshedTestMergeSha,
-                effective_diff_sha256: refreshedFingerprint.sha256,
-                effective_diff_files: refreshedFingerprint.files,
-                adopted_base_sha: adoptedBaseSha,
-                main_rollover_count: mainRolloverCount,
-              },
-              refreshed_live: refreshedLive,
-              refreshed_pull_request: settledRefreshedPull,
-              refreshed_view: refreshedView,
-            };
-          }
-        }
-      }
-    } catch (error) {
-      lastReason = `could not verify refreshed branch: ${compactErrorText(commandErrorText(error), 500)}`;
-    }
-    if (attempt < attempts && delayMs > 0) sleepMs(delayMs);
-  }
-
-  return {
-    reason: lastReason,
-    retry_recommended: true,
-    reviewed_effective_diff_sha256: reviewedFingerprint,
-    verified_main_sha: adoptedBaseSha,
-    reviewed_head_sha: expectedHeadSha,
-    merge_head_sha: lastMergeHeadSha,
-    branch_refresh: branchRefresh,
-  };
-}
-
-function isPullRequestBranchWritable(repo, pullRequest) {
-  const headRepo = String(pullRequest?.head?.repo?.full_name ?? "");
-  return (
-    pullRequest?.maintainer_can_modify === true ||
-    (headRepo && headRepo.toLowerCase() === repo.toLowerCase())
-  );
-}
-
-function externalRefreshMetadataBlock({
-  repo,
-  beforeIssue,
-  beforePull,
-  afterIssue,
-  afterPull,
-}) {
+function externalMergeMetadataBlock({ beforeIssue, beforePull, afterIssue, afterPull }) {
   const issueSnapshot = (issue) =>
     JSON.stringify({
       state: issue?.state ?? null,
@@ -2037,26 +1620,19 @@ function externalRefreshMetadataBlock({
       head_repo: pull?.head?.repo?.full_name ?? null,
     });
   if (issueSnapshot(beforeIssue) !== issueSnapshot(afterIssue)) {
-    return "target metadata changed during branch refresh";
+    return "target metadata changed during merge verification";
   }
   if (pullSnapshot(beforePull) !== pullSnapshot(afterPull)) {
-    return "pull request branch metadata changed during branch refresh";
+    return "pull request metadata changed during merge verification";
   }
   if (String(afterPull?.head?.repo?.full_name ?? "") === "") {
-    return "pull request head repository is unavailable after branch refresh";
+    return "pull request head repository is unavailable";
   }
   if (String(afterPull?.head?.ref ?? "") === "") {
-    return "pull request head ref is unavailable after branch refresh";
+    return "pull request head ref is unavailable";
   }
   if (String(afterPull?.base?.ref ?? "") !== "main") {
-    return "pull request base changed during branch refresh";
-  }
-  if (
-    beforePull !== afterPull &&
-    isPullRequestBranchWritable(repo, beforePull) &&
-    !isPullRequestBranchWritable(repo, afterPull)
-  ) {
-    return "pull request branch became unwritable during branch refresh";
+    return "pull request base changed during merge verification";
   }
   return "";
 }
@@ -2075,7 +1651,7 @@ function persistBaseAdoptionCheckpoint({
       {
         ...base,
         status: "authorizing",
-        reason: "apply-time base adoption validated; exact-merge authorization pending",
+        reason: "apply-time base adoption validated; final merge recheck pending",
         expected_head_sha: expectedHeadSha,
         effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
         verified_main_sha: effectiveDiffBinding.verified_main_sha,
@@ -2136,7 +1712,6 @@ function restoreBaseAdoptionBinding({ action, target, expectedHeadSha, preflight
       live_effective_diff_sha256: effectiveDiffSha256,
       effective_diff_files: proof.effective_diff_files,
       verified_main_sha: verifiedMainSha,
-      merge_commit_sha: String(proof.test_merge_sha ?? "").toLowerCase(),
       reviewed_head_sha: expectedHeadSha.toLowerCase(),
       merge_head_sha: mergeHeadSha,
       base_drift_proof: proof.drift_proof ?? null,
@@ -2151,11 +1726,8 @@ function baseAdoptionAuthorization(proof) {
     policy: proof.policy,
     reviewed_base_sha: proof.reviewed_base_sha,
     adopted_base_sha: proof.adopted_base_sha,
-    ...(proof.refresh_base_sha ? { refresh_base_sha: proof.refresh_base_sha } : {}),
     reviewed_head_sha: proof.reviewed_head_sha,
-    ...(proof.merge_head_sha ? { merge_head_sha: proof.merge_head_sha } : {}),
-    test_merge_sha: proof.test_merge_sha,
-    test_merge_tree_sha: proof.test_merge_tree_sha,
+    synthetic_merge_tree_sha: proof.synthetic_merge_tree_sha,
     effective_diff_files: proof.effective_diff_files,
     effective_diff_sha256: proof.effective_diff_sha256,
     drift_commit_count: proof.drift_commit_count,
@@ -2182,26 +1754,14 @@ function verifyExactMergeAuthorizationState({
   beforePull,
 }) {
   try {
-    const currentMainSha = fetchBranchHeadSha(result.repo, "main");
-    const currentIssue = fetchIssue(result.repo, target);
-    const currentPull = fetchPullRequest(result.repo, target);
-    const allowedPendingCheckNames = [EXACT_MERGE_CHECK_NAME];
-    const currentView = fetchSettledPullRequestView(result.repo, target, {
-      allowedPendingCheckNames,
-    });
-    const metadataBlock = externalRefreshMetadataBlock({
+    // Finish the slow, paginated evidence checks before the final mutable PR
+    // snapshot. Otherwise comments, reviews, labels, or checks can change while
+    // CI history is being authenticated and escape the authorization decision.
+    const ciGate = verifyFreshExactHeadCiGate({
       repo: result.repo,
-      beforeIssue,
-      beforePull,
-      afterIssue: currentIssue,
-      afterPull: currentPull,
-    });
-    const riskLabel = findHighRiskMergeLabel(currentIssue.labels);
-    const mergeBlock = validateMergeablePullRequest({
-      pullRequest: currentPull,
-      view: currentView,
-      allowExactMergeState: true,
-      allowedPendingCheckNames,
+      target,
+      headSha: expectedHeadSha,
+      preflight: findMergePreflight(result, target),
     });
     const preflightBlock = validateMergePreflight({
       result,
@@ -2215,20 +1775,38 @@ function verifyExactMergeAuthorizationState({
         target,
         adoptedBaseSha: effectiveDiffBinding.verified_main_sha,
         expectedHeadSha,
-        mergeHeadSha,
-        testMergeSha: effectiveDiffBinding.merge_commit_sha,
       });
       if (adoptionState.status !== "clean") {
         adoptionStateBlock =
-          adoptionState.reason || "fresh adoption authorization state is not clean";
+          adoptionState.reason || "fresh adoption verification state is not clean";
       } else if (
         adoptionState.github_state_sha256 !==
         effectiveDiffBinding.base_adoption.github_state_sha256
       ) {
         adoptionStateBlock =
-          "GitHub comments, reviews, metadata, or checks changed during exact-merge authorization";
+          "GitHub comments, reviews, metadata, or checks changed during merge verification";
       }
     }
+    const currentMainSha = fetchBranchHeadSha(result.repo, "main");
+    const currentPull = fetchPullRequest(result.repo, target);
+    const currentView = fetchSettledPullRequestView(result.repo, target, {
+      allowedPendingCheckNames: COORDINATOR_CHECK_NAMES,
+    });
+    const currentIssue = fetchIssue(result.repo, target);
+    const metadataBlock = externalMergeMetadataBlock({
+      beforeIssue,
+      beforePull,
+      afterIssue: currentIssue,
+      afterPull: currentPull,
+    });
+    const riskLabel = findHighRiskMergeLabel(currentIssue.labels);
+    const mergeBlock = validateMergeablePullRequest({
+      pullRequest: currentPull,
+      view: currentView,
+      allowExactMergeState: true,
+      allowedPendingCheckNames: COORDINATOR_CHECK_NAMES,
+      ignoredCheckNames: COORDINATOR_CHECK_NAMES,
+    });
     if (
       currentMainSha !== effectiveDiffBinding.verified_main_sha ||
       String(currentPull.head?.sha ?? "").toLowerCase() !== mergeHeadSha.toLowerCase() ||
@@ -2240,20 +1818,23 @@ function verifyExactMergeAuthorizationState({
       riskLabel ||
       mergeBlock ||
       preflightBlock ||
+      ciGate.reason ||
       adoptionStateBlock
     ) {
       return {
         reason:
           preflightBlock ||
           mergeBlock ||
+          ciGate.reason ||
           adoptionStateBlock ||
           metadataBlock ||
           (riskLabel ? `target has blocked live label: ${riskLabel}` : "") ||
           "head, test merge, main, metadata, comments, checks, or risk changed during exact-merge authorization",
         current_main_sha: currentMainSha,
+        ci_gate: ciGate,
       };
     }
-    return { reason: "", current_main_sha: currentMainSha };
+    return { reason: "", current_main_sha: currentMainSha, ci_gate: ciGate };
   } catch (error) {
     return {
       reason: `could not recheck exact-merge authorization: ${compactErrorText(commandErrorText(error), 500)}`,
@@ -2262,11 +1843,219 @@ function verifyExactMergeAuthorizationState({
   }
 }
 
+function verifyFreshExactHeadCiGate({ repo, target, headSha, preflight }) {
+  // The Actions App is shared by every workflow. Bind the check back to the
+  // repository's canonical CI workflow and refuse PRs that edit that workflow.
+  const name = REQUIRED_CI_GATE_NAME;
+  const workflowPath =
+    process.env.CLOWNFISH_REQUIRED_CI_WORKFLOW_PATH ?? DEFAULT_REQUIRED_CI_WORKFLOW_PATH;
+  const appId = positiveInteger(
+    process.env.CLOWNFISH_REQUIRED_CI_GATE_APP_ID,
+    DEFAULT_REQUIRED_CI_GATE_APP_ID,
+  );
+  const maxAgeHours = positiveInteger(
+    process.env.CLOWNFISH_REQUIRED_CI_GATE_MAX_AGE_HOURS,
+    DEFAULT_REQUIRED_CI_GATE_MAX_AGE_HOURS,
+  );
+  const effectivePaths = preflight?.base_adoption_manifest?.effective_paths ?? [];
+  if (effectivePaths.includes(workflowPath)) {
+    return {
+      name,
+      app_id: appId,
+      head_sha: headSha.toLowerCase(),
+      max_age_hours: maxAgeHours,
+      workflow_path: workflowPath,
+      reason: `${workflowPath} changed in this PR; exact-head CI requires maintainer handling`,
+    };
+  }
+  const baseGate = {
+    name,
+    app_id: appId,
+    head_sha: headSha.toLowerCase(),
+    max_age_hours: maxAgeHours,
+    workflow_path: workflowPath,
+  };
+  const pages = ghJson([
+    "api",
+    `repos/${repo}/commits/${headSha}/check-runs?check_name=${encodeURIComponent(name)}&filter=all&per_page=100`,
+    "--paginate",
+    "--slurp",
+  ]);
+  if (!Array.isArray(pages)) {
+    return { ...baseGate, reason: `${name} check-run pagination returned an invalid response` };
+  }
+  const matching = pages
+    .flatMap((page) => page?.check_runs ?? [])
+    .filter(
+      (check) =>
+        check?.name === name &&
+        String(check?.head_sha ?? "").toLowerCase() === headSha.toLowerCase() &&
+        Number(check?.app?.id) === appId,
+    )
+    .sort((left, right) => {
+      const timeOrder =
+        Date.parse(String(right?.completed_at ?? "")) -
+        Date.parse(String(left?.completed_at ?? ""));
+      return Number.isFinite(timeOrder) && timeOrder !== 0
+        ? timeOrder
+        : Number(right?.id ?? 0) - Number(left?.id ?? 0);
+    });
+  const latest = matching[0];
+  if (!latest) {
+    return {
+      ...baseGate,
+      check_run_id: null,
+      reason: `exact PR head has no ${name} check from GitHub App ${appId}`,
+    };
+  }
+  // Gate policy is evidence-window based, not latest-attempt based: one
+  // authenticated success remains valid for 24h despite later reruns.
+  const successful = matching.filter(
+    (check) => check.status === "completed" && check.conclusion === "success",
+  );
+  if (successful.length === 0) {
+    return {
+      ...baseGate,
+      check_run_id: latest.id,
+      status: latest.status ?? null,
+      conclusion: latest.conclusion ?? null,
+      completed_at: latest.completed_at ?? null,
+      details_url: latest.details_url ?? null,
+      reason: `${name} on the exact PR head is ${latest.status ?? "unknown"}/${latest.conclusion ?? "unknown"}`,
+    };
+  }
+  const configuredNow = Date.parse(String(process.env.CLOWNFISH_GATE_NOW ?? ""));
+  const now = Number.isFinite(configuredNow) ? configuredNow : Date.now();
+  const maxAgeMs = maxAgeHours * 60 * 60 * 1000;
+  const workflowFile = path.basename(workflowPath);
+  let workflow;
+  try {
+    workflow = ghJson([
+      "api",
+      `repos/${repo}/actions/workflows/${encodeURIComponent(workflowFile)}`,
+    ]);
+  } catch (error) {
+    return {
+      ...baseGate,
+      reason: `could not verify canonical CI workflow: ${compactErrorText(commandErrorText(error), 500)}`,
+    };
+  }
+  if (!Number.isInteger(Number(workflow?.id)) || workflow.path !== workflowPath || workflow.state !== "active") {
+    return { ...baseGate, reason: `${workflowPath} is not the active canonical CI workflow` };
+  }
+
+  let lastBlock = null;
+  for (const check of successful) {
+    const gate = {
+      ...baseGate,
+      check_run_id: check.id,
+      status: check.status,
+      conclusion: check.conclusion,
+      completed_at: check.completed_at ?? null,
+      details_url: check.details_url ?? null,
+      workflow_id: workflow.id,
+    };
+    const completedAt = Date.parse(String(check.completed_at ?? ""));
+    const ageMs = now - completedAt;
+    if (!Number.isFinite(completedAt)) {
+      lastBlock ??= { ...gate, reason: `${name} completion time is missing or invalid` };
+      continue;
+    }
+    if (ageMs < -5 * 60 * 1000) {
+      lastBlock ??= { ...gate, reason: `${name} completion time is unexpectedly in the future` };
+      continue;
+    }
+    if (ageMs > maxAgeMs) {
+      lastBlock ??= {
+        ...gate,
+        age_ms: ageMs,
+        reason: `${name} has no successful canonical run within ${maxAgeHours} hours on the exact PR head`,
+      };
+      continue;
+    }
+    const details = String(check.details_url ?? "").match(
+      /^https:\/\/github\.com\/([^/]+\/[^/]+)\/actions\/runs\/(\d+)\/job\/(\d+)$/,
+    );
+    if (!details || details[1].toLowerCase() !== repo.toLowerCase()) {
+      lastBlock ??= {
+        ...gate,
+        age_ms: Math.max(0, ageMs),
+        reason: `${name} has an invalid Actions URL`,
+      };
+      continue;
+    }
+    const runId = Number(details[2]);
+    const jobId = Number(details[3]);
+    let actionsJob;
+    let actionsRun;
+    try {
+      actionsJob = ghJson(["api", `repos/${repo}/actions/jobs/${jobId}`]);
+      actionsRun = ghJson(["api", `repos/${repo}/actions/runs/${runId}`]);
+    } catch (error) {
+      lastBlock ??= {
+        ...gate,
+        age_ms: Math.max(0, ageMs),
+        run_id: runId,
+        job_id: jobId,
+        reason: `could not verify ${name} Actions run: ${compactErrorText(commandErrorText(error), 500)}`,
+      };
+      continue;
+    }
+    const pullBinding = (actionsRun.pull_requests ?? []).some(
+      (pull) =>
+        Number(pull?.number) === Number(target) &&
+        String(pull?.head?.sha ?? "").toLowerCase() === headSha.toLowerCase() &&
+        pull?.base?.ref === "main",
+    );
+    const expectedCheckRunUrl = `https://api.github.com/repos/${repo}/check-runs/${check.id}`;
+    const workflowRunPath = String(actionsRun.path ?? "");
+    const canonicalWorkflowRunPath =
+      workflowRunPath === workflowPath ||
+      (workflowRunPath.startsWith(`${workflowPath}@`) &&
+        workflowRunPath.length > workflowPath.length + 1);
+    if (
+      Number(actionsJob.id) !== jobId ||
+      Number(actionsJob.run_id) !== runId ||
+      actionsJob.name !== name ||
+      String(actionsJob.head_sha ?? "").toLowerCase() !== headSha.toLowerCase() ||
+      actionsJob.status !== "completed" ||
+      actionsJob.conclusion !== "success" ||
+      actionsJob.check_run_url !== expectedCheckRunUrl ||
+      actionsJob.html_url !== check.details_url ||
+      Number(actionsRun.id) !== runId ||
+      Number(actionsRun.workflow_id) !== Number(workflow.id) ||
+      !canonicalWorkflowRunPath ||
+      actionsRun.event !== "pull_request" ||
+      String(actionsRun.head_sha ?? "").toLowerCase() !== headSha.toLowerCase() ||
+      !pullBinding
+    ) {
+      lastBlock ??= {
+        ...gate,
+        age_ms: Math.max(0, ageMs),
+        run_id: runId,
+        job_id: jobId,
+        reason: `${name} is not bound to the canonical completed CI workflow for this PR head`,
+      };
+      continue;
+    }
+    return {
+      ...gate,
+      age_ms: Math.max(0, ageMs),
+      run_id: runId,
+      job_id: jobId,
+      workflow_run_status: actionsRun.status ?? null,
+      workflow_run_conclusion: actionsRun.conclusion ?? null,
+      reason: "",
+    };
+  }
+  return lastBlock ?? { ...baseGate, reason: `${name} has no acceptable successful run` };
+}
+
 function validateExactMergeRule(repo) {
   const appId = positiveInteger(process.env.CLOWNFISH_APP_ID, 0);
   if (!appId) return "external merge requires CLOWNFISH_APP_ID for exact-merge rule verification";
-  const rules = ghJson(["api", `repos/${repo}/rules/branches/main`]);
-  const statusRule = (rules ?? []).find((rule) => {
+  const rules = rulesetGhJson(["api", `repos/${repo}/rules/branches/main`]);
+  const statusRules = (rules ?? []).filter((rule) => {
     if (rule?.type !== "required_status_checks") return false;
     const parameters = rule.parameters ?? {};
     if (parameters.strict_required_status_checks_policy !== true) return false;
@@ -2276,17 +2065,64 @@ function validateExactMergeRule(repo) {
         Number(check?.integration_id) === appId,
     );
   });
-  return statusRule
-    ? ""
-    : `main must strictly require ${EXACT_MERGE_CHECK_NAME} from GitHub App ${appId}`;
+  if (statusRules.length === 0) {
+    return `main must strictly require ${EXACT_MERGE_CHECK_NAME} from GitHub App ${appId}`;
+  }
+  let bypassActorsUnavailable = false;
+  for (const rule of statusRules) {
+    const rulesetId = Number(rule.ruleset_id);
+    const sourceType = String(rule.ruleset_source_type ?? "");
+    const source = String(rule.ruleset_source ?? "");
+    const endpoint =
+      sourceType === "Repository" && source
+        ? `repos/${source}/rulesets/${rulesetId}`
+        : sourceType === "Organization" && source
+          ? `orgs/${source}/rulesets/${rulesetId}`
+          : "";
+    if (!Number.isInteger(rulesetId) || rulesetId <= 0 || !endpoint) continue;
+    let ruleset;
+    try {
+      ruleset = rulesetGhJson(["api", endpoint]);
+    } catch {
+      continue;
+    }
+    // GitHub omits bypass_actors without ruleset write access. Missing data
+    // cannot prove that the App-bound check is non-bypassable.
+    if (!Array.isArray(ruleset?.bypass_actors)) {
+      bypassActorsUnavailable = true;
+      continue;
+    }
+    const appBypasses = ruleset.bypass_actors.some(
+      (actor) => actor?.actor_type === "Integration" && Number(actor?.actor_id) === appId,
+    );
+    const hasMatchingRule = (ruleset?.rules ?? []).some((candidate) => {
+      const parameters = candidate?.parameters ?? {};
+      return (
+        candidate?.type === "required_status_checks" &&
+        parameters.strict_required_status_checks_policy === true &&
+        (parameters.required_status_checks ?? []).some(
+          (check) =>
+            check?.context === EXACT_MERGE_CHECK_NAME &&
+            Number(check?.integration_id) === appId,
+        )
+      );
+    });
+    if (
+      ruleset?.enforcement === "active" &&
+      ruleset?.target === "branch" &&
+      hasMatchingRule &&
+      !appBypasses
+    ) {
+      return "";
+    }
+  }
+  if (bypassActorsUnavailable) {
+    return `${EXACT_MERGE_CHECK_NAME} ruleset bypass actors are unavailable; ruleset write access is required`;
+  }
+  return `${EXACT_MERGE_CHECK_NAME} must be enforced without a GitHub App ${appId} bypass`;
 }
 
-function prepareExactMergeCheck({
-  repo,
-  action,
-  target,
-  effectiveDiffBinding,
-}) {
+function prepareExactMergeCheck({ repo, action, target, effectiveDiffBinding }) {
   const appId = positiveInteger(process.env.CLOWNFISH_APP_ID, 0);
   const mergeCommitSha = effectiveDiffBinding.merge_commit_sha.toLowerCase();
   const adoptionProofSha = effectiveDiffBinding.base_adoption?.authorization_sha256 ?? null;
@@ -2349,7 +2185,6 @@ function prepareExactMergeCheck({
   ) {
     throw new Error("GitHub returned an invalid pending exact-merge check run");
   }
-
   const pendingRecord = exactMergeCheckRecord(pending, mergeCommitSha, externalId);
   setActiveExactMergeAuthorization(repo, pendingRecord);
   return pendingRecord;
@@ -2362,6 +2197,7 @@ function authorizeExactMergeCheck({
   expectedHeadSha,
   mergeHeadSha,
   effectiveDiffBinding,
+  ciGate,
 }) {
   const appId = positiveInteger(process.env.CLOWNFISH_APP_ID, 0);
   const mergeCommitSha = effectiveDiffBinding.merge_commit_sha.toLowerCase();
@@ -2389,8 +2225,9 @@ function authorizeExactMergeCheck({
       title: `Exact merge verified for #${target}`,
       summary:
         `Reviewed base ${effectiveDiffBinding.verified_main_sha}, reviewed head ${expectedHeadSha}, ` +
-        `merge head ${mergeHeadSha}, ` +
-        `test merge ${mergeCommitSha}, effective diff ${effectiveDiffBinding.live_effective_diff_sha256}` +
+        `test merge ${mergeCommitSha}, effective diff ${effectiveDiffBinding.live_effective_diff_sha256}, ` +
+        `CI run ${ciGate.run_id} (${ciGate.completed_at})` +
+        `${mergeHeadSha !== expectedHeadSha ? `, merge head ${mergeHeadSha}` : ""}` +
         `${adoptionProofSha ? `, adoption proof ${adoptionProofSha}` : ""}.`,
     },
   });
@@ -2425,7 +2262,7 @@ function authorizeExactMergeCheck({
       revokeExactMergeCheck({ repo, exactMergeCheck });
       clearActiveExactMergeAuthorization(exactMergeCheck);
     } catch {
-      // The exit guard retries in case GitHub accepted the authorization update.
+      // The exit guard retries if GitHub accepted the authorization update.
     }
     throw error;
   }
@@ -2444,7 +2281,7 @@ function authorizeExactMergeCheck({
       revokeExactMergeCheck({ repo, exactMergeCheck });
       clearActiveExactMergeAuthorization(exactMergeCheck);
     } catch {
-      // The exit guard retries cleanup if GitHub accepted the authorization update.
+      // The exit guard retries cleanup if authorization became visible late.
     }
     throw new Error("GitHub returned an invalid exact-merge authorization");
   }
@@ -2578,7 +2415,6 @@ function installExactMergeExitCleanup() {
       exactMergeCleanupRunning = false;
     }
   };
-
   process.once("exit", cleanup);
   for (const [signal, exitCode] of [
     ["SIGINT", 130],
@@ -2610,7 +2446,7 @@ function verifyActualMergedCommit({
   });
   if (bindingBlock) return { reason: bindingBlock };
   if (String(pullRequest?.head?.sha ?? "").toLowerCase() !== mergeHeadSha.toLowerCase()) {
-    return { reason: "merged pull request head does not match the authorized merge head" };
+    return { reason: "merged pull request head does not match the verified merge head" };
   }
   const reviewedFingerprint = String(
     effectiveDiffBinding?.live_effective_diff_sha256 ??
@@ -2781,6 +2617,7 @@ function validateMergeablePullRequest({
   view,
   allowExactMergeState = false,
   allowedPendingCheckNames = [],
+  ignoredCheckNames = [],
 }) {
   if (pullRequest.state !== "open") return `pull request is ${pullRequest.state}`;
   if (pullRequest.draft || view.isDraft) return "pull request is draft";
@@ -2791,12 +2628,14 @@ function validateMergeablePullRequest({
   }
   const checkBlock = validateStatusChecks(view.statusCheckRollup ?? [], {
     allowedPendingCheckNames,
+    ignoredCheckNames,
   });
   if (checkBlock) return checkBlock;
   if (
     !isAcceptableMergeState(view, {
       allowExactMergeState,
       allowedPendingCheckNames,
+      ignoredCheckNames,
     })
   ) {
     return `merge state status is ${view.mergeStateStatus || "unknown"}`;
@@ -2804,7 +2643,13 @@ function validateMergeablePullRequest({
   return "";
 }
 
-function validatePullRequestCurrentBase({ repo, pullRequest, view, allowExactMergeState = false }) {
+function validatePullRequestCurrentBase({
+  repo,
+  pullRequest,
+  view,
+  allowExactMergeState = false,
+  ignoredCheckNames = [],
+}) {
   const pullRequestBaseSha = String(pullRequest?.base?.sha ?? "");
   const currentMainSha = fetchBranchHeadSha(repo, "main");
   if (!pullRequestBaseSha || !currentMainSha) {
@@ -2817,13 +2662,14 @@ function validatePullRequestCurrentBase({ repo, pullRequest, view, allowExactMer
   if (pullRequestBaseSha !== currentMainSha) {
     if (
       view?.mergeable === "MERGEABLE" &&
-      isAcceptableMergeState(view, { allowExactMergeState }) &&
-      !validateStatusChecks(view.statusCheckRollup ?? [])
+      isAcceptableMergeState(view, { allowExactMergeState, ignoredCheckNames }) &&
+      !validateStatusChecks(view.statusCheckRollup ?? [], { ignoredCheckNames })
     ) {
       return null;
     }
     return {
-      reason: "pull request base is stale relative to current main; rebase and rerun validation",
+      reason:
+        "pull request base is stale relative to current main and cannot be adopted cleanly; resolve the blocker and rerun external preflight",
       pull_request_base_sha: pullRequestBaseSha,
       current_main_sha: currentMainSha,
     };
@@ -2831,13 +2677,18 @@ function validatePullRequestCurrentBase({ repo, pullRequest, view, allowExactMer
   return null;
 }
 
-function validateStatusChecks(checks, { allowedPendingCheckNames = [] } = {}) {
+function validateStatusChecks(
+  checks,
+  { allowedPendingCheckNames = [], ignoredCheckNames = [] } = {},
+) {
   if (!Array.isArray(checks) || checks.length === 0) return "no PR checks found";
   const blockers = [];
   const pending = [];
   const allowedPending = new Set(allowedPendingCheckNames);
+  const ignored = new Set(ignoredCheckNames);
   for (const check of latestStatusChecks(checks)) {
     const name = check.name ?? check.context ?? "unknown check";
+    if (ignored.has(name)) continue;
     const status = String(check.status ?? check.state ?? "").toUpperCase();
     const conclusion = String(check.conclusion ?? "").toUpperCase();
     if (status === "COMPLETED") {
@@ -2857,13 +2708,13 @@ function validateStatusChecks(checks, { allowedPendingCheckNames = [] } = {}) {
   return "";
 }
 
-function validateSettledStatusChecks(checks) {
-  return validateStatusChecks(checks);
-}
-
 function isAcceptableMergeState(
   view,
-  { allowExactMergeState = false, allowedPendingCheckNames = [] } = {},
+  {
+    allowExactMergeState = false,
+    allowedPendingCheckNames = [],
+    ignoredCheckNames = [],
+  } = {},
 ) {
   const state = String(view.mergeStateStatus ?? "");
   if (CLEAN_MERGE_STATES.has(state)) return true;
@@ -2874,11 +2725,12 @@ function isAcceptableMergeState(
     return false;
   }
   // Exact-bound external actions verify the synthetic merge against current
-  // main before publishing authorization or attempting the one-shot merge.
+  // main before attempting the one-shot merge.
   return (
     view.mergeable === "MERGEABLE" &&
     !validateStatusChecks(view.statusCheckRollup ?? [], {
       allowedPendingCheckNames,
+      ignoredCheckNames,
     })
   );
 }
@@ -3094,31 +2946,6 @@ function hasPendingStatusChecks(checks, { allowedPendingCheckNames = [] } = {}) 
   });
 }
 
-function fetchSettledRefreshedPullRequestView(repo, number) {
-  const attempts = positiveInteger(
-    process.env.CLOWNFISH_APPLY_REFRESH_CHECK_ATTEMPTS,
-    90,
-  );
-  const delayMs = nonNegativeInteger(
-    process.env.CLOWNFISH_APPLY_REFRESH_CHECK_DELAY_MS,
-    10000,
-  );
-  let latest = null;
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    latest = fetchPullRequestView(repo, number);
-    if (
-      !hasUnknownMergeability(latest) &&
-      !hasPendingStatusChecks(latest.statusCheckRollup ?? [])
-    ) {
-      return latest;
-    }
-    if (attempt < attempts && delayMs > 0) {
-      execFileSync("sleep", [String(delayMs / 1000)], { stdio: "ignore" });
-    }
-  }
-  return latest;
-}
-
 function hasUnknownMergeability(view) {
   return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
 }
@@ -3219,6 +3046,13 @@ function exactMergeGhJson(ghArgs) {
   if (!token) {
     throw new Error("exact-merge check mutation requires CLOWNFISH_CHECKS_GH_TOKEN");
   }
+  const text = ghWithRetry(ghArgs, 6, githubCliEnv({ ghToken: token }));
+  return JSON.parse(stripAnsi(text) || "null");
+}
+
+function rulesetGhJson(ghArgs) {
+  const token = process.env.CLOWNFISH_RULES_GH_TOKEN;
+  if (!token) return ghJson(ghArgs);
   const text = ghWithRetry(ghArgs, 6, githubCliEnv({ ghToken: token }));
   return JSON.parse(stripAnsi(text) || "null");
 }

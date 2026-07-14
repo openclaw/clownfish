@@ -681,6 +681,16 @@ jobs:
           permission-pull-requests: write
           permission-workflows: write
 
+      - name: Create ruleset inspection token
+        id: rules_app_token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.CLOWNFISH_APP_ID }}
+          private-key: ${{ secrets.CLOWNFISH_APP_PRIVATE_KEY }}
+          owner: ${{ vars.CLOWNFISH_ALLOWED_OWNER || github.repository_owner }}
+          permission-administration: write
+
       - name: Select GitHub write token
         env:
           CLOWNFISH_APP_GH_TOKEN: ${{ steps.app_token.outputs.token }}
@@ -733,6 +743,7 @@ jobs:
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
           CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
+          CLOWNFISH_RULES_GH_TOKEN: ${{ steps.rules_app_token.outputs.token }}
         run: |
           npm run run-external-merge-preflights -- "${{ needs.prepare.outputs.job }}" \
             --latest \
@@ -742,6 +753,7 @@ jobs:
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
           CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
+          CLOWNFISH_RULES_GH_TOKEN: ${{ steps.rules_app_token.outputs.token }}
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Post-flight finalize fix PRs
@@ -752,6 +764,7 @@ jobs:
         if: ${{ env.CLOWNFISH_ALLOW_EXECUTE == '1' }}
         env:
           CLOWNFISH_CHECKS_GH_TOKEN: ${{ steps.app_token.outputs.token || steps.workflow_app_token.outputs.token }}
+          CLOWNFISH_RULES_GH_TOKEN: ${{ steps.rules_app_token.outputs.token }}
         run: npm run apply-result -- "${{ needs.prepare.outputs.job }}" --latest
 
       - name: Tag Clownfish targets
