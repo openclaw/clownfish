@@ -2,7 +2,7 @@
 repo: openclaw/openclaw
 cluster_id: exact-merge-111571-model-validation-20260719
 mode: autonomous
-expected_head_sha: 698c4b0ee5858a9ab9a7338a4b961d5c6e4b9b77
+expected_head_sha: 501e4fcad3a39311a1c184b9338e9c658461a31c
 allowed_actions:
   - "merge"
 blocked_actions:
@@ -34,7 +34,7 @@ require_external_merge_preflight: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #111571 after deterministic validation and Codex review bind to its exact live head."
-notes: "Qualified on 2026-07-19 at exact head 698c4b0ee5858a9ab9a7338a4b961d5c6e4b9b77. The PR is open, non-draft, mergeable, and prepared through the repository-native scripts/pr flow. Exact-head CI run 29710937376 passed all 137 jobs, including openclaw/ci-gate. Fresh branch autoreview reported no accepted or actionable findings. The change validates changed default and per-agent text-model primaries and fallbacks before config persistence and preserves authored environment placeholders. Re-fetch live state and stop if the head, checks, review state, or merge policy changes."
+notes: "Qualified on 2026-07-20 at exact head 501e4fcad3a39311a1c184b9338e9c658461a31c. The PR is open, non-draft, mergeable, and prepared through the repository-native scripts/pr flow. Exact-head CI run 29718269558 passed all 137 jobs, including openclaw/ci-gate. Fresh full-branch autoreview reported no accepted or actionable findings. ClawSweeper found no patch or security findings, rated the PR platinum with sufficient proof, and requested only explicit maintainer acceptance of the fail-closed compatibility boundary; @steipete supplied that approval in PR comment 5019066267. The change validates changed default and per-agent text-model primaries and fallbacks before config persistence and redacts environment-derived dependency values. Re-fetch live state and stop if the head, checks, review state, or merge policy changes."
 ---
 
 # Exact Merge: #111571
