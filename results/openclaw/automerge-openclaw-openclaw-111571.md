@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-111571"
 mode: "autonomous"
-run_id: "29715888798"
-workflow_run_id: "29715888798"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/29715888798"
-head_sha: "f0dfb946da3386c9f63c14965cc11572e25b9e10"
+run_id: "29718993934"
+workflow_run_id: "29718993934"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/29718993934"
+head_sha: "a1b1015f68ab5b81a8b2872cbf56e457e3ea8c84"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-07-20T04:04:02.190Z"
+result_status: "planned"
+published_at: "2026-07-20T05:25:07.080Z"
 canonical: "https://github.com/openclaw/openclaw/pull/111571"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/111571"
@@ -19,24 +19,24 @@ fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # automerge-openclaw-openclaw-111571
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/29715888798](https://github.com/openclaw/clownfish/actions/runs/29715888798)
+Run: [https://github.com/openclaw/clownfish/actions/runs/29718993934](https://github.com/openclaw/clownfish/actions/runs/29718993934)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/111571
 
 ## Summary
 
-PR #111571 is the canonical automerge candidate, but the latest hydrated ClawSweeper state says the remaining blocker is maintainer acceptance of an intentional fail-closed compatibility change, not a narrow mechanical repair. The PR branch is also not maintainer-editable, so Clownfish should not fabricate a replacement PR that would only duplicate the same unresolved product decision.
+PR #111571 remains the canonical automerge candidate. The hydrated state shows the latest ClawSweeper durable review is ready for maintainer review, real behavior proof and openclaw/ci-gate are passing for head 501e4fcad3a39311a1c184b9338e9c658461a31c, and no current actionable repair comment is left for Clownfish to turn into a branch update or replacement PR. Because merge and close are blocked for this job, the safe action is to keep the PR canonical and let the external automerge/comment router continue its guarded merge path.
 
 ## Impact
 
@@ -49,7 +49,7 @@ PR #111571 is the canonical automerge candidate, but the latest hydrated ClawSwe
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -73,9 +73,9 @@ PR #111571 is the canonical automerge candidate, but the latest hydrated ClawSwe
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #111571 | needs_human | planned | needs_human | maintainer_compatibility_decision_required |
+| #111571 | keep_canonical | planned | canonical |  |
 | #24243 | keep_closed | skipped | related | already_closed_context_ref |
 
 ## Needs Human
 
-- Maintainer decision needed on #111571: accept the intentional fail-closed compatibility change for config-set model validation, or request a different product behavior before automerge continues.
+- none
