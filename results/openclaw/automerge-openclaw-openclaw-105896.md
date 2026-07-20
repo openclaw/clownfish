@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-105896"
 mode: "autonomous"
-run_id: "29715889871"
-workflow_run_id: "29715889871"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/29715889871"
-head_sha: "f0dfb946da3386c9f63c14965cc11572e25b9e10"
+run_id: "29737228660"
+workflow_run_id: "29737228660"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/29737228660"
+head_sha: "849ffd478b1bfc6273d2b36afc0fa5a8d288ecf8"
 workflow_conclusion: "failure"
 result_status: "planned"
-published_at: "2026-07-20T04:05:16.739Z"
+published_at: "2026-07-20T11:08:02.650Z"
 canonical: "https://github.com/openclaw/openclaw/pull/105896"
 canonical_issue: "https://github.com/openclaw/openclaw/issues/105680"
 canonical_pr: "https://github.com/openclaw/openclaw/pull/105896"
@@ -26,7 +26,7 @@ needs_human_count: 0
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/29715889871](https://github.com/openclaw/clownfish/actions/runs/29715889871)
+Run: [https://github.com/openclaw/clownfish/actions/runs/29737228660](https://github.com/openclaw/clownfish/actions/runs/29737228660)
 
 Workflow conclusion: failure
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/105896
 
 ## Summary
 
-Canonical path remains open PR #105896. The artifact shows a narrow, maintainer-editable contributor branch with green exact-head checks, but the latest ClawSweeper state is still a protected needs-human/repair-loop pause rather than a merge authorization. This no-merge job should hand an executable contributor-branch repair/validation artifact to the applicator and keep the linked issue open until the canonical PR lands.
+Canonical path is open PR #105896. It is narrow, maintainer-editable, and directly repairs open issue #105680, but this no-merge automerge worker should keep it in the guarded repair lane because the latest ClawSweeper verdict is still needs-human/maintainer-review and the PR is behind current main. Current main at 8d5ad804a65dddfd60a5e0d6e06e8a1108d8c035 still has the check-then-create LanceDB initializer, so the bug is not already fixed on main.
 
 ## Impact
 
@@ -66,9 +66,9 @@ Canonical path remains open PR #105896. The artifact shows a narrow, maintainer-
     "fix_needed",
     "build_fix_artifact"
   ],
-  "summary": "Repair the existing #105896 contributor branch only if exact-head validation or ClawSweeper's latest review blocker surfaces a mechanical issue. The intended branch path is to keep the LanceDB dependency-native atomic table initialization fix on the contributor PR, preserve @momothemage's authorship, rerun the focused memory-lancedb proof plus pnpm check:changed, and return to the ClawSweeper/Clownfish exact-head merge lane.",
+  "summary": "Repair the opted-in automerge PR #105896 in place: refresh the contributor branch against current main, preserve the narrow atomic LanceDB table initialization fix, address the latest ClawSweeper maintainer-review proof scope as far as automation can, rerun focused memory-lancedb validation and pnpm check:changed, then hand the exact head back to ClawSweeper/external merge gates.",
   "pr_title": "fix(memory-lancedb): make table initialization atomic",
-  "pr_body": "Repair plan for #105896:\n\n- Keep the existing contributor PR branch `feature/lancedb-atomic-init` as canonical because it is narrow, maintainer-editable, and already carries @momothemage's implementation.\n- Inspect ClawSweeper's latest needs-human blocker around persistent-store initialization proof and upgrade compatibility.\n- If a mechanical gap remains, update only `extensions/memory-lancedb/lancedb-store.ts` and/or `extensions/memory-lancedb/memory-lancedb.concurrent.test.ts`.\n- Validate with the focused memory-lancedb tests and `pnpm check:changed` before returning the exact head to the ClawSweeper review lane.\n\nCloses #105680. Source PR and attribution: https://github.com/openclaw/openclaw/pull/105896 by @momothemage.",
+  "pr_body": "Clownfish repair plan for #105896:\n\n- Refresh the existing contributor branch against current main without broadening the diff.\n- Keep the repair inside `extensions/memory-lancedb/lancedb-store.ts` and the concurrent regression test.\n- Preserve the dependency-native LanceDB `existOk` initialization shape and bounded readiness behavior already reviewed by ClawSweeper.\n- Reconfirm that the change does not add dependencies, permissions, secrets, workflows, downloads, or production execution surfaces.\n- Run focused memory-lancedb tests and `pnpm check:changed` before handing the exact head back to ClawSweeper/external merge gates.\n\nCredit: this continues @momothemage's PR #105896 and closes the race reported by @aniruddhaadak80 in #105680 once landed.",
   "likely_files": [
     "extensions/memory-lancedb/lancedb-store.ts",
     "extensions/memory-lancedb/memory-lancedb.concurrent.test.ts"
@@ -78,8 +78,9 @@ Canonical path remains open PR #105896. The artifact shows a narrow, maintainer-
     "pnpm check:changed"
   ],
   "credit_notes": [
-    "Preserve @momothemage as the source PR author for https://github.com/openclaw/openclaw/pull/105896.",
-    "If any repair commit is added by the executor, keep the PR branch rather than opening a replacement unless branch update fails; credit the original source PR in the update summary."
+    "Preserve PR credit for @momothemage as the author of https://github.com/openclaw/openclaw/pull/105896.",
+    "Preserve issue/report context for @aniruddhaadak80 from https://github.com/openclaw/openclaw/issues/105680.",
+    "If a replacement PR becomes necessary later, its body must explicitly credit @momothemage and source PR #105896; this artifact currently prefers repairing the contributor branch."
   ],
   "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-105896.md",
   "security_sensitive": false,
@@ -113,10 +114,10 @@ Canonical path remains open PR #105896. The artifact shows a narrow, maintainer-
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #105896 | fix_needed | planned | canonical | Repair/validation is still needed for the opted-in automerge loop because ClawSweeper has not produced a clean merge authorization for the exact head and this job is explicitly no-merge. |
-| #105680 | keep_related | planned | fixed_by_candidate | Keep the source issue open and associated with the canonical repair PR until the fix lands. |
-| #7629 | keep_closed | skipped | related | Already closed and not part of the executable automerge repair lane. |
-| cluster:automerge-openclaw-openclaw-105896 | build_fix_artifact | planned |  | Provide an executable repair/validation artifact for the contributor branch without mutating GitHub from the worker. |
+| #105896 | fix_needed | planned | canonical | Repair the existing contributor branch because it is useful, narrow, editable, and still needs guarded exact-head refresh/validation plus ClawSweeper review-loop clearance under a no-merge worker job. |
+| #105680 | keep_related | planned | fixed_by_candidate | Keep the source issue open and associated with PR #105896 until the canonical fix lands. |
+| #7629 | keep_closed | skipped | independent | Already closed and not a target for this automerge repair cluster. |
+| cluster:automerge-openclaw-openclaw-105896 | build_fix_artifact | planned |  | Provide the applicator a complete contributor-branch repair artifact for the no-merge automerge loop. |
 
 ## Needs Human
 

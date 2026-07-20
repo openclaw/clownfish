@@ -1,0 +1,149 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-105896",
+  "mode": "autonomous",
+  "run_id": "29737228660",
+  "workflow_run_id": "29737228660",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/29737228660",
+  "head_sha": "849ffd478b1bfc6273d2b36afc0fa5a8d288ecf8",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-20T11:04:17Z",
+  "workflow_updated_at": "2026-07-20T11:07:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-105896.md",
+  "published_at": "2026-07-20T11:08:02.650Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/105896",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/105680",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/105896",
+  "summary": "Canonical path is open PR #105896. It is narrow, maintainer-editable, and directly repairs open issue #105680, but this no-merge automerge worker should keep it in the guarded repair lane because the latest ClawSweeper verdict is still needs-human/maintainer-review and the PR is behind current main. Current main at 8d5ad804a65dddfd60a5e0d6e06e8a1108d8c035 still has the check-then-create LanceDB initializer, so the bug is not already fixed on main.",
+  "actions": [
+    {
+      "target": "#105896",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#105896",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor branch because it is useful, narrow, editable, and still needs guarded exact-head refresh/validation plus ClawSweeper review-loop clearance under a no-merge worker job."
+    },
+    {
+      "target": "#105680",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#105896",
+      "candidate_fix": "#105896",
+      "reason": "Keep the source issue open and associated with PR #105896 until the canonical fix lands."
+    },
+    {
+      "target": "#7629",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "independent",
+      "canonical": null,
+      "candidate_fix": null,
+      "reason": "Already closed and not a target for this automerge repair cluster."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-105896",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#105896",
+      "candidate_fix": "#105896",
+      "reason": "Provide the applicator a complete contributor-branch repair artifact for the no-merge automerge loop."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_related": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#105896",
+    "source_refs": [
+      "#105896",
+      "#105680",
+      "#7629"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair the opted-in automerge PR #105896 in place: refresh the contributor branch against current main, preserve the narrow atomic LanceDB table initialization fix, address the latest ClawSweeper maintainer-review proof scope as far as automation can, rerun focused memory-lancedb validation and pnpm check:changed, then hand the exact head back to ClawSweeper/external merge gates.",
+    "pr_title": "fix(memory-lancedb): make table initialization atomic",
+    "pr_body": "Clownfish repair plan for #105896:\n\n- Refresh the existing contributor branch against current main without broadening the diff.\n- Keep the repair inside `extensions/memory-lancedb/lancedb-store.ts` and the concurrent regression test.\n- Preserve the dependency-native LanceDB `existOk` initialization shape and bounded readiness behavior already reviewed by ClawSweeper.\n- Reconfirm that the change does not add dependencies, permissions, secrets, workflows, downloads, or production execution surfaces.\n- Run focused memory-lancedb tests and `pnpm check:changed` before handing the exact head back to ClawSweeper/external merge gates.\n\nCredit: this continues @momothemage's PR #105896 and closes the race reported by @aniruddhaadak80 in #105680 once landed.",
+    "likely_files": [
+      "extensions/memory-lancedb/lancedb-store.ts",
+      "extensions/memory-lancedb/memory-lancedb.concurrent.test.ts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs extensions/memory-lancedb/lancedb-store.test.ts extensions/memory-lancedb/memory-lancedb.concurrent.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve PR credit for @momothemage as the author of https://github.com/openclaw/openclaw/pull/105896.",
+      "Preserve issue/report context for @aniruddhaadak80 from https://github.com/openclaw/openclaw/issues/105680.",
+      "If a replacement PR becomes necessary later, its body must explicitly credit @momothemage and source PR #105896; this artifact currently prefers repairing the contributor branch."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-105896.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "job blocks force_push required to update rebased contributor branch feature/lancedb-atomic-init",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#105896",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
