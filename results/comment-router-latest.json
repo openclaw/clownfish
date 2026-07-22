@@ -1,18 +1,18 @@
 {
   "status": "executed",
   "mode": "route",
-  "generated_at": "2026-07-22T02:32:14.759Z",
+  "generated_at": "2026-07-22T03:51:12.113Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
-  "since": "2026-07-21T23:32:13.321Z",
+  "since": "2026-07-22T00:51:08.694Z",
   "execute": true,
   "max_comments": 100,
   "requested_comment_ids": [],
-  "all_comments_scanned": 295,
+  "all_comments_scanned": 327,
   "max_autoclose_targets": 8,
-  "scanned_comments": 295,
-  "commands_seen": 0,
+  "scanned_comments": 327,
+  "commands_seen": 1,
   "actionable": 0,
   "deferred_merge_comments": 0,
   "trusted_bots": [
@@ -26,5 +26,75 @@
   ],
   "max_auto_repairs_per_head": 1,
   "max_auto_repairs_per_pr": 5,
-  "commands": []
+  "commands": [
+    {
+      "idempotency_key": "clawsweeper-repair:openclaw/openclaw:56806:4350011805:2026-07-22T02:49:14Z:clawsweeper_auto_repair",
+      "comment_id": "4350011805",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABA0fpnQ",
+      "comment_version_key": "4350011805:2026-07-22T02:49:14Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/56806#issuecomment-4350011805",
+      "repo": "openclaw/openclaw",
+      "issue_number": 56806,
+      "author": "clawsweeper[bot]",
+      "author_association": "CONTRIBUTOR",
+      "comment_created_at": "2026-04-30T05:51:28Z",
+      "comment_updated_at": "2026-07-22T02:49:14Z",
+      "trigger": "trusted_bot",
+      "command": "clawsweeper auto repair",
+      "intent": "clawsweeper_auto_repair",
+      "autoclose_message": null,
+      "trusted_bot": true,
+      "trusted_bot_author": "clawsweeper[bot]",
+      "automation_source": "clawsweeper",
+      "repair_reason": "structured ClawSweeper verdict: needs-human (sha=510a228712da8bc2c00552a30b987a586caafb5d)",
+      "expected_head_sha": "510a228712da8bc2c00552a30b987a586caafb5d",
+      "finding_id": null,
+      "status": "skipped",
+      "actions": [],
+      "target": {
+        "kind": "pull_request",
+        "title": "feat(exec): expose knownLongFlags in safeBinProfiles config schema",
+        "branch": "expose-known-long-flags",
+        "head_sha": "510a228712da8bc2c00552a30b987a586caafb5d",
+        "author": "spencer2211",
+        "labels": [
+          "docs",
+          "size: S",
+          "proof: supplied",
+          "proof: sufficient",
+          "P2",
+          "rating: 🐚 platinum hermit",
+          "merge-risk: 🚨 compatibility",
+          "merge-risk: 🚨 security-boundary",
+          "status: ⏳ waiting on author"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": null,
+        "job_path": null,
+        "automerge_cluster_id": "automerge-openclaw-openclaw-56806",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-56806.md",
+        "mode": "autonomous",
+        "merge_state_status": "UNKNOWN",
+        "review_decision": "",
+        "checks": {
+          "total": 129,
+          "counts": {
+            "CANCELLED": 2,
+            "SKIPPED": 42,
+            "SUCCESS": 81,
+            "FAILURE": 3,
+            "NEUTRAL": 1
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "check-lint:FAILURE",
+            "check-docs:FAILURE",
+            "openclaw/ci-gate:FAILURE"
+          ]
+        }
+      },
+      "reason": "repair commands require a Clownfish PR or a PR opted into Clownfish automerge"
+    }
+  ]
 }
