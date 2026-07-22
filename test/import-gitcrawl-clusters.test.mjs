@@ -121,6 +121,68 @@ test("autonomous cluster repair jobs require explicit guarded force-push authori
   assert.doesNotMatch(job, /blocked_actions:\n(?:  - .+\n)*  - force_push/);
 });
 
+test("issue-only autonomous clusters do not require a fix before duplicate close", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db);
+
+  const result = runWrittenImport(
+    fixture,
+    "--mode",
+    "autonomous",
+    "--allow-fix-pr",
+    "false",
+    "--allow-merge",
+    "true",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+
+  assert.match(job, /require_fix_before_close: false/);
+  assert.match(job, /require_human_for:\n  - security_sensitive\n(?:  - .+\n)*  - unclear_canonical/);
+});
+
+test("mixed autonomous clusters require a fix before close when merge is allowed", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db, { secondKind: "pull_request" });
+
+  const result = runWrittenImport(
+    fixture,
+    "--mode",
+    "autonomous",
+    "--allow-fix-pr",
+    "false",
+    "--allow-merge",
+    "true",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+
+  assert.match(job, /require_fix_before_close: true/);
+});
+
+test("issue-only autonomous clusters keep fix-first quarantine when any member has a security signal", { skip: hasSqlite ? false : "sqlite3 missing" }, () => {
+  const fixture = makeFixture();
+  seedPortableGitcrawlDb(fixture.db, { firstTitle: "Security issue: first duplicate" });
+
+  const result = runWrittenImport(
+    fixture,
+    "--mode",
+    "autonomous",
+    "--allow-fix-pr",
+    "false",
+    "--allow-merge",
+    "true",
+  );
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const payload = JSON.parse(result.stdout);
+  const job = fs.readFileSync(path.join(fixture.out, path.basename(payload.generated[0].path)), "utf8");
+
+  assert.match(job, /security_signal_refs:\n  - "#101"/);
+  assert.match(job, /require_fix_before_close: true/);
+});
+
 function runImport(fixture, ...extraArgs) {
   return spawnSync(
     process.execPath,
@@ -264,7 +326,15 @@ ${rows.map((row) => `| ${row.ref} | ${row.action} | ${row.status} | independent 
   );
 }
 
-function seedPortableGitcrawlDb(dbPath, { firstLabels = [], secondLabels = [] } = {}) {
+function seedPortableGitcrawlDb(
+  dbPath,
+  {
+    firstLabels = [],
+    firstTitle = "Bug: first duplicate",
+    secondLabels = [],
+    secondKind = "issue",
+  } = {},
+) {
   execFileSync("sqlite3", [dbPath], {
     input: `
 create table cluster_groups (
@@ -291,8 +361,8 @@ create table threads (
   updated_at text
 );
 insert into threads values
-  (1, 101, 'issue', 'open', 'Bug: first duplicate', 'body', 'body', '${sqlJson(firstLabels)}', '2026-06-01T00:00:00Z'),
-  (2, 102, 'issue', 'open', 'Bug: second duplicate', 'body', 'body', '${sqlJson(secondLabels)}', '2026-06-02T00:00:00Z');
+  (1, 101, 'issue', 'open', '${sqlText(firstTitle)}', 'body', 'body', '${sqlJson(firstLabels)}', '2026-06-01T00:00:00Z'),
+  (2, 102, '${secondKind}', 'open', 'Bug: second duplicate', 'body', 'body', '${sqlJson(secondLabels)}', '2026-06-02T00:00:00Z');
 insert into cluster_groups values (1, 1, 'active', '2026-06-01T00:00:00Z', null);
 insert into cluster_memberships values
   (1, 1, 'active'),
@@ -303,4 +373,8 @@ insert into cluster_memberships values
 
 function sqlJson(value) {
   return JSON.stringify(value).replaceAll("'", "''");
+}
+
+function sqlText(value) {
+  return String(value).replaceAll("'", "''");
 }
