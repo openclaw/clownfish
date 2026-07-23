@@ -1,18 +1,18 @@
 {
   "status": "executed",
   "mode": "route",
-  "generated_at": "2026-07-23T15:17:22.916Z",
+  "generated_at": "2026-07-23T16:00:36.587Z",
   "repo": "openclaw/openclaw",
   "clownfish_repo": "openclaw/clownfish",
   "clawsweeper_repo": "openclaw/clawsweeper",
-  "since": "2026-07-23T12:17:20.632Z",
+  "since": "2026-07-23T13:00:32.230Z",
   "execute": true,
   "max_comments": 100,
   "requested_comment_ids": [],
-  "all_comments_scanned": 346,
+  "all_comments_scanned": 330,
   "max_autoclose_targets": 8,
-  "scanned_comments": 346,
-  "commands_seen": 4,
+  "scanned_comments": 330,
+  "commands_seen": 5,
   "actionable": 0,
   "deferred_merge_comments": 0,
   "trusted_bots": [
@@ -130,6 +130,67 @@
       "status": "skipped",
       "actions": [],
       "reason": "comment version already processed in ledger"
+    },
+    {
+      "idempotency_key": "clawsweeper-repair:openclaw/openclaw:109536:4998685080:2026-07-23T15:54:53Z:clawsweeper_auto_repair",
+      "comment_id": "4998685080",
+      "comment_node_id": "IC_kwDOQb6kR88AAAABKfHhmA",
+      "comment_version_key": "4998685080:2026-07-23T15:54:53Z",
+      "comment_url": "https://github.com/openclaw/openclaw/pull/109536#issuecomment-4998685080",
+      "repo": "openclaw/openclaw",
+      "issue_number": 109536,
+      "author": "clawsweeper[bot]",
+      "author_association": "CONTRIBUTOR",
+      "comment_created_at": "2026-07-17T03:26:58Z",
+      "comment_updated_at": "2026-07-23T15:54:53Z",
+      "trigger": "trusted_bot",
+      "command": "clawsweeper auto repair",
+      "intent": "clawsweeper_auto_repair",
+      "autoclose_message": null,
+      "trusted_bot": true,
+      "trusted_bot_author": "clawsweeper[bot]",
+      "automation_source": "clawsweeper",
+      "repair_reason": "structured ClawSweeper verdict: needs-human (sha=94e9eba9e75cfdafac6d5a67bb13b52a91d0bd43)",
+      "expected_head_sha": "94e9eba9e75cfdafac6d5a67bb13b52a91d0bd43",
+      "finding_id": null,
+      "status": "skipped",
+      "actions": [],
+      "target": {
+        "kind": "pull_request",
+        "title": "fix(browser): keep tab reachability retry delay abortable",
+        "branch": "fix/bug-047-abort-signal-retry-delay",
+        "head_sha": "94e9eba9e75cfdafac6d5a67bb13b52a91d0bd43",
+        "author": "sunnyshu0925",
+        "labels": [
+          "size: XS",
+          "P2",
+          "rating: 🦪 silver shellfish",
+          "status: 📣 needs proof"
+        ],
+        "is_clownfish_pr": false,
+        "cluster_id": null,
+        "job_path": null,
+        "automerge_cluster_id": "automerge-openclaw-openclaw-109536",
+        "automerge_job_path": "jobs/openclaw/inbox/automerge-openclaw-openclaw-109536.md",
+        "mode": "autonomous",
+        "merge_state_status": "BEHIND",
+        "review_decision": "",
+        "checks": {
+          "total": 143,
+          "counts": {
+            "CANCELLED": 4,
+            "SKIPPED": 57,
+            "SUCCESS": 82
+          },
+          "blockers": [
+            "auto-response:CANCELLED",
+            "auto-response:CANCELLED",
+            "Real behavior proof:CANCELLED",
+            "Real behavior proof:CANCELLED"
+          ]
+        }
+      },
+      "reason": "repair commands require a Clownfish PR or a PR opted into Clownfish automerge"
     }
   ]
 }
