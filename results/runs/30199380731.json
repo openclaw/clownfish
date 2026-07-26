@@ -1,0 +1,140 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-92230",
+  "mode": "autonomous",
+  "run_id": "30199380731",
+  "workflow_run_id": "30199380731",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/30199380731",
+  "head_sha": "3ac00cebf6e98f5ce7f187b33cf75379600da6e7",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-26T11:02:33Z",
+  "workflow_updated_at": "2026-07-26T11:05:10Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-92230.md",
+  "published_at": "2026-07-26T11:05:58.011Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92230",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92230",
+  "summary": "#92230 remains the open canonical PR. It is maintainer-editable and not security-sensitive, but it is not merge-ready: ClawSweeper's latest hydrated review is blocked, the branch is behind, openclaw/ci-gate and check-test-types are failing on the current head, and the job pins two concrete repair defects. Close and merge are blocked by the job, so the executable path is a narrow repair of the existing contributor branch at bc008ed7c3a1535d79eda3e4be27ef27edde0f09. #94067 is already closed and merged, and is historical related context only.",
+  "actions": [
+    {
+      "target": "#92230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor PR branch; do not replace, close, or merge."
+    },
+    {
+      "target": "#94067",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Closed historical context only."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-92230",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Build a repair plan for the canonical contributor branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "failed": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92230",
+    "source_refs": [
+      "#92230",
+      "#94067"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #92230 in place on the contributor branch. Keep the existing model-picker work, then fix the remaining Discord configured-binding guard and Telegram long-model route proof defects without broadening scope.",
+    "pr_title": "feat: add model switch choices to /model",
+    "pr_body": "## Summary\n- repair the existing #92230 model-picker branch in place\n- preserve configured Discord ACP binding readiness before bare `/model` loads picker data or replies\n- prove Telegram long-model reachability through provider browse to the real `mdl_sel_<provider>/<model>` selection route\n\n## Credit\nThis continues @clawSean's source PR: https://github.com/openclaw/openclaw/pull/92230. Clownfish should keep the contributor trail on that branch instead of opening a replacement unless branch permissions unexpectedly fail.\n\n## Validation\n- `pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts`\n- `pnpm check:changed`\n\nKnown baseline: current unrelated `opencode-go` `check:changed` type failures are not part of this repair and should not be edited here.",
+    "likely_files": [
+      "extensions/discord/src/monitor/native-command.ts",
+      "extensions/discord/src/monitor/native-command.model-picker.test.ts",
+      "extensions/telegram/src/bot-native-commands.ts",
+      "extensions/telegram/src/bot-native-commands.test.ts",
+      "src/auto-reply/commands-registry.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Repair the existing contributor branch for https://github.com/openclaw/openclaw/pull/92230 so @clawSean keeps the source PR credit and review trail.",
+      "Do not edit opencode-go or unrelated check-test-types baseline failures unless changed validation proves this branch caused them."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-92230.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": "job blocks force_push required to update rebased contributor branch clawSean/slack-model-menu",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#92230",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
