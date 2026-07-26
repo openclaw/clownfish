@@ -1,0 +1,144 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-92230",
+  "mode": "autonomous",
+  "run_id": "30210888521",
+  "workflow_run_id": "30210888521",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/30210888521",
+  "head_sha": "a27608875b003b61f40e4ea8123c8c1f38f9582e",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-26T16:38:40Z",
+  "workflow_updated_at": "2026-07-26T16:40:44Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-92230.md",
+  "published_at": "2026-07-26T16:41:23.802Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/92230",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/92230",
+  "summary": "#92230 is the open canonical PR and remains the correct repair lane. The hydrated item is not security-sensitive, is maintainer-editable, and has no inline review comments, but ClawSweeper is still blocked on proof/repair requirements for Discord binding readiness and Telegram long-model callback reachability. Close and merge are blocked by the job, so the executable path is a narrow repair of the contributor branch.",
+  "actions": [
+    {
+      "target": "#92230",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Repair the existing contributor PR branch; do not replace, close, or merge."
+    },
+    {
+      "target": "#94067",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Already closed historical context; no mutation valid."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-92230",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#92230",
+      "candidate_fix": null,
+      "reason": "Build a narrow executable repair artifact for the canonical contributor branch."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "keep_closed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "blocked": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#92230",
+    "source_refs": [
+      "#92230",
+      "#94067"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #92230 at head b2c02786bbbc9ebdbf38dc1854e2b7152e09201b by preserving Discord configured ACP binding readiness before the bare /model picker path loads or replies, and by adding Telegram regression proof that long configured model choices fall back through provider browse and expose the real provider-scoped mdl_sel_<provider>/<model> callback route. Keep the existing short-model tgcmd behavior.",
+    "pr_title": "fix: keep /model picker channel routes guarded",
+    "pr_body": "## Summary\n\nRepair the existing #92230 branch so bare `/model` keeps the same guarded Discord configured ACP binding readiness as the normal command path, and so Telegram long configured model choices are proven reachable through provider browse before selection.\n\n## Repair scope\n\n- Preserve the existing unavailable-binding response for configured Discord ACP bindings before picker data loads or replies.\n- Add a Discord regression proving the picker loader/reply is not invoked when the configured binding is unavailable.\n- For Telegram, keep short configured-model callbacks as `tgcmd` where they fit.\n- When any configured model cannot fit Telegram callback data, show provider browse instead of a partial `tgcmd` keyboard, then assert the provider-scoped menu exposes `mdl_sel_<provider>/<model>` for the long model.\n\n## Credit\n\nThis repairs the contributor branch for #92230 and keeps @clawSean's original PR as the review and attribution path.\n\n## Validation\n\n- `pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts`\n- `pnpm check:changed`\n\nKnown baseline note: current unrelated `opencode-go` `check:changed` type failures should be treated as baseline only; do not edit that surface.",
+    "likely_files": [
+      "extensions/discord/src/monitor/native-command.ts",
+      "extensions/discord/src/monitor/native-command-model-picker-ui.ts",
+      "extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts",
+      "extensions/discord/src/monitor/native-command.model-picker.test.ts",
+      "extensions/telegram/src/bot-native-commands.ts",
+      "extensions/telegram/src/bot-native-commands.test.ts",
+      "extensions/telegram/src/command-ui.ts",
+      "extensions/telegram/src/native-command-callback-data.ts",
+      "src/auto-reply/commands-registry.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm test:serial extensions/discord/src/monitor/native-command.plugin-dispatch.test.ts extensions/discord/src/monitor/native-command.model-picker.test.ts extensions/telegram/src/bot-native-commands.test.ts src/auto-reply/commands-registry.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve @clawSean's contributor credit by repairing the existing PR branch for https://github.com/openclaw/openclaw/pull/92230.",
+      "If a replacement becomes necessary later, carry @clawSean and source PR #92230 attribution into the PR body and changelog context."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-92230.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "execute_fix",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "fix artifact is too broad for autonomous execution; split into narrower jobs or explicitly set CLOWNFISH_ALLOW_BROAD_FIX_ARTIFACTS=1",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#92230",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
