@@ -1,0 +1,163 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "conflicting-branch-repair-101655-47b180de10acf9837e25891fc45b9b9fbf46eccc",
+  "mode": "autonomous",
+  "run_id": "30524866812",
+  "workflow_run_id": "30524866812",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/30524866812",
+  "head_sha": "d4c0b3818a039dd40a4a46ed12b456350149593d",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-07-30T07:59:41Z",
+  "workflow_updated_at": "2026-07-30T08:20:13Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-101655-47b180de10acf9837e25891fc45b9b9fbf46eccc.md",
+  "published_at": "2026-07-30T08:21:03.029Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/101655",
+  "canonical_issue": "https://github.com/openclaw/openclaw/issues/98886",
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/101655",
+  "summary": "#101655 is the sole open canonical PR for this cluster and should be repaired in place. The branch head still matches the expected reviewed SHA, the PR is maintainer-editable, the job permits fix/force-push but blocks merge/comment/label/close, and current main still has the shared signal-qualified OTLP endpoint routing behavior that the PR fixes.",
+  "actions": [
+    {
+      "target": "#101655",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Open canonical contributor PR needs branch repair against current main; merge, close, label, and public comments are blocked by job frontmatter."
+    },
+    {
+      "target": "cluster:conflicting-branch-repair-101655-47b180de10acf9837e25891fc45b9b9fbf46eccc",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Cluster-level repair artifact required for the calibrated maintainer-editable PR branch."
+    },
+    {
+      "target": "#98886",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "fixed_by_candidate",
+      "canonical": "#101655",
+      "candidate_fix": "#101655",
+      "reason": "Issue is covered by the canonical repair PR but closure is out of scope for this job."
+    },
+    {
+      "target": "#13791",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation allowed or needed."
+    },
+    {
+      "target": "#98899",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation allowed or needed."
+    },
+    {
+      "target": "#98911",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation allowed or needed."
+    },
+    {
+      "target": "#98915",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#101655",
+      "candidate_fix": null,
+      "reason": "Already closed; no mutation allowed or needed."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1,
+    "keep_related": 1,
+    "keep_closed": 4
+  },
+  "action_status_counts": {
+    "planned": 3,
+    "skipped": 4
+  },
+  "fix_counts": {
+    "blocked": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#101655",
+    "source_refs": [
+      "#101655",
+      "#98886",
+      "#13791",
+      "#98899",
+      "#98911",
+      "#98915"
+    ],
+    "repair_strategy": "repair_contributor_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Repair #101655 in place by rebasing Darren2030's maintainer-editable branch claude/98886-otel-shared-endpoint from head 47b180de10acf9837e25891fc45b9b9fbf46eccc onto current main 1237c0cf8157a6ad4a900d6b165ea8c830449e78. Preserve the contributor's existing diagnostics-otel implementation and resolve only rebase conflicts; do not broaden the PR or create a replacement.",
+    "pr_title": "Repair #101655 diagnostics-otel shared endpoint routing branch",
+    "pr_body": "Repair plan for existing PR #101655:\n\n- Rebase Darren2030's branch `claude/98886-otel-shared-endpoint` at `47b180de10acf9837e25891fc45b9b9fbf46eccc` onto current `main` `1237c0cf8157a6ad4a900d6b165ea8c830449e78`.\n- Preserve the current implementation for #98886: shared signal-qualified OTLP endpoints are normalized per requested signal, while explicit per-signal endpoint config/env values remain exact overrides.\n- Resolve only rebase conflicts in the existing touched surfaces: diagnostics-otel service/test, OpenTelemetry docs, and the repro script.\n- Validate with the focused diagnostics-otel test and `pnpm check:changed`, then run Codex /review.\n- Do not merge, close, label, comment, or open a replacement PR in this repair job.\n\nCredit: this carries forward Darren2030's existing PR and authorship on https://github.com/openclaw/openclaw/pull/101655.",
+    "likely_files": [
+      "extensions/diagnostics-otel/src/service.ts",
+      "extensions/diagnostics-otel/src/service.test.ts",
+      "docs/gateway/opentelemetry.md",
+      "scripts/repro/issue-98886-otel-shared-endpoint.mts"
+    ],
+    "validation_commands": [
+      "node scripts/run-vitest.mjs extensions/diagnostics-otel/src/service.test.ts",
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Preserve Darren2030's authorship and commits on https://github.com/openclaw/openclaw/pull/101655; this is an in-place contributor branch repair, not a replacement PR.",
+      "Keep #98886 linked as the issue fixed by the repaired PR, but do not close/comment/label/merge in this job.",
+      "Run Codex /review after rebase and before any later exact-head finalization; the executor records that separately, not as a validation command."
+    ],
+    "source_job": "jobs/openclaw/inbox/conflicting-branch-repair-101655-47b180de10acf9837e25891fc45b9b9fbf46eccc.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": null,
+    "terminal": null
+  },
+  "fix_actions": [
+    {
+      "action": "repair_contributor_branch",
+      "status": "blocked",
+      "target": null,
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "repair_contributor_branch",
+      "reason": "rebase-only repair stopped: validation command failed (pnpm check:changed): $ node scripts/check-changed.mjs [check:changed] lanes=extensions, extensionTests, scripts, docs, tooling [check:changed] extensions/diagnostics-otel/src/service-exporter.ts: extension production [check:changed] extensions/diagnostics-otel/src/service.test.ts: extension test [check:changed] scripts/repro/issue-98886-otel-shared-endpoint.mts: tooling surface [check:changed] conflict markers $ node scripts/check-no-conflict-markers.mjs [check:changed] environment variable count ratchet $ node scripts/check-env-var-count.mjs --base origin/main [check:changed] max-lines suppression ratchet $ node scripts/check-max-lines-ratchet.mjs --base origin/main [check:changed] changelog attributions $ node scripts/check-changelog-attributions.mjs [check:changed] guarded extension wildcard re-exports $ node scripts/check-extension-wildcard-reexports.mjs [check:changed] plugin-sdk wildcard re-exports $ node scripts/check-plugin-sdk-wildcard-reexports.mjs [check:changed] duplicate scan target coverage $ node scripts/check-duplicates.mjs --coverage [check:changed] dependency pin guard $ node scripts/check-dependency-pins.mjs [check:changed] format changed files $ oxfmt --check --no-error-on-unmatc...",
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
