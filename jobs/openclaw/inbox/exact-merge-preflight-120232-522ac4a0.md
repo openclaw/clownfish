@@ -33,11 +33,12 @@ allow_post_merge_close: false
 require_fix_before_close: false
 security_policy: central_security_only
 security_sensitive: false
-canonical_hint: "Run the deterministic read-only external merge preflight for exact PR head 522ac4a03828a827c5c266194459d995b9982ff9."
-notes: "Operator-requested exact-merge gate proof for #120232. The workflow must run with apply=false and must not mutate or merge the target PR."
+canonical_hint: "Run the deterministic external merge preflight for exact PR head 522ac4a03828a827c5c266194459d995b9982ff9 and apply the guarded squash merge only if every gate passes."
+notes: "The operator authorized merging #120232 only. Run with apply=true so Clownfish can mint and atomically consume clownfish/exact-merge; fail closed without mutation if any gate does not pass."
 ---
 
 # Exact merge preflight: #120232
 
 Validate the exact PR head against current `openclaw/openclaw` main through the
-repo-native external merge preflight. Do not apply or merge.
+repo-native external merge preflight. Apply the guarded squash merge only after
+the exact-head preflight passes every policy, review, CI, and drift gate.
