@@ -16,6 +16,7 @@ const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
 const PRE_AUTHORIZATION_MERGE_STATES = new Set(["UNSTABLE", "BLOCKED", "BEHIND"]);
 const IGNORED_CHECKS = new Set([
   "auto-response",
+  "ClawSweeper Dispatch",
   "Labeler",
   "Stale",
   ...COORDINATOR_CHECK_NAMES,
@@ -2473,6 +2474,7 @@ function hasActionableApprovedReviewBody(body) {
 
 function isBenignAutomationComment({ author, body, pull, view }) {
   const currentReview = String(body).split(/<details>/, 1)[0];
+  if (isClawSweeperPullRequestAck({ author, body, pull })) return true;
   if (isClawSweeperReviewStartComment({ author, body, pull })) return true;
   if (isClawSweeperAuthor(author) && hasClawSweeperReadyReviewSignal(currentReview)) {
     return isClawSweeperReadyReviewComment({ author, body, pull, view });
@@ -2486,6 +2488,14 @@ function isBenignAutomationComment({ author, body, pull, view }) {
       body,
     ) || /^<!--\s*(?:clawsweeper|clownfish)-command/.test(body)
   );
+}
+
+function isClawSweeperPullRequestAck({ author, body, pull }) {
+  if (!isClawSweeperAuthor(author)) return false;
+  const match = String(body ?? "").match(
+    /^<!--\s*clawsweeper-pr-ack:opened\s+item=(\d+)\s*-->\s*🦞👀\s*clawsweeper picked this up\.\s*pull request received\.\s*i will update this pull request when review starts\.\s*$/i,
+  );
+  return match?.[1] === String(pull?.number ?? "");
 }
 
 function isDependencyGuardAutomationComment({ body, pull }) {
@@ -2672,10 +2682,17 @@ function isClawSweeperReviewStartComment({ author, body, pull }) {
 
 function hasClawSweeperReadyReviewSignal(body) {
   const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
+  const hasReadyResult =
+    /result:\s*ready for maintainer review\./.test(body) ||
+    /## merge readiness\s*\n+(?:✅|⚠️)\s*\*\*ready for maintainer review(?:\s*-\s*\d+ items? remain)?\*\*/.test(
+      body,
+    );
+  if (!isClawSweeperMaintainerReviewHeader(firstLine) || !hasReadyResult) return false;
   return (
-    isClawSweeperMaintainerReviewHeader(firstLine) &&
-    /result:\s*ready for maintainer review\./.test(body) &&
     /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
+      body,
+    ) ||
+    /(no actionable review findings were identified|\|\s*\*\*findings\*\*\s*\|\s*none\s*\|)/.test(
       body,
     )
   );
@@ -2906,9 +2923,10 @@ function isAuthorProofOrStatusComment(body) {
     ].some((pattern) => pattern.test(line)),
   );
   const hasProofHeading = contentLines.some((line) =>
-    /^(?:real behavior proof|behavior proof follow-up(?: for the clawsweeper note)?|proof|validation|verification|test results|current status|status):?$/.test(
-      line,
-    ),
+    [
+      /^(?:real behavior proof|behavior proof follow-up(?: for the clawsweeper note)?|proof|validation|verification|test results|current status|status):?$/,
+      /^(?:exact-head\s+)?[a-z0-9][a-z0-9 -]*\s+proof\s+for\s+`?[0-9a-f]{7,40}`?:?$/,
+    ].some((pattern) => pattern.test(line)),
   );
   const hasRealBehaviorProofHeading = contentLines.some((line) => /^real behavior proof:?$/.test(line));
   const hasEvidenceDetail = lines.some(
