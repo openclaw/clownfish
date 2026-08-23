@@ -2,7 +2,7 @@
 repo: openclaw/openclaw
 cluster_id: exact-merge-128034-ollama-local-service-20260823
 mode: autonomous
-expected_head_sha: d58274e1f5fcfd289a9cf55f379e65228c843dfa
+expected_head_sha: 22327a53cab44a1be2d71a30b38a62473e08793e
 allowed_actions:
   - "merge"
 blocked_actions:
@@ -34,7 +34,7 @@ require_external_merge_preflight: true
 allow_post_merge_close: false
 require_fix_before_close: false
 canonical_hint: "Merge only PR #128034 after deterministic validation and Codex review bind to its exact live head."
-notes: "Maintainer authorized landing on 2026-08-23 at exact head d58274e1f5fcfd289a9cf55f379e65228c843dfa after exact-head ClawSweeper reported no findings, the compatibility behavior was acknowledged, hosted openclaw/ci-gate passed, native scripts/pr review artifacts validated, and native prepare-run passed without changing the head. Re-fetch live state and stop if the head or merge policy changes."
+notes: "Maintainer authorized landing on 2026-08-23 at exact head 22327a53cab44a1be2d71a30b38a62473e08793e. Exact-head ClawSweeper reported no findings; its sole rank-up was successful exact-head CI, now satisfied. The compatibility behavior was acknowledged, hosted openclaw/ci-gate passed with no pending or failing checks, native scripts/pr review artifacts validated, and native OPENCLAW_TESTBOX=1 prepare-run passed without changing the head. Re-fetch live state and stop if the head or merge policy changes."
 ---
 
 # Exact Merge: #128034
