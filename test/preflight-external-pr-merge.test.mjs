@@ -2037,6 +2037,145 @@ test("external merge preflight accepts #98505 current-head ready review phrasing
   assert.equal(report.status, "passed", report.reason);
 });
 
+test("external merge preflight accepts a clean transitional ClawSweeper v1 review", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeCurrentClawSweeperReviewComment(),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight accepts an exact-head structured ClawSweeper v1 ready state", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeCurrentClawSweeperReviewComment({
+          reviewStateAttributes:
+            "readiness=ready findings=none security=none before_merge=none",
+        }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight blocks the observed contradictory #120232 ClawSweeper review", () => {
+  const fixture = makeFixture({
+    issueComments: [
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeCurrentClawSweeperReviewComment({
+          details: [
+            "### Stored data model",
+            "",
+            "Persistent data-model change detected: `persistent cache schema: scripts/ci-changed-scope.mjs`, `vector/embedding metadata: scripts/ci-changed-scope.mjs`. Confirm migration or upgrade compatibility proof before merge.",
+          ],
+        }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
+for (const [name, options] of [
+  [
+    "unknown state version",
+    {
+      reviewVersion: "2",
+      reviewStateAttributes: "readiness=ready findings=none security=none before_merge=none",
+    },
+  ],
+  ["missing version marker", { includeReviewVersion: false }],
+  ["partial state tuple", { reviewStateAttributes: "readiness=ready findings=none" }],
+  [
+    "duplicate state marker",
+    {
+      reviewStateAttributes: "readiness=ready findings=none security=none before_merge=none",
+      duplicateReviewVersion: true,
+    },
+  ],
+  [
+    "actionable finding state",
+    {
+      reviewStateAttributes:
+        "readiness=ready findings=actionable security=none before_merge=none",
+    },
+  ],
+  [
+    "security finding state",
+    {
+      reviewStateAttributes:
+        "readiness=ready findings=none security=actionable before_merge=none",
+    },
+  ],
+  [
+    "nonempty before-merge state",
+    {
+      reviewStateAttributes:
+        "readiness=ready findings=none security=none before_merge=actionable",
+    },
+  ],
+]) {
+  test(`external merge preflight blocks ClawSweeper ${name}`, () => {
+    const fixture = makeFixture({
+      issueComments: [
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body: makeCurrentClawSweeperReviewComment(options),
+          url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", name);
+    assert.match(report.reason, /actionable top-level issue comment/, name);
+  });
+}
+
+for (const [name, options] of [
+  ["nonempty Before merge section", { beforeMerge: "- [ ] Add a regression test." }],
+  ["visible findings", { findings: "1", findingsEvidence: "A routing defect remains." }],
+  ["visible security finding", { security: "1", securityEvidence: "Token scope is unsafe." }],
+  ["detailed security finding", { detailSecurity: "- Token scope is unsafe." }],
+  ["appended objection", { extraVisible: ["Do not merge; the routing defect remains."] }],
+]) {
+  test(`external merge preflight blocks ClawSweeper ready prose with ${name}`, () => {
+    const fixture = makeFixture({
+      issueComments: [
+        {
+          author: { login: "clawsweeper[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body: makeCurrentClawSweeperReviewComment({
+            reviewStateAttributes:
+              "readiness=ready findings=none security=none before_merge=none",
+            ...options,
+          }),
+          url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", name);
+    assert.match(report.reason, /actionable top-level issue comment/, name);
+  });
+}
+
 test("external merge preflight blocks explicit objections appended to positive ready-review phrasing", () => {
   for (const objection of [
     "No concrete code finding, but maintainers must not merge this.",
@@ -2244,7 +2383,7 @@ test("external merge preflight does not clear a CI wait from an unrelated passin
   assert.equal(report.status, "blocked");
 });
 
-test("external merge preflight ignores #98821 stale QA and refresh comments after a newer exact-head ready review", () => {
+test("external merge preflight keeps #98821 comments blocking after a contradictory ready review", () => {
   const fixture = makeFixture({
     pullUser: { login: "harjothkhara" },
     pullLabels: [{ name: "gateway" }, { name: "size: S" }, { name: "P2" }],
@@ -2346,7 +2485,8 @@ test("external merge preflight ignores #98821 stale QA and refresh comments afte
     ],
   });
   const { report } = runPreflightFixture(fixture);
-  assert.equal(report.status, "passed", report.reason);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
 });
 
 test("external merge preflight blocks a #98821-shaped QA failure note newer than the ready review", () => {
@@ -3509,6 +3649,118 @@ test("external merge preflight accepts exact-head dependency guard authorization
   assert.equal(result.actions[0]?.action, "merge_canonical");
 });
 
+test("external merge preflight accepts #120232 exact-head informational dependency state", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeInformationalDependencyGraphComment({ headSha }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, body] of [
+  [
+    "stale head",
+    makeInformationalDependencyGraphComment({ headSha: "c".repeat(40) }),
+  ],
+  [
+    "blocked state",
+    [
+      "<!-- openclaw:dependency-graph-guard -->",
+      "",
+      "### Dependency graph changes are blocked",
+      "",
+      "Security approval is required before merge.",
+      "",
+      `- Current SHA: \`${"a".repeat(40)}\``,
+    ].join("\n"),
+  ],
+  [
+    "unknown trusted role",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      trustedRole: "pull request author; outside collaborator",
+    }),
+  ],
+  [
+    "duplicate marker",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      duplicateMarker: true,
+    }),
+  ],
+  [
+    "appended objection",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      extraLines: ["", "Do not merge; the dependency review found an unsafe package."],
+    }),
+  ],
+]) {
+  test(`external merge preflight blocks informational dependency state with ${name}`, () => {
+    const fixture = makeFixture({
+      headSha: "a".repeat(40),
+      issueComments: [
+        {
+          author: { login: "github-actions[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body,
+          url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", name);
+    assert.match(
+      report.reason,
+      /security-sensitive signal|actionable top-level issue comment/,
+      name,
+    );
+  });
+}
+
+test("external merge preflight keeps human requests blocking beside informational bot states", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeInformationalDependencyGraphComment({ headSha }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+      },
+      {
+        author: { login: "clawsweeper[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeCurrentClawSweeperReviewComment({
+          headSha,
+          reviewStateAttributes:
+            "readiness=ready findings=none security=none before_merge=none",
+        }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5219047091",
+      },
+      {
+        author: { login: "reviewer" },
+        authorAssociation: "MEMBER",
+        body: "Please add a regression test before merge.",
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-human",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+});
+
 test("external merge preflight accepts GraphQL github-actions cleared dependency guard", () => {
   const headSha = "a".repeat(40);
   const fixture = makeFixture({
@@ -4040,6 +4292,106 @@ function runExternalMergeRunner(fixture, extraArgs, env) {
       timeout: 60_000,
     },
   );
+}
+
+function makeInformationalDependencyGraphComment({
+  headSha = "a".repeat(40),
+  trustedRole = "pull request author; openclaw-secops",
+  duplicateMarker = false,
+  extraLines = [],
+} = {}) {
+  return [
+    "<!-- openclaw:dependency-graph-guard -->",
+    ...(duplicateMarker ? ["<!-- openclaw:dependency-graph-guard -->"] : []),
+    "",
+    "### Dependency graph changes noted",
+    "",
+    "This PR includes dependency graph changes. The dependency guard is informational because the PR author is a repository admin or a member of `@openclaw/openclaw-secops`.",
+    "",
+    `- Current SHA: \`${headSha}\``,
+    "- Trusted actor: @vincentkoc",
+    `- Trusted role: \`${trustedRole}\``,
+    "",
+    "Security review is still recommended before merge when the dependency graph change is intentional.",
+    ...extraLines,
+  ].join("\n");
+}
+
+function makeCurrentClawSweeperReviewComment({
+  headSha = "a".repeat(40),
+  includeReviewVersion = true,
+  reviewVersion = "1",
+  reviewStateAttributes = "",
+  duplicateReviewVersion = false,
+  beforeMerge = "None.",
+  findings = "None",
+  findingsEvidence = "None.",
+  security = "None",
+  securityEvidence = "None.",
+  detailSecurity = "None.",
+  extraVisible = [],
+  details = [],
+} = {}) {
+  const reviewVersionMarker = [
+    "<!-- clawsweeper-review-version",
+    "item=123",
+    "reviewed_at=2026-08-07T15:37:22.579Z",
+    `sha=${headSha}`,
+    `source_revision=${"1".repeat(64)}`,
+    `v=${reviewVersion}`,
+    reviewStateAttributes,
+    "-->",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return [
+    "Codex review: needs maintainer review before merge. _Reviewed August 7, 2026, 11:37 AM ET / 15:37 UTC._",
+    "",
+    "# ClawSweeper review",
+    "",
+    "## What this changes",
+    "",
+    "This PR routes changes to the Knip cleanup wrapper, runner, and owner test through Windows CI and adds coverage for that selection.",
+    "",
+    "## Merge readiness",
+    "",
+    "✅ **Ready for maintainer review**",
+    "",
+    "No actionable findings. Current main still omits the Knip wrapper, runner, and owner-test paths from Windows selection, while this narrowly owned patch covers the classifier, manifest, fast routing, and native Windows test list.",
+    "",
+    "**Priority:** P3",
+    `**Reviewed head:** \`${headSha}\``,
+    "",
+    "## Verification",
+    "",
+    "| Check | Result | Evidence |",
+    "|---|---|---|",
+    "| **Real behavior** | Not applicable | Maintainer-authored CI-routing PR. |",
+    `| **Findings** | ${findings} | ${findingsEvidence} |`,
+    `| **Security** | ${security} | ${securityEvidence} |`,
+    "",
+    "## Before merge",
+    "",
+    beforeMerge,
+    "",
+    ...extraVisible,
+    "<details>",
+    "<summary><strong>Agent review details</strong></summary>",
+    "",
+    "### Security",
+    "",
+    detailSecurity,
+    "",
+    ...details,
+    "</details>",
+    "",
+    `<!-- clawsweeper-verdict:needs-human item=123 sha=${headSha} confidence=high updated_at=2026-08-07T15:33:01Z reviewed_at=2026-08-07T15:37:22.579Z -->`,
+    ...(includeReviewVersion
+      ? ["", reviewVersionMarker, ...(duplicateReviewVersion ? ["", reviewVersionMarker] : [])]
+      : []),
+    "",
+    "<!-- clawsweeper-review item=123 -->",
+  ].join("\n");
 }
 
 function runPreflightFixture(fixture, extraEnv = {}) {

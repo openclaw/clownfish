@@ -2371,9 +2371,9 @@ function isActionableCommentEvidence(
   const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
 
   if (isClawSweeperAuthor(author)) {
-    const currentReview = body.toLowerCase().split(/<details>/, 1)[0];
-    if (hasActionableClawSweeperReviewSignal(currentReview, { view })) return true;
-    if (hasClawSweeperReadyReviewSignal(currentReview)) return true;
+    const normalized = body.toLowerCase();
+    if (hasActionableClawSweeperReviewSignal(normalized, { view })) return true;
+    if (hasClawSweeperReadyReviewSignal(normalized)) return true;
   }
   if (isReviewBot({ author: { login: author }, body })) {
     return /found issues|requested changes|changes requested|needs changes?|needs human|do not merge|duplicate|superseded|security/i.test(
@@ -2472,9 +2472,8 @@ function hasActionableApprovedReviewBody(body) {
 }
 
 function isBenignAutomationComment({ author, body, pull, view }) {
-  const currentReview = String(body).split(/<details>/, 1)[0];
   if (isClawSweeperReviewStartComment({ author, body, pull })) return true;
-  if (isClawSweeperAuthor(author) && hasClawSweeperReadyReviewSignal(currentReview)) {
+  if (isClawSweeperAuthor(author) && hasClawSweeperReadyReviewSignal(body)) {
     return isClawSweeperReadyReviewComment({ author, body, pull, view });
   }
   if (isStaleAutomationReviewComment({ author, body, pull })) return true;
@@ -2493,6 +2492,7 @@ function isDependencyGuardAutomationComment({ body, pull }) {
   if (!/^<!--\s*openclaw:dependency-graph-guard\s*-->/.test(body)) return false;
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   if (!/^[0-9a-f]{40}$/.test(headSha)) return false;
+  if (isTrustedDependencyGraphAutomationComment({ body, headSha })) return true;
   if (/### dependency graph change authorized\b/.test(body)) {
     const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
     return approvedSha === headSha;
@@ -2501,6 +2501,38 @@ function isDependencyGuardAutomationComment({ body, pull }) {
     /^<!--\s*openclaw:dependency-graph-guard\s*-->\s*### dependency graph guard cleared\s+this pr no longer has blocked dependency graph changes\.\s+a future dependency graph change requires a fresh `\/allow-dependencies-change` comment after the guard blocks that new head sha\.\s+- current sha:\s*`([0-9a-f]{40})`\s*$/i,
   );
   return cleared?.[1]?.toLowerCase() === headSha;
+}
+
+function isTrustedDependencyGraphAutomationComment({ body, headSha }) {
+  const lines = String(body)
+    .trim()
+    .toLowerCase()
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length !== 7) return false;
+  if (lines[0] !== "<!-- openclaw:dependency-graph-guard -->") return false;
+  if (lines[1] !== "### dependency graph changes noted") return false;
+  if (
+    lines[2] !==
+    "this pr includes dependency graph changes. the dependency guard is informational because the pr author is a repository admin or a member of `@openclaw/openclaw-secops`."
+  ) {
+    return false;
+  }
+  const currentSha = lines[3].match(/^- current sha:\s*`([0-9a-f]{40})`$/)?.[1];
+  if (currentSha !== headSha) return false;
+  if (!/^- trusted actor:\s*@[a-z0-9](?:[a-z0-9-]{0,38})$/.test(lines[4])) return false;
+  if (
+    !/^- trusted role:\s*`pull request author; (?:repository admin|openclaw-secops)`$/.test(
+      lines[5],
+    )
+  ) {
+    return false;
+  }
+  return (
+    lines[6] ===
+    "security review is still recommended before merge when the dependency graph change is intentional."
+  );
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {
@@ -2589,8 +2621,18 @@ function isClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
   const hasExactMarker = hasExactHeadClawSweeperReadyMarker({ body: normalized, pull });
   if (!hasExactMarker) return false;
 
-  const currentReview = normalized.split(/<details>/, 1)[0];
-  return !hasActionableClawSweeperReviewSignal(currentReview, { view }) && hasClawSweeperReadyReviewSignal(currentReview);
+  const reviewState = parseClawSweeperReviewState({ body: normalized, pull });
+  if (reviewState.kind === "malformed") return false;
+  if (hasActionableClawSweeperReviewSignal(normalized, { view })) return false;
+  if (!hasClawSweeperReadyReviewSignal(normalized)) return false;
+  if (reviewState.kind === "legacy") return hasLegacyClawSweeperReadyReviewSignal(normalized);
+  if (reviewState.kind === "transitional") return true;
+  return (
+    reviewState.readiness === "ready" &&
+    reviewState.findings === "none" &&
+    reviewState.security === "none" &&
+    reviewState.beforeMerge === "none"
+  );
 }
 
 function isStaleClawSweeperReadyReviewComment({ author, body, pull, view = null }) {
@@ -2600,10 +2642,9 @@ function isStaleClawSweeperReadyReviewComment({ author, body, pull, view = null 
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   if (!marker || !/^[0-9a-f]{40}$/.test(headSha) || marker.sha === headSha) return false;
 
-  const currentReview = normalized.split(/<details>/, 1)[0];
   return (
-    !hasActionableClawSweeperReviewSignal(currentReview, { view }) &&
-    hasClawSweeperReadyReviewSignal(currentReview)
+    !hasActionableClawSweeperReviewSignal(normalized, { view }) &&
+    hasClawSweeperReadyReviewSignal(normalized)
   );
 }
 
@@ -2674,10 +2715,29 @@ function hasClawSweeperReadyReviewSignal(body) {
   const firstLine = String(body).split(/\r?\n/, 1)[0].trim();
   return (
     isClawSweeperMaintainerReviewHeader(firstLine) &&
+    (hasLegacyClawSweeperReadyReviewSignal(body) ||
+      hasCurrentClawSweeperReadyReviewSignal(body))
+  );
+}
+
+function hasLegacyClawSweeperReadyReviewSignal(body) {
+  return (
     /result:\s*ready for maintainer review\./.test(body) &&
     /(review metrics:\*\*\s*none identified|review metrics:\s*none identified|no (?:clawsweeper |automated )?repair(?: job| lane)? is (?:needed|indicated)|no concrete (?:code finding|contributor-facing blocker left)|remaining action is normal maintainer review)/.test(
       body,
     )
+  );
+}
+
+function hasCurrentClawSweeperReadyReviewSignal(body) {
+  const readiness = markdownReviewSection(body, { heading: "merge readiness", level: 2 });
+  const beforeMerge = markdownReviewSection(body, { heading: "before merge", level: 2 });
+  return (
+    readiness.kind === "present" &&
+    /(?:^|\n)✅\s*\*\*ready for maintainer review\*\*(?:\n|$)/.test(readiness.body) &&
+    /\bno actionable findings\./.test(readiness.body) &&
+    beforeMerge.kind === "present" &&
+    isNoneReviewSection(beforeMerge.body)
   );
 }
 
@@ -2700,8 +2760,50 @@ function hasActionableClawSweeperReviewSignal(body, { view = null } = {}) {
       reviewSection(body, "proof guidance"),
     ) ||
     /\b(?:blocker|must|needs?|required|missing)\b/.test(reviewSection(body, "risk before merge")) ||
-    /\bremaining (?:merge )?blocker\b/.test(reviewSection(body, "next step before merge"))
+    /\bremaining (?:merge )?blocker\b/.test(reviewSection(body, "next step before merge")) ||
+    hasActionableCurrentClawSweeperReviewSignal(body)
   );
+}
+
+function hasActionableCurrentClawSweeperReviewSignal(body) {
+  for (const heading of ["before merge", "review findings"]) {
+    const section = markdownReviewSection(body, { heading, level: 2 });
+    if (
+      section.kind === "duplicate" ||
+      (section.kind === "present" && !isNoneReviewSection(section.body))
+    ) {
+      return true;
+    }
+  }
+
+  const securitySections = [
+    markdownReviewSection(body, { heading: "security", level: 2 }),
+    markdownReviewSection(body, { heading: "security", level: 3 }),
+  ];
+  if (
+    securitySections.some(
+      (section) =>
+        section.kind === "duplicate" ||
+        (section.kind === "present" && !isNoneReviewSection(section.body)),
+    )
+  ) {
+    return true;
+  }
+
+  for (const label of ["findings", "security"]) {
+    const cells = reviewTableResults(body, label);
+    if (cells.length > 1 || cells.some((cell) => !isNoneReviewSection(cell))) return true;
+  }
+
+  return String(body)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .some((line) =>
+      /\b(?:please\s+)?(?:confirm|verify|fix|address|resolve|add|remove|update|change|provide|run)\b.{0,200}\bbefore (?:merge|merging|landing|shipping)\b/.test(
+        line,
+      ),
+    );
 }
 
 function withoutAdvisoryReviewSections(body) {
@@ -2721,6 +2823,41 @@ function reviewSection(body, heading) {
       ),
     )?.[1] ?? ""
   );
+}
+
+function markdownReviewSection(body, { heading, level }) {
+  const marker = `${"#".repeat(level)} ${String(heading).toLowerCase()}`;
+  const lines = String(body).toLowerCase().split(/\r?\n/);
+  const indexes = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    if (lines[index].trim() === marker) indexes.push(index);
+  }
+  if (indexes.length === 0) return { kind: "missing", body: "" };
+  if (indexes.length !== 1) return { kind: "duplicate", body: "" };
+
+  const section = [];
+  for (let index = indexes[0] + 1; index < lines.length; index += 1) {
+    const line = lines[index];
+    const headingMatch = line.match(/^(#{1,6})\s+\S/);
+    if (headingMatch && headingMatch[1].length <= level) break;
+    if (level === 2 && /^<details>/i.test(line.trim())) break;
+    if (level === 3 && /^<\/details>/i.test(line.trim())) break;
+    section.push(line);
+  }
+  return { kind: "present", body: section.join("\n").trim() };
+}
+
+function isNoneReviewSection(body) {
+  return /^none[.!]?$/.test(String(body).trim());
+}
+
+function reviewTableResults(body, label) {
+  const escapedLabel = String(label).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(
+    `^\\|\\s*\\*\\*${escapedLabel}\\*\\*\\s*\\|\\s*([^|\\r\\n]+?)\\s*\\|`,
+    "gim",
+  );
+  return [...String(body).matchAll(pattern)].map((match) => match[1].trim().toLowerCase());
 }
 
 function hasExplicitMergeObjection(body, { view = null } = {}) {
@@ -2829,6 +2966,48 @@ function hasExactHeadClawSweeperReadyMarker({ body, pull }) {
   const marker = parseClawSweeperReadyMarker({ body, pull });
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   return Boolean(marker && /^[0-9a-f]{40}$/.test(headSha) && marker.sha === headSha);
+}
+
+function parseClawSweeperReviewState({ body, pull }) {
+  const openers = String(body).match(/<!--\s*clawsweeper-review-version\b/gi) ?? [];
+  if (openers.length === 0) return { kind: "legacy" };
+  const markers = [
+    ...String(body).matchAll(/<!--\s*clawsweeper-review-version\s+([^>]*)-->/gi),
+  ];
+  if (openers.length !== 1 || markers.length !== 1) return { kind: "malformed" };
+
+  const attributes = parseMarkerAttributes(markers[0][1]);
+  const headSha = String(pull?.head?.sha ?? "").toLowerCase();
+  const pullNumber = String(pull?.number ?? "");
+  if (
+    !attributes ||
+    attributes.v !== "1" ||
+    attributes.item !== pullNumber ||
+    attributes.sha?.toLowerCase() !== headSha ||
+    !/^[0-9a-f]{40}$/.test(headSha)
+  ) {
+    return { kind: "malformed" };
+  }
+
+  // The v1 state tuple is the producer/consumer contract. Missing every state
+  // field is transitional; partial tuples and unknown values fail closed.
+  const stateKeys = ["readiness", "findings", "security", "before_merge"];
+  const presentStateKeys = stateKeys.filter((key) => Object.hasOwn(attributes, key));
+  if (presentStateKeys.length === 0) return { kind: "transitional" };
+  if (presentStateKeys.length !== stateKeys.length) return { kind: "malformed" };
+  if (!["ready", "blocked"].includes(attributes.readiness)) return { kind: "malformed" };
+  if (!["none", "actionable"].includes(attributes.findings)) return { kind: "malformed" };
+  if (!["none", "actionable"].includes(attributes.security)) return { kind: "malformed" };
+  if (!["none", "actionable"].includes(attributes.before_merge)) {
+    return { kind: "malformed" };
+  }
+  return {
+    kind: "structured",
+    readiness: attributes.readiness,
+    findings: attributes.findings,
+    security: attributes.security,
+    beforeMerge: attributes.before_merge,
+  };
 }
 
 function parseClawSweeperReadyMarker({ body, pull }) {
