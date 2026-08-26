@@ -31,6 +31,20 @@ const ADOPTION_POLICY = "bounded-fast-forward-v1";
 const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
 const collaboratorPermissionCache = new Map();
+const CODEX_REVIEW_DEPENDENCY = {
+  repo: "openclaw/openclaw",
+  version: "codex-cli 0.125.0",
+  url: "https://github.com/openai/codex.git",
+  tag: "rust-v0.125.0",
+  tagObject: "7d8152a5d74226ddaac12f93f7c5ed3f33a60d2a",
+  commit: "637f7dd6d737f3961e6bf32fbb3861c4953269c5",
+  files: [
+    "AGENTS.md",
+    "codex-rs/core/src/lib.rs",
+    "codex-rs/protocol/src/protocol.rs",
+    "codex-rs/exec/src/main.rs",
+  ],
+};
 
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
@@ -533,6 +547,7 @@ try {
     codex_review: {
       status: codexReview.status,
       findings: codexReview.findings.length,
+      dependency: codexReview.dependency_provenance ?? null,
     },
   };
   writeJson(path.join(runDir, "result.json"), result);
@@ -582,7 +597,11 @@ function writeBlockedArtifacts({ reason, validationCommands = [], codexReview = 
     effective_diff_sha256: reviewContext?.effectiveDiffSha256 ?? null,
     validation_commands: validationCommands,
     codex_review: codexReview
-      ? { status: codexReview.status ?? "unknown", findings: Array.isArray(codexReview.findings) ? codexReview.findings.length : null }
+      ? {
+          status: codexReview.status ?? "unknown",
+          findings: Array.isArray(codexReview.findings) ? codexReview.findings.length : null,
+          dependency: codexReview.dependency_provenance ?? null,
+        }
       : null,
   };
   writeJson(path.join(runDir, "result.json"), result);
@@ -2010,6 +2029,8 @@ function runValidation({ targetDir, reviewContext }) {
 function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob, reviewContext }) {
   const schemaPath = path.join(runDir, "codex-review.schema.json");
   const outputPath = path.join(runDir, "codex-review.json");
+  const dependency = targetReviewDependency(repo);
+  const dependencyDir = path.join(path.dirname(targetDir), "codex");
   const defaultCodexReviewSandbox = "read-only";
   const codexReviewSandbox = process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX ?? defaultCodexReviewSandbox;
   const useLegacyLandlock =
@@ -2051,6 +2072,12 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     "The preflight already verified that the PR has no top-level or inline review comments, no unresolved review threads, no review-bot findings, no security signal, and passing GitHub checks.",
     "Do not mutate GitHub or the checkout. Do not run validation commands.",
     "Return clean only when the diff is narrow, safe, and merge-ready. Return actionable findings otherwise.",
+    ...(dependency
+      ? [
+          `Directly inspect sibling ../codex at pinned commit ${dependency.commit} from annotated tag ${dependency.tag} before your verdict.`,
+          `A clean result must cite ${dependency.commit} and at least one ../codex/codex-rs/...:<line> or ../codex/codex-rs/...#L<line> source location in evidence.`,
+        ]
+      : []),
     "",
     `Validation commands already passed: ${validationCommands.join("; ")}`,
     `Source job: ${sourceJob.relativePath}`,
@@ -2073,19 +2100,96 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     "--json",
     "-",
   ];
-  run(
-    "codex",
-    codexArgs,
-    {
+  let ownsDependencyDir = false;
+  try {
+    if (dependency) {
+      if (fs.existsSync(dependencyDir)) throw new Error("Codex dependency path already exists");
+      ownsDependencyDir = true;
+      provisionCodexReviewDependency(dependencyDir, dependency);
+    }
+    run("codex", codexArgs, {
       cwd: targetDir,
       input: prompt,
       env: codexEnv(),
       timeout: Number(process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_TIMEOUT_MS ?? 10 * 60 * 1000),
       maxBuffer: 64 * 1024 * 1024,
-    },
+    });
+    if (!fs.existsSync(outputPath)) throw new Error("Codex /review did not write structured output");
+    if (dependency) verifyCodexReviewDependency(dependencyDir, dependency);
+    const review = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    if (dependency && !hasPinnedCodexEvidence(review, dependency)) {
+      throw new Error("Codex /review evidence did not cite the pinned sibling Codex source");
+    }
+    return {
+      ...review,
+      ...(dependency ? { dependency_provenance: codexDependencyProvenance(dependency) } : {}),
+    };
+  } finally {
+    if (ownsDependencyDir) fs.rmSync(dependencyDir, { recursive: true, force: true });
+  }
+}
+
+function targetReviewDependency(repo) {
+  return repo === CODEX_REVIEW_DEPENDENCY.repo ? CODEX_REVIEW_DEPENDENCY : null;
+}
+
+function provisionCodexReviewDependency(dependencyDir, dependency) {
+  const env = codexDependencyEnv();
+  const version = run("codex", ["--version"], { env, timeout: 180_000 }).trim();
+  if (version !== dependency.version) throw new Error(`unsupported Codex version: ${version || "empty"}`);
+  run(
+    "git",
+    ["clone", "--depth", "1", "--branch", dependency.tag, "--single-branch", dependency.url, dependencyDir],
+    { env, timeout: 180_000 },
   );
-  if (!fs.existsSync(outputPath)) throw new Error("Codex /review did not write structured output");
-  return JSON.parse(fs.readFileSync(outputPath, "utf8"));
+  verifyCodexReviewDependency(dependencyDir, dependency);
+}
+
+function verifyCodexReviewDependency(dependencyDir, dependency) {
+  const env = codexDependencyEnv();
+  const read = (...args) => run("git", args, { cwd: dependencyDir, env, timeout: 180_000 }).trim();
+  if (read("remote", "get-url", "origin") !== dependency.url) throw new Error("Codex dependency origin mismatch");
+  if (read("cat-file", "-t", `refs/tags/${dependency.tag}`) !== "tag") throw new Error("Codex dependency tag is not annotated");
+  if (read("rev-parse", `refs/tags/${dependency.tag}`) !== dependency.tagObject) throw new Error("Codex dependency tag object mismatch");
+  if (read("rev-parse", `refs/tags/${dependency.tag}^{}`) !== dependency.commit || read("rev-parse", "HEAD") !== dependency.commit) {
+    throw new Error("Codex dependency commit mismatch");
+  }
+  if (read("status", "--porcelain")) throw new Error("Codex dependency checkout is dirty");
+  for (const file of dependency.files) {
+    if (!fs.lstatSync(path.join(dependencyDir, file), { throwIfNoEntry: false })?.isFile()) {
+      throw new Error(`Codex dependency required file is not regular: ${file}`);
+    }
+  }
+}
+
+function hasPinnedCodexEvidence(review, dependency) {
+  const evidence = Array.isArray(review?.evidence) ? review.evidence.join("\n") : "";
+  return evidence.includes(dependency.commit) && /\.\.\/codex\/codex-rs\/[^\s]+(?::\d+|#L\d+)/.test(evidence);
+}
+
+function codexDependencyProvenance(dependency) {
+  return {
+    repository: "openai/codex",
+    version: dependency.version,
+    tag: dependency.tag,
+    tag_object: dependency.tagObject,
+    commit: dependency.commit,
+  };
+}
+
+function codexDependencyEnv() {
+  const env = {
+    ...gitIntegrityEnv(),
+    GIT_ALLOW_PROTOCOL: "https",
+    GIT_ASKPASS: "/bin/false",
+    GIT_TERMINAL_PROMPT: "0",
+    GCM_INTERACTIVE: "Never",
+    SSH_ASKPASS: "/bin/false",
+  };
+  for (const key of Object.keys(env)) {
+    if (/(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key)) delete env[key];
+  }
+  return env;
 }
 
 function buildMergeResult({
@@ -2111,6 +2215,9 @@ function buildMergeResult({
   const baseAdoptionManifest = buildBaseAdoptionManifest({ targetDir, reviewContext, pull });
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
+    ...(codexReview.dependency_provenance
+      ? [`Codex dependency ${codexReview.dependency_provenance.tag} was verified at ${codexReview.dependency_provenance.commit}.`]
+      : []),
     validationAndReviewSharedBase
       ? `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${reviewContext.reviewedBaseSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`
       : `Codex review ran on synthetic squash-result commit ${codexReviewedSyntheticMergeSha} with origin/main ${codexReviewedBaseSha} as its parent and merge tree ${codexReviewedMergeTreeSha}; validation was rerun on synthetic commit ${reviewContext.syntheticMergeSha} with refreshed origin/main ${reviewContext.reviewedBaseSha}.`,
@@ -2185,6 +2292,9 @@ function buildMergeResult({
           findings_addressed: true,
           evidence: [
             `Codex /review returned ${codexReview.status} with zero findings on exact head ${pull.head.sha} and effective diff ${reviewContext.effectiveDiffSha256} from base ${codexReviewedBaseSha}.`,
+            ...(codexReview.dependency_provenance
+              ? [`Pinned dependency openai/codex ${codexReview.dependency_provenance.tag} at ${codexReview.dependency_provenance.commit}; direct source citation was enforced.`]
+              : []),
             ...(validationAndReviewSharedBase
               ? []
               : [
