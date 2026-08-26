@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { codexReviewProvenanceEvidence } from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 
@@ -522,6 +523,33 @@ test("review-results accepts a blocked external preflight request for calibrated
 
   assert.equal(result.status, 0, result.stdout || result.stderr);
 });
+
+for (const [name, evidence] of [
+  ["missing", ["Codex /review returned clean."]],
+  ["tampered", [codexReviewProvenanceEvidence().replace("0.125.0", "0.126.0")]],
+]) {
+  test(`review-results rejects ${name} OpenClaw Codex provenance`, () => {
+    const head = "7".repeat(40);
+    const dir = makeResultDir(
+      {
+        mode: "autonomous",
+        actions: [{
+          target: "#1", action: "merge_canonical", status: "planned",
+          idempotency_key: `external-merge-preflight:openclaw/openclaw#1:${head}`,
+          expected_head_sha: head, classification: "canonical", target_kind: "pull_request",
+          target_updated_at: "2026-06-15T14:15:01Z", evidence: ["Fresh merge preflight completed."],
+          reason: "Canonical PR is ready to merge.",
+        }],
+        merge_preflight: [validMergePreflight("#1", { external: true, evidence })],
+      },
+      { job: mergeJob(), plan: { items: [openPrItem("#1", "2026-06-15T14:15:01Z")] } },
+    );
+
+    const result = review(dir);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stdout, /Codex dependency provenance evidence/);
+  });
+}
 
 test("review-results ignores empty security boundary item collections in mutating evidence", () => {
   const dir = makeResultDir(
@@ -2411,9 +2439,17 @@ security_sensitive: false
 `;
 }
 
-function validMergePreflight(target) {
+function validMergePreflight(target, { external = false, evidence = ["Codex /review returned clean."] } = {}) {
   return {
     target,
+    ...(external
+      ? {
+          reviewed_base_sha: "6".repeat(40),
+          reviewed_head_sha: "7".repeat(40),
+          effective_diff_sha256: "8".repeat(64),
+          effective_diff_files: 1,
+        }
+      : {}),
     security_status: "cleared",
     security_evidence: ["No security-sensitive labels or comments."],
     comments_status: "resolved",
@@ -2425,7 +2461,7 @@ function validMergePreflight(target) {
       command: "/review",
       status: "clean",
       findings_addressed: true,
-      evidence: ["Codex /review returned clean."],
+      evidence,
     },
   };
 }

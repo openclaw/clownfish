@@ -5,6 +5,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import {
+  CODEX_REVIEW_DEPENDENCY,
+  codexReviewProvenanceEvidence,
+  validateCodexReviewProvenance,
+  validateCodexReviewSourceEvidence,
+} from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const script = fs.readFileSync(path.join(repoRoot, "scripts", "preflight-external-pr-merge.mjs"), "utf8");
@@ -14,18 +20,7 @@ const intakeWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows
 const clusterWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
 const autonomousPrompt = fs.readFileSync(path.join(repoRoot, "prompts", "autonomous.md"), "utf8");
 const githubInventoryImporter = fs.readFileSync(path.join(repoRoot, "scripts", "import-github-pr-inventory.mjs"), "utf8");
-const codexDependency = {
-  version: "codex-cli 0.125.0",
-  tag: "rust-v0.125.0",
-  tagObject: "7d8152a5d74226ddaac12f93f7c5ed3f33a60d2a",
-  commit: "637f7dd6d737f3961e6bf32fbb3861c4953269c5",
-  files: [
-    "AGENTS.md",
-    "codex-rs/core/src/lib.rs",
-    "codex-rs/protocol/src/protocol.rs",
-    "codex-rs/exec/src/main.rs",
-  ],
-};
+const codexDependency = CODEX_REVIEW_DEPENDENCY;
 
 test("external merge preflight is exact-head, read-only, and refuses unresolved review evidence", () => {
   assert.match(script, /source job does not explicitly contain/);
@@ -56,8 +51,9 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /GIT_ALLOW_PROTOCOL: "https:ssh"/);
   assert.match(script, /GIT_CONFIG_KEY_0: "core\.hooksPath"/);
   assert.match(script, /GIT_CONFIG_VALUE_0: "\/dev\/null"/);
-  assert.match(script, /GIT_CONFIG_KEY_1: "protocol\.ext\.allow"/);
-  assert.match(script, /GIT_CONFIG_VALUE_1: "never"/);
+  assert.match(script, /GIT_CONFIG_KEY_2: "credential\.helper"/);
+  assert.match(script, /GIT_CONFIG_KEY_3: "http\.extraHeader"/);
+  assert.match(script, /GIT_CONFIG_KEY_4: "http\.https:\/\/github\.com\/\.extraHeader"/);
   assert.match(script, /GIT_NO_REPLACE_OBJECTS: "1"/);
   assert.match(script, /function verifyTrackedFilesystem/);
   assert.match(script, /function gitBlobSha/);
@@ -441,6 +437,12 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
   assert.equal(result.actions[0].target_updated_at, "2026-06-19T00:05:00Z");
   assert.equal(result.merge_preflight[0].codex_review.status, "clean");
+  assert.equal(
+    result.merge_preflight[0].codex_review.evidence.filter((entry) =>
+      entry.startsWith("Codex dependency provenance: "),
+    ).length,
+    1,
+  );
   assert.equal(result.merge_preflight[0].reviewed_base_sha, fixture.baseSha);
   assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
   assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
@@ -532,17 +534,39 @@ test("external merge preflight binds OpenClaw review to pinned Codex source", ()
     allowProtocol: "https",
     terminalPrompt: "0",
     askpass: "/bin/false",
+    configCount: "5",
+    configValues: ["", "", ""],
+    cwdHasGit: false,
+    homeEntries: [],
+    xdgEntries: [],
     credentialKeys: [],
   });
-  assert.match(
-    result.actions[0].evidence.join("\n"),
-    /Codex dependency .*rust-v0\.125\.0.*637f7dd6d737f3961e6bf32fbb3861c4953269c5/,
-  );
-  assert.match(
-    result.merge_preflight[0].codex_review.evidence.join("\n"),
-    /Pinned dependency openai\/codex rust-v0\.125\.0 at 637f7dd6d737f3961e6bf32fbb3861c4953269c5/,
-  );
+  assert.equal(result.merge_preflight[0].codex_review.evidence.includes(codexReviewProvenanceEvidence()), true);
+  const versionEnv = JSON.parse(fs.readFileSync(fixture.codexVersionEnvPath, "utf8"));
+  assert.equal(versionEnv.cwdHasGit, false);
+  assert.deepEqual(versionEnv.homeEntries, []);
+  assert.equal(fs.existsSync(versionEnv.cwd), false);
   assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+test("external merge preflight isolates dependency bootstrap from hostile Git configuration", () => {
+  const fixture = makeFixture({ initialGitConfig: { key: "credential.helper", value: "fixture-local" } });
+  fs.mkdirSync(fixture.hostileHome, { recursive: true });
+  fs.writeFileSync(
+    path.join(fixture.hostileHome, ".gitconfig"),
+    `[credential]\n\thelper = !touch ${fixture.credentialSentinelPath}\n[http]\n\textraHeader = Authorization: hostile\n`,
+  );
+  const { report } = runPreflightFixture(fixture, {
+    HOME: fixture.hostileHome,
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: "credential.helper",
+    GIT_CONFIG_VALUE_0: `!touch ${fixture.credentialSentinelPath}`,
+    GIT_CONFIG_SYSTEM: path.join(fixture.hostileHome, ".gitconfig"),
+    GIT_CONFIG_PARAMETERS: "'http.extraHeader=Authorization: inherited'",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(fs.existsSync(fixture.credentialSentinelPath), false);
 });
 
 for (const [name, options, reason] of [
@@ -588,6 +612,81 @@ test("external merge preflight requires pinned Codex source citations", () => {
   assert.equal(report.status, "blocked");
   assert.match(report.reason, /did not cite the pinned sibling Codex source/);
   assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+for (const status of ["failed", "blocked"]) {
+  test(`external merge preflight preserves ${status} reviews without source citations`, () => {
+    const finding = { severity: "high", summary: "fixture finding", evidence: "target source" };
+    const fixture = makeFixture({
+      codexReview: {
+        status,
+        summary: `${status} fixture review`,
+        findings: [finding],
+        findings_addressed: false,
+        evidence: ["review did not claim pinned source proof"],
+      },
+    });
+    const { report } = runPreflightFixture(fixture);
+    const artifact = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "codex-review.json"), "utf8"));
+
+    assert.equal(report.status, "blocked");
+    assert.equal(report.codex_review.status, status);
+    assert.equal(report.codex_review.findings, 1);
+    assert.equal(artifact.summary, `${status} fixture review`);
+    assert.deepEqual(artifact.findings, [finding]);
+  });
+}
+
+test("pinned Codex source citations reject unsafe or unverifiable locations", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-codex-evidence-"));
+  const regular = "codex-rs/exec/src/lib.rs";
+  const missing = "codex-rs/exec/src/missing.rs";
+  const nonregular = "codex-rs/exec/src/nonregular.rs";
+  const symlink = "codex-rs/exec/src/symlink.rs";
+  const untracked = "codex-rs/exec/src/untracked.rs";
+  fs.mkdirSync(path.join(root, path.dirname(regular)), { recursive: true });
+  fs.writeFileSync(path.join(root, regular), "one\ntwo\n");
+  fs.writeFileSync(path.join(root, untracked), "untracked\n");
+  fs.mkdirSync(path.join(root, nonregular));
+  fs.symlinkSync(regular, path.join(root, symlink));
+  const tracked = [regular, missing, nonregular, symlink].join("\0") + "\0";
+  const validate = (evidence) =>
+    validateCodexReviewSourceEvidence({ evidence }, root, () => tracked);
+  const commit = codexDependency.commit;
+
+  assert.equal(validate([`${commit} ../codex/${regular}:2`]), "");
+  for (const [name, evidence, reason] of [
+    ["traversal", [`${commit} ../codex/codex-rs/../AGENTS.md:1`], /invalid/],
+    ["absolute", [`${commit} ../codex//etc/passwd:1`], /invalid/],
+    ["backslash", [`${commit} ../codex/codex-rs\\exec\\src\\lib.rs:1`], /invalid/],
+    ["nonexistent", [`${commit} ../codex/${missing}:1`], /not a regular file/],
+    ["untracked", [`${commit} ../codex/${untracked}:1`], /not tracked/],
+    ["nonregular", [`${commit} ../codex/${nonregular}:1`], /not a regular file/],
+    ["symlink", [`${commit} ../codex/${symlink}:1`], /not a regular file/],
+    ["zero", [`${commit} ../codex/${regular}:0`], /out of range/],
+    ["out-of-range", [`${commit} ../codex/${regular}:3`], /out of range/],
+    ["split entry", [commit, `../codex/${regular}:1`], /same entry/],
+    ["malformed extra entry", [`${commit} ../codex/${regular}:1`, `../codex/${regular}`], /same entry/],
+  ]) {
+    assert.match(validate(evidence), reason, name);
+  }
+});
+
+test("OpenClaw Codex provenance accepts only one exact canonical record", () => {
+  const canonical = codexReviewProvenanceEvidence();
+  const payload = canonical.slice(canonical.indexOf("{"));
+  assert.equal(validateCodexReviewProvenance("openclaw/openclaw", [canonical]), "");
+  assert.equal(validateCodexReviewProvenance("openclaw/example", []), "");
+  for (const [name, evidence, reason] of [
+    ["missing", [], /exactly one/],
+    ["duplicate", [canonical, canonical], /exactly one/],
+    ["malformed", ["Codex dependency provenance: {"], /malformed/],
+    ["missing field", [`Codex dependency provenance: ${JSON.stringify({ repository: "openai/codex" })}`], /fields/],
+    ["extra field", [`Codex dependency provenance: ${payload.slice(0, -1)},"extra":true}`], /fields/],
+    ["tuple mismatch", [canonical.replace("0.125.0", "0.126.0")], /does not match/],
+  ]) {
+    assert.match(validateCodexReviewProvenance("openclaw/openclaw", evidence), reason, name);
+  }
 });
 
 test("external merge preflight leaves non-OpenClaw review behavior unchanged", () => {
@@ -4444,6 +4543,9 @@ function makeFixture({
   const codexVersionCountPath = path.join(root, "codex-version-count");
   const codexCloneCountPath = path.join(root, "codex-clone-count");
   const codexDependencyEnvPath = path.join(root, "codex-dependency-env.json");
+  const codexVersionEnvPath = path.join(root, "codex-version-env.json");
+  const hostileHome = path.join(root, "hostile-home");
+  const credentialSentinelPath = path.join(root, "credential-sentinel");
   const codexPath = path.join(binDir, "codex");
   const mergeLogPath = path.join(root, "merge.log");
   const mergedStatePath = path.join(root, "merged");
@@ -4802,6 +4904,7 @@ const dependencyDir =
     ? process.cwd()
     : path.join(${JSON.stringify(runDir)}, "codex"));
 const dependencyFiles = ${JSON.stringify(codexDependency.files)};
+const dependencyTrackedFiles = [...dependencyFiles, "codex-rs/exec/src/lib.rs"];
 const dependencyCloneCountPath = ${JSON.stringify(codexCloneCountPath)};
 const dependencyEnvPath = ${JSON.stringify(codexDependencyEnvPath)};
 function mainFetchCount() {
@@ -4818,10 +4921,21 @@ const dependencyCommand =
 const hardeningMissing =
   process.env.GIT_CONFIG_NOSYSTEM !== "1" ||
   process.env.GIT_CONFIG_GLOBAL !== "/dev/null" ||
+  (dependencyCommand &&
+    (process.env.GIT_CONFIG_SYSTEM !== undefined ||
+      process.env.GIT_CONFIG_PARAMETERS !== undefined)) ||
+  process.env.GIT_CONFIG_COUNT !== (dependencyCommand ? "5" : "2") ||
   process.env.GIT_CONFIG_KEY_0 !== "core.hooksPath" ||
   process.env.GIT_CONFIG_VALUE_0 !== "/dev/null" ||
   process.env.GIT_CONFIG_KEY_1 !== "protocol.ext.allow" ||
   process.env.GIT_CONFIG_VALUE_1 !== "never" ||
+  (dependencyCommand &&
+    (process.env.GIT_CONFIG_KEY_2 !== "credential.helper" ||
+      process.env.GIT_CONFIG_VALUE_2 !== "" ||
+      process.env.GIT_CONFIG_KEY_3 !== "http.extraHeader" ||
+      process.env.GIT_CONFIG_VALUE_3 !== "" ||
+      process.env.GIT_CONFIG_KEY_4 !== "http.https://github.com/.extraHeader" ||
+      process.env.GIT_CONFIG_VALUE_4 !== "")) ||
   process.env.GIT_NO_REPLACE_OBJECTS !== "1";
 if (
   hardeningMissing ||
@@ -4851,13 +4965,18 @@ if (
   }));
   process.exit(97);
 }
-if (dependencyCommand) {
+if (args[0] === "clone" && dependencyCommand) {
   fs.writeFileSync(
     dependencyEnvPath,
     JSON.stringify({
       allowProtocol: process.env.GIT_ALLOW_PROTOCOL,
       terminalPrompt: process.env.GIT_TERMINAL_PROMPT,
       askpass: process.env.GIT_ASKPASS,
+      configCount: process.env.GIT_CONFIG_COUNT,
+      configValues: [process.env.GIT_CONFIG_VALUE_2, process.env.GIT_CONFIG_VALUE_3, process.env.GIT_CONFIG_VALUE_4],
+      cwdHasGit: fs.existsSync(path.join(process.cwd(), ".git")),
+      homeEntries: fs.readdirSync(process.env.HOME),
+      xdgEntries: fs.readdirSync(process.env.XDG_CONFIG_HOME),
       credentialKeys: Object.keys(process.env).filter((key) =>
         /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
       ),
@@ -4875,14 +4994,14 @@ if (args[0] === "clone" && dependencyCommand) {
     : 0;
   fs.writeFileSync(dependencyCloneCountPath, String(count + 1));
   fs.mkdirSync(path.join(dependencyDir, ".git"), { recursive: true });
-  for (const file of dependencyFiles) {
+  for (const file of dependencyTrackedFiles) {
     if (${JSON.stringify(codexFileFault)}?.path === file && ${JSON.stringify(codexFileFault)}?.type === "missing") continue;
     const target = path.join(dependencyDir, file);
     fs.mkdirSync(path.dirname(target), { recursive: true });
     if (${JSON.stringify(codexFileFault)}?.path === file && ${JSON.stringify(codexFileFault)}?.type === "directory") {
       fs.mkdirSync(target, { recursive: true });
     } else {
-      fs.writeFileSync(target, "fixture pinned codex source\\n");
+      fs.writeFileSync(target, "fixture pinned codex source\\n".repeat(600));
     }
   }
   process.exit(0);
@@ -4894,10 +5013,11 @@ if (dependencyCommand) {
   else if (args[0] === "rev-parse") console.log(${JSON.stringify(codexCommitSha)});
   else if (args[0] === "status" && args[1] === "--porcelain") {
     const source = path.join(dependencyDir, "codex-rs", "exec", "src", "main.rs");
-    if (fs.existsSync(source) && fs.readFileSync(source, "utf8") !== "fixture pinned codex source\\n") {
+    if (fs.existsSync(source) && fs.readFileSync(source, "utf8") !== "fixture pinned codex source\\n".repeat(600)) {
       console.log(" M codex-rs/exec/src/main.rs");
     }
   }
+  else if (args[0] === "ls-files" && args[1] === "-z") process.stdout.write(dependencyTrackedFiles.join("\\0") + "\\0");
   process.exit(0);
 }
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
@@ -5003,6 +5123,11 @@ if (args.length === 1 && args[0] === "--version") {
   const versionCountPath = ${JSON.stringify(codexVersionCountPath)};
   const versionCount = fs.existsSync(versionCountPath) ? Number(fs.readFileSync(versionCountPath, "utf8")) : 0;
   fs.writeFileSync(versionCountPath, String(versionCount + 1));
+  fs.writeFileSync(${JSON.stringify(codexVersionEnvPath)}, JSON.stringify({
+    cwd: process.cwd(),
+    cwdHasGit: fs.existsSync(path.join(process.cwd(), ".git")),
+    homeEntries: fs.readdirSync(process.env.HOME),
+  }));
   const credentialKeys = Object.keys(process.env).filter((key) =>
     /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
   );
@@ -5068,6 +5193,8 @@ if (${JSON.stringify(codexFailure)}) {
     codexDependencyEnvPath,
     codexPromptPath,
     codexVersionCountPath,
+    codexVersionEnvPath,
+    credentialSentinelPath,
     gitCommandsPath,
     headSha,
     jobPath,
@@ -5076,6 +5203,7 @@ if (${JSON.stringify(codexFailure)}) {
     pnpmCommandsPath,
     root,
     runDir,
+    hostileHome,
     syntheticMergeSha,
   };
 }

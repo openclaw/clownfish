@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -10,6 +11,12 @@ import {
 } from "./base-drift-validation.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
 import { COORDINATOR_CHECK_NAMES } from "./external-merge-checks.mjs";
+import {
+  CODEX_REVIEW_DEPENDENCY,
+  CODEX_REVIEW_PROVENANCE,
+  codexReviewProvenanceEvidence,
+  validateCodexReviewSourceEvidence,
+} from "./codex-review-dependency.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
@@ -31,21 +38,6 @@ const ADOPTION_POLICY = "bounded-fast-forward-v1";
 const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
 const collaboratorPermissionCache = new Map();
-const CODEX_REVIEW_DEPENDENCY = {
-  repo: "openclaw/openclaw",
-  version: "codex-cli 0.125.0",
-  url: "https://github.com/openai/codex.git",
-  tag: "rust-v0.125.0",
-  tagObject: "7d8152a5d74226ddaac12f93f7c5ed3f33a60d2a",
-  commit: "637f7dd6d737f3961e6bf32fbb3861c4953269c5",
-  files: [
-    "AGENTS.md",
-    "codex-rs/core/src/lib.rs",
-    "codex-rs/protocol/src/protocol.rs",
-    "codex-rs/exec/src/main.rs",
-  ],
-};
-
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
 const pullRequest = Number(args.pr ?? args["pull-request"]);
@@ -2029,8 +2021,10 @@ function runValidation({ targetDir, reviewContext }) {
 function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sourceJob, reviewContext }) {
   const schemaPath = path.join(runDir, "codex-review.schema.json");
   const outputPath = path.join(runDir, "codex-review.json");
-  const dependency = targetReviewDependency(repo);
+  const dependency = repo === CODEX_REVIEW_DEPENDENCY.repo ? CODEX_REVIEW_DEPENDENCY : null;
   const dependencyDir = path.join(path.dirname(targetDir), "codex");
+  let bootstrapDir = null;
+  let dependencyEnv = null;
   const defaultCodexReviewSandbox = "read-only";
   const codexReviewSandbox = process.env.CLOWNFISH_EXTERNAL_PREFLIGHT_CODEX_SANDBOX ?? defaultCodexReviewSandbox;
   const useLegacyLandlock =
@@ -2105,7 +2099,9 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     if (dependency) {
       if (fs.existsSync(dependencyDir)) throw new Error("Codex dependency path already exists");
       ownsDependencyDir = true;
-      provisionCodexReviewDependency(dependencyDir, dependency);
+      bootstrapDir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-codex-review-"));
+      dependencyEnv = codexDependencyEnv(bootstrapDir);
+      provisionCodexReviewDependency(dependencyDir, dependency, bootstrapDir, dependencyEnv);
     }
     run("codex", codexArgs, {
       cwd: targetDir,
@@ -2115,38 +2111,36 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
       maxBuffer: 64 * 1024 * 1024,
     });
     if (!fs.existsSync(outputPath)) throw new Error("Codex /review did not write structured output");
-    if (dependency) verifyCodexReviewDependency(dependencyDir, dependency);
+    if (dependency) verifyCodexReviewDependency(dependencyDir, dependency, dependencyEnv);
     const review = JSON.parse(fs.readFileSync(outputPath, "utf8"));
-    if (dependency && !hasPinnedCodexEvidence(review, dependency)) {
-      throw new Error("Codex /review evidence did not cite the pinned sibling Codex source");
+    if (dependency && isCleanCodexReview(review)) {
+      const evidenceBlock = validateCodexReviewSourceEvidence(review, dependencyDir, (args) =>
+        run("git", args, { cwd: dependencyDir, env: dependencyEnv, timeout: 180_000 }),
+      );
+      if (evidenceBlock) throw new Error(evidenceBlock);
     }
     return {
       ...review,
-      ...(dependency ? { dependency_provenance: codexDependencyProvenance(dependency) } : {}),
+      ...(dependency ? { dependency_provenance: { ...CODEX_REVIEW_PROVENANCE } } : {}),
     };
   } finally {
     if (ownsDependencyDir) fs.rmSync(dependencyDir, { recursive: true, force: true });
+    if (bootstrapDir) fs.rmSync(bootstrapDir, { recursive: true, force: true });
   }
 }
 
-function targetReviewDependency(repo) {
-  return repo === CODEX_REVIEW_DEPENDENCY.repo ? CODEX_REVIEW_DEPENDENCY : null;
-}
-
-function provisionCodexReviewDependency(dependencyDir, dependency) {
-  const env = codexDependencyEnv();
-  const version = run("codex", ["--version"], { env, timeout: 180_000 }).trim();
+function provisionCodexReviewDependency(dependencyDir, dependency, bootstrapDir, env) {
+  const version = run("codex", ["--version"], { cwd: bootstrapDir, env, timeout: 180_000 }).trim();
   if (version !== dependency.version) throw new Error(`unsupported Codex version: ${version || "empty"}`);
   run(
     "git",
     ["clone", "--depth", "1", "--branch", dependency.tag, "--single-branch", dependency.url, dependencyDir],
-    { env, timeout: 180_000 },
+    { cwd: bootstrapDir, env, timeout: 180_000 },
   );
-  verifyCodexReviewDependency(dependencyDir, dependency);
+  verifyCodexReviewDependency(dependencyDir, dependency, env);
 }
 
-function verifyCodexReviewDependency(dependencyDir, dependency) {
-  const env = codexDependencyEnv();
+function verifyCodexReviewDependency(dependencyDir, dependency, env) {
   const read = (...args) => run("git", args, { cwd: dependencyDir, env, timeout: 180_000 }).trim();
   if (read("remote", "get-url", "origin") !== dependency.url) throw new Error("Codex dependency origin mismatch");
   if (read("cat-file", "-t", `refs/tags/${dependency.tag}`) !== "tag") throw new Error("Codex dependency tag is not annotated");
@@ -2162,33 +2156,40 @@ function verifyCodexReviewDependency(dependencyDir, dependency) {
   }
 }
 
-function hasPinnedCodexEvidence(review, dependency) {
-  const evidence = Array.isArray(review?.evidence) ? review.evidence.join("\n") : "";
-  return evidence.includes(dependency.commit) && /\.\.\/codex\/codex-rs\/[^\s]+(?::\d+|#L\d+)/.test(evidence);
-}
-
-function codexDependencyProvenance(dependency) {
-  return {
-    repository: "openai/codex",
-    version: dependency.version,
-    tag: dependency.tag,
-    tag_object: dependency.tagObject,
-    commit: dependency.commit,
-  };
-}
-
-function codexDependencyEnv() {
-  const env = {
-    ...gitIntegrityEnv(),
+function codexDependencyEnv(bootstrapDir) {
+  const env = { ...process.env };
+  for (const key of Object.keys(env)) {
+    if (
+      /^GIT_CONFIG(?:_|$)/.test(key) ||
+      /^(?:GIT_DIR|GIT_WORK_TREE|GIT_COMMON_DIR|GIT_OBJECT_DIRECTORY|GIT_ALTERNATE_OBJECT_DIRECTORIES|GIT_INDEX_FILE|GIT_CEILING_DIRECTORIES|GIT_DISCOVERY_ACROSS_FILESYSTEM|GIT_SSH|GIT_SSH_COMMAND)$/.test(key) ||
+      /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key)
+    ) delete env[key];
+  }
+  Object.assign(env, {
+    HOME: path.join(bootstrapDir, "home"),
+    XDG_CONFIG_HOME: path.join(bootstrapDir, "xdg"),
     GIT_ALLOW_PROTOCOL: "https",
     GIT_ASKPASS: "/bin/false",
+    GIT_CONFIG_COUNT: "5",
+    GIT_CONFIG_GLOBAL: "/dev/null",
+    GIT_CONFIG_KEY_0: "core.hooksPath",
+    GIT_CONFIG_KEY_1: "protocol.ext.allow",
+    GIT_CONFIG_KEY_2: "credential.helper",
+    GIT_CONFIG_KEY_3: "http.extraHeader",
+    GIT_CONFIG_KEY_4: "http.https://github.com/.extraHeader",
+    GIT_CONFIG_NOSYSTEM: "1",
+    GIT_CONFIG_VALUE_0: "/dev/null",
+    GIT_CONFIG_VALUE_1: "never",
+    GIT_CONFIG_VALUE_2: "",
+    GIT_CONFIG_VALUE_3: "",
+    GIT_CONFIG_VALUE_4: "",
+    GIT_NO_REPLACE_OBJECTS: "1",
     GIT_TERMINAL_PROMPT: "0",
     GCM_INTERACTIVE: "Never",
     SSH_ASKPASS: "/bin/false",
-  };
-  for (const key of Object.keys(env)) {
-    if (/(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key)) delete env[key];
-  }
+  });
+  fs.mkdirSync(env.HOME, { recursive: true });
+  fs.mkdirSync(env.XDG_CONFIG_HOME, { recursive: true });
   return env;
 }
 
@@ -2215,9 +2216,6 @@ function buildMergeResult({
   const baseAdoptionManifest = buildBaseAdoptionManifest({ targetDir, reviewContext, pull });
   const evidence = [
     `Exact PR head ${pull.head.sha} checked out from refs/pull/${pullRequest}/head.`,
-    ...(codexReview.dependency_provenance
-      ? [`Codex dependency ${codexReview.dependency_provenance.tag} was verified at ${codexReview.dependency_provenance.commit}.`]
-      : []),
     validationAndReviewSharedBase
       ? `Validation and Codex review ran on synthetic squash-result commit ${reviewContext.syntheticMergeSha} with origin/main ${reviewContext.reviewedBaseSha} as its parent and merge tree ${reviewContext.mergeTreeSha} computed from exact PR head ${pull.head.sha}.`
       : `Codex review ran on synthetic squash-result commit ${codexReviewedSyntheticMergeSha} with origin/main ${codexReviewedBaseSha} as its parent and merge tree ${codexReviewedMergeTreeSha}; validation was rerun on synthetic commit ${reviewContext.syntheticMergeSha} with refreshed origin/main ${reviewContext.reviewedBaseSha}.`,
@@ -2293,7 +2291,7 @@ function buildMergeResult({
           evidence: [
             `Codex /review returned ${codexReview.status} with zero findings on exact head ${pull.head.sha} and effective diff ${reviewContext.effectiveDiffSha256} from base ${codexReviewedBaseSha}.`,
             ...(codexReview.dependency_provenance
-              ? [`Pinned dependency openai/codex ${codexReview.dependency_provenance.tag} at ${codexReview.dependency_provenance.commit}; direct source citation was enforced.`]
+              ? [codexReviewProvenanceEvidence()]
               : []),
             ...(validationAndReviewSharedBase
               ? []

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 import { hasSecuritySensitiveText, securityTextFromItem } from "./security-sensitive.mjs";
+import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
 
 const CLOSE_ACTIONS = new Set([
   "close",
@@ -335,7 +336,7 @@ function reviewResult(resultPath) {
       warnings.push("worker-authored merge_preflight is ignored because the source job requires deterministic external preflight");
     }
   } else if (plannedMergeActions.length > 0) {
-    validateMergePreflight(result.merge_preflight, plannedMergeActions, failures);
+    validateMergePreflight(result.repo, result.merge_preflight, plannedMergeActions, failures);
   }
   validateCalibratedPrFinalization({
     sourceJobPolicy,
@@ -622,7 +623,7 @@ function validateFixActionPermissions(permissions, fixActions, failures) {
   failures.push(`fix actions are not permitted by job frontmatter (${blockers.join("; ")}): ${actionList}`);
 }
 
-function validateMergePreflight(mergePreflight, mergeActions, failures) {
+function validateMergePreflight(repo, mergePreflight, mergeActions, failures) {
   if (!Array.isArray(mergePreflight)) {
     failures.push("merge action requires merge_preflight");
     return;
@@ -643,7 +644,8 @@ function validateMergePreflight(mergePreflight, mergeActions, failures) {
       failures.push(`${target} merge action missing merge_preflight entry`);
       continue;
     }
-    if (String(action.idempotency_key ?? "").startsWith("external-merge-preflight:")) {
+    const external = String(action.idempotency_key ?? "").startsWith("external-merge-preflight:");
+    if (external) {
       if (!/^[0-9a-f]{40}$/i.test(String(preflight.reviewed_base_sha ?? ""))) {
         failures.push(`${target} external merge_preflight.reviewed_base_sha must be a 40-character Git SHA`);
       }
@@ -694,6 +696,10 @@ function validateMergePreflight(mergePreflight, mergeActions, failures) {
       failures.push(`${target} merge_preflight.codex_review.evidence must be a non-empty list`);
     } else if (!codexReview.evidence.some((entry) => /\/review|codex review/i.test(String(entry)))) {
       failures.push(`${target} merge_preflight.codex_review.evidence must mention /review or Codex review`);
+    }
+    if (external) {
+      const provenanceBlock = validateCodexReviewProvenance(repo, codexReview.evidence);
+      if (provenanceBlock) failures.push(`${target} ${provenanceBlock}`);
     }
   }
 }
