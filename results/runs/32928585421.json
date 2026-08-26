@@ -1,0 +1,182 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-129784",
+  "mode": "autonomous",
+  "run_id": "32928585421",
+  "workflow_run_id": "32928585421",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/32928585421",
+  "head_sha": "94f9025078987e4435f1ce2a6fbf8129101ff266",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-08-26T04:00:40Z",
+  "workflow_updated_at": "2026-08-26T04:21:18Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-129784.md",
+  "published_at": "2026-08-26T04:22:14.749Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/129784",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/129784",
+  "summary": "#129784 remains the canonical automerge repair target. The hydrated artifact shows ClawSweeper found no concrete patch defect, but automerge stopped because the exact-head terminal release proof/merge gate was not yet resolved and the branch was not up to date; maintainer_can_modify is false, so Clownfish should create a narrow credited replacement rather than trying to push the source branch. Direct live gh refresh was unavailable in this worker because GH_TOKEN is not set; the provided hydrated preflight artifact is the live state source for this result.",
+  "actions": [
+    {
+      "target": "#120107",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "related",
+      "canonical": "#129784",
+      "candidate_fix": "#120107",
+      "reason": "historical_related_merged_context_only"
+    },
+    {
+      "target": "#129784",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#129784",
+      "candidate_fix": null,
+      "reason": "branch_not_up_to_date_and_uneditable_for_clownfish_repair"
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-129784",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#129784",
+      "candidate_fix": null,
+      "reason": "complete_executable_replacement_artifact_available"
+    }
+  ],
+  "action_counts": {
+    "keep_closed": 1,
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "skipped": 1,
+    "planned": 2
+  },
+  "fix_counts": {
+    "opened": 1
+  },
+  "apply_counts": {
+    "blocked": 1
+  },
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#129784",
+    "source_refs": [
+      "#129784",
+      "#120107"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Create a narrow credited replacement for #129784 because the canonical source branch is not safely editable by this automation lane and ClawSweeper's remaining blocker is merge-gate/rebase repair, not a design defect.",
+    "pr_title": "fix(release): bind prerelease plugins into package Telegram QA",
+    "pr_body": "## What Problem This Solves\n\nReplaces the uneditable Clownfish automerge source branch from #129784 while preserving @vincentkoc's implementation credit. Package Telegram QA should verify the prerelease OpenClaw package and managed plugins come from the same release run instead of resolving managed plugins from public npm.\n\nSource PR: https://github.com/openclaw/openclaw/pull/129784\nRelated prior release-harness fix: https://github.com/openclaw/openclaw/pull/120107\n\n## Repair Plan\n\n- Recreate the narrow #129784 release-harness change on current `main`.\n- Forward the immutable prerelease plugin registry tuple from Package Acceptance into Package Telegram QA.\n- Keep direct Package Acceptance valid without registry provenance, while requiring the complete tuple when any registry field is supplied.\n- Centralize verified local npm registry startup in `scripts/e2e/lib/prepublish-plugin-registry.sh` and keep the existing verifier/registry server contract.\n- Preserve the source PR attribution in the squash message or co-author trailer as appropriate.\n\n## Validation\n\n- `pnpm check:changed`\n- Fresh ClawSweeper review and exact-head CI/merge gate after the replacement PR is opened.",
+    "likely_files": [
+      ".github/workflows/npm-telegram-beta-e2e.yml",
+      ".github/workflows/package-acceptance.yml",
+      "scripts/e2e/codex-on-demand-docker.sh",
+      "scripts/e2e/lib/prepublish-plugin-registry.sh",
+      "scripts/e2e/lib/upgrade-survivor/run.sh",
+      "scripts/e2e/npm-telegram-live-docker.sh",
+      "scripts/e2e/upgrade-survivor-docker.sh",
+      "test/scripts/docker-build-helper.test.ts",
+      "test/scripts/npm-telegram-live.test.ts",
+      "test/scripts/package-acceptance-workflow.test.ts",
+      "test/scripts/prepublish-plugin-registry-shell.test.ts",
+      "test/scripts/upgrade-survivor-plugin-registry.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Credit @vincentkoc as the author of the source implementation in https://github.com/openclaw/openclaw/pull/129784.",
+      "Carry #129784 in the replacement PR body as the source PR and preserve attribution for the prerelease plugin-registry Package Telegram QA binding.",
+      "Do not close or supersede #129784 in this worker result; closure and merge are blocked by the job frontmatter."
+    ],
+    "source_job": "jobs/openclaw/inbox/automerge-openclaw-openclaw-129784.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "opened",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "opened",
+      "target": null,
+      "pr": "https://github.com/openclaw/openclaw/pull/129860",
+      "branch": "clownfish/automerge-openclaw-openclaw-129784",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": "e634ba6a9be8434363a101055092803f56282a07",
+      "checkpoint_commits": [
+        "34df4ed93b7d048b3cf51039a836f9bd59064613",
+        "0ee8acd7bad59148c50b8021caf76cfebf57f2a2"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": "https://github.com/openclaw/openclaw/pull/129860"
+    }
+  ],
+  "apply_actions": [
+    {
+      "target": "#129860",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ],
+  "apply_audit_actions": [
+    {
+      "target": "#129860",
+      "action": "merge_canonical",
+      "status": "blocked",
+      "classification": "fix_pr",
+      "canonical": null,
+      "candidate_fix": null,
+      "title": null,
+      "idempotency_key": null,
+      "source_status": null,
+      "source_reason": null,
+      "reason": "job does not allow merge",
+      "merged_at": null,
+      "merge_commit_sha": null,
+      "expected_head_sha": null,
+      "live_state": null,
+      "live_updated_at": null,
+      "apply_attempt": null,
+      "applied_at": null,
+      "report_source": "post_flight",
+      "retry_recommended": null,
+      "transient_error": null
+    }
+  ]
+}
