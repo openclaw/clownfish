@@ -329,6 +329,7 @@ function readJsonIfExists(filePath) {
 
 function cleanupPreflightTarget(runDir) {
   fs.rmSync(path.join(runDir, "target"), { recursive: true, force: true });
+  fs.rmSync(path.join(runDir, "codex"), { recursive: true, force: true });
 }
 
 function positiveInteger(value, fallback, label) {

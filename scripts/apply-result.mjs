@@ -10,6 +10,7 @@ import {
   EXACT_MERGE_CHECK_NAME,
   REQUIRED_CI_GATE_NAME,
 } from "./external-merge-checks.mjs";
+import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
 
 const MAINTAINER_AUTHOR_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 const CLOSE_ACTIONS = new Set([
@@ -1263,6 +1264,10 @@ function validateMergePreflight({ result, action, target, expectedHeadSha }) {
   if (codexReview.findings_addressed !== true) return "Codex /review findings are not addressed";
   if (!Array.isArray(codexReview.evidence) || codexReview.evidence.length === 0) {
     return "Codex /review evidence is missing";
+  }
+  if (isExternalMergeAction(action)) {
+    const provenanceBlock = validateCodexReviewProvenance(result.repo, codexReview.evidence);
+    if (provenanceBlock) return provenanceBlock;
   }
   const unresolvedThreadBlock = validateResolvedReviewThreads(result.repo, target);
   if (unresolvedThreadBlock) return unresolvedThreadBlock;

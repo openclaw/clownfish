@@ -5,8 +5,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import {
+  CODEX_REVIEW_PROVENANCE,
+  codexReviewProvenanceEvidence,
+} from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
+const codexCitation = { source_path: "codex-rs/exec/src/lib.rs", line: 583 };
 const EXPECTED_HEAD_SHA = "a".repeat(40);
 const CHANGED_HEAD_SHA = "b".repeat(40);
 const CURRENT_MAIN_SHA = "c".repeat(40);
@@ -1778,6 +1783,38 @@ test("apply-result rejects an already-merged replay with invalid review policy",
   assert.equal(report.actions[0].reason, "Codex /review status is failed");
 });
 
+for (const [name, evidence] of [
+  ["missing", ["Codex /review returned clean"]],
+  ["tuple-only", [`Codex dependency provenance: ${JSON.stringify(CODEX_REVIEW_PROVENANCE)}`]],
+  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace("637f7d", "000000")]],
+]) {
+  test(`apply-result rejects ${name} OpenClaw Codex provenance before mutation`, () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    const callLogPath = path.join(tmp, "gh-calls.jsonl");
+    const mergeStatePath = path.join(tmp, "merge-state");
+    fs.mkdirSync(binDir, { recursive: true });
+    fs.writeFileSync(callLogPath, "");
+    writeReadyMergeGhStub(binDir, { headSha: EXPECTED_HEAD_SHA, externalBinding: true });
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    const artifact = mergeResultJson({ externalBinding: true });
+    artifact.merge_preflight[0].codex_review.evidence = evidence;
+    fs.writeFileSync(jobPath, mergeJobMarkdown());
+    fs.writeFileSync(resultPath, `${JSON.stringify(artifact, null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir, {
+      dryRun: false, allowMerge: true, callLogPath, mergeStatePath,
+    });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.match(report.actions[0].reason, /Codex dependency provenance evidence/);
+    assert.equal(readCallLog(callLogPath).some((args) => args.includes("POST") || args.slice(0, 2).join(" ") === "pr merge"), false);
+  });
+}
+
 test("apply-result re-reads an ambiguous merge failure and verifies accepted state", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -2753,7 +2790,10 @@ function mergeResultJson({
           command: "/review",
           status: "clean",
           findings_addressed: true,
-          evidence: ["Codex /review returned clean"],
+          evidence: [
+            "Codex /review returned clean",
+            ...(externalBinding ? [codexReviewProvenanceEvidence(codexCitation)] : []),
+          ],
         },
         base_adoption_manifest: resolvedManifest,
       },

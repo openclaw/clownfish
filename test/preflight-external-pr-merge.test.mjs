@@ -5,6 +5,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import {
+  CODEX_REVIEW_DEPENDENCY,
+  codexReviewProvenanceEvidence,
+  validateCodexReviewProvenance,
+  validateCodexReviewSourceEvidence,
+} from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const script = fs.readFileSync(path.join(repoRoot, "scripts", "preflight-external-pr-merge.mjs"), "utf8");
@@ -14,6 +20,8 @@ const intakeWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows
 const clusterWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflows", "cluster-worker.yml"), "utf8");
 const autonomousPrompt = fs.readFileSync(path.join(repoRoot, "prompts", "autonomous.md"), "utf8");
 const githubInventoryImporter = fs.readFileSync(path.join(repoRoot, "scripts", "import-github-pr-inventory.mjs"), "utf8");
+const codexDependency = CODEX_REVIEW_DEPENDENCY;
+const codexCitation = { source_path: "codex-rs/exec/src/lib.rs", line: 583 };
 
 test("external merge preflight is exact-head, read-only, and refuses unresolved review evidence", () => {
   assert.match(script, /source job does not explicitly contain/);
@@ -44,8 +52,9 @@ test("external merge preflight is exact-head, read-only, and refuses unresolved 
   assert.match(script, /GIT_ALLOW_PROTOCOL: "https:ssh"/);
   assert.match(script, /GIT_CONFIG_KEY_0: "core\.hooksPath"/);
   assert.match(script, /GIT_CONFIG_VALUE_0: "\/dev\/null"/);
-  assert.match(script, /GIT_CONFIG_KEY_1: "protocol\.ext\.allow"/);
-  assert.match(script, /GIT_CONFIG_VALUE_1: "never"/);
+  assert.match(script, /GIT_CONFIG_KEY_2: "credential\.helper"/);
+  assert.match(script, /GIT_CONFIG_KEY_3: "http\.extraHeader"/);
+  assert.match(script, /GIT_CONFIG_KEY_4: "http\.https:\/\/github\.com\/\.extraHeader"/);
   assert.match(script, /GIT_NO_REPLACE_OBJECTS: "1"/);
   assert.match(script, /function verifyTrackedFilesystem/);
   assert.match(script, /function gitBlobSha/);
@@ -75,6 +84,11 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /inputs\.apply && vars\.CLOWNFISH_ALLOW_EXECUTE == '1' && vars\.CLOWNFISH_ALLOW_MERGE == '1'/);
   assert.match(workflow, /runs-on: \$\{\{ inputs\.runner \}\}/);
   assert.match(workflow, /external-merge-preflight\/preflight-report\.json/);
+  const preflightUpload = workflow.match(/- name: Upload preflight artifact[\s\S]*?(?=\n      - name: Fail blocked preflight)/)?.[0] ?? "";
+  const applyUpload = workflow.match(/- name: Upload apply artifact[\s\S]*$/)?.[0] ?? "";
+  assert.match(preflightUpload, /external-merge-preflight\/codex-review\.json/);
+  assert.doesNotMatch(applyUpload, /external-merge-preflight\/codex-review\.json/);
+  assert.equal((workflow.match(/external-merge-preflight\/codex-review\.json/g) ?? []).length, 1);
   assert.match(
     workflow,
     /- name: Upload preflight artifact[\s\S]*?if: always\(\)[\s\S]*?- name: Fail blocked preflight[\s\S]*?if: \$\{\{ always\(\) && steps\.outcome\.outputs\.preflight_passed != 'true' \}\}[\s\S]*?exit 1[\s\S]*?\n  apply:/,
@@ -118,6 +132,8 @@ test("cluster worker chains blocked merge candidates through external preflight"
   assert.match(runnerScript, /CLOWNFISH_EXTERNAL_PREFLIGHT_HEARTBEAT_MS/);
   assert.match(runnerScript, /still running after/);
   assert.match(runnerScript, /clearInterval\(heartbeat\)/);
+  assert.match(runnerScript, /rmSync\(path\.join\(runDir, "target"\)/);
+  assert.match(runnerScript, /rmSync\(path\.join\(runDir, "codex"\)/);
   assert.match(clusterWorkflow, /- name: Run external merge preflights/);
   assert.match(clusterWorkflow, /CLOWNFISH_APP_ID: \$\{\{ vars\.CLOWNFISH_APP_ID \}\}/);
   assert.match(
@@ -255,6 +271,23 @@ test("external merge runner defaults to all while preserving dry-run", () => {
     assert.equal(report.actions[0].status, "passed");
     assert.match(report.actions[0].reason, /dry run; guarded applicator not invoked/);
     assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+  } finally {
+    fs.rmSync(fixture.root, { recursive: true, force: true });
+  }
+});
+
+test("external merge runner removes stale and completed dependency checkouts", () => {
+  const fixture = makeRunnerFixture();
+  try {
+    const nestedRunDir = path.join(fixture.runRoot, "external-merge-preflight-123");
+    fs.mkdirSync(path.join(nestedRunDir, "target"), { recursive: true });
+    fs.mkdirSync(path.join(nestedRunDir, "codex"), { recursive: true });
+    fs.writeFileSync(path.join(nestedRunDir, "codex", "stale"), "stale\n");
+
+    const child = runExternalMergeRunner(fixture, ["--phase", "preflight"], fixture.env);
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+    assert.equal(fs.existsSync(path.join(nestedRunDir, "target")), false);
+    assert.equal(fs.existsSync(path.join(nestedRunDir, "codex")), false);
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true });
   }
@@ -410,6 +443,12 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.actions[0].expected_head_sha, fixture.headSha);
   assert.equal(result.actions[0].target_updated_at, "2026-06-19T00:05:00Z");
   assert.equal(result.merge_preflight[0].codex_review.status, "clean");
+  assert.equal(
+    result.merge_preflight[0].codex_review.evidence.filter((entry) =>
+      entry.startsWith("Codex dependency provenance: "),
+    ).length,
+    1,
+  );
   assert.equal(result.merge_preflight[0].reviewed_base_sha, fixture.baseSha);
   assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
   assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
@@ -468,6 +507,264 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
     encoding: "utf8",
   });
   assert.equal(reviewed.status, 0, reviewed.stderr || reviewed.stdout);
+});
+
+test("external merge preflight binds OpenClaw review to pinned Codex source", () => {
+  const fixture = makeFixture();
+  const { report, result } = runPreflightFixture(fixture, {
+    GITHUB_TOKEN: "github-secret",
+    OPENAI_API_KEY: "openai-secret",
+    NPM_TOKEN: "npm-secret",
+    GENERIC_SECRET: "generic-secret",
+    PRIVATE_KEY: "private-key",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(report.codex_review.dependency, {
+    repository: "openai/codex",
+    version: codexDependency.version,
+    tag: codexDependency.tag,
+    tag_object: codexDependency.tagObject,
+    commit: codexDependency.commit,
+    ...codexCitation,
+  });
+  const prompt = fs.readFileSync(fixture.codexPromptPath, "utf8");
+  assert.match(prompt, new RegExp(codexDependency.commit));
+  assert.match(prompt, /\.\.\/codex\/codex-rs\/\.\.\.:<line>/);
+  assert.equal(Number(fs.readFileSync(fixture.codexVersionCountPath, "utf8")), 1);
+  assert.equal(Number(fs.readFileSync(fixture.codexCloneCountPath, "utf8")), 1);
+  assert.match(
+    fs.readFileSync(fixture.gitCommandsPath, "utf8"),
+    /clone --depth 1 --branch rust-v0\.125\.0 --single-branch https:\/\/github\.com\/openai\/codex\.git /,
+  );
+  assert.deepEqual(JSON.parse(fs.readFileSync(fixture.codexDependencyEnvPath, "utf8")), {
+    allowProtocol: "https",
+    terminalPrompt: "0",
+    askpass: "/bin/false",
+    configCount: "5",
+    configValues: ["", "", ""],
+    cwdHasGit: false,
+    homeEntries: [],
+    xdgEntries: [],
+    credentialKeys: [],
+  });
+  assert.equal(result.merge_preflight[0].codex_review.evidence.includes(codexReviewProvenanceEvidence(codexCitation)), true);
+  const versionEnv = JSON.parse(fs.readFileSync(fixture.codexVersionEnvPath, "utf8"));
+  assert.equal(versionEnv.cwdHasGit, false);
+  assert.deepEqual(versionEnv.homeEntries, []);
+  assert.equal(fs.existsSync(versionEnv.cwd), false);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+test("external merge preflight isolates dependency bootstrap from hostile Git configuration", () => {
+  const fixture = makeFixture({ initialGitConfig: { key: "credential.helper", value: "fixture-local" } });
+  fs.mkdirSync(fixture.hostileHome, { recursive: true });
+  fs.writeFileSync(
+    path.join(fixture.hostileHome, ".gitconfig"),
+    `[credential]\n\thelper = !touch ${fixture.credentialSentinelPath}\n[http]\n\textraHeader = Authorization: hostile\n`,
+  );
+  const { report } = runPreflightFixture(fixture, {
+    HOME: fixture.hostileHome,
+    GIT_CONFIG_COUNT: "1",
+    GIT_CONFIG_KEY_0: "credential.helper",
+    GIT_CONFIG_VALUE_0: `!touch ${fixture.credentialSentinelPath}`,
+    GIT_CONFIG_SYSTEM: path.join(fixture.hostileHome, ".gitconfig"),
+    GIT_CONFIG_PARAMETERS: "'http.extraHeader=Authorization: inherited'",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(fs.existsSync(fixture.credentialSentinelPath), false);
+});
+
+for (const [name, options, reason] of [
+  ["malformed version", { codexVersion: "Codex 0.125.0" }, /unsupported Codex version/],
+  ["mismatched version", { codexVersion: "codex-cli 0.126.0" }, /unsupported Codex version/],
+  ["clone failure", { codexCloneFailure: "fixture clone failure" }, /fixture clone failure/],
+  ["lightweight tag", { codexTagType: "commit" }, /tag is not annotated/],
+  ["tag object mismatch", { codexTagObject: "4".repeat(40) }, /tag object mismatch/],
+  ["peeled commit mismatch", { codexCommitSha: "5".repeat(40) }, /commit mismatch/],
+  [
+    "missing required file",
+    { codexFileFault: { path: "codex-rs/core/src/lib.rs", type: "missing" } },
+    /required file is not regular/,
+  ],
+  [
+    "nonregular required file",
+    { codexFileFault: { path: "codex-rs/protocol/src/protocol.rs", type: "directory" } },
+    /required file is not regular/,
+  ],
+]) {
+  test(`external merge preflight rejects Codex dependency ${name}`, () => {
+    const fixture = makeFixture(options);
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, reason);
+    assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+  });
+}
+
+test("external merge preflight requires pinned Codex source citations", () => {
+  const fixture = makeFixture({
+    codexReview: {
+      status: "clean",
+      summary: "clean without source proof",
+      findings: [],
+      findings_addressed: true,
+      evidence: ["reviewed the target checkout"],
+    },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /did not cite the pinned sibling Codex source/);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+for (const status of ["failed", "blocked"]) {
+  test(`external merge preflight preserves ${status} reviews without source citations`, () => {
+    const finding = { severity: "high", summary: "fixture finding", evidence: "target source" };
+    const fixture = makeFixture({
+      codexReview: {
+        status,
+        summary: `${status} fixture review`,
+        findings: [finding],
+        findings_addressed: false,
+        evidence: ["review did not claim pinned source proof"],
+      },
+    });
+    const { report } = runPreflightFixture(fixture);
+    const artifact = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "codex-review.json"), "utf8"));
+
+    assert.equal(report.status, "blocked");
+    assert.equal(report.codex_review.status, status);
+    assert.equal(report.codex_review.findings, 1);
+    assert.equal(artifact.summary, `${status} fixture review`);
+    assert.deepEqual(artifact.findings, [finding]);
+  });
+}
+
+test("pinned Codex source citations reject unsafe or unverifiable locations", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-codex-evidence-"));
+  const regular = "codex-rs/exec/src/lib.rs";
+  const missing = "codex-rs/exec/src/missing.rs";
+  const nonregular = "codex-rs/exec/src/nonregular.rs";
+  const symlink = "codex-rs/exec/src/symlink.rs";
+  const untracked = "codex-rs/exec/src/untracked.rs";
+  fs.mkdirSync(path.join(root, path.dirname(regular)), { recursive: true });
+  fs.writeFileSync(path.join(root, regular), "one\ntwo\n");
+  fs.writeFileSync(path.join(root, untracked), "untracked\n");
+  fs.mkdirSync(path.join(root, nonregular));
+  fs.symlinkSync(regular, path.join(root, symlink));
+  const tracked = [regular, missing, nonregular, symlink].join("\0") + "\0";
+  const validate = (evidence) =>
+    validateCodexReviewSourceEvidence({ evidence }, root, () => tracked);
+  const commit = codexDependency.commit;
+
+  assert.deepEqual(validate([`${commit} ../codex/${regular}:2`]), {
+    error: "",
+    citation: { source_path: regular, line: 2 },
+  });
+  for (const [name, evidence, reason] of [
+    ["traversal", [`${commit} ../codex/codex-rs/../AGENTS.md:1`], /invalid/],
+    ["absolute", [`${commit} ../codex//etc/passwd:1`], /invalid/],
+    ["backslash", [`${commit} ../codex/codex-rs\\exec\\src\\lib.rs:1`], /invalid/],
+    ["nonexistent", [`${commit} ../codex/${missing}:1`], /not a regular file/],
+    ["untracked", [`${commit} ../codex/${untracked}:1`], /not tracked/],
+    ["nonregular", [`${commit} ../codex/${nonregular}:1`], /not a regular file/],
+    ["symlink", [`${commit} ../codex/${symlink}:1`], /not a regular file/],
+    ["zero", [`${commit} ../codex/${regular}:0`], /invalid/],
+    ["out-of-range", [`${commit} ../codex/${regular}:3`], /out of range/],
+    ["split entry", [commit, `../codex/${regular}:1`], /same entry/],
+    ["malformed extra entry", [`${commit} ../codex/${regular}:1`, `../codex/${regular}`], /same entry/],
+  ]) {
+    assert.match(validate(evidence).error, reason, name);
+  }
+});
+
+test("OpenClaw Codex provenance accepts only one exact canonical record", () => {
+  const canonical = codexReviewProvenanceEvidence(codexCitation);
+  const prefix = canonical.slice(0, canonical.indexOf("{"));
+  const parsed = JSON.parse(canonical.slice(prefix.length));
+  const tupleOnly = { ...parsed };
+  delete tupleOnly.source_path;
+  delete tupleOnly.line;
+  assert.equal(canonical, `${prefix}${JSON.stringify({ repository: "openai/codex", version: codexDependency.version, tag: codexDependency.tag, tag_object: codexDependency.tagObject, commit: codexDependency.commit, ...codexCitation })}`);
+  assert.equal(validateCodexReviewProvenance("openclaw/openclaw", [canonical]), "");
+  assert.equal(validateCodexReviewProvenance("openclaw/example", []), "");
+  for (const [name, evidence, reason] of [
+    ["missing", [], /exactly one/],
+    ["duplicate", [canonical, canonical], /exactly one/],
+    ["malformed", ["Codex dependency provenance: {"], /malformed/],
+    ["tuple-only", [`${prefix}${JSON.stringify(tupleOnly)}`], /fields/],
+    ["missing field", [`${prefix}${JSON.stringify({ ...parsed, line: undefined })}`], /fields/],
+    ["extra field", [`${prefix}${JSON.stringify({ ...parsed, extra: true })}`], /fields/],
+    ["traversal", [`${prefix}${JSON.stringify({ ...parsed, source_path: "codex-rs/../AGENTS.md" })}`], /citation/],
+    ["zero line", [`${prefix}${JSON.stringify({ ...parsed, line: 0 })}`], /citation/],
+    ["noninteger line", [`${prefix}${JSON.stringify({ ...parsed, line: 1.5 })}`], /citation/],
+    ["noncanonical serialization", [`${prefix}${JSON.stringify(parsed, null, 2)}`], /not canonical/],
+    ["tuple mismatch", [canonical.replace("0.125.0", "0.126.0")], /does not match/],
+  ]) {
+    assert.match(validateCodexReviewProvenance("openclaw/openclaw", evidence), reason, name);
+  }
+});
+
+test("external merge preflight leaves non-OpenClaw review behavior unchanged", () => {
+  const fixture = makeFixture({
+    repo: "openclaw/example",
+    codexReview: {
+      status: "clean",
+      summary: "clean fixture review",
+      findings: [],
+      findings_addressed: true,
+      evidence: ["ordinary target review"],
+    },
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.equal(report.codex_review.dependency, null);
+  assert.equal(fs.existsSync(fixture.codexVersionCountPath), false);
+  assert.equal(fs.existsSync(fixture.codexCloneCountPath), false);
+});
+
+test("external merge preflight refuses and preserves an unowned Codex dependency path", () => {
+  const fixture = makeFixture({ preexistingCodexCheckout: true });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /Codex dependency path already exists/);
+  assert.equal(fs.readFileSync(path.join(fixture.runDir, "codex", "unowned"), "utf8"), "preserve\n");
+  assert.equal(fs.existsSync(fixture.codexCloneCountPath), false);
+});
+
+test("external merge preflight removes the Codex dependency after review failure", () => {
+  const fixture = makeFixture({ codexFailure: "fixture Codex failure" });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /fixture Codex failure/);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+test("external merge preflight removes mutated Codex source and blocks the review", () => {
+  const fixture = makeFixture({ codexMutatesSource: true });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /Codex dependency checkout is dirty/);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
+});
+
+test("external merge preflight does not provision Codex when validation fails", () => {
+  const fixture = makeFixture({ validationFailure: { stderr: "fixture validation failure" } });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /fixture validation failure/);
+  assert.equal(fs.existsSync(fixture.codexVersionCountPath), false);
+  assert.equal(fs.existsSync(fixture.codexCloneCountPath), false);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
 });
 
 test("external merge preflight selects legacy Landlock without weakening read-only review", () => {
@@ -652,7 +949,18 @@ test("external merge preflight blocks later Git config mutation with precise dia
     `git diff --check ${fixture.baseSha}...${fixture.syntheticMergeSha}`,
     "git diff --check",
   ]);
-  assert.deepEqual(report.codex_review, { status: "clean", findings: 0 });
+  assert.deepEqual(report.codex_review, {
+    status: "clean",
+    findings: 0,
+    dependency: {
+      repository: "openai/codex",
+      version: codexDependency.version,
+      tag: codexDependency.tag,
+      tag_object: codexDependency.tagObject,
+      commit: codexDependency.commit,
+      ...codexCitation,
+    },
+  });
 });
 
 test("external merge preflight fingerprints included Git config values", () => {
@@ -931,6 +1239,9 @@ test("external merge preflight reruns Codex review for same-area main drift", ()
   assert.equal(report.codex_reviewed_base_sha, "9".repeat(40));
   assert.equal(report.base_drift_proof.segments[0]?.codex_rereview, true);
   assert.equal(Number(fs.readFileSync(fixture.codexCountPath, "utf8")), 2);
+  assert.equal(Number(fs.readFileSync(fixture.codexVersionCountPath, "utf8")), 2);
+  assert.equal(Number(fs.readFileSync(fixture.codexCloneCountPath, "utf8")), 2);
+  assert.equal(fs.existsSync(path.join(fixture.runDir, "codex")), false);
 });
 
 test("external merge preflight rejects stale Codex output during a required rereview", () => {
@@ -953,7 +1264,9 @@ test("external merge preflight treats zero-finding clean reviews as clean", () =
       summary: "No blocking findings; best-fix verdict: best for this scope.",
       findings: [],
       findings_addressed: false,
-      evidence: ["No findings were emitted, so there is nothing to address."],
+      evidence: [
+        `No findings were emitted at ${codexDependency.commit}; ../codex/codex-rs/exec/src/lib.rs:583 was inspected.`,
+      ],
     },
   });
   const child = spawnSync(
@@ -4158,6 +4471,7 @@ function runPreflightFixture(fixture, extraEnv = {}) {
 }
 
 function makeFixture({
+  repo = "openclaw/openclaw",
   issueComments = [],
   reviewComments = [],
   reviews = [],
@@ -4190,10 +4504,19 @@ function makeFixture({
   validationFailure = null,
   syntheticMergeFailure = null,
   codexMutatesCheckout = false,
+  codexMutatesSource = false,
   codexSkipsSecondWrite = false,
+  codexVersion = codexDependency.version,
+  codexCloneFailure = null,
+  codexTagType = "tag",
+  codexTagObject = codexDependency.tagObject,
+  codexCommitSha = codexDependency.commit,
+  codexFileFault = null,
+  codexFailure = null,
   initialGitConfig = null,
   initialIncludedGitConfig = null,
   preexistingTargetCheckout = false,
+  preexistingCodexCheckout = false,
   toolchainGitConfig = null,
   codexGitConfigMutation = null,
   codexIncludedGitConfigMutation = null,
@@ -4202,7 +4525,7 @@ function makeFixture({
     summary: "clean fixture review",
     findings: [],
     findings_addressed: true,
-    evidence: ["Codex /review clean"],
+    evidence: [`${codexDependency.commit} ../codex/codex-rs/exec/src/lib.rs:583`],
   },
   collaboratorPermissions = {},
   collaboratorPermissionErrors = [],
@@ -4238,6 +4561,12 @@ function makeFixture({
   const codexPromptPath = path.join(root, "codex-prompt.txt");
   const codexArgsPath = path.join(root, "codex-args.json");
   const codexCountPath = path.join(root, "codex-count");
+  const codexVersionCountPath = path.join(root, "codex-version-count");
+  const codexCloneCountPath = path.join(root, "codex-clone-count");
+  const codexDependencyEnvPath = path.join(root, "codex-dependency-env.json");
+  const codexVersionEnvPath = path.join(root, "codex-version-env.json");
+  const hostileHome = path.join(root, "hostile-home");
+  const credentialSentinelPath = path.join(root, "credential-sentinel");
   const codexPath = path.join(binDir, "codex");
   const mergeLogPath = path.join(root, "merge.log");
   const mergedStatePath = path.join(root, "merged");
@@ -4257,6 +4586,10 @@ function makeFixture({
   if (preexistingTargetCheckout) {
     fs.mkdirSync(path.join(runDir, "target", ".git"), { recursive: true });
   }
+  if (preexistingCodexCheckout) {
+    fs.mkdirSync(path.join(runDir, "codex"), { recursive: true });
+    fs.writeFileSync(path.join(runDir, "codex", "unowned"), "preserve\n");
+  }
   if (initialGitConfig) {
     fs.writeFileSync(
       gitConfigStatePath,
@@ -4272,7 +4605,7 @@ function makeFixture({
   fs.writeFileSync(
     jobPath,
     `---
-repo: openclaw/openclaw
+repo: ${repo}
 cluster_id: fixture-source
 mode: plan
 ${expectedHeadSha ? `expected_head_sha: ${expectedHeadSha}\n` : ""}${expectedHeadShas ? `expected_head_shas:\n${expectedHeadShas.map((value) => `  - "${value}"`).join("\n")}\n` : ""}allowed_actions:
@@ -4305,6 +4638,7 @@ require_fix_before_close: false
 const fs = require("node:fs");
 const path = require("node:path");
 const args = process.argv.slice(2);
+const repo = ${JSON.stringify(repo)};
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const baseTree = ${JSON.stringify(baseTreeSha)};
@@ -4379,10 +4713,7 @@ if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
   console.log(JSON.stringify(args.includes("--slurp") ? [comments] : comments));
   process.exit(0);
 }
-if (
-  args[0] === "api" &&
-  /^repos\\/openclaw\\/openclaw\\/collaborators\\/[^/]+\\/permission$/.test(args[1])
-) {
+if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/collaborators/") && args[1].endsWith("/permission")) {
   const login = decodeURIComponent(args[1].split("/").at(-2)).toLowerCase();
   if (collaboratorPermissionErrors.has(login)) {
     process.stderr.write("fixture collaborator permission failure");
@@ -4391,11 +4722,11 @@ if (
   write({ permission: collaboratorPermissions[login] ?? "read" });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/git/ref/heads/main") {
   write({ object: { sha: base } });
   process.exit(0);
 }
-if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" + head + "/check-runs?")) {
+if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/commits/" + head + "/check-runs?")) {
   const page = {
     total_count: 1,
     check_runs: [{
@@ -4412,7 +4743,7 @@ if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" +
   write(args.includes("--slurp") ? [page] : page);
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/jobs/7070") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/actions/jobs/7070") {
   write({
     id: 7070,
     run_id: 7071,
@@ -4425,7 +4756,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/jobs/7070"
   });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/runs/7071") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/actions/runs/7071") {
   write({
     id: 7071,
     workflow_id: 8081,
@@ -4438,11 +4769,11 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/runs/7071"
   });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/actions/workflows/ci.yml") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/actions/workflows/ci.yml") {
   write({ id: 8081, path: ".github/workflows/ci.yml", state: "active" });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/main") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/rules/branches/main") {
   write([{
     type: "required_status_checks",
     ruleset_source_type: "Repository",
@@ -4457,7 +4788,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rules/branches/mai
   }]);
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rulesets/18588237") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/rulesets/18588237") {
   write({
     id: 18588237,
     enforcement: "active",
@@ -4475,12 +4806,12 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/rulesets/18588237"
   });
   process.exit(0);
 }
-if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/commits/" + testMerge + "/check-runs?")) {
+if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/commits/" + testMerge + "/check-runs?")) {
   const checks = exactMergeChecks();
   write({ total_count: checks.length, check_runs: checks });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs" && args.includes("POST")) {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/check-runs" && args.includes("POST")) {
   const inputIndex = args.indexOf("--input");
   const payload = JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8"));
   const check = {
@@ -4496,7 +4827,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs" && arg
   write(check);
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs/4242" && args.includes("PATCH")) {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/check-runs/4242" && args.includes("PATCH")) {
   const inputIndex = args.indexOf("--input");
   const payload = JSON.parse(fs.readFileSync(args[inputIndex + 1], "utf8"));
   const previous = exactMergeChecks()[0];
@@ -4513,19 +4844,19 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/check-runs/4242" &
   write(check);
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + testMerge) {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/git/commits/" + testMerge) {
   write({ sha: testMerge, tree: { sha: mergeTree }, parents: [{ sha: base }, { sha: head }] });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + squashCommit) {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/git/commits/" + squashCommit) {
   write({ sha: squashCommit, tree: { sha: squashTree }, parents: [{ sha: base }] });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/commits/" + base) {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/git/commits/" + base) {
   write({ sha: base, tree: { sha: baseTree }, parents: [] });
   process.exit(0);
 }
-if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/" + baseTree + "?recursive=1") {
+if (args[0] === "api" && args[1] === "repos/" + repo + "/git/trees/" + baseTree + "?recursive=1") {
   write({
     truncated: false,
     tree: [{ path: "src/effective.ts", mode: "100644", type: "blob", sha: baseBlob }],
@@ -4534,7 +4865,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/trees/" + base
 }
 if (
   args[0] === "api" &&
-  [mergeTree, squashTree].some((tree) => args[1] === "repos/openclaw/openclaw/git/trees/" + tree + "?recursive=1")
+  [mergeTree, squashTree].some((tree) => args[1] === "repos/" + repo + "/git/trees/" + tree + "?recursive=1")
 ) {
   write({
     truncated: false,
@@ -4548,7 +4879,7 @@ if (args[0] === "api" && args[1].endsWith("/issues/123")) {
     { state: "open", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)} },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalIssueUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)} },
   );
-  console.log(JSON.stringify({ number: 123, ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/123" } }));
+  console.log(JSON.stringify({ number: 123, ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", pull_request: { url: "https://api.github.com/repos/" + repo + "/pulls/123" } }));
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
@@ -4557,7 +4888,7 @@ if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
     { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
   );
-  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/openclaw/openclaw/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, merge_commit_sha: isMerged() ? squashCommit : testMerge, user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } });
+  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, merge_commit_sha: isMerged() ? squashCommit : testMerge, user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } });
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
@@ -4587,6 +4918,16 @@ const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const statePath = path.join(${JSON.stringify(root)}, "git-state");
 const mainFetchCountPath = path.join(${JSON.stringify(root)}, "main-fetch-count");
 const commandLog = ${JSON.stringify(gitCommandsPath)};
+const dependencyCloneDir = args[0] === "clone" ? path.resolve(args.at(-1)) : null;
+const dependencyDir =
+  dependencyCloneDir ??
+  (path.basename(process.cwd()) === "codex"
+    ? process.cwd()
+    : path.join(${JSON.stringify(runDir)}, "codex"));
+const dependencyFiles = ${JSON.stringify(codexDependency.files)};
+const dependencyTrackedFiles = [...dependencyFiles, "codex-rs/exec/src/lib.rs"];
+const dependencyCloneCountPath = ${JSON.stringify(codexCloneCountPath)};
+const dependencyEnvPath = ${JSON.stringify(codexDependencyEnvPath)};
 function mainFetchCount() {
   return fs.existsSync(mainFetchCountPath) ? Number(fs.readFileSync(mainFetchCountPath, "utf8")) : 0;
 }
@@ -4594,15 +4935,111 @@ function currentMainRef() {
   return mainSequence[Math.min(Math.max(mainFetchCount() - 1, 0), mainSequence.length - 1)];
 }
 fs.appendFileSync(commandLog, args.join(" ") + "\\n");
-if (
-  process.env.GIT_ALLOW_PROTOCOL !== "https:ssh" ||
+const dependencyCommand =
+  process.env.GIT_ALLOW_PROTOCOL === "https" ||
+  process.cwd() === dependencyDir ||
+  (args[0] === "clone" && path.resolve(args.at(-1)) === dependencyDir);
+const hardeningMissing =
+  process.env.GIT_CONFIG_NOSYSTEM !== "1" ||
+  process.env.GIT_CONFIG_GLOBAL !== "/dev/null" ||
+  (dependencyCommand &&
+    (process.env.GIT_CONFIG_SYSTEM !== undefined ||
+      process.env.GIT_CONFIG_PARAMETERS !== undefined)) ||
+  process.env.GIT_CONFIG_COUNT !== (dependencyCommand ? "5" : "2") ||
   process.env.GIT_CONFIG_KEY_0 !== "core.hooksPath" ||
   process.env.GIT_CONFIG_VALUE_0 !== "/dev/null" ||
   process.env.GIT_CONFIG_KEY_1 !== "protocol.ext.allow" ||
-  process.env.GIT_CONFIG_VALUE_1 !== "never"
+  process.env.GIT_CONFIG_VALUE_1 !== "never" ||
+  (dependencyCommand &&
+    (process.env.GIT_CONFIG_KEY_2 !== "credential.helper" ||
+      process.env.GIT_CONFIG_VALUE_2 !== "" ||
+      process.env.GIT_CONFIG_KEY_3 !== "http.extraHeader" ||
+      process.env.GIT_CONFIG_VALUE_3 !== "" ||
+      process.env.GIT_CONFIG_KEY_4 !== "http.https://github.com/.extraHeader" ||
+      process.env.GIT_CONFIG_VALUE_4 !== "")) ||
+  process.env.GIT_NO_REPLACE_OBJECTS !== "1";
+if (
+  hardeningMissing ||
+  process.env.GIT_ALLOW_PROTOCOL !== (dependencyCommand ? "https" : "https:ssh") ||
+  (dependencyCommand &&
+    (process.env.GIT_TERMINAL_PROMPT !== "0" ||
+      process.env.GCM_INTERACTIVE !== "Never" ||
+      Object.keys(process.env).some((key) =>
+        /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
+      )))
 ) {
-  process.stderr.write("missing Git hardening");
+  process.stderr.write("missing Git hardening: " + JSON.stringify({
+    dependencyCommand,
+    allowProtocol: process.env.GIT_ALLOW_PROTOCOL,
+    configNoSystem: process.env.GIT_CONFIG_NOSYSTEM,
+    configGlobal: process.env.GIT_CONFIG_GLOBAL,
+    configKey0: process.env.GIT_CONFIG_KEY_0,
+    configValue0: process.env.GIT_CONFIG_VALUE_0,
+    configKey1: process.env.GIT_CONFIG_KEY_1,
+    configValue1: process.env.GIT_CONFIG_VALUE_1,
+    noReplaceObjects: process.env.GIT_NO_REPLACE_OBJECTS,
+    terminalPrompt: process.env.GIT_TERMINAL_PROMPT,
+    interactive: process.env.GCM_INTERACTIVE,
+    credentialKeys: Object.keys(process.env).filter((key) =>
+      /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
+    ),
+  }));
   process.exit(97);
+}
+if (args[0] === "clone" && dependencyCommand) {
+  fs.writeFileSync(
+    dependencyEnvPath,
+    JSON.stringify({
+      allowProtocol: process.env.GIT_ALLOW_PROTOCOL,
+      terminalPrompt: process.env.GIT_TERMINAL_PROMPT,
+      askpass: process.env.GIT_ASKPASS,
+      configCount: process.env.GIT_CONFIG_COUNT,
+      configValues: [process.env.GIT_CONFIG_VALUE_2, process.env.GIT_CONFIG_VALUE_3, process.env.GIT_CONFIG_VALUE_4],
+      cwdHasGit: fs.existsSync(path.join(process.cwd(), ".git")),
+      homeEntries: fs.readdirSync(process.env.HOME),
+      xdgEntries: fs.readdirSync(process.env.XDG_CONFIG_HOME),
+      credentialKeys: Object.keys(process.env).filter((key) =>
+        /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
+      ),
+    }),
+  );
+}
+if (args[0] === "clone" && dependencyCommand) {
+  const failure = ${JSON.stringify(codexCloneFailure)};
+  if (failure) {
+    process.stderr.write(failure);
+    process.exit(1);
+  }
+  const count = fs.existsSync(dependencyCloneCountPath)
+    ? Number(fs.readFileSync(dependencyCloneCountPath, "utf8"))
+    : 0;
+  fs.writeFileSync(dependencyCloneCountPath, String(count + 1));
+  fs.mkdirSync(path.join(dependencyDir, ".git"), { recursive: true });
+  for (const file of dependencyTrackedFiles) {
+    if (${JSON.stringify(codexFileFault)}?.path === file && ${JSON.stringify(codexFileFault)}?.type === "missing") continue;
+    const target = path.join(dependencyDir, file);
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    if (${JSON.stringify(codexFileFault)}?.path === file && ${JSON.stringify(codexFileFault)}?.type === "directory") {
+      fs.mkdirSync(target, { recursive: true });
+    } else {
+      fs.writeFileSync(target, "fixture pinned codex source\\n".repeat(600));
+    }
+  }
+  process.exit(0);
+}
+if (dependencyCommand) {
+  if (args[0] === "remote" && args[1] === "get-url") console.log("https://github.com/openai/codex.git");
+  else if (args[0] === "cat-file" && args[1] === "-t") console.log(${JSON.stringify(codexTagType)});
+  else if (args[0] === "rev-parse" && args[1] === "refs/tags/rust-v0.125.0") console.log(${JSON.stringify(codexTagObject)});
+  else if (args[0] === "rev-parse") console.log(${JSON.stringify(codexCommitSha)});
+  else if (args[0] === "status" && args[1] === "--porcelain") {
+    const source = path.join(dependencyDir, "codex-rs", "exec", "src", "main.rs");
+    if (fs.existsSync(source) && fs.readFileSync(source, "utf8") !== "fixture pinned codex source\\n".repeat(600)) {
+      console.log(" M codex-rs/exec/src/main.rs");
+    }
+  }
+  else if (args[0] === "ls-files" && args[1] === "-z") process.stdout.write(dependencyTrackedFiles.join("\\0") + "\\0");
+  process.exit(0);
 }
 const state = fs.existsSync(statePath) ? fs.readFileSync(statePath, "utf8") : "pr";
 if (args[0] === "config" && args.includes("--local") && args.includes("--list") && args.includes("--null")) {
@@ -4701,7 +5138,31 @@ if (failure && args[0] === "check:changed") {
     codexPath,
     `#!/usr/bin/env node
 const fs = require("node:fs");
+const path = require("node:path");
 const args = process.argv.slice(2);
+if (args.length === 1 && args[0] === "--version") {
+  const versionCountPath = ${JSON.stringify(codexVersionCountPath)};
+  const versionCount = fs.existsSync(versionCountPath) ? Number(fs.readFileSync(versionCountPath, "utf8")) : 0;
+  fs.writeFileSync(versionCountPath, String(versionCount + 1));
+  fs.writeFileSync(${JSON.stringify(codexVersionEnvPath)}, JSON.stringify({
+    cwd: process.cwd(),
+    cwdHasGit: fs.existsSync(path.join(process.cwd(), ".git")),
+    homeEntries: fs.readdirSync(process.env.HOME),
+  }));
+  const credentialKeys = Object.keys(process.env).filter((key) =>
+    /(?:github|openai|codex|npm|token|secret|password|private[_-]?key)/i.test(key),
+  );
+  if (
+    process.env.GIT_TERMINAL_PROMPT !== "0" ||
+    process.env.GCM_INTERACTIVE !== "Never" ||
+    credentialKeys.length > 0
+  ) {
+    process.stderr.write("unsafe Codex dependency environment");
+    process.exit(96);
+  }
+  process.stdout.write(${JSON.stringify(codexVersion)});
+  process.exit(0);
+}
 fs.writeFileSync(${JSON.stringify(codexArgsPath)}, JSON.stringify(args));
 const index = args.indexOf("--output-last-message");
 const countPath = ${JSON.stringify(codexCountPath)};
@@ -4710,6 +5171,9 @@ fs.writeFileSync(countPath, String(count + 1));
 fs.writeFileSync(${JSON.stringify(codexPromptPath)}, fs.readFileSync(0, "utf8"));
 if (${JSON.stringify(codexMutatesCheckout)}) {
   fs.writeFileSync("src/effective.ts", "mutated by fixture review\\n");
+}
+if (${JSON.stringify(codexMutatesSource)}) {
+  fs.writeFileSync(path.join("..", "codex", "codex-rs", "exec", "src", "main.rs"), "mutated source\\n");
 }
 const codexGitConfigMutation = ${JSON.stringify(codexGitConfigMutation)};
 if (codexGitConfigMutation) {
@@ -4733,6 +5197,10 @@ if (codexIncludedGitConfigMutation) {
 if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
   fs.writeFileSync(args[index + 1], JSON.stringify(${JSON.stringify(codexReview)}));
 }
+if (${JSON.stringify(codexFailure)}) {
+  process.stderr.write(${JSON.stringify(codexFailure)});
+  process.exit(1);
+}
 `,
   );
   return {
@@ -4741,8 +5209,13 @@ if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
     codexPath,
     effectiveDiffSha256,
     codexArgsPath,
+    codexCloneCountPath,
     codexCountPath,
+    codexDependencyEnvPath,
     codexPromptPath,
+    codexVersionCountPath,
+    codexVersionEnvPath,
+    credentialSentinelPath,
     gitCommandsPath,
     headSha,
     jobPath,
@@ -4751,6 +5224,7 @@ if (!${JSON.stringify(codexSkipsSecondWrite)} || count === 0) {
     pnpmCommandsPath,
     root,
     runDir,
+    hostileHome,
     syntheticMergeSha,
   };
 }
