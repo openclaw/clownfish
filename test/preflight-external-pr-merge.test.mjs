@@ -1317,6 +1317,172 @@ test("external merge preflight polls transient unknown mergeability", () => {
   assert.equal(report.status, "passed");
 });
 
+test("external merge preflight refreshes REST before every GraphQL mergeability attempt", () => {
+  const fixture = makeFixture({
+    restSnapshots: [
+      { mergeable: null, mergeable_state: "unknown" },
+      { mergeable: true, mergeable_state: "unstable" },
+    ],
+    mergeViews: [
+      {
+        mergeable: "UNKNOWN",
+        mergeStateStatus: "UNKNOWN",
+        potentialMergeCommit: { oid: "d".repeat(40) },
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+    "rest",
+    "graphql",
+    "rest",
+    "graphql",
+  ]);
+});
+
+for (const [name, mergeView] of [
+  ["head", { headRefOid: "9".repeat(40) }],
+  ["base", { baseRefOid: "8".repeat(40) }],
+]) {
+  test(`external merge preflight blocks persistent REST/GraphQL ${name} identity mismatch`, () => {
+    const fixture = makeFixture({ mergeViews: [mergeView] });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, new RegExp(`${name}.*REST.*GraphQL|REST.*GraphQL.*${name}`, "i"));
+  });
+}
+
+test("external merge preflight retries an identity mismatch with a fresh REST snapshot", () => {
+  const fixture = makeFixture({
+    mergeViews: [
+      { baseRefOid: "8".repeat(40) },
+      { baseRefOid: "b".repeat(40) },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+    "rest",
+    "graphql",
+    "rest",
+    "graphql",
+  ]);
+});
+
+for (const [kind, firstView] of [
+  ["mergeability", { mergeable: "CONFLICTING", mergeStateStatus: "CLEAN" }],
+  ["merge state", { mergeable: "MERGEABLE", mergeStateStatus: "UNSTABLE" }],
+]) {
+  test(`external merge preflight retries transient REST/GraphQL ${kind} disagreement`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ mergeable: true, mergeable_state: "clean" }],
+      mergeViews: [firstView, { mergeable: "MERGEABLE", mergeStateStatus: "CLEAN" }],
+    });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "passed", report.reason);
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+  });
+}
+
+for (const [kind, mergeView, reason] of [
+  ["mergeability", { mergeable: "CONFLICTING", mergeStateStatus: "CLEAN" }, /REST and GraphQL mergeability disagree/i],
+  ["merge state", { mergeable: "MERGEABLE", mergeStateStatus: "UNSTABLE" }, /REST and GraphQL merge state disagree/i],
+]) {
+  test(`external merge preflight blocks persistent REST/GraphQL ${kind} disagreement after retries`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ mergeable: true, mergeable_state: "clean" }],
+      mergeViews: [mergeView],
+    });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, reason);
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+  });
+}
+
+test("external merge preflight maps authoritative REST conflicts into unknown GraphQL fields", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: false, mergeable_state: "dirty" }],
+    mergeViews: [{ mergeable: "UNKNOWN", mergeStateStatus: "UNKNOWN" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /PR mergeability is CONFLICTING/);
+  assert.match(report.reason, /PR merge state is DIRTY/);
+});
+
+test("external merge preflight blocks unsupported REST merge states", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: true, mergeable_state: "mystery" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /unsupported REST merge state/i);
+});
+
+test("external merge preflight blocks exhausted REST null mergeability", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: null, mergeable_state: "unknown" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /REST mergeability.*did not settle/i);
+});
+
+test("external merge preflight blocks REST/GraphQL test merge disagreement", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ merge_commit_sha: "7".repeat(40) }],
+    mergeViews: [{ potentialMergeCommit: { oid: "6".repeat(40) } }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /test merge.*REST.*GraphQL|REST.*GraphQL.*test merge/i);
+});
+
 for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
   test(`external merge preflight accepts ${mergeStateStatus.toLowerCase()} state for exact review`, () => {
     const fixture = makeFixture({
@@ -4470,6 +4636,22 @@ function runPreflightFixture(fixture, extraEnv = {}) {
   };
 }
 
+function snapshotCallKinds(callLogPath) {
+  return fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line))
+    .flatMap((args) => {
+      if (args[0] === "api" && args[1]?.endsWith("/pulls/123")) return ["rest"];
+      if (args[0] === "pr" && args[1] === "view" && args[2] === "123") {
+        return ["graphql"];
+      }
+      return [];
+    });
+}
+
 function makeFixture({
   repo = "openclaw/openclaw",
   issueComments = [],
@@ -4482,6 +4664,7 @@ function makeFixture({
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
   mergeViews = null,
+  restSnapshots = null,
   issueUpdatedAt = "2026-06-19T00:00:00Z",
   pullUpdatedAt = "2026-06-19T00:00:00Z",
   pullAssignees = [],
@@ -4557,6 +4740,7 @@ function makeFixture({
     )
     .digest("hex");
   const gitCommandsPath = path.join(root, "git-commands.log");
+  const ghCallsPath = path.join(root, "gh-calls.jsonl");
   const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
   const codexPromptPath = path.join(root, "codex-prompt.txt");
   const codexArgsPath = path.join(root, "codex-args.json");
@@ -4638,6 +4822,7 @@ require_fix_before_close: false
 const fs = require("node:fs");
 const path = require("node:path");
 const args = process.argv.slice(2);
+fs.appendFileSync(${JSON.stringify(ghCallsPath)}, JSON.stringify(args) + "\\n");
 const repo = ${JSON.stringify(repo)};
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
@@ -4649,6 +4834,7 @@ const squashTree = ${JSON.stringify(squashTreeSha)};
 const baseBlob = ${JSON.stringify(baseBlobSha)};
 const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const mergeViews = ${JSON.stringify(mergeViews)};
+const restSnapshots = ${JSON.stringify(restSnapshots)};
 const mergedStatePath = ${JSON.stringify(mergedStatePath)};
 const mergeLogPath = ${JSON.stringify(mergeLogPath)};
 const exactMergeCheckStatePath = ${JSON.stringify(exactMergeCheckStatePath)};
@@ -4690,7 +4876,7 @@ if (args[0] === "pr" && args[1] === "view") {
   const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
   fs.writeFileSync(counterPath, String(count + 1));
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
-  write({ baseRefName: "main", comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeCommit: { oid: isMerged() ? squashCommit : testMerge }, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", mergedAt: isMerged() ? "2026-06-19T00:10:00Z" : null, reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, state: isMerged() ? "MERGED" : "OPEN", statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" });
+  write({ baseRefName: "main", baseRefOid: mergeView.baseRefOid ?? base, comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", mergedAt: isMerged() ? "2026-06-19T00:10:00Z" : null, potentialMergeCommit: mergeView.potentialMergeCommit === null ? null : (mergeView.potentialMergeCommit ?? { oid: testMerge }), reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, state: isMerged() ? "MERGED" : "OPEN", statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
@@ -4883,12 +5069,18 @@ if (args[0] === "api" && args[1].endsWith("/issues/123")) {
   process.exit(0);
 }
 if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
+  const restCounterPath = path.join(${JSON.stringify(root)}, "rest-pull-count");
+  const restCount = fs.existsSync(restCounterPath) ? Number(fs.readFileSync(restCounterPath, "utf8")) : 0;
+  fs.writeFileSync(restCounterPath, String(restCount + 1));
+  const restSnapshot = Array.isArray(restSnapshots)
+    ? restSnapshots[Math.min(restCount, restSnapshots.length - 1)]
+    : {};
   const pull = nextValue(
     "pull-state-count",
     { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
   );
-  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, merge_commit_sha: isMerged() ? squashCommit : testMerge, user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } });
+  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, mergeable: Object.hasOwn(restSnapshot, "mergeable") ? restSnapshot.mergeable : true, mergeable_state: Object.hasOwn(restSnapshot, "mergeable_state") ? restSnapshot.mergeable_state : ${JSON.stringify(mergeStateStatus.toLowerCase())}, merge_commit_sha: isMerged() ? squashCommit : (Object.hasOwn(restSnapshot, "merge_commit_sha") ? restSnapshot.merge_commit_sha : testMerge), user: ${JSON.stringify(pullUser)}, head: { sha: restSnapshot.headSha ?? pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: restSnapshot.baseSha ?? base, ref: "main" } });
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
@@ -5217,6 +5409,7 @@ if (${JSON.stringify(codexFailure)}) {
     codexVersionEnvPath,
     credentialSentinelPath,
     gitCommandsPath,
+    ghCallsPath,
     headSha,
     jobPath,
     mergeTreeSha,

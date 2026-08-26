@@ -11,6 +11,7 @@ import {
   REQUIRED_CI_GATE_NAME,
 } from "./external-merge-checks.mjs";
 import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
+import { fetchSettledPullRequestSnapshot as fetchAuthoritativePullRequestSnapshot } from "./pull-request-snapshot.mjs";
 
 const MAINTAINER_AUTHOR_ASSOCIATIONS = new Set(["OWNER", "MEMBER", "COLLABORATOR"]);
 const CLOSE_ACTIONS = new Set([
@@ -485,12 +486,13 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   }
   const metadataDrifted = Boolean(expectedUpdatedAt && expectedUpdatedAt !== live.updated_at);
 
-  let pullRequest = fetchPullRequest(result.repo, target);
-  let view = fetchSettledPullRequestView(
+  const initialSnapshot = fetchSettledPullRequestSnapshot(
     result.repo,
     target,
     externalMergeAction ? { allowedPendingCheckNames: ignoredCheckNames } : {},
   );
+  let pullRequest = initialSnapshot.pull;
+  let view = initialSnapshot.view;
   const mergedAt = pullRequest.merged_at ?? view.mergedAt ?? null;
   const expectedHeadSha = String(action.expected_head_sha ?? "");
   if (!/^[0-9a-f]{40}$/i.test(expectedHeadSha)) {
@@ -529,7 +531,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         live_state: "merged",
         live_updated_at: live.updated_at,
         merged_at: mergedAt,
-        merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+        merge_commit_sha: pullRequest.merge_commit_sha ?? null,
       };
     }
     const replayBinding = restoreBaseAdoptionBinding({
@@ -551,7 +553,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         live_state: "merged",
         live_updated_at: live.updated_at,
         merged_at: mergedAt,
-        merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+        merge_commit_sha: pullRequest.merge_commit_sha ?? null,
       };
     }
     const mergedProof = verifyActualMergedCommit({
@@ -571,7 +573,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         live_state: "merged",
         live_updated_at: live.updated_at,
         merged_at: mergedAt,
-        merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+        merge_commit_sha: pullRequest.merge_commit_sha ?? null,
         reviewed_effective_diff_sha256: mergedProof.reviewed_effective_diff_sha256 ?? null,
         merged_effective_diff_sha256: mergedProof.merged_effective_diff_sha256 ?? null,
       };
@@ -583,7 +585,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       live_state: "merged",
       live_updated_at: live.updated_at,
       merged_at: mergedAt,
-      merge_commit_sha: pullRequest.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+      merge_commit_sha: pullRequest.merge_commit_sha ?? null,
       effective_diff_sha256: mergedProof?.merged_effective_diff_sha256 ?? null,
       verified_main_sha: mergedProof?.verified_parent_sha ?? null,
       ...externalMergeHeadReport(action, expectedHeadSha, replayBinding),
@@ -802,10 +804,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
     let checkedMainSha;
     try {
       checkedIssue = fetchIssue(result.repo, target);
-      checkedPull = fetchPullRequest(result.repo, target);
-      checkedView = fetchSettledPullRequestView(result.repo, target, {
+      const checkedSnapshot = fetchSettledPullRequestSnapshot(result.repo, target, {
         allowedPendingCheckNames: ignoredCheckNames,
       });
+      checkedPull = checkedSnapshot.pull;
+      checkedView = checkedSnapshot.view;
       checkedMainSha = fetchBranchHeadSha(result.repo, "main");
     } catch (error) {
       return {
@@ -1793,10 +1796,11 @@ function verifyExactMergeAuthorizationState({
       }
     }
     const currentMainSha = fetchBranchHeadSha(result.repo, "main");
-    const currentPull = fetchPullRequest(result.repo, target);
-    const currentView = fetchSettledPullRequestView(result.repo, target, {
+    const currentSnapshot = fetchSettledPullRequestSnapshot(result.repo, target, {
       allowedPendingCheckNames: COORDINATOR_CHECK_NAMES,
     });
+    const currentPull = currentSnapshot.pull;
+    const currentView = currentSnapshot.view;
     const currentIssue = fetchIssue(result.repo, target);
     const metadataBlock = externalMergeMetadataBlock({
       beforeIssue,
@@ -2624,6 +2628,7 @@ function validateMergeablePullRequest({
   allowedPendingCheckNames = [],
   ignoredCheckNames = [],
 }) {
+  if (view?.snapshotBlockReason) return view.snapshotBlockReason;
   if (pullRequest.state !== "open") return `pull request is ${pullRequest.state}`;
   if (pullRequest.draft || view.isDraft) return "pull request is draft";
   if (String(view.baseRefName ?? pullRequest.base?.ref ?? "") !== "main") return "pull request base is not main";
@@ -2890,54 +2895,49 @@ function fetchBranchHeadSha(repo, branch) {
   return String(ref?.object?.sha ?? "");
 }
 
-function fetchPullRequestView(repo, number) {
-  return ghJson([
-    "pr",
-    "view",
-    String(number),
-    "--repo",
-    repo,
-    "--json",
-    [
-      "baseRefName",
-      "isDraft",
-      "mergeable",
-      "mergeCommit",
-      "mergeStateStatus",
-      "mergedAt",
-      "reviewDecision",
-      "state",
-      "statusCheckRollup",
-      "title",
-      "updatedAt",
-      "url",
-    ].join(","),
-  ]);
-}
-
-function fetchSettledPullRequestView(
+function fetchSettledPullRequestSnapshot(
   repo,
   number,
   { allowedPendingCheckNames = [] } = {},
 ) {
   const attempts = positiveInteger(process.env.CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS, 6);
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS, 5000);
-  let latest = null;
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    latest = fetchPullRequestView(repo, number);
-    if (
-      !hasUnknownMergeability(latest) &&
-      !hasPendingStatusChecks(latest.statusCheckRollup ?? [], {
+  return fetchAuthoritativePullRequestSnapshot({
+    attempts,
+    delayMs,
+    fetchPullRequest: () => fetchPullRequest(repo, number),
+    fetchPullRequestView: () =>
+      ghJson([
+        "pr",
+        "view",
+        String(number),
+        "--repo",
+        repo,
+        "--json",
+        [
+          "baseRefName",
+          "baseRefOid",
+          "headRefOid",
+          "isDraft",
+          "mergeable",
+          "mergeStateStatus",
+          "mergedAt",
+          "potentialMergeCommit",
+          "reviewDecision",
+          "state",
+          "statusCheckRollup",
+          "title",
+          "updatedAt",
+          "url",
+        ].join(","),
+      ]),
+    hasPendingView: (view) =>
+      hasPendingStatusChecks(view.statusCheckRollup ?? [], {
         allowedPendingCheckNames,
-      })
-    ) {
-      return latest;
-    }
-    if (attempt < attempts && delayMs > 0) {
-      execFileSync("sleep", [String(delayMs / 1000)], { stdio: "ignore" });
-    }
-  }
-  return latest;
+      }),
+    sleep: (ms) =>
+      execFileSync("sleep", [String(ms / 1000)], { stdio: "ignore" }),
+  });
 }
 
 function hasPendingStatusChecks(checks, { allowedPendingCheckNames = [] } = {}) {
@@ -2949,10 +2949,6 @@ function hasPendingStatusChecks(checks, { allowedPendingCheckNames = [] } = {}) 
     const status = String(check.status ?? check.state ?? "").toUpperCase();
     return !["COMPLETED", "SUCCESS", "FAILURE", "ERROR"].includes(status);
   });
-}
-
-function hasUnknownMergeability(view) {
-  return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
 }
 
 function findExistingComment(repo, number, marker, body) {

@@ -17,6 +17,7 @@ import {
   codexReviewProvenanceEvidence,
   validateCodexReviewSourceEvidence,
 } from "./codex-review-dependency.mjs";
+import { fetchSettledPullRequestSnapshot as fetchAuthoritativePullRequestSnapshot } from "./pull-request-snapshot.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
@@ -148,12 +149,18 @@ let report = {
 };
 
 try {
-  pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
+  const initialSnapshot = stage("hydrate settled GitHub state", () =>
+    fetchSettledPullRequestSnapshot({
+      repo: sourceJob.frontmatter.repo,
+      pullRequest,
+    }),
+  );
+  pull = initialSnapshot.pull;
+  view = initialSnapshot.view;
   issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
   const issueComments = stage("hydrate issue comments", () =>
     fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
   );
-  view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
@@ -264,17 +271,19 @@ try {
   let verifiedMainSha = reviewContext.reviewedBaseSha;
   let pendingApplyAdoption = null;
   for (let attempt = 0; attempt <= maxBaseRevalidations; attempt += 1) {
-    refreshedPull = stage("rehydrate GitHub state after review", () =>
-      ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]),
+    const refreshedSnapshot = stage("rehydrate settled GitHub state after review", () =>
+      fetchSettledPullRequestSnapshot({
+        repo: sourceJob.frontmatter.repo,
+        pullRequest,
+      }),
     );
+    refreshedPull = refreshedSnapshot.pull;
+    refreshedView = refreshedSnapshot.view;
     refreshedIssue = stage("rehydrate issue state after review", () =>
       ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]),
     );
     const refreshedIssueComments = stage("rehydrate issue comments after review", () =>
       fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
-    );
-    refreshedView = stage("poll mergeability after review", () =>
-      fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }),
     );
     const finalBlockers = stage("final read-only blockers", () => [
       ...(refreshedPull.head?.sha !== reviewedHeadSha
@@ -725,30 +734,26 @@ function sourceJobPermissions(job) {
   };
 }
 
-function fetchSettledPullRequestView({ repo, pullRequest }) {
+function fetchSettledPullRequestSnapshot({ repo, pullRequest }) {
   const attempts = positiveInteger(process.env.CLOWNFISH_MERGEABLE_POLL_ATTEMPTS, 6);
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_MERGEABLE_POLL_DELAY_MS, 5000);
-  let latest = null;
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    latest = ghJson([
+  return fetchAuthoritativePullRequestSnapshot({
+    attempts,
+    delayMs,
+    fetchPullRequest: () =>
+      ghJson(["api", `repos/${repo}/pulls/${pullRequest}`]),
+    fetchPullRequestView: () =>
+      ghJson([
       "pr",
       "view",
       String(pullRequest),
       "--repo",
       repo,
       "--json",
-      "comments,headRefOid,isDraft,mergeStateStatus,mergeable,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
-    ]);
-    if (!hasUnknownMergeability(latest)) return latest;
-    if (attempt < attempts && delayMs > 0) {
-      run("sleep", [String(delayMs / 1000)]);
-    }
-  }
-  return latest;
-}
-
-function hasUnknownMergeability(view) {
-  return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
+      "baseRefOid,comments,headRefOid,isDraft,mergeStateStatus,mergeable,potentialMergeCommit,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
+      ]),
+    sleep: (ms) => run("sleep", [String(ms / 1000)]),
+  });
 }
 
 function readOnlyBlockers({
@@ -761,6 +766,7 @@ function readOnlyBlockers({
   threads: hydratedThreads = null,
 }) {
   const blockers = [];
+  if (view?.snapshotBlockReason) blockers.push(view.snapshotBlockReason);
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
   const hasExactHeadClawSweeperReviewStart = issueComments.some((comment) => {
@@ -1389,10 +1395,12 @@ function captureFreshAdoptionGithubState({
       throw new Error(`${label} SHA is missing or invalid`);
     }
   }
-  const pull = ghJson([
-    "api",
-    `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`,
-  ]);
+  const snapshot = fetchSettledPullRequestSnapshot({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+  });
+  const pull = snapshot.pull;
+  const view = snapshot.view;
   const issue = ghJson([
     "api",
     `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`,
@@ -1406,10 +1414,6 @@ function captureFreshAdoptionGithubState({
     `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`,
   ]);
   const threads = fetchReviewThreads({
-    repo: sourceJob.frontmatter.repo,
-    pullRequest,
-  });
-  const view = fetchSettledPullRequestView({
     repo: sourceJob.frontmatter.repo,
     pullRequest,
   });

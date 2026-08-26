@@ -1920,6 +1920,104 @@ test("apply-result polls transient unknown mergeability before merge", () => {
   assert.equal(report.actions[0].status, "executed");
 });
 
+test("apply-result refreshes REST before each GraphQL snapshot attempt and every recheck", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    restSnapshots: [
+      { mergeable: null, mergeable_state: "unknown" },
+      { mergeable: true, mergeable_state: "unstable" },
+    ],
+    mergeViews: [
+      {
+        mergeable: "UNKNOWN",
+        mergeStateStatus: "UNKNOWN",
+        potentialMergeCommit: { oid: TEST_MERGE_SHA },
+      },
+    ],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+  const snapshotCalls = readCallLog(callLogPath).flatMap((args) => {
+    if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") {
+      return ["rest"];
+    }
+    if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
+      return ["graphql"];
+    }
+    return [];
+  });
+  assert.deepEqual(snapshotCalls.slice(0, 4), ["rest", "graphql", "rest", "graphql"]);
+  for (const [index, kind] of snapshotCalls.entries()) {
+    if (kind === "graphql") {
+      assert.equal(snapshotCalls[index - 1], "rest");
+    }
+  }
+  assert.ok(snapshotCalls.filter((kind) => kind === "graphql").length >= 4);
+});
+
+test("apply-result blocks persistent REST/GraphQL head identity mismatch", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    mergeViews: [{ headRefOid: CHANGED_HEAD_SHA }],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /head.*REST.*GraphQL|REST.*GraphQL.*head/i);
+  assert.equal(readCallLog(callLogPath).some((args) => args.slice(0, 2).join(" ") === "pr merge"), false);
+});
+
 test("apply-result allows unstable merge state when latest checks are clean", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -2135,8 +2233,11 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     draft: false,
     updated_at: "2026-06-11T05:07:30Z",
     labels: [],
-    base: { ref: "main", sha: "stale-base" },
-    head: { sha: ${JSON.stringify(EXPECTED_HEAD_SHA)} }
+    base: { ref: "main", sha: ${JSON.stringify("b".repeat(40))} },
+    head: { sha: ${JSON.stringify(EXPECTED_HEAD_SHA)} },
+    mergeable: true,
+    mergeable_state: "clean",
+    merge_commit_sha: null
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
   write([[]]);
@@ -2147,6 +2248,8 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
 } else if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
   write({
     baseRefName: "main",
+    baseRefOid: ${JSON.stringify("b".repeat(40))},
+    headRefOid: ${JSON.stringify(EXPECTED_HEAD_SHA)},
     isDraft: false,
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
@@ -2168,6 +2271,7 @@ function writeReadyMergeGhStub(
     headSha,
     mergeStateStatus = "CLEAN",
     mergeViews = null,
+    restSnapshots = null,
     transientViewFailures = 0,
     statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }],
     labels = [],
@@ -2246,7 +2350,9 @@ const path = require("node:path");
 const args = process.argv.slice(2);
 const merged = Boolean(process.env.MERGE_STATE && fs.existsSync(process.env.MERGE_STATE));
 const mergeViews = ${JSON.stringify(mergeViews)};
+const restSnapshots = ${JSON.stringify(restSnapshots)};
 const viewCountPath = ${JSON.stringify(viewCountPath)};
+const restCountPath = ${JSON.stringify(path.join(binDir, "rest-count"))};
 const adoptionStatePath = ${JSON.stringify(path.join(binDir, "adoption-started"))};
 const exactCheckStatePath = ${JSON.stringify(path.join(binDir, "exact-check-state.json"))};
 const externalBinding = ${JSON.stringify(externalBinding)};
@@ -2284,23 +2390,32 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") {
+  const restCount = fs.existsSync(restCountPath) ? Number(fs.readFileSync(restCountPath, "utf8")) : 0;
+  fs.writeFileSync(restCountPath, String(restCount + 1));
+  const restSnapshot = Array.isArray(restSnapshots)
+    ? restSnapshots[Math.min(restCount, restSnapshots.length - 1)]
+    : {};
   write({
     number: 60063,
     state: "open",
     draft: false,
     updated_at: "2026-06-11T05:07:30Z",
     labels: fs.existsSync(adoptionStatePath) && ${JSON.stringify(adoptionLabels)} ? ${JSON.stringify(adoptionLabels)} : ${JSON.stringify(labels)},
-    base: { ref: "main", sha: externalBinding ? ${JSON.stringify(CURRENT_MAIN_SHA)} : "current-main" },
+    base: { ref: "main", sha: restSnapshot.baseSha ?? ${JSON.stringify(CURRENT_MAIN_SHA)} },
     head: {
-      sha: ${JSON.stringify(headSha)},
+      sha: restSnapshot.headSha ?? ${JSON.stringify(headSha)},
       ref: "feature/exact-head",
       repo: { full_name: "openclaw/openclaw" }
     },
     maintainer_can_modify: true,
     merged_at: merged ? "2026-06-11T05:09:00Z" : null,
+    mergeable: Object.hasOwn(restSnapshot, "mergeable") ? restSnapshot.mergeable : true,
+    mergeable_state: Object.hasOwn(restSnapshot, "mergeable_state") ? restSnapshot.mergeable_state : ${JSON.stringify(mergeStateStatus.toLowerCase())},
     merge_commit_sha: merged
       ? (externalBinding ? ${JSON.stringify(SQUASH_COMMIT_SHA)} : "c".repeat(40))
-      : (externalBinding ? ${JSON.stringify(TEST_MERGE_SHA)} : null)
+      : (Object.hasOwn(restSnapshot, "merge_commit_sha")
+          ? restSnapshot.merge_commit_sha
+          : (externalBinding ? ${JSON.stringify(TEST_MERGE_SHA)} : null))
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
   const comments = ${JSON.stringify(issueComments)};
@@ -2498,9 +2613,14 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
   write({
     baseRefName: "main",
+    baseRefOid: mergeView.baseRefOid ?? ${JSON.stringify(CURRENT_MAIN_SHA)},
+    headRefOid: mergeView.headRefOid ?? ${JSON.stringify(headSha)},
     isDraft: false,
     mergeable: mergeView.mergeable ?? "MERGEABLE",
     mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)},
+    potentialMergeCommit: mergeView.potentialMergeCommit === null
+      ? null
+      : (mergeView.potentialMergeCommit ?? (externalBinding ? { oid: ${JSON.stringify(TEST_MERGE_SHA)} } : null)),
     reviewDecision: "APPROVED",
     statusCheckRollup: mergeView.statusCheckRollup ?? [
       ...${JSON.stringify(statusCheckRollup)},
