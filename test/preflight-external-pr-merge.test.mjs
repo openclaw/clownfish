@@ -21,6 +21,7 @@ const clusterWorkflow = fs.readFileSync(path.join(repoRoot, ".github", "workflow
 const autonomousPrompt = fs.readFileSync(path.join(repoRoot, "prompts", "autonomous.md"), "utf8");
 const githubInventoryImporter = fs.readFileSync(path.join(repoRoot, "scripts", "import-github-pr-inventory.mjs"), "utf8");
 const codexDependency = CODEX_REVIEW_DEPENDENCY;
+const codexCitation = { source_path: "codex-rs/exec/src/lib.rs", line: 583 };
 
 test("external merge preflight is exact-head, read-only, and refuses unresolved review evidence", () => {
   assert.match(script, /source job does not explicitly contain/);
@@ -83,6 +84,11 @@ test("external merge workflow validates before guarded apply", () => {
   assert.match(workflow, /inputs\.apply && vars\.CLOWNFISH_ALLOW_EXECUTE == '1' && vars\.CLOWNFISH_ALLOW_MERGE == '1'/);
   assert.match(workflow, /runs-on: \$\{\{ inputs\.runner \}\}/);
   assert.match(workflow, /external-merge-preflight\/preflight-report\.json/);
+  const preflightUpload = workflow.match(/- name: Upload preflight artifact[\s\S]*?(?=\n      - name: Fail blocked preflight)/)?.[0] ?? "";
+  const applyUpload = workflow.match(/- name: Upload apply artifact[\s\S]*$/)?.[0] ?? "";
+  assert.match(preflightUpload, /external-merge-preflight\/codex-review\.json/);
+  assert.doesNotMatch(applyUpload, /external-merge-preflight\/codex-review\.json/);
+  assert.equal((workflow.match(/external-merge-preflight\/codex-review\.json/g) ?? []).length, 1);
   assert.match(
     workflow,
     /- name: Upload preflight artifact[\s\S]*?if: always\(\)[\s\S]*?- name: Fail blocked preflight[\s\S]*?if: \$\{\{ always\(\) && steps\.outcome\.outputs\.preflight_passed != 'true' \}\}[\s\S]*?exit 1[\s\S]*?\n  apply:/,
@@ -520,6 +526,7 @@ test("external merge preflight binds OpenClaw review to pinned Codex source", ()
     tag: codexDependency.tag,
     tag_object: codexDependency.tagObject,
     commit: codexDependency.commit,
+    ...codexCitation,
   });
   const prompt = fs.readFileSync(fixture.codexPromptPath, "utf8");
   assert.match(prompt, new RegExp(codexDependency.commit));
@@ -541,7 +548,7 @@ test("external merge preflight binds OpenClaw review to pinned Codex source", ()
     xdgEntries: [],
     credentialKeys: [],
   });
-  assert.equal(result.merge_preflight[0].codex_review.evidence.includes(codexReviewProvenanceEvidence()), true);
+  assert.equal(result.merge_preflight[0].codex_review.evidence.includes(codexReviewProvenanceEvidence(codexCitation)), true);
   const versionEnv = JSON.parse(fs.readFileSync(fixture.codexVersionEnvPath, "utf8"));
   assert.equal(versionEnv.cwdHasGit, false);
   assert.deepEqual(versionEnv.homeEntries, []);
@@ -654,7 +661,10 @@ test("pinned Codex source citations reject unsafe or unverifiable locations", ()
     validateCodexReviewSourceEvidence({ evidence }, root, () => tracked);
   const commit = codexDependency.commit;
 
-  assert.equal(validate([`${commit} ../codex/${regular}:2`]), "");
+  assert.deepEqual(validate([`${commit} ../codex/${regular}:2`]), {
+    error: "",
+    citation: { source_path: regular, line: 2 },
+  });
   for (const [name, evidence, reason] of [
     ["traversal", [`${commit} ../codex/codex-rs/../AGENTS.md:1`], /invalid/],
     ["absolute", [`${commit} ../codex//etc/passwd:1`], /invalid/],
@@ -663,26 +673,36 @@ test("pinned Codex source citations reject unsafe or unverifiable locations", ()
     ["untracked", [`${commit} ../codex/${untracked}:1`], /not tracked/],
     ["nonregular", [`${commit} ../codex/${nonregular}:1`], /not a regular file/],
     ["symlink", [`${commit} ../codex/${symlink}:1`], /not a regular file/],
-    ["zero", [`${commit} ../codex/${regular}:0`], /out of range/],
+    ["zero", [`${commit} ../codex/${regular}:0`], /invalid/],
     ["out-of-range", [`${commit} ../codex/${regular}:3`], /out of range/],
     ["split entry", [commit, `../codex/${regular}:1`], /same entry/],
     ["malformed extra entry", [`${commit} ../codex/${regular}:1`, `../codex/${regular}`], /same entry/],
   ]) {
-    assert.match(validate(evidence), reason, name);
+    assert.match(validate(evidence).error, reason, name);
   }
 });
 
 test("OpenClaw Codex provenance accepts only one exact canonical record", () => {
-  const canonical = codexReviewProvenanceEvidence();
-  const payload = canonical.slice(canonical.indexOf("{"));
+  const canonical = codexReviewProvenanceEvidence(codexCitation);
+  const prefix = canonical.slice(0, canonical.indexOf("{"));
+  const parsed = JSON.parse(canonical.slice(prefix.length));
+  const tupleOnly = { ...parsed };
+  delete tupleOnly.source_path;
+  delete tupleOnly.line;
+  assert.equal(canonical, `${prefix}${JSON.stringify({ repository: "openai/codex", version: codexDependency.version, tag: codexDependency.tag, tag_object: codexDependency.tagObject, commit: codexDependency.commit, ...codexCitation })}`);
   assert.equal(validateCodexReviewProvenance("openclaw/openclaw", [canonical]), "");
   assert.equal(validateCodexReviewProvenance("openclaw/example", []), "");
   for (const [name, evidence, reason] of [
     ["missing", [], /exactly one/],
     ["duplicate", [canonical, canonical], /exactly one/],
     ["malformed", ["Codex dependency provenance: {"], /malformed/],
-    ["missing field", [`Codex dependency provenance: ${JSON.stringify({ repository: "openai/codex" })}`], /fields/],
-    ["extra field", [`Codex dependency provenance: ${payload.slice(0, -1)},"extra":true}`], /fields/],
+    ["tuple-only", [`${prefix}${JSON.stringify(tupleOnly)}`], /fields/],
+    ["missing field", [`${prefix}${JSON.stringify({ ...parsed, line: undefined })}`], /fields/],
+    ["extra field", [`${prefix}${JSON.stringify({ ...parsed, extra: true })}`], /fields/],
+    ["traversal", [`${prefix}${JSON.stringify({ ...parsed, source_path: "codex-rs/../AGENTS.md" })}`], /citation/],
+    ["zero line", [`${prefix}${JSON.stringify({ ...parsed, line: 0 })}`], /citation/],
+    ["noninteger line", [`${prefix}${JSON.stringify({ ...parsed, line: 1.5 })}`], /citation/],
+    ["noncanonical serialization", [`${prefix}${JSON.stringify(parsed, null, 2)}`], /not canonical/],
     ["tuple mismatch", [canonical.replace("0.125.0", "0.126.0")], /does not match/],
   ]) {
     assert.match(validateCodexReviewProvenance("openclaw/openclaw", evidence), reason, name);
@@ -938,6 +958,7 @@ test("external merge preflight blocks later Git config mutation with precise dia
       tag: codexDependency.tag,
       tag_object: codexDependency.tagObject,
       commit: codexDependency.commit,
+      ...codexCitation,
     },
   });
 });

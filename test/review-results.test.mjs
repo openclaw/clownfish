@@ -4,9 +4,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { codexReviewProvenanceEvidence } from "../scripts/codex-review-dependency.mjs";
+import {
+  CODEX_REVIEW_PROVENANCE,
+  codexReviewProvenanceEvidence,
+} from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
+const codexCitation = { source_path: "codex-rs/exec/src/lib.rs", line: 583 };
 
 test("codex result schema requires every object property for strict response formatting", () => {
   const schema = JSON.parse(fs.readFileSync(path.join(repoRoot, "schemas/codex-result.schema.json"), "utf8"));
@@ -526,7 +530,8 @@ test("review-results accepts a blocked external preflight request for calibrated
 
 for (const [name, evidence] of [
   ["missing", ["Codex /review returned clean."]],
-  ["tampered", [codexReviewProvenanceEvidence().replace("0.125.0", "0.126.0")]],
+  ["tuple-only", [`Codex dependency provenance: ${JSON.stringify(CODEX_REVIEW_PROVENANCE)}`]],
+  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace("0.125.0", "0.126.0")]],
 ]) {
   test(`review-results rejects ${name} OpenClaw Codex provenance`, () => {
     const head = "7".repeat(40);
@@ -2439,7 +2444,7 @@ security_sensitive: false
 `;
 }
 
-function validMergePreflight(target, { external = false, evidence = ["Codex /review returned clean."] } = {}) {
+function validMergePreflight(target, { external = false, evidence = ["Codex /review returned clean.", codexReviewProvenanceEvidence(codexCitation)] } = {}) {
   return {
     target,
     ...(external

@@ -2113,15 +2113,17 @@ function runCodexReview({ repo, pullRequest, targetDir, validationCommands, sour
     if (!fs.existsSync(outputPath)) throw new Error("Codex /review did not write structured output");
     if (dependency) verifyCodexReviewDependency(dependencyDir, dependency, dependencyEnv);
     const review = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    let citation = null;
     if (dependency && isCleanCodexReview(review)) {
-      const evidenceBlock = validateCodexReviewSourceEvidence(review, dependencyDir, (args) =>
+      const sourceEvidence = validateCodexReviewSourceEvidence(review, dependencyDir, (args) =>
         run("git", args, { cwd: dependencyDir, env: dependencyEnv, timeout: 180_000 }),
       );
-      if (evidenceBlock) throw new Error(evidenceBlock);
+      if (sourceEvidence.error) throw new Error(sourceEvidence.error);
+      citation = sourceEvidence.citation;
     }
     return {
       ...review,
-      ...(dependency ? { dependency_provenance: { ...CODEX_REVIEW_PROVENANCE } } : {}),
+      ...(citation ? { dependency_provenance: { ...CODEX_REVIEW_PROVENANCE, ...citation } } : {}),
     };
   } finally {
     if (ownsDependencyDir) fs.rmSync(dependencyDir, { recursive: true, force: true });
@@ -2291,7 +2293,7 @@ function buildMergeResult({
           evidence: [
             `Codex /review returned ${codexReview.status} with zero findings on exact head ${pull.head.sha} and effective diff ${reviewContext.effectiveDiffSha256} from base ${codexReviewedBaseSha}.`,
             ...(codexReview.dependency_provenance
-              ? [codexReviewProvenanceEvidence()]
+              ? [codexReviewProvenanceEvidence(codexReview.dependency_provenance)]
               : []),
             ...(validationAndReviewSharedBase
               ? []

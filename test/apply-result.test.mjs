@@ -5,9 +5,13 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { codexReviewProvenanceEvidence } from "../scripts/codex-review-dependency.mjs";
+import {
+  CODEX_REVIEW_PROVENANCE,
+  codexReviewProvenanceEvidence,
+} from "../scripts/codex-review-dependency.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
+const codexCitation = { source_path: "codex-rs/exec/src/lib.rs", line: 583 };
 const EXPECTED_HEAD_SHA = "a".repeat(40);
 const CHANGED_HEAD_SHA = "b".repeat(40);
 const CURRENT_MAIN_SHA = "c".repeat(40);
@@ -1781,7 +1785,8 @@ test("apply-result rejects an already-merged replay with invalid review policy",
 
 for (const [name, evidence] of [
   ["missing", ["Codex /review returned clean"]],
-  ["tampered", [codexReviewProvenanceEvidence().replace("637f7d", "000000")]],
+  ["tuple-only", [`Codex dependency provenance: ${JSON.stringify(CODEX_REVIEW_PROVENANCE)}`]],
+  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace("637f7d", "000000")]],
 ]) {
   test(`apply-result rejects ${name} OpenClaw Codex provenance before mutation`, () => {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
@@ -2787,7 +2792,7 @@ function mergeResultJson({
           findings_addressed: true,
           evidence: [
             "Codex /review returned clean",
-            ...(externalBinding ? [codexReviewProvenanceEvidence()] : []),
+            ...(externalBinding ? [codexReviewProvenanceEvidence(codexCitation)] : []),
           ],
         },
         base_adoption_manifest: resolvedManifest,
