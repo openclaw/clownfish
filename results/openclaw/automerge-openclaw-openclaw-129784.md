@@ -2,54 +2,54 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-129784"
 mode: "autonomous"
-run_id: "32930948070"
-workflow_run_id: "32930948070"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/32930948070"
-head_sha: "427b73c4d7f038f3576e7d1582cfe64768138b90"
+run_id: "32933220269"
+workflow_run_id: "32933220269"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/32933220269"
+head_sha: "013edaba82784dd929d8f2adb4a753cb2a94901c"
 workflow_conclusion: "success"
-result_status: "needs_human"
-published_at: "2026-08-26T04:41:46.341Z"
+result_status: "planned"
+published_at: "2026-08-26T05:16:47.016Z"
 canonical: "https://github.com/openclaw/openclaw/pull/129784"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/129784"
-actions_total: 4
+actions_total: 3
 fix_executed: 1
 fix_failed: 0
 fix_blocked: 0
 apply_executed: 0
 apply_blocked: 0
 apply_skipped: 0
-needs_human_count: 1
+needs_human_count: 0
 ---
 
 # automerge-openclaw-openclaw-129784
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/32930948070](https://github.com/openclaw/clownfish/actions/runs/32930948070)
+Run: [https://github.com/openclaw/clownfish/actions/runs/32933220269](https://github.com/openclaw/clownfish/actions/runs/32933220269)
 
 Workflow conclusion: success
 
-Worker result: needs_human
+Worker result: planned
 
 Canonical: https://github.com/openclaw/openclaw/pull/129784
 
 ## Summary
 
-Classified the automerge repair cluster without mutating GitHub. #129784 remains the non-security source/canonical PR, but its source branch is not safely writable by Clownfish and its credited replacement #129860 is explicitly security-sensitive in the hydrated preflight, so #129860 must be routed to central security handling and the cluster needs maintainer/security disposition before another executable fix artifact is safe.
+Classified the bounded automerge repair cluster without mutating GitHub. #129784 remains the canonical non-security PR; no executable repair artifact is safe or needed from this worker pass because the hydrated maintainer comments record exact-head CI and Package Telegram acceptance proof, and merge/close are blocked for this job. #129860 is explicitly security-sensitive in the preflight artifact and must be routed to central OpenClaw security handling only.
 
 ## Impact
 
 | Metric | Count |
 | --- | ---: |
-| Worker actions | 4 |
+| Worker actions | 3 |
 | Fix executed | 1 |
 | Fix failed | 0 |
 | Fix blocked | 0 |
 | Applied executions | 0 |
 | Apply blocked | 0 |
 | Apply skipped | 0 |
-| Needs human | 1 |
+| Needs human | 0 |
 
 ## Fix Execution Actions
 
@@ -73,11 +73,10 @@ Classified the automerge repair cluster without mutating GitHub. #129784 remains
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #120107 | keep_closed | skipped | related | already_closed_historical_context |
-| #129784 | keep_canonical | planned | canonical | source_pr_open_but_uneditable_and_replacement_security_routed |
+| #120107 | keep_closed | skipped | fixed_by_candidate | already_closed_historical_context |
+| #129784 | keep_canonical | planned | canonical | canonical_pr_waiting_for_clawsweeper_finalization_no_worker_repair_needed |
 | #129860 | route_security | planned | security_sensitive | central_security_only_exact_ref_quarantine |
-| cluster:automerge-openclaw-openclaw-129784 | needs_human | planned | needs_human | fix_path_depends_on_quarantined_security_replacement |
 
 ## Needs Human
 
-- Decide central security handling for #129860 before Clownfish creates or updates any replacement fix path for the #129784 automerge repair.
+- none
