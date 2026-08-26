@@ -1,0 +1,125 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-130108",
+  "mode": "autonomous",
+  "run_id": "32996865457",
+  "workflow_run_id": "32996865457",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/32996865457",
+  "head_sha": "9c498994497f6c8978c47bd451998d091589b9f8",
+  "workflow_conclusion": "failure",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-08-26T17:55:52Z",
+  "workflow_updated_at": "2026-08-26T18:35:19Z",
+  "result_status": "planned",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-130108.md",
+  "published_at": "2026-08-26T18:37:40.403Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/130108",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/130108",
+  "summary": "PR #130108 is the canonical item, but it is not merge-ready for this worker lane: the hydrated artifact shows it is open, non-security, behind base, has pending checks, and `maintainer_can_modify=false`. Because fix PRs are allowed and merges/closes are blocked, the safe path is a narrow credited replacement PR that carries forward @vincentkoc's test-only deletion.",
+  "actions": [
+    {
+      "target": "#130108",
+      "action": "fix_needed",
+      "status": "planned",
+      "classification": "canonical",
+      "canonical": "#130108",
+      "candidate_fix": null,
+      "reason": "The useful source PR is blocked from in-place repair by `maintainer_can_modify=false` and is behind base; replacement is executable and preserves contributor credit."
+    },
+    {
+      "target": "cluster:automerge-openclaw-openclaw-130108",
+      "action": "build_fix_artifact",
+      "status": "planned",
+      "classification": null,
+      "canonical": "#130108",
+      "candidate_fix": null,
+      "reason": "Build one credited replacement PR because the canonical source branch cannot be safely updated by Clownfish."
+    }
+  ],
+  "action_counts": {
+    "fix_needed": 1,
+    "build_fix_artifact": 1
+  },
+  "action_status_counts": {
+    "planned": 2
+  },
+  "fix_counts": {
+    "failed": 1,
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [],
+  "repair_candidate": {
+    "target": "#130108",
+    "source_refs": [
+      "#130108"
+    ],
+    "repair_strategy": "replace_uneditable_branch",
+    "planned_actions": [
+      "fix_needed",
+      "build_fix_artifact"
+    ],
+    "summary": "Open a narrow credited replacement PR that removes the stale duplicate pasted-attachment object-URL lifecycle scenario from `ui/src/e2e/new-session-page.prompt-attachments.e2e.test.ts`, preserving the stronger canonical lifecycle coverage in `ui/src/e2e/new-session-page.attachment-url-lifecycle.e2e.test.ts`.",
+    "pr_title": "test(ui): remove duplicate attachment URL lifecycle coverage",
+    "pr_body": "## What Problem This Solves\n\nCarries forward the narrow test-only cleanup from #130108: remove the stale duplicate pasted-attachment object-URL lifecycle scenario from `ui/src/e2e/new-session-page.prompt-attachments.e2e.test.ts` while keeping the stronger canonical lifecycle coverage in `ui/src/e2e/new-session-page.attachment-url-lifecycle.e2e.test.ts`.\n\n## Source Credit\n\nThis replacement preserves attribution for @vincentkoc's source PR: https://github.com/openclaw/openclaw/pull/130108. Clownfish could not safely update that branch because the hydrated PR state reports `maintainer_can_modify=false` and the branch is behind base.\n\n## Validation\n\n- `pnpm check:changed`\n\nNo production code or user-visible behavior changes are intended.",
+    "likely_files": [
+      "ui/src/e2e/new-session-page.prompt-attachments.e2e.test.ts"
+    ],
+    "validation_commands": [
+      "pnpm check:changed"
+    ],
+    "credit_notes": [
+      "Carry forward credit to @vincentkoc for the source PR: https://github.com/openclaw/openclaw/pull/130108.",
+      "The replacement is test-only and should state that it preserves attribution for the original deletion while avoiding an uneditable/behind source branch."
+    ],
+    "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-130108.md",
+    "security_sensitive": false,
+    "security_routed_refs": [],
+    "needs_human": [],
+    "repair_status": "executed",
+    "terminal": true
+  },
+  "fix_actions": [
+    {
+      "action": "open_fix_pr",
+      "status": "failed",
+      "target": null,
+      "pr": null,
+      "branch": "clownfish/automerge-openclaw-openclaw-130108",
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": "replace_uneditable_branch",
+      "reason": "base branch advanced again during validation; reuse blocked: validated_base_not_ancestor_of_head",
+      "commit": "88882aabf9840cafa01bb8d31ca9cee13f46c2fa",
+      "checkpoint_commits": [
+        "88882aabf9840cafa01bb8d31ca9cee13f46c2fa"
+      ],
+      "retry_recommended": null,
+      "recoverable_branch_pushed": true,
+      "title": null,
+      "url": null
+    },
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#130108",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
