@@ -2,13 +2,13 @@
 repo: "openclaw/openclaw"
 cluster_id: "automerge-openclaw-openclaw-129782"
 mode: "autonomous"
-run_id: "32926873649"
-workflow_run_id: "32926873649"
-run_url: "https://github.com/openclaw/clownfish/actions/runs/32926873649"
-head_sha: "e634de5fcb4d51130e52ac77601a0d55a943eca7"
+run_id: "32929858595"
+workflow_run_id: "32929858595"
+run_url: "https://github.com/openclaw/clownfish/actions/runs/32929858595"
+head_sha: "f9dd0e4d7b3be3220aebc9067a5043c14c361e27"
 workflow_conclusion: "success"
 result_status: "needs_human"
-published_at: "2026-08-26T03:37:16.831Z"
+published_at: "2026-08-26T04:24:04.132Z"
 canonical: "https://github.com/openclaw/openclaw/pull/129782"
 canonical_issue: null
 canonical_pr: "https://github.com/openclaw/openclaw/pull/129782"
@@ -26,7 +26,7 @@ needs_human_count: 1
 
 Repo: openclaw/openclaw
 
-Run: [https://github.com/openclaw/clownfish/actions/runs/32926873649](https://github.com/openclaw/clownfish/actions/runs/32926873649)
+Run: [https://github.com/openclaw/clownfish/actions/runs/32929858595](https://github.com/openclaw/clownfish/actions/runs/32929858595)
 
 Workflow conclusion: success
 
@@ -36,7 +36,7 @@ Canonical: https://github.com/openclaw/openclaw/pull/129782
 
 ## Summary
 
-Blocked the repair mutation path for #129782 because hydrated live state contains an explicit maintainer `/clownfish stop` after the automerge opt-in, followed by a later bot repair dispatch. Non-mutating classifications are still clear.
+#129782 is the canonical PR for the package-size repair, but this autonomous worker should not mutate or replace it. Hydrated state shows an explicit maintainer `/clownfish stop` after the automerge opt-in, a later ClawSweeper `needs-human` review asking for an explicit decision to rearm automation, a current PR head that differs from the reviewed head, and pending exact-head checks. #129758 remains a related alternative budget-cap PR, not the canonical repair path. #129761 is already closed historical context.
 
 ## Impact
 
@@ -73,10 +73,10 @@ Blocked the repair mutation path for #129782 because hydrated live state contain
 
 | Target | Action | Status | Classification | Reason |
 | --- | --- | --- | --- | --- |
-| #129782 | needs_human | blocked | needs_human | maintainer_stop_race_blocks_automated_repair_or_replacement |
-| #129758 | keep_related | planned | related | related_alternative_budget_pr_not_part_of_stopped_repair_mutation |
+| #129782 | needs_human | blocked | needs_human | maintainer_stop_and_exact_head_review_gap_blocks_automated_repair_or_replacement |
+| #129758 | keep_related | planned | related | related_alternative_budget_policy_pr_not_part_of_stopped_automerge_repair |
 | #129761 | keep_closed | skipped | superseded | already_closed_context_ref |
 
 ## Needs Human
 
-- Decide whether Clownfish should continue repairing #129782 after the hydrated maintainer /clownfish stop and bot pause acknowledgement, or whether automation should remain paused.
+- #129782 requires maintainer decision: rearm Clownfish/ClawSweeper automation after the recorded `/clownfish stop`, then rerun exact-head review and checks for current head e41d949e919f5425d1d89e8450538f538477be8a.

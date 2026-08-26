@@ -1,0 +1,90 @@
+{
+  "repo": "openclaw/openclaw",
+  "cluster_id": "automerge-openclaw-openclaw-129782",
+  "mode": "autonomous",
+  "run_id": "32929858595",
+  "workflow_run_id": "32929858595",
+  "run_attempt": "1",
+  "matrix_index": null,
+  "run_url": "https://github.com/openclaw/clownfish/actions/runs/32929858595",
+  "head_sha": "f9dd0e4d7b3be3220aebc9067a5043c14c361e27",
+  "workflow_conclusion": "success",
+  "workflow_status": "completed",
+  "workflow_created_at": "2026-08-26T04:20:37Z",
+  "workflow_updated_at": "2026-08-26T04:23:13Z",
+  "result_status": "needs_human",
+  "source_job": "jobs/openclaw/outbox/finalized/automerge-openclaw-openclaw-129782.md",
+  "published_at": "2026-08-26T04:24:04.132Z",
+  "canonical": "https://github.com/openclaw/openclaw/pull/129782",
+  "canonical_issue": null,
+  "canonical_pr": "https://github.com/openclaw/openclaw/pull/129782",
+  "summary": "#129782 is the canonical PR for the package-size repair, but this autonomous worker should not mutate or replace it. Hydrated state shows an explicit maintainer `/clownfish stop` after the automerge opt-in, a later ClawSweeper `needs-human` review asking for an explicit decision to rearm automation, a current PR head that differs from the reviewed head, and pending exact-head checks. #129758 remains a related alternative budget-cap PR, not the canonical repair path. #129761 is already closed historical context.",
+  "actions": [
+    {
+      "target": "#129782",
+      "action": "needs_human",
+      "status": "blocked",
+      "classification": "needs_human",
+      "canonical": "#129782",
+      "candidate_fix": null,
+      "reason": "maintainer_stop_and_exact_head_review_gap_blocks_automated_repair_or_replacement"
+    },
+    {
+      "target": "#129758",
+      "action": "keep_related",
+      "status": "planned",
+      "classification": "related",
+      "canonical": "#129782",
+      "candidate_fix": null,
+      "reason": "related_alternative_budget_policy_pr_not_part_of_stopped_automerge_repair"
+    },
+    {
+      "target": "#129761",
+      "action": "keep_closed",
+      "status": "skipped",
+      "classification": "superseded",
+      "canonical": "#129782",
+      "candidate_fix": null,
+      "reason": "already_closed_context_ref"
+    }
+  ],
+  "action_counts": {
+    "needs_human": 1,
+    "keep_related": 1,
+    "keep_closed": 1
+  },
+  "action_status_counts": {
+    "blocked": 1,
+    "planned": 1,
+    "skipped": 1
+  },
+  "fix_counts": {
+    "executed": 1
+  },
+  "apply_counts": {},
+  "needs_human": [
+    "#129782 requires maintainer decision: rearm Clownfish/ClawSweeper automation after the recorded `/clownfish stop`, then rerun exact-head review and checks for current head e41d949e919f5425d1d89e8450538f538477be8a."
+  ],
+  "repair_candidate": null,
+  "fix_actions": [
+    {
+      "action": "automerge_repair_outcome_comment",
+      "status": "executed",
+      "target": "#129782",
+      "pr": null,
+      "branch": null,
+      "source_action": null,
+      "source_status": null,
+      "repair_strategy": null,
+      "reason": null,
+      "commit": null,
+      "checkpoint_commits": null,
+      "retry_recommended": null,
+      "recoverable_branch_pushed": null,
+      "title": null,
+      "url": null
+    }
+  ],
+  "apply_actions": [],
+  "apply_audit_actions": []
+}
