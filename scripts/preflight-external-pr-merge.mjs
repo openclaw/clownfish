@@ -769,6 +769,7 @@ function readOnlyBlockers({
   if (view?.snapshotBlockReason) blockers.push(view.snapshotBlockReason);
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
+  const trustedExactHeadDecision = trustedExactHeadDecisionState(issueComments, { pull, view });
   const hasExactHeadClawSweeperReviewStart = issueComments.some((comment) => {
     const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
     return isClawSweeperReviewStartComment({ author, body: comment.body, pull });
@@ -801,6 +802,7 @@ function readOnlyBlockers({
             view,
             trustedAuthorEvidenceApprovalAt,
             trustedAuthorProgressApprovalAt,
+            trustedExactHeadDecision,
           }),
       )
       .map((comment) => comment.body),
@@ -841,6 +843,7 @@ function readOnlyBlockers({
         view,
         trustedAuthorEvidenceApprovalAt,
         trustedAuthorProgressApprovalAt,
+        trustedExactHeadDecision,
       }),
   );
   if (actionableIssueComments.length > 0) {
@@ -2469,7 +2472,7 @@ function isReviewBot(review) {
 
 function isActionableCommentEvidence(
   comment,
-  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null },
+  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
 ) {
   if (
     isNonBlockingCommentEvidence(comment, {
@@ -2477,6 +2480,7 @@ function isActionableCommentEvidence(
       view,
       trustedAuthorEvidenceApprovalAt,
       trustedAuthorProgressApprovalAt,
+      trustedExactHeadDecision,
     })
   ) {
     return false;
@@ -2506,7 +2510,7 @@ function isActionableCommentEvidence(
 
 function isNonBlockingCommentEvidence(
   comment,
-  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null },
+  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
 ) {
   if (comment.isMinimized === true || comment.is_minimized === true) return true;
   const body = String(comment.body ?? "").trim();
@@ -2515,6 +2519,7 @@ function isNonBlockingCommentEvidence(
   const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
   const normalized = body.toLowerCase();
 
+  if (isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision })) return true;
   if (isBenignAutomationComment({ author, body: normalized, pull, view })) return true;
   if (
     String(comment.state ?? "").toUpperCase() === "APPROVED" &&
@@ -2525,11 +2530,11 @@ function isNonBlockingCommentEvidence(
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
   if (
-    isMaintainerDecisionApprovalComment({
-      association,
-      body: normalized,
+    isMaintainerDecisionApprovalComment(comment, {
+      pull,
       view,
       trustedAuthorProgressApprovalAt,
+      trustedExactHeadDecision,
     })
   ) {
     return true;
@@ -2668,16 +2673,31 @@ function isMaintainerApprovalComment({ association, body }) {
   );
 }
 
-function isMaintainerDecisionApprovalComment({
-  association,
-  body,
-  view = null,
-  trustedAuthorProgressApprovalAt = null,
-}) {
+function isMaintainerDecisionApprovalComment(
+  comment,
+  { pull, view = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
+) {
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const body = String(comment.body ?? "").trim().toLowerCase();
   if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
-  if (!Number.isFinite(trustedAuthorProgressApprovalAt)) return false;
-  if (!/^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body)) return false;
-  return !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view });
+  if (isExactHeadMaintainerDecision(comment, { pull, view }))
+    return commentTimestamp(comment) > (trustedExactHeadDecision?.reviewAt ?? Number.POSITIVE_INFINITY);
+  return (
+    Number.isFinite(trustedAuthorProgressApprovalAt) &&
+    /^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body) &&
+    !isAuthorObjectionComment(body) &&
+    !hasExplicitMergeObjection(body, { view })
+  );
+}
+
+function isExactHeadMaintainerDecision(comment, { pull, view = null }) {
+  const body = String(comment.body ?? "").trim().toLowerCase();
+  return (
+    ["MEMBER", "OWNER", "COLLABORATOR"].includes(String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase()) &&
+    body.match(/^maintainer decision for `([0-9a-f]{40})`:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/)?.[1] === String(pull?.head?.sha ?? "").toLowerCase() &&
+    /\bno (?:branch )?repair,\s*(?:no )?rebase,\s*(?:or|and)\s*(?:no )?replacement (?:pr|pull request)(?: is)? requested\b/.test(body) &&
+    !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view })
+  );
 }
 
 function isMaintainerProofOrStatusComment({ association, author, body }) {
@@ -2942,6 +2962,21 @@ function trustedAuthorProgressApprovalTimestamp(comments, { pull }) {
     .map(commentTimestamp)
     .filter(Number.isFinite);
   return timestamps.length > 0 ? Math.max(...timestamps) : null;
+}
+
+function trustedExactHeadDecisionState(comments, { pull, view }) {
+  const reviewAt = Math.max(
+    ...comments.filter((comment) => {
+      const body = String(comment.body ?? "").toLowerCase();
+      return isTrustedExactHeadReadyReviewComment(comment, { pull }) &&
+        /\|\s*\*\*findings\*\*\s*\|\s*none\s*\|/.test(body) &&
+        /\|\s*\*\*security\*\*\s*\|\s*none\s*\|/.test(body);
+    }).map(commentTimestamp).filter(Number.isFinite),
+  );
+  if (!Number.isFinite(reviewAt)) return null;
+  const decisionAt = Math.max(...comments.filter((comment) => isExactHeadMaintainerDecision(comment, { pull, view }))
+    .map(commentTimestamp).filter((timestamp) => Number.isFinite(timestamp) && timestamp > reviewAt));
+  return { reviewAt, decisionAt: Number.isFinite(decisionAt) ? decisionAt : null };
 }
 
 function isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt) {
@@ -3359,6 +3394,25 @@ function hasInvertedProofEvidence(body) {
     });
 }
 
+function isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision }) {
+  const timestamp = commentTimestamp(comment);
+  if (!Number.isFinite(timestamp) || !Number.isFinite(trustedExactHeadDecision?.decisionAt) || timestamp >= trustedExactHeadDecision.decisionAt) return false;
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const body = String(comment.body ?? "").trim();
+  const lines = body.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const marker = lines[0]?.match(/^<!-- clownfish-repair-outcome:([^:\s>]+):([^:\s>]+):#(\d+) -->$/), pullNumber = String(pull?.number ?? "");
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association) || (body.match(/<!--\s*clownfish-repair-outcome:/g) ?? []).length !== 1 ||
+      marker?.[3] !== pullNumber || !marker[1].endsWith(`-${pullNumber}`) || !marker[2].startsWith(`${marker[1]}-autonomous-`)) return false;
+  const actions = lines.map((line) => line.match(/^- `([^`]+)` on `([^`]+)`: ([a-z_]+)(?: - .+)?$/)).filter(Boolean);
+  const fixActions = actions.filter((action) => action[1] === "fix_needed" && action[2] === `#${pullNumber}` && action[3] === "planned");
+  const artifactActions = actions.filter((action) => action[1] === "build_fix_artifact" && action[2] === `cluster:${marker[1]}` && action[3] === "planned");
+  const terminal = lines.some((line) => /^(?:clownfish left the pr as-is:\s*)?no push,\s*(?:no\s+)?rebase,\s*(?:no\s+)?replacement pr,\s*(?:no\s+)?merge,\s*(?:and|or)\s*(?:no\s+)?(?:fresh\s+)?clawsweeper (?:re-review|pass)\b/i.test(line));
+  return lines.filter((line) => line === `Target: #${pullNumber}`).length === 1 &&
+    actions.length === 2 && fixActions.length === 1 && artifactActions.length === 1 && terminal &&
+    !hasOpenIssueStatement(body) && !hasExplicitMergeObjection(body.toLowerCase()) && !hasBlockingRepairOutcomeRisk(body);
+}
+
+function hasBlockingRepairOutcomeRisk(body) { return /\[(?:P|S)[0-3]\]\s|\b(?:requested changes|changes requested|not safe to (?:merge|land|ship)|(?:checks?|ci)\b.{0,40}\b(?:failing|failed|red|broken)|security\b.{0,60}\b(?:concern|issue|risk|exposure|vulnerability)|dependency\b.{0,80}\b(?:concern|issue|risk|unresolved)|withdraw|withdrew|withdrawn|abandon|abandoned|cancel|cancelled|(?:stop|close)\s+(?:this|the)\s+(?:pr|pull request)|(?:unresolved|unfixed|remaining|known|open)\s+(?:\w+\s+){0,3}(?:defect|bug|regression|failure)|(?:defect|bug|regression|failure)\b.{0,80}\b(?:remains?|persists?|unresolved|unfixed|open|present)|(?:is|are|remains?|stays?)\s+(?:an?\s+)?(?:defect|bug|regression|failure|broken)|still\s+fails?|continues?\s+to\s+fail|(?:is|are)\s+still\s+broken)\b/i.test(body); }
 function commentTimestamp(comment) {
   const value = Date.parse(
     String(comment.updated_at ?? comment.updatedAt ?? comment.created_at ?? comment.createdAt ?? ""),
