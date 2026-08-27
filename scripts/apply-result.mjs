@@ -970,6 +970,23 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
+    const finalAuthorityBlock = verifyDecisionAuthority({
+      repo: result.repo,
+      expectedHeadSha,
+      authority: preflight.decision_authority,
+    });
+    if (finalAuthorityBlock) {
+      return withExactMergeRevocation({
+        repo: result.repo,
+        exactMergeCheck,
+        result: {
+          ...base,
+          status: "blocked",
+          reason: finalAuthorityBlock,
+          exact_merge_check: exactMergeCheck,
+        },
+      });
+    }
   }
 
   try {

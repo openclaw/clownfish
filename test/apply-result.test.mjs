@@ -760,18 +760,45 @@ for (const permission of ["write", "maintain", "admin"]) {
     assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
     const slowIndex = calls.findLastIndex((args) => args[1]?.includes(`/commits/${EXPECTED_HEAD_SHA}/check-runs?`));
     const pendingIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs");
-    const commentIndex = calls.findIndex((args) => args[1] === `repos/openclaw/openclaw/issues/comments/${DECISION_COMMENT_ID}`);
-    const permissionIndex = calls.findIndex((args) => args[1]?.endsWith("/collaborators/vincentkoc/permission"));
+    const commentIndexes = calls.map((args, index) => args[1] === `repos/openclaw/openclaw/issues/comments/${DECISION_COMMENT_ID}` ? index : -1).filter((index) => index >= 0);
+    const permissionIndexes = calls.map((args, index) => args[1]?.endsWith("/collaborators/vincentkoc/permission") ? index : -1).filter((index) => index >= 0);
     const authorizeIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080");
     const mergeIndex = calls.findIndex((args) => args[0] === "pr" && args[1] === "merge");
+    assert.equal(commentIndexes.length, 2);
+    assert.equal(permissionIndexes.length, 2);
     assert.ok(
       slowIndex >= 0 &&
         pendingIndex > slowIndex &&
-        commentIndex > pendingIndex &&
-        permissionIndex > commentIndex &&
-        authorizeIndex > permissionIndex &&
-        mergeIndex > authorizeIndex,
+        commentIndexes[0] > pendingIndex &&
+        permissionIndexes[0] > commentIndexes[0] &&
+        authorizeIndex > permissionIndexes[0] &&
+        commentIndexes[1] > authorizeIndex &&
+        permissionIndexes[1] > commentIndexes[1] &&
+        mergeIndex === permissionIndexes[1] + 1,
     );
+  });
+}
+
+for (const [name, options, reason] of [
+  [
+    "comment edit after authorization",
+    { decisionComment: [liveDecisionComment(), liveDecisionComment({ body: `${DECISION_BODY} changed` })] },
+    /changed or is invalid/,
+  ],
+  [
+    "permission revocation after authorization",
+    { decisionPermission: ["admin", "read"] },
+    /repository permission/,
+  ],
+]) {
+  test(`apply-result revokes exact merge after ${name}`, () => {
+    const { report, calls, mergeStatePath } = runDecisionAuthorityApply(options);
+
+    assert.equal(report.actions[0].status, "blocked");
+    assert.match(report.actions[0].reason, reason);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+    assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+    assert.equal(calls.filter((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080").length, 2);
   });
 }
 
@@ -2533,8 +2560,17 @@ const viewCountPath = ${JSON.stringify(viewCountPath)};
 const restCountPath = ${JSON.stringify(path.join(binDir, "rest-count"))};
 const adoptionStatePath = ${JSON.stringify(path.join(binDir, "adoption-started"))};
 const exactCheckStatePath = ${JSON.stringify(path.join(binDir, "exact-check-state.json"))};
+const decisionCommentCountPath = ${JSON.stringify(path.join(binDir, "decision-comment-count"))};
+const decisionPermissionCountPath = ${JSON.stringify(path.join(binDir, "decision-permission-count"))};
+const decisionComments = ${JSON.stringify(Array.isArray(decisionComment) ? decisionComment : [decisionComment])};
+const decisionPermissions = ${JSON.stringify(Array.isArray(decisionPermission) ? decisionPermission : [decisionPermission])};
 const externalBinding = ${JSON.stringify(externalBinding)};
 const reviewedBaseSha = ${JSON.stringify(reviewedBaseSha)};
+function nextFixture(values, countPath) {
+  const count = fs.existsSync(countPath) ? Number(fs.readFileSync(countPath, "utf8")) : 0;
+  fs.writeFileSync(countPath, String(count + 1));
+  return values[Math.min(count, values.length - 1)];
+}
 if (process.env.GH_CALL_LOG) fs.appendFileSync(process.env.GH_CALL_LOG, JSON.stringify(args) + "\\n");
 if (process.env.GH_AUTH_LOG) {
   fs.appendFileSync(
@@ -2603,13 +2639,13 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
     process.stderr.write("HTTP 404: decision comment not found\\n");
     process.exit(1);
   }
-  write(${JSON.stringify(decisionComment)});
+  write(nextFixture(decisionComments, decisionCommentCountPath));
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/collaborators/vincentkoc/permission") {
   if (${JSON.stringify(decisionPermissionError)}) {
     process.stderr.write("HTTP 503: permission unavailable\\n");
     process.exit(1);
   }
-  write({ permission: ${JSON.stringify(decisionPermission)} });
+  write({ permission: nextFixture(decisionPermissions, decisionPermissionCountPath) });
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
   write({
     object: {
