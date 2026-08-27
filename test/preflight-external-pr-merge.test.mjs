@@ -453,6 +453,7 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
   assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
   assert.equal(result.merge_preflight[0].effective_diff_files, 1);
+  assert.equal(result.merge_preflight[0].decision_authority, null);
   assert.deepEqual(
     {
       schema_version: result.merge_preflight[0].base_adoption_manifest.schema_version,
@@ -2496,12 +2497,15 @@ function exactHeadMaintainerDecision({
   createdAt = "2026-08-26T22:05:24Z",
   prefix = `Maintainer decision for \`${headSha}\`: accept`,
   authorAssociation = "MEMBER",
+  databaseId = 5431659670,
 } = {}) {
   return {
+    databaseId,
     author: { login: "vincentkoc" },
     authorAssociation,
     isMinimized: false,
     createdAt,
+    updatedAt: createdAt,
     body: [
       `${prefix} this test-only cleanup; the retained identity-aware lifecycle E2E remains the canonical owner, and exact-head CI is green.`,
       "Clownfish must validate the current-main effective diff through the exact merge gate.",
@@ -2523,6 +2527,7 @@ function liveRepairOutcomeComment({ id, createdAt, body }) {
 }
 
 test("external merge preflight accepts the exact #130108 repair-outcome decision sequence", () => {
+  const decision = exactHeadMaintainerDecision({ pullRequest: 130108 });
   const fixture = makeFixture({
     pullRequest: 130108,
     collaboratorPermissions: { vincentkoc: "admin" },
@@ -2538,12 +2543,20 @@ test("external merge preflight accepts the exact #130108 repair-outcome decision
         createdAt: "2026-08-26T19:24:15Z",
         body: LIVE_REPAIR_OUTCOME_5430046612,
       }),
-      exactHeadMaintainerDecision({ pullRequest: 130108 }),
+      decision,
     ],
   });
-  const { report } = runPreflightFixture(fixture);
+  const { report, result } = runPreflightFixture(fixture);
 
   assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(result.merge_preflight[0].decision_authority, {
+    schema_version: 1,
+    comment_id: String(decision.databaseId),
+    author_login: "vincentkoc",
+    head_sha: fixture.headSha,
+    body_sha256: createHash("sha256").update(decision.body).digest("hex"),
+    comment_updated_at: decision.updatedAt,
+  });
 });
 
 test("external merge preflight keeps repeated valid exact-head decisions benign and uses the latest boundary", () => {

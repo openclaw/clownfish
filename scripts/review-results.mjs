@@ -4,6 +4,7 @@ import path from "node:path";
 import { parseArgs, parseJob, repoRoot } from "./lib.mjs";
 import { hasSecuritySensitiveText, securityTextFromItem } from "./security-sensitive.mjs";
 import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
+import { validateDecisionAuthority } from "./external-merge-checks.mjs";
 
 const CLOSE_ACTIONS = new Set([
   "close",
@@ -645,6 +646,8 @@ function validateMergePreflight(repo, mergePreflight, mergeActions, failures) {
       continue;
     }
     const external = String(action.idempotency_key ?? "").startsWith("external-merge-preflight:");
+    const authorityBlock = validateDecisionAuthority(preflight, { expectedHeadSha, allowNonNull: external });
+    if (authorityBlock) failures.push(`${target} ${authorityBlock}`);
     if (external) {
       if (!/^[0-9a-f]{40}$/i.test(String(preflight.reviewed_base_sha ?? ""))) {
         failures.push(`${target} external merge_preflight.reviewed_base_sha must be a 40-character Git SHA`);

@@ -556,6 +556,54 @@ for (const [name, evidence] of [
   });
 }
 
+for (const [name, authority] of [
+  ["null", null],
+  ["valid", validDecisionAuthority()],
+]) {
+  test(`review-results accepts ${name} external merge decision authority`, () => {
+    const dir = makeResultDir(
+      externalMergeReviewResult(authority),
+      { job: mergeJob(), plan: { items: [openPrItem("#1", "2026-06-15T14:15:01Z")] } },
+    );
+
+    const result = review(dir);
+    assert.equal(result.status, 0, result.stdout || result.stderr);
+  });
+}
+
+for (const [name, mutate] of [
+  ["missing", (preflight) => delete preflight.decision_authority],
+  ["malformed", (preflight) => {
+    preflight.decision_authority = { schema_version: 1 };
+  }],
+]) {
+  test(`review-results rejects ${name} external merge decision authority`, () => {
+    const artifact = externalMergeReviewResult(null);
+    mutate(artifact.merge_preflight[0]);
+    const dir = makeResultDir(
+      artifact,
+      { job: mergeJob(), plan: { items: [openPrItem("#1", "2026-06-15T14:15:01Z")] } },
+    );
+
+    const result = review(dir);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stdout, /decision_authority/);
+  });
+}
+
+test("review-results rejects worker-authored non-null decision authority", () => {
+  const artifact = externalMergeReviewResult(validDecisionAuthority());
+  artifact.actions[0].idempotency_key = "cluster-test:merge:1";
+  const dir = makeResultDir(
+    artifact,
+    { job: mergeJob(), plan: { items: [openPrItem("#1", "2026-06-15T14:15:01Z")] } },
+  );
+
+  const result = review(dir);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stdout, /worker-authored merge_preflight\.decision_authority must be null/);
+});
+
 test("review-results ignores empty security boundary item collections in mutating evidence", () => {
   const dir = makeResultDir(
     {
@@ -2447,6 +2495,7 @@ security_sensitive: false
 function validMergePreflight(target, { external = false, evidence = ["Codex /review returned clean.", codexReviewProvenanceEvidence(codexCitation)] } = {}) {
   return {
     target,
+    decision_authority: null,
     ...(external
       ? {
           reviewed_base_sha: "6".repeat(40),
@@ -2468,6 +2517,40 @@ function validMergePreflight(target, { external = false, evidence = ["Codex /rev
       findings_addressed: true,
       evidence,
     },
+  };
+}
+
+function validDecisionAuthority(overrides = {}) {
+  return {
+    schema_version: 1,
+    comment_id: "5431659670",
+    author_login: "vincentkoc",
+    head_sha: "7".repeat(40),
+    body_sha256: "9".repeat(64),
+    comment_updated_at: "2026-08-26T20:28:51Z",
+    ...overrides,
+  };
+}
+
+function externalMergeReviewResult(decisionAuthority) {
+  const head = "7".repeat(40);
+  const preflight = validMergePreflight("#1", { external: true });
+  preflight.decision_authority = decisionAuthority;
+  return {
+    mode: "autonomous",
+    actions: [{
+      target: "#1",
+      action: "merge_canonical",
+      status: "planned",
+      idempotency_key: `external-merge-preflight:openclaw/openclaw#1:${head}`,
+      expected_head_sha: head,
+      classification: "canonical",
+      target_kind: "pull_request",
+      target_updated_at: "2026-06-15T14:15:01Z",
+      evidence: ["Fresh merge preflight completed."],
+      reason: "Canonical PR is ready to merge.",
+    }],
+    merge_preflight: [preflight],
   };
 }
 

@@ -10,7 +10,7 @@ import {
   isValidationDriftControlFile,
 } from "./base-drift-validation.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
-import { COORDINATOR_CHECK_NAMES } from "./external-merge-checks.mjs";
+import { COORDINATOR_CHECK_NAMES, exactDecisionAuthority, hasExplicitMergeObjection as hasClosedExplicitMergeObjection } from "./external-merge-checks.mjs";
 import {
   CODEX_REVIEW_DEPENDENCY,
   CODEX_REVIEW_PROVENANCE,
@@ -39,6 +39,7 @@ const ADOPTION_POLICY = "bounded-fast-forward-v1";
 const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
 const collaboratorPermissionCache = new Map();
+let decisionAuthorityBinding = null;
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
 const pullRequest = Number(args.pr ?? args["pull-request"]);
@@ -766,6 +767,7 @@ function readOnlyBlockers({
   threads: hydratedThreads = null,
 }) {
   collaboratorPermissionCache.clear();
+  decisionAuthorityBinding = null;
   const blockers = view?.snapshotBlockReason ? [view.snapshotBlockReason] : [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
@@ -2281,6 +2283,7 @@ function buildMergeResult({
         synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
         effective_diff_sha256: reviewContext.effectiveDiffSha256,
         effective_diff_files: reviewContext.effectiveDiffFiles,
+        decision_authority: decisionAuthorityBinding,
         security_status: "cleared",
         security_evidence: [
           "Final deterministic security scan after validation and Codex review found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
@@ -2353,6 +2356,7 @@ function fetchIssueComments({ repo, pullRequest }) {
         pullRequest(number: $number) {
           comments(first: 100) {
             nodes {
+              databaseId
               author { login }
               authorAssociation
               body
@@ -2690,14 +2694,9 @@ function isMaintainerDecisionApprovalComment(
   );
 }
 
-function isExactHeadMaintainerDecision(comment, { pull, view = null }) {
-  const body = String(comment.body ?? "").trim().toLowerCase();
-  return (
-    body.match(/^maintainer decision for `([0-9a-f]{40})`:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/)?.[1] === String(pull?.head?.sha ?? "").toLowerCase() &&
-    /\bno (?:branch )?repair,\s*(?:no )?rebase,\s*(?:or|and)\s*(?:no )?replacement (?:pr|pull request)(?: is)? requested\b/.test(body) &&
-    !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view }) &&
-    MAINTAINER_REPOSITORY_PERMISSIONS.has(fetchCollaboratorPermission(String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase()))
-  );
+function isExactHeadMaintainerDecision(comment, { pull }) {
+  return exactDecisionAuthority(comment, pull?.head?.sha) !== null &&
+    MAINTAINER_REPOSITORY_PERMISSIONS.has(fetchCollaboratorPermission(String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase()));
 }
 
 function isMaintainerProofOrStatusComment({ association, author, body }) {
@@ -2875,30 +2874,9 @@ function reviewSection(body, heading) {
 }
 
 function hasExplicitMergeObjection(body, { view = null } = {}) {
-  return String(body)
-    .split(/\r?\n/)
-    .map((line) => line.trim().replace(/^[-*]\s+/, "").replace(/^#{1,6}\s*/, ""))
-    .filter(Boolean)
-    .some((line) => {
-      if (isNegatedOrResolvedMergeObjection(line, { view })) return false;
-      return [
-        /\b(?:maintainers?\s+)?(?:do not|don't|must not|mustn't|should not|shouldn't|cannot|can't)\s+(?:merge|land|ship)\b/,
-        /\b(?:this|the)?\s*(?:pr|patch|change)\s+(?:must not|mustn't|should not|shouldn't|cannot|can't)\s+be\s+(?:merged|landed|shipped)\b/,
-        /\b(?:do not|don't|must not|mustn't)\s+proceed with (?:the )?(?:merge|landing|shipping)\b/,
-        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+not safe to\s+(?:merge|land|ship)\b/,
-        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+unsafe to\s+(?:merge|land|ship)\b/,
-        /\bnot ready to\s+(?:merge|land|ship)\b/,
-        /\bhold (?:the )?(?:merge|landing|shipping)\s+until\b/,
-        /\b(?:the )?(?:pr|patch|change)\s+remains\s+blocked\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:is\s+)?(?:still\s+)?(?:blocked|not allowed)\b/,
-        /\b(?:merge|merging|landing|shipping)\s+remains\s+blocked\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:cannot|can't|must not|mustn't|should not|shouldn't)\s+(?:proceed|continue)\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:must|should)\s+(?:wait|be delayed|remain blocked)\b/,
-        /\b(?:pending|awaiting)\s+(?:(?:maintainer|policy|risk)\s+){1,2}(?:decision|approval|acceptance)\b/,
-        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?(?:still\s+)?(?:pending|unresolved)\b/,
-        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?required before (?:merge|merging|landing|shipping)\b/,
-      ].some((pattern) => pattern.test(line));
-    });
+  return hasClosedExplicitMergeObjection(body, {
+    ignoreLine: (line) => isNegatedOrResolvedMergeObjection(line, { view }),
+  });
 }
 
 function isNegatedOrResolvedMergeObjection(line, { view = null } = {}) {
@@ -2974,9 +2952,11 @@ function trustedExactHeadDecisionState(comments, { pull, view }) {
     }).map(commentTimestamp).filter(Number.isFinite),
   );
   if (!Number.isFinite(reviewAt)) return null;
-  const decisionAt = Math.max(...comments.filter((comment) => isExactHeadMaintainerDecision(comment, { pull, view }))
-    .map(commentTimestamp).filter((timestamp) => Number.isFinite(timestamp) && timestamp > reviewAt));
-  return { reviewAt, decisionAt: Number.isFinite(decisionAt) ? decisionAt : null };
+  const decisionComment = comments
+    .filter((comment) => isExactHeadMaintainerDecision(comment, { pull, view }))
+    .filter((comment) => commentTimestamp(comment) > reviewAt)
+    .sort((left, right) => commentTimestamp(right) - commentTimestamp(left))[0];
+  return { reviewAt, decisionAt: commentTimestamp(decisionComment), decisionComment };
 }
 
 function isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt) {
@@ -3407,15 +3387,17 @@ function isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision }) 
   const fixActions = actions.filter((action) => action[1] === "fix_needed" && action[2] === `#${pullNumber}` && action[3] === "planned");
   const artifactActions = actions.filter((action) => action[1] === "build_fix_artifact" && action[2] === `cluster:${marker[1]}` && action[3] === "planned");
   const terminal = lines.some((line) => /^(?:clownfish left the pr as-is:\s*)?no push,\s*(?:no\s+)?rebase,\s*(?:no\s+)?replacement pr,\s*(?:no\s+)?merge,\s*(?:and|or)\s*(?:no\s+)?(?:fresh\s+)?clawsweeper (?:re-review|pass)\b/i.test(line));
-  return lines.filter((line) => line === `Target: #${pullNumber}`).length === 1 &&
+  const superseded = lines.filter((line) => line === `Target: #${pullNumber}`).length === 1 &&
     actions.length === 2 && fixActions.length === 1 && artifactActions.length === 1 && terminal &&
     !hasOpenIssueStatement(body) && !hasExplicitMergeObjection(body.toLowerCase()) && !hasBlockingRepairOutcomeRisk(body);
+  if (superseded) decisionAuthorityBinding ??= exactDecisionAuthority(trustedExactHeadDecision.decisionComment, pull.head.sha);
+  return superseded;
 }
 
 function hasBlockingRepairOutcomeRisk(body) { return /\[(?:P|S)[0-3]\]\s|\b(?:requested changes|changes requested|not safe to (?:merge|land|ship)|(?:checks?|ci)\b.{0,40}\b(?:failing|failed|red|broken)|security\b.{0,60}\b(?:concern|issue|risk|exposure|vulnerability)|dependency\b.{0,80}\b(?:concern|issue|risk|unresolved)|withdraw|withdrew|withdrawn|abandon|abandoned|cancel|cancelled|(?:stop|close)\s+(?:this|the)\s+(?:pr|pull request)|(?:unresolved|unfixed|remaining|known|open)\s+(?:\w+\s+){0,3}(?:defect|bug|regression|failure)|(?:defect|bug|regression|failure)\b.{0,80}\b(?:remains?|persists?|unresolved|unfixed|open|present)|(?:is|are|remains?|stays?)\s+(?:an?\s+)?(?:defect|bug|regression|failure|broken)|still\s+fails?|continues?\s+to\s+fail|(?:is|are)\s+still\s+broken)\b/i.test(body); }
 function commentTimestamp(comment) {
   const value = Date.parse(
-    String(comment.updated_at ?? comment.updatedAt ?? comment.created_at ?? comment.createdAt ?? ""),
+    String(comment?.updated_at ?? comment?.updatedAt ?? comment?.created_at ?? comment?.createdAt ?? ""),
   );
   return Number.isFinite(value) ? value : Number.NaN;
 }

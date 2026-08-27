@@ -8,7 +8,9 @@ import { defaultCloseComment, externalMessageProvenance } from "./external-messa
 import {
   COORDINATOR_CHECK_NAMES,
   EXACT_MERGE_CHECK_NAME,
+  matchesDecisionAuthority,
   REQUIRED_CI_GATE_NAME,
+  validateDecisionAuthority,
 } from "./external-merge-checks.mjs";
 import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
 import { fetchSettledPullRequestSnapshot as fetchAuthoritativePullRequestSnapshot } from "./pull-request-snapshot.mjs";
@@ -450,6 +452,13 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   if (action.target_kind !== "pull_request") {
     return { ...base, status: "blocked", reason: "merge action requires pull_request target_kind" };
   }
+  const expectedHeadSha = String(action.expected_head_sha ?? "");
+  if (!/^[0-9a-f]{40}$/i.test(expectedHeadSha)) {
+    return { ...base, status: "blocked", reason: "merge action requires expected_head_sha as a 40-character Git SHA" };
+  }
+  const preflight = findMergePreflight(result, target);
+  const authorityBlock = validateDecisionAuthority(preflight, { expectedHeadSha, allowNonNull: externalMergeAction });
+  if (authorityBlock) return { ...base, status: "blocked", reason: authorityBlock };
 
   let live = fetchIssue(result.repo, target);
   if (!live.pull_request) {
@@ -494,16 +503,6 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   let pullRequest = initialSnapshot.pull;
   let view = initialSnapshot.view;
   const mergedAt = pullRequest.merged_at ?? view.mergedAt ?? null;
-  const expectedHeadSha = String(action.expected_head_sha ?? "");
-  if (!/^[0-9a-f]{40}$/i.test(expectedHeadSha)) {
-    return {
-      ...base,
-      status: "blocked",
-      reason: "merge action requires expected_head_sha as a 40-character Git SHA",
-      live_state: live.state,
-      live_updated_at: live.updated_at,
-    };
-  }
   const liveHeadSha = String(pullRequest.head?.sha ?? "");
   if (!mergedAt && liveHeadSha !== expectedHeadSha) {
     return {
@@ -873,6 +872,32 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
+    const mergeState = verifyExactMergeAuthorizationState({
+      result,
+      action,
+      target,
+      expectedHeadSha,
+      mergeHeadSha,
+      effectiveDiffBinding,
+      beforeIssue: checkedIssue,
+      beforePull: checkedPull,
+    });
+    if (mergeState.reason) {
+      return {
+        ...base,
+        status: "blocked",
+        reason: mergeState.reason,
+        retry_recommended: true,
+        live_state: live.state,
+        live_updated_at: live.updated_at,
+        expected_head_sha: expectedHeadSha,
+        effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
+        verified_main_sha: effectiveDiffBinding.verified_main_sha,
+        current_main_sha: mergeState.current_main_sha ?? null,
+        ci_gate: mergeState.ci_gate ?? ciGate,
+        ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
+      };
+    }
     if (effectiveDiffBinding.base_adoption) {
       persistBaseAdoptionCheckpoint({
         base,
@@ -903,34 +928,20 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
         ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
       };
     }
-    const mergeState = verifyExactMergeAuthorizationState({
-      result,
-      action,
-      target,
+    const authorityBlock = verifyDecisionAuthority({
+      repo: result.repo,
       expectedHeadSha,
-      mergeHeadSha,
-      effectiveDiffBinding,
-      beforeIssue: checkedIssue,
-      beforePull: checkedPull,
+      authority: preflight.decision_authority,
     });
-    if (mergeState.reason) {
+    if (authorityBlock) {
       return withExactMergeRevocation({
         repo: result.repo,
         exactMergeCheck,
         result: {
           ...base,
           status: "blocked",
-          reason: mergeState.reason,
-          retry_recommended: true,
-          live_state: live.state,
-          live_updated_at: live.updated_at,
-          expected_head_sha: expectedHeadSha,
-          effective_diff_sha256: effectiveDiffBinding.live_effective_diff_sha256,
-          verified_main_sha: effectiveDiffBinding.verified_main_sha,
-          current_main_sha: mergeState.current_main_sha ?? null,
-          ci_gate: mergeState.ci_gate ?? ciGate,
+          reason: authorityBlock,
           exact_merge_check: exactMergeCheck,
-          ...externalMergeHeadReport(action, expectedHeadSha, effectiveDiffBinding),
         },
       });
     }
@@ -1275,6 +1286,22 @@ function validateMergePreflight({ result, action, target, expectedHeadSha }) {
   const unresolvedThreadBlock = validateResolvedReviewThreads(result.repo, target);
   if (unresolvedThreadBlock) return unresolvedThreadBlock;
   return "";
+}
+
+function verifyDecisionAuthority({ repo, expectedHeadSha, authority }) {
+  if (authority === null) return "";
+  try {
+    const comment = ghJson(["api", `repos/${repo}/issues/comments/${authority.comment_id}`]);
+    if (!matchesDecisionAuthority(authority, comment, expectedHeadSha)) {
+      return "bound exact-head maintainer decision changed or is invalid";
+    }
+    const permission = ghJson(["api", `repos/${repo}/collaborators/${encodeURIComponent(authority.author_login)}/permission`])?.permission;
+    return ["write", "maintain", "admin"].includes(String(permission ?? "").toLowerCase())
+      ? ""
+      : "bound exact-head decision author lacks current repository permission";
+  } catch (error) {
+    return `could not revalidate exact-head decision authority: ${compactErrorText(commandErrorText(error), 500)}`;
+  }
 }
 
 function validateExternalMergeBindingFields({ action, preflight, expectedHeadSha }) {
