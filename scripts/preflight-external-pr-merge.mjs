@@ -10,13 +10,14 @@ import {
   isValidationDriftControlFile,
 } from "./base-drift-validation.mjs";
 import { hasSecuritySensitiveText } from "./security-sensitive.mjs";
-import { COORDINATOR_CHECK_NAMES } from "./external-merge-checks.mjs";
+import { COORDINATOR_CHECK_NAMES, exactDecisionAuthority, hasExplicitMergeObjection as hasClosedExplicitMergeObjection } from "./external-merge-checks.mjs";
 import {
   CODEX_REVIEW_DEPENDENCY,
   CODEX_REVIEW_PROVENANCE,
   codexReviewProvenanceEvidence,
   validateCodexReviewSourceEvidence,
 } from "./codex-review-dependency.mjs";
+import { fetchSettledPullRequestSnapshot as fetchAuthoritativePullRequestSnapshot } from "./pull-request-snapshot.mjs";
 
 const PASSING_CHECK_CONCLUSIONS = new Set(["SUCCESS", "SKIPPED", "NEUTRAL"]);
 const CLEAN_MERGE_STATES = new Set(["CLEAN"]);
@@ -38,6 +39,7 @@ const ADOPTION_POLICY = "bounded-fast-forward-v1";
 const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
 const collaboratorPermissionCache = new Map();
+let decisionAuthorityBinding = null;
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
 const pullRequest = Number(args.pr ?? args["pull-request"]);
@@ -148,12 +150,18 @@ let report = {
 };
 
 try {
-  pull = stage("hydrate GitHub state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]));
+  const initialSnapshot = stage("hydrate settled GitHub state", () =>
+    fetchSettledPullRequestSnapshot({
+      repo: sourceJob.frontmatter.repo,
+      pullRequest,
+    }),
+  );
+  pull = initialSnapshot.pull;
+  view = initialSnapshot.view;
   issue = stage("hydrate issue state", () => ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]));
   const issueComments = stage("hydrate issue comments", () =>
     fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
   );
-  view = stage("poll mergeability", () => fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }));
 
   const virtualJob = writePreflightJob({ sourceJob, pull, pullRequest, runDir });
   preflightJobPath = virtualJob.path;
@@ -264,17 +272,19 @@ try {
   let verifiedMainSha = reviewContext.reviewedBaseSha;
   let pendingApplyAdoption = null;
   for (let attempt = 0; attempt <= maxBaseRevalidations; attempt += 1) {
-    refreshedPull = stage("rehydrate GitHub state after review", () =>
-      ghJson(["api", `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`]),
+    const refreshedSnapshot = stage("rehydrate settled GitHub state after review", () =>
+      fetchSettledPullRequestSnapshot({
+        repo: sourceJob.frontmatter.repo,
+        pullRequest,
+      }),
     );
+    refreshedPull = refreshedSnapshot.pull;
+    refreshedView = refreshedSnapshot.view;
     refreshedIssue = stage("rehydrate issue state after review", () =>
       ghJson(["api", `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`]),
     );
     const refreshedIssueComments = stage("rehydrate issue comments after review", () =>
       fetchIssueComments({ repo: sourceJob.frontmatter.repo, pullRequest }),
-    );
-    refreshedView = stage("poll mergeability after review", () =>
-      fetchSettledPullRequestView({ repo: sourceJob.frontmatter.repo, pullRequest }),
     );
     const finalBlockers = stage("final read-only blockers", () => [
       ...(refreshedPull.head?.sha !== reviewedHeadSha
@@ -725,30 +735,26 @@ function sourceJobPermissions(job) {
   };
 }
 
-function fetchSettledPullRequestView({ repo, pullRequest }) {
+function fetchSettledPullRequestSnapshot({ repo, pullRequest }) {
   const attempts = positiveInteger(process.env.CLOWNFISH_MERGEABLE_POLL_ATTEMPTS, 6);
   const delayMs = nonNegativeInteger(process.env.CLOWNFISH_MERGEABLE_POLL_DELAY_MS, 5000);
-  let latest = null;
-  for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    latest = ghJson([
+  return fetchAuthoritativePullRequestSnapshot({
+    attempts,
+    delayMs,
+    fetchPullRequest: () =>
+      ghJson(["api", `repos/${repo}/pulls/${pullRequest}`]),
+    fetchPullRequestView: () =>
+      ghJson([
       "pr",
       "view",
       String(pullRequest),
       "--repo",
       repo,
       "--json",
-      "comments,headRefOid,isDraft,mergeStateStatus,mergeable,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
-    ]);
-    if (!hasUnknownMergeability(latest)) return latest;
-    if (attempt < attempts && delayMs > 0) {
-      run("sleep", [String(delayMs / 1000)]);
-    }
-  }
-  return latest;
-}
-
-function hasUnknownMergeability(view) {
-  return ["", "UNKNOWN"].includes(String(view?.mergeable ?? "").toUpperCase()) || ["", "UNKNOWN"].includes(String(view?.mergeStateStatus ?? "").toUpperCase());
+      "baseRefOid,comments,headRefOid,isDraft,mergeStateStatus,mergeable,potentialMergeCommit,reviewDecision,reviews,statusCheckRollup,updatedAt,url",
+      ]),
+    sleep: (ms) => run("sleep", [String(ms / 1000)]),
+  });
 }
 
 function readOnlyBlockers({
@@ -760,9 +766,12 @@ function readOnlyBlockers({
   reviewComments: hydratedReviewComments = null,
   threads: hydratedThreads = null,
 }) {
-  const blockers = [];
+  collaboratorPermissionCache.clear();
+  decisionAuthorityBinding = null;
+  const blockers = view?.snapshotBlockReason ? [view.snapshotBlockReason] : [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
+  const trustedExactHeadDecision = trustedExactHeadDecisionState(issueComments, { pull, view });
   const hasExactHeadClawSweeperReviewStart = issueComments.some((comment) => {
     const author = String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase();
     return isClawSweeperReviewStartComment({ author, body: comment.body, pull });
@@ -795,6 +804,7 @@ function readOnlyBlockers({
             view,
             trustedAuthorEvidenceApprovalAt,
             trustedAuthorProgressApprovalAt,
+            trustedExactHeadDecision,
           }),
       )
       .map((comment) => comment.body),
@@ -835,6 +845,7 @@ function readOnlyBlockers({
         view,
         trustedAuthorEvidenceApprovalAt,
         trustedAuthorProgressApprovalAt,
+        trustedExactHeadDecision,
       }),
   );
   if (actionableIssueComments.length > 0) {
@@ -1389,10 +1400,12 @@ function captureFreshAdoptionGithubState({
       throw new Error(`${label} SHA is missing or invalid`);
     }
   }
-  const pull = ghJson([
-    "api",
-    `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}`,
-  ]);
+  const snapshot = fetchSettledPullRequestSnapshot({
+    repo: sourceJob.frontmatter.repo,
+    pullRequest,
+  });
+  const pull = snapshot.pull;
+  const view = snapshot.view;
   const issue = ghJson([
     "api",
     `repos/${sourceJob.frontmatter.repo}/issues/${pullRequest}`,
@@ -1406,10 +1419,6 @@ function captureFreshAdoptionGithubState({
     `repos/${sourceJob.frontmatter.repo}/pulls/${pullRequest}/comments?per_page=100`,
   ]);
   const threads = fetchReviewThreads({
-    repo: sourceJob.frontmatter.repo,
-    pullRequest,
-  });
-  const view = fetchSettledPullRequestView({
     repo: sourceJob.frontmatter.repo,
     pullRequest,
   });
@@ -2274,6 +2283,7 @@ function buildMergeResult({
         synthetic_merge_tree_sha: reviewContext.mergeTreeSha,
         effective_diff_sha256: reviewContext.effectiveDiffSha256,
         effective_diff_files: reviewContext.effectiveDiffFiles,
+        decision_authority: decisionAuthorityBinding,
         security_status: "cleared",
         security_evidence: [
           "Final deterministic security scan after validation and Codex review found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
@@ -2346,6 +2356,7 @@ function fetchIssueComments({ repo, pullRequest }) {
         pullRequest(number: $number) {
           comments(first: 100) {
             nodes {
+              databaseId
               author { login }
               authorAssociation
               body
@@ -2465,7 +2476,7 @@ function isReviewBot(review) {
 
 function isActionableCommentEvidence(
   comment,
-  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null },
+  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
 ) {
   if (
     isNonBlockingCommentEvidence(comment, {
@@ -2473,6 +2484,7 @@ function isActionableCommentEvidence(
       view,
       trustedAuthorEvidenceApprovalAt,
       trustedAuthorProgressApprovalAt,
+      trustedExactHeadDecision,
     })
   ) {
     return false;
@@ -2502,7 +2514,7 @@ function isActionableCommentEvidence(
 
 function isNonBlockingCommentEvidence(
   comment,
-  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null },
+  { pull, view = null, trustedAuthorEvidenceApprovalAt = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
 ) {
   if (comment.isMinimized === true || comment.is_minimized === true) return true;
   const body = String(comment.body ?? "").trim();
@@ -2511,6 +2523,7 @@ function isNonBlockingCommentEvidence(
   const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
   const normalized = body.toLowerCase();
 
+  if (isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision })) return true;
   if (isBenignAutomationComment({ author, body: normalized, pull, view })) return true;
   if (
     String(comment.state ?? "").toUpperCase() === "APPROVED" &&
@@ -2521,11 +2534,11 @@ function isNonBlockingCommentEvidence(
   if (isMaintainerCommandComment({ association, body: normalized })) return true;
   if (isMaintainerApprovalComment({ association, body: normalized })) return true;
   if (
-    isMaintainerDecisionApprovalComment({
-      association,
-      body: normalized,
+    isMaintainerDecisionApprovalComment(comment, {
+      pull,
       view,
       trustedAuthorProgressApprovalAt,
+      trustedExactHeadDecision,
     })
   ) {
     return true;
@@ -2664,16 +2677,26 @@ function isMaintainerApprovalComment({ association, body }) {
   );
 }
 
-function isMaintainerDecisionApprovalComment({
-  association,
-  body,
-  view = null,
-  trustedAuthorProgressApprovalAt = null,
-}) {
+function isMaintainerDecisionApprovalComment(
+  comment,
+  { pull, view = null, trustedAuthorProgressApprovalAt = null, trustedExactHeadDecision = null },
+) {
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const body = String(comment.body ?? "").trim().toLowerCase();
+  if (isExactHeadMaintainerDecision(comment, { pull, view }))
+    return commentTimestamp(comment) > (trustedExactHeadDecision?.reviewAt ?? Number.POSITIVE_INFINITY);
   if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
-  if (!Number.isFinite(trustedAuthorProgressApprovalAt)) return false;
-  if (!/^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body)) return false;
-  return !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view });
+  return (
+    Number.isFinite(trustedAuthorProgressApprovalAt) &&
+    /^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body) &&
+    !isAuthorObjectionComment(body) &&
+    !hasExplicitMergeObjection(body, { view })
+  );
+}
+
+function isExactHeadMaintainerDecision(comment, { pull }) {
+  return exactDecisionAuthority(comment, pull?.head?.sha) !== null &&
+    MAINTAINER_REPOSITORY_PERMISSIONS.has(fetchCollaboratorPermission(String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase()));
 }
 
 function isMaintainerProofOrStatusComment({ association, author, body }) {
@@ -2851,30 +2874,9 @@ function reviewSection(body, heading) {
 }
 
 function hasExplicitMergeObjection(body, { view = null } = {}) {
-  return String(body)
-    .split(/\r?\n/)
-    .map((line) => line.trim().replace(/^[-*]\s+/, "").replace(/^#{1,6}\s*/, ""))
-    .filter(Boolean)
-    .some((line) => {
-      if (isNegatedOrResolvedMergeObjection(line, { view })) return false;
-      return [
-        /\b(?:maintainers?\s+)?(?:do not|don't|must not|mustn't|should not|shouldn't|cannot|can't)\s+(?:merge|land|ship)\b/,
-        /\b(?:this|the)?\s*(?:pr|patch|change)\s+(?:must not|mustn't|should not|shouldn't|cannot|can't)\s+be\s+(?:merged|landed|shipped)\b/,
-        /\b(?:do not|don't|must not|mustn't)\s+proceed with (?:the )?(?:merge|landing|shipping)\b/,
-        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+not safe to\s+(?:merge|land|ship)\b/,
-        /\b(?:this|it|the (?:pr|patch|change))\s+is\s+unsafe to\s+(?:merge|land|ship)\b/,
-        /\bnot ready to\s+(?:merge|land|ship)\b/,
-        /\bhold (?:the )?(?:merge|landing|shipping)\s+until\b/,
-        /\b(?:the )?(?:pr|patch|change)\s+remains\s+blocked\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:is\s+)?(?:still\s+)?(?:blocked|not allowed)\b/,
-        /\b(?:merge|merging|landing|shipping)\s+remains\s+blocked\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:cannot|can't|must not|mustn't|should not|shouldn't)\s+(?:proceed|continue)\b/,
-        /\b(?:merge|merging|landing|shipping)\s+(?:must|should)\s+(?:wait|be delayed|remain blocked)\b/,
-        /\b(?:pending|awaiting)\s+(?:(?:maintainer|policy|risk)\s+){1,2}(?:decision|approval|acceptance)\b/,
-        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?(?:still\s+)?(?:pending|unresolved)\b/,
-        /\b(?:maintainer|policy|risk)(?:\s+(?:policy|risk))?\s+(?:decision|approval|acceptance)\s+(?:is\s+)?required before (?:merge|merging|landing|shipping)\b/,
-      ].some((pattern) => pattern.test(line));
-    });
+  return hasClosedExplicitMergeObjection(body, {
+    ignoreLine: (line) => isNegatedOrResolvedMergeObjection(line, { view }),
+  });
 }
 
 function isNegatedOrResolvedMergeObjection(line, { view = null } = {}) {
@@ -2938,6 +2940,23 @@ function trustedAuthorProgressApprovalTimestamp(comments, { pull }) {
     .map(commentTimestamp)
     .filter(Number.isFinite);
   return timestamps.length > 0 ? Math.max(...timestamps) : null;
+}
+
+function trustedExactHeadDecisionState(comments, { pull, view }) {
+  const reviewAt = Math.max(
+    ...comments.filter((comment) => {
+      const body = String(comment.body ?? "").toLowerCase();
+      return isTrustedExactHeadReadyReviewComment(comment, { pull }) &&
+        /\|\s*\*\*findings\*\*\s*\|\s*none\s*\|/.test(body) &&
+        /\|\s*\*\*security\*\*\s*\|\s*none\s*\|/.test(body);
+    }).map(commentTimestamp).filter(Number.isFinite),
+  );
+  if (!Number.isFinite(reviewAt)) return null;
+  const decisionComment = comments
+    .filter((comment) => isExactHeadMaintainerDecision(comment, { pull, view }))
+    .filter((comment) => commentTimestamp(comment) > reviewAt)
+    .sort((left, right) => commentTimestamp(right) - commentTimestamp(left))[0];
+  return { reviewAt, decisionAt: commentTimestamp(decisionComment), decisionComment };
 }
 
 function isCommentCoveredByTrustedApproval(comment, trustedAuthorEvidenceApprovalAt) {
@@ -3355,9 +3374,30 @@ function hasInvertedProofEvidence(body) {
     });
 }
 
+function isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision }) {
+  const timestamp = commentTimestamp(comment);
+  if (!Number.isFinite(timestamp) || !Number.isFinite(trustedExactHeadDecision?.decisionAt) || timestamp >= trustedExactHeadDecision.decisionAt) return false;
+  const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
+  const body = String(comment.body ?? "").trim();
+  const lines = body.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  const marker = lines[0]?.match(/^<!-- clownfish-repair-outcome:([^:\s>]+):([^:\s>]+):#(\d+) -->$/), pullNumber = String(pull?.number ?? "");
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association) || (body.match(/<!--\s*clownfish-repair-outcome:/g) ?? []).length !== 1 ||
+      marker?.[3] !== pullNumber || !marker[1].endsWith(`-${pullNumber}`) || !marker[2].startsWith(`${marker[1]}-autonomous-`)) return false;
+  const actions = lines.map((line) => line.match(/^- `([^`]+)` on `([^`]+)`: ([a-z_]+)(?: - .+)?$/)).filter(Boolean);
+  const fixActions = actions.filter((action) => action[1] === "fix_needed" && action[2] === `#${pullNumber}` && action[3] === "planned");
+  const artifactActions = actions.filter((action) => action[1] === "build_fix_artifact" && action[2] === `cluster:${marker[1]}` && action[3] === "planned");
+  const terminal = lines.some((line) => /^(?:clownfish left the pr as-is:\s*)?no push,\s*(?:no\s+)?rebase,\s*(?:no\s+)?replacement pr,\s*(?:no\s+)?merge,\s*(?:and|or)\s*(?:no\s+)?(?:fresh\s+)?clawsweeper (?:re-review|pass)\b/i.test(line));
+  const superseded = lines.filter((line) => line === `Target: #${pullNumber}`).length === 1 &&
+    actions.length === 2 && fixActions.length === 1 && artifactActions.length === 1 && terminal &&
+    !hasOpenIssueStatement(body) && !hasExplicitMergeObjection(body.toLowerCase()) && !hasBlockingRepairOutcomeRisk(body);
+  if (superseded) decisionAuthorityBinding ??= exactDecisionAuthority(trustedExactHeadDecision.decisionComment, pull.head.sha);
+  return superseded;
+}
+
+function hasBlockingRepairOutcomeRisk(body) { return /\[(?:P|S)[0-3]\]\s|\b(?:requested changes|changes requested|not safe to (?:merge|land|ship)|(?:checks?|ci)\b.{0,40}\b(?:failing|failed|red|broken)|security\b.{0,60}\b(?:concern|issue|risk|exposure|vulnerability)|dependency\b.{0,80}\b(?:concern|issue|risk|unresolved)|withdraw|withdrew|withdrawn|abandon|abandoned|cancel|cancelled|(?:stop|close)\s+(?:this|the)\s+(?:pr|pull request)|(?:unresolved|unfixed|remaining|known|open)\s+(?:\w+\s+){0,3}(?:defect|bug|regression|failure)|(?:defect|bug|regression|failure)\b.{0,80}\b(?:remains?|persists?|unresolved|unfixed|open|present)|(?:is|are|remains?|stays?)\s+(?:an?\s+)?(?:defect|bug|regression|failure|broken)|still\s+fails?|continues?\s+to\s+fail|(?:is|are)\s+still\s+broken)\b/i.test(body); }
 function commentTimestamp(comment) {
   const value = Date.parse(
-    String(comment.updated_at ?? comment.updatedAt ?? comment.created_at ?? comment.createdAt ?? ""),
+    String(comment?.updated_at ?? comment?.updatedAt ?? comment?.created_at ?? comment?.createdAt ?? ""),
   );
   return Number.isFinite(value) ? value : Number.NaN;
 }

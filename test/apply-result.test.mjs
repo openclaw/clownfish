@@ -34,6 +34,12 @@ const ADOPTION_DOC_CONTENT = "unrelated main documentation\n";
 const ADOPTION_BASE_BLOB_SHA = gitBlobSha(ADOPTION_BASE_CONTENT);
 const ADOPTION_MERGE_BLOB_SHA = gitBlobSha(ADOPTION_MERGE_CONTENT);
 const ADOPTION_DOC_BLOB_SHA = gitBlobSha(ADOPTION_DOC_CONTENT);
+const DECISION_COMMENT_ID = "5431659670";
+const DECISION_COMMENT_UPDATED_AT = "2026-08-26T20:28:51Z";
+const DECISION_BODY = [
+  `Maintainer decision for \`${EXPECTED_HEAD_SHA}\`: accept this exact-head merge.`,
+  "No branch repair, rebase, or replacement PR is requested.",
+].join(" ");
 const EFFECTIVE_DIFF_SHA256 = createHash("sha256")
   .update(
     `${JSON.stringify([
@@ -732,6 +738,159 @@ for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
     assert.equal(report.actions[0].exact_merge_check.head_sha, TEST_MERGE_SHA);
   });
 }
+
+test("apply-result revokes exact merge when bound decision author lacks current repository authority", () => {
+  const { report, calls, mergeStatePath } = runDecisionAuthorityApply({
+    decisionPermission: "read",
+  });
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /repository permission/i);
+  assert.equal(fs.existsSync(mergeStatePath), false);
+  const pendingIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs");
+  const permissionIndex = calls.findIndex((args) => args[1]?.endsWith("/collaborators/vincentkoc/permission"));
+  const revokeIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080");
+  assert.ok(pendingIndex >= 0 && permissionIndex > pendingIndex && revokeIndex > permissionIndex);
+  assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+});
+
+for (const permission of ["write", "maintain", "admin"]) {
+  test(`apply-result authorizes a bound exact-head decision with live ${permission} permission`, () => {
+    const { report, calls } = runDecisionAuthorityApply({ decisionPermission: permission });
+
+    assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+    const slowIndex = calls.findLastIndex((args) => args[1]?.includes(`/commits/${EXPECTED_HEAD_SHA}/check-runs?`));
+    const pendingIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs");
+    const commentIndexes = calls.map((args, index) => args[1] === `repos/openclaw/openclaw/issues/comments/${DECISION_COMMENT_ID}` ? index : -1).filter((index) => index >= 0);
+    const permissionIndexes = calls.map((args, index) => args[1]?.endsWith("/collaborators/vincentkoc/permission") ? index : -1).filter((index) => index >= 0);
+    const authorizeIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080");
+    const mergeIndex = calls.findIndex((args) => args[0] === "pr" && args[1] === "merge");
+    assert.equal(commentIndexes.length, 2);
+    assert.equal(permissionIndexes.length, 2);
+    assert.ok(
+      slowIndex >= 0 &&
+        pendingIndex > slowIndex &&
+        commentIndexes[0] > pendingIndex &&
+        permissionIndexes[0] > commentIndexes[0] &&
+        authorizeIndex > permissionIndexes[0] &&
+        commentIndexes[1] > authorizeIndex &&
+        permissionIndexes[1] > commentIndexes[1] &&
+        mergeIndex === permissionIndexes[1] + 1,
+    );
+  });
+}
+
+for (const [name, options, reason] of [
+  [
+    "comment edit after authorization",
+    { decisionComment: [liveDecisionComment(), liveDecisionComment({ body: `${DECISION_BODY} changed` })] },
+    /changed or is invalid/,
+  ],
+  [
+    "permission revocation after authorization",
+    { decisionPermission: ["admin", "read"] },
+    /repository permission/,
+  ],
+]) {
+  test(`apply-result revokes exact merge after ${name}`, () => {
+    const { report, calls, mergeStatePath } = runDecisionAuthorityApply(options);
+
+    assert.equal(report.actions[0].status, "blocked");
+    assert.match(report.actions[0].reason, reason);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+    assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+    assert.equal(calls.filter((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080").length, 2);
+  });
+}
+
+for (const [name, options] of [
+  ["deleted comment", { decisionCommentError: true }],
+  ["mismatched comment ID", { decisionComment: liveDecisionComment({ id: 1 }) }],
+  ["mismatched author", { decisionComment: liveDecisionComment({ user: { login: "other" } }) }],
+  ["mismatched head", { decisionComment: liveDecisionComment({ body: DECISION_BODY.replace(EXPECTED_HEAD_SHA, CHANGED_HEAD_SHA) }) }],
+  ["mismatched body", { decisionComment: liveDecisionComment({ body: `${DECISION_BODY} changed` }) }],
+  ["mismatched timestamp", { decisionComment: liveDecisionComment({ updated_at: "2026-08-26T20:29:00Z" }) }],
+  ["read permission", { decisionPermission: "read" }],
+  ["triage permission", { decisionPermission: "triage" }],
+  ["permission lookup failure", { decisionPermissionError: true }],
+]) {
+  test(`apply-result revokes pending exact merge for ${name}`, () => {
+    const { report, calls, mergeStatePath } = runDecisionAuthorityApply(options);
+
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(fs.existsSync(mergeStatePath), false);
+    assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+    assert.ok(calls.some((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080"));
+  });
+}
+
+for (const [name, objection] of [
+  ["merge objection", "Do not merge this pull request."],
+  ["security objection", "Security risk remains: credential exposure is unresolved."],
+  ["changes-requested objection", "Changes requested: provenance validation is broken."],
+  ["actionable fix objection", "Fix the broken provenance validation before landing."],
+  ["readiness objection", "Pause; this is not ready."],
+  ["failing CI objection", "Exact-head CI is still failing."],
+  ["withdrawal objection", "I withdraw approval and abandon this merge."],
+  ["passive merge objection", "This should not be merged."],
+  ["forbidden merge objection", "Merge is forbidden."],
+  ["proceed-with-merging objection", "Please do not proceed with merging."],
+  ["pending approval objection", "Maintainer approval is still pending."],
+  ["blocked PR objection", "The PR remains blocked."],
+  ["merging cannot proceed objection", "Merging cannot proceed."],
+  ["bare PR passive objection", "PR must not be merged."],
+  ["bare patch passive objection", "Patch should not be landed."],
+  ["bare change passive objection", "Change cannot be shipped."],
+]) {
+  test(`apply-result revokes a bound exact-head decision with ${name}`, () => {
+    const body = `${DECISION_BODY} ${objection}`;
+    const { report, calls, mergeStatePath } = runDecisionAuthorityApply({
+      decisionAuthority: exactDecisionAuthority({
+        body_sha256: createHash("sha256").update(body).digest("hex"),
+      }),
+      decisionComment: liveDecisionComment({ body }),
+    });
+
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(fs.existsSync(mergeStatePath), false);
+    assert.ok(calls.some((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080"));
+    assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+  });
+}
+
+for (const [name, mutate] of [
+  ["missing binding", (preflight) => delete preflight.decision_authority],
+  ["malformed binding", (preflight) => {
+    preflight.decision_authority = { schema_version: 1 };
+  }],
+  ["head-mismatched binding", (preflight) => {
+    preflight.decision_authority = exactDecisionAuthority({ head_sha: CHANGED_HEAD_SHA });
+  }],
+]) {
+  test(`apply-result blocks ${name} before creating a pending exact-merge check`, () => {
+    const { report, calls } = runDecisionAuthorityApply({ mutatePreflight: mutate });
+
+    assert.equal(report.actions[0].status, "blocked");
+    assert.match(report.actions[0].reason, /decision_authority/);
+    assert.equal(calls.some((args) => args[1] === "repos/openclaw/openclaw/check-runs"), false);
+  });
+}
+
+test("apply-result keeps ordinary null-authority external merges unchanged", () => {
+  const { report, calls } = runDecisionAuthorityApply({ decisionAuthority: null });
+
+  assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+  assert.equal(calls.some((args) => args[1]?.includes("/issues/comments/")), false);
+  assert.equal(calls.some((args) => args[1]?.includes("/collaborators/")), false);
+});
+
+test("apply-result already-merged replay does not revalidate live decision authority", () => {
+  const { report, calls } = runDecisionAuthorityApply({ alreadyMerged: true });
+
+  assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+  assert.equal(report.actions[0].reason, "already merged");
+  assert.equal(calls.some((args) => args[1]?.includes("/issues/comments/")), false);
+  assert.equal(calls.some((args) => args[1]?.includes("/collaborators/")), false);
+});
 
 test("apply-result replaces a stale failed exact-merge check without refreshing the branch", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
@@ -1920,6 +2079,155 @@ test("apply-result polls transient unknown mergeability before merge", () => {
   assert.equal(report.actions[0].status, "executed");
 });
 
+test("apply-result refreshes REST before each GraphQL snapshot attempt and every recheck", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    restSnapshots: [
+      { mergeable: null, mergeable_state: "unknown" },
+      { mergeable: true, mergeable_state: "unstable" },
+    ],
+    mergeViews: [
+      {
+        mergeable: "UNKNOWN",
+        mergeStateStatus: "UNKNOWN",
+        potentialMergeCommit: { oid: TEST_MERGE_SHA },
+      },
+    ],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+  const snapshotCalls = readCallLog(callLogPath).flatMap((args) => {
+    if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") {
+      return ["rest"];
+    }
+    if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
+      return ["graphql"];
+    }
+    return [];
+  });
+  assert.deepEqual(snapshotCalls.slice(0, 4), ["rest", "graphql", "rest", "graphql"]);
+  for (const [index, kind] of snapshotCalls.entries()) {
+    if (kind === "graphql") {
+      assert.equal(snapshotCalls[index - 1], "rest");
+    }
+  }
+  assert.ok(snapshotCalls.filter((kind) => kind === "graphql").length >= 4);
+});
+
+test("apply-result blocks persistent REST/GraphQL head identity mismatch", () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    mergeViews: [{ headRefOid: CHANGED_HEAD_SHA }],
+  });
+
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: {
+      CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+    },
+  });
+
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /head.*REST.*GraphQL|REST.*GraphQL.*head/i);
+  assert.equal(readCallLog(callLogPath).some((args) => args.slice(0, 2).join(" ") === "pr merge"), false);
+});
+
+for (const [name, restMerge, graphMerge] of [
+  ["REST present and GraphQL absent", TEST_MERGE_SHA, null],
+  ["REST absent and GraphQL present", null, { oid: TEST_MERGE_SHA }],
+]) {
+  test(`apply-result blocks test merge SHA availability mismatch with ${name}`, () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    const callLogPath = path.join(tmp, "gh-calls.jsonl");
+    const mergeStatePath = path.join(tmp, "merge-state");
+    fs.mkdirSync(binDir, { recursive: true });
+    fs.writeFileSync(callLogPath, "");
+    writeReadyMergeGhStub(binDir, {
+      headSha: EXPECTED_HEAD_SHA,
+      externalBinding: true,
+      restSnapshots: [{ merge_commit_sha: restMerge }],
+      mergeViews: [{ potentialMergeCommit: graphMerge }],
+    });
+
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    fs.writeFileSync(jobPath, mergeJobMarkdown());
+    fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir, {
+      dryRun: false,
+      allowMerge: true,
+      callLogPath,
+      mergeStatePath,
+      env: {
+        CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+        CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+      },
+    });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(report.actions[0].reason, "REST and GraphQL test merge SHA availability differs");
+    const calls = readCallLog(callLogPath);
+    const snapshotCalls = calls.flatMap((args) => {
+      if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") return ["rest"];
+      if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") return ["graphql"];
+      return [];
+    });
+    assert.deepEqual(snapshotCalls, ["rest", "graphql", "rest", "graphql"]);
+    assert.equal(calls.some((args) => args.slice(0, 2).join(" ") === "pr merge"), false);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+  });
+}
+
 test("apply-result allows unstable merge state when latest checks are clean", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -2056,6 +2364,48 @@ function apply(jobPath, resultPath, reportPath, binDir, { dryRun = true, callLog
   );
 }
 
+function runDecisionAuthorityApply({
+  decisionAuthority = exactDecisionAuthority(),
+  mutatePreflight = null,
+  alreadyMerged = false,
+  ...stubOptions
+} = {}) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  const callLogPath = path.join(tmp, "gh-calls.jsonl");
+  const mergeStatePath = path.join(tmp, "merge-state");
+  fs.mkdirSync(binDir, { recursive: true });
+  fs.writeFileSync(callLogPath, "");
+  if (alreadyMerged) fs.writeFileSync(mergeStatePath, "merged");
+  writeReadyMergeGhStub(binDir, {
+    headSha: EXPECTED_HEAD_SHA,
+    externalBinding: true,
+    decisionComment: liveDecisionComment(),
+    ...stubOptions,
+  });
+  const artifact = mergeResultJson({ externalBinding: true, decisionAuthority });
+  mutatePreflight?.(artifact.merge_preflight[0]);
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, mergeJobMarkdown());
+  fs.writeFileSync(resultPath, `${JSON.stringify(artifact, null, 2)}\n`);
+
+  const result = apply(jobPath, resultPath, reportPath, binDir, {
+    dryRun: false,
+    allowMerge: true,
+    callLogPath,
+    mergeStatePath,
+    env: { CLOWNFISH_GH_RETRY_BASE_MS: "1" },
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  return {
+    report: JSON.parse(fs.readFileSync(reportPath, "utf8")),
+    calls: readCallLog(callLogPath),
+    mergeStatePath,
+  };
+}
+
 function writeGhStub(
   binDir,
   { issueState = "open", includeExistingMarker = false, authorAssociation = "NONE", ansi = false, labels = [] } = {},
@@ -2135,8 +2485,11 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
     draft: false,
     updated_at: "2026-06-11T05:07:30Z",
     labels: [],
-    base: { ref: "main", sha: "stale-base" },
-    head: { sha: ${JSON.stringify(EXPECTED_HEAD_SHA)} }
+    base: { ref: "main", sha: ${JSON.stringify("b".repeat(40))} },
+    head: { sha: ${JSON.stringify(EXPECTED_HEAD_SHA)} },
+    mergeable: true,
+    mergeable_state: "clean",
+    merge_commit_sha: null
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
   write([[]]);
@@ -2147,6 +2500,8 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
 } else if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") {
   write({
     baseRefName: "main",
+    baseRefOid: ${JSON.stringify("b".repeat(40))},
+    headRefOid: ${JSON.stringify(EXPECTED_HEAD_SHA)},
     isDraft: false,
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
@@ -2168,6 +2523,7 @@ function writeReadyMergeGhStub(
     headSha,
     mergeStateStatus = "CLEAN",
     mergeViews = null,
+    restSnapshots = null,
     transientViewFailures = 0,
     statusCheckRollup = [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }],
     labels = [],
@@ -2209,6 +2565,10 @@ function writeReadyMergeGhStub(
     adoptionValidationFailure = false,
     adoptionLabels = null,
     reflectCoordinatorChecksInView = false,
+    decisionComment = null,
+    decisionPermission = "admin",
+    decisionCommentError = false,
+    decisionPermissionError = false,
   },
 ) {
   const ghPath = path.join(binDir, "gh");
@@ -2246,11 +2606,22 @@ const path = require("node:path");
 const args = process.argv.slice(2);
 const merged = Boolean(process.env.MERGE_STATE && fs.existsSync(process.env.MERGE_STATE));
 const mergeViews = ${JSON.stringify(mergeViews)};
+const restSnapshots = ${JSON.stringify(restSnapshots)};
 const viewCountPath = ${JSON.stringify(viewCountPath)};
+const restCountPath = ${JSON.stringify(path.join(binDir, "rest-count"))};
 const adoptionStatePath = ${JSON.stringify(path.join(binDir, "adoption-started"))};
 const exactCheckStatePath = ${JSON.stringify(path.join(binDir, "exact-check-state.json"))};
+const decisionCommentCountPath = ${JSON.stringify(path.join(binDir, "decision-comment-count"))};
+const decisionPermissionCountPath = ${JSON.stringify(path.join(binDir, "decision-permission-count"))};
+const decisionComments = ${JSON.stringify(Array.isArray(decisionComment) ? decisionComment : [decisionComment])};
+const decisionPermissions = ${JSON.stringify(Array.isArray(decisionPermission) ? decisionPermission : [decisionPermission])};
 const externalBinding = ${JSON.stringify(externalBinding)};
 const reviewedBaseSha = ${JSON.stringify(reviewedBaseSha)};
+function nextFixture(values, countPath) {
+  const count = fs.existsSync(countPath) ? Number(fs.readFileSync(countPath, "utf8")) : 0;
+  fs.writeFileSync(countPath, String(count + 1));
+  return values[Math.min(count, values.length - 1)];
+}
 if (process.env.GH_CALL_LOG) fs.appendFileSync(process.env.GH_CALL_LOG, JSON.stringify(args) + "\\n");
 if (process.env.GH_AUTH_LOG) {
   fs.appendFileSync(
@@ -2284,27 +2655,48 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") {
+  const restCount = fs.existsSync(restCountPath) ? Number(fs.readFileSync(restCountPath, "utf8")) : 0;
+  fs.writeFileSync(restCountPath, String(restCount + 1));
+  const restSnapshot = Array.isArray(restSnapshots)
+    ? restSnapshots[Math.min(restCount, restSnapshots.length - 1)]
+    : {};
   write({
     number: 60063,
     state: "open",
     draft: false,
     updated_at: "2026-06-11T05:07:30Z",
     labels: fs.existsSync(adoptionStatePath) && ${JSON.stringify(adoptionLabels)} ? ${JSON.stringify(adoptionLabels)} : ${JSON.stringify(labels)},
-    base: { ref: "main", sha: externalBinding ? ${JSON.stringify(CURRENT_MAIN_SHA)} : "current-main" },
+    base: { ref: "main", sha: restSnapshot.baseSha ?? ${JSON.stringify(CURRENT_MAIN_SHA)} },
     head: {
-      sha: ${JSON.stringify(headSha)},
+      sha: restSnapshot.headSha ?? ${JSON.stringify(headSha)},
       ref: "feature/exact-head",
       repo: { full_name: "openclaw/openclaw" }
     },
     maintainer_can_modify: true,
     merged_at: merged ? "2026-06-11T05:09:00Z" : null,
+    mergeable: Object.hasOwn(restSnapshot, "mergeable") ? restSnapshot.mergeable : true,
+    mergeable_state: Object.hasOwn(restSnapshot, "mergeable_state") ? restSnapshot.mergeable_state : ${JSON.stringify(mergeStateStatus.toLowerCase())},
     merge_commit_sha: merged
       ? (externalBinding ? ${JSON.stringify(SQUASH_COMMIT_SHA)} : "c".repeat(40))
-      : (externalBinding ? ${JSON.stringify(TEST_MERGE_SHA)} : null)
+      : (Object.hasOwn(restSnapshot, "merge_commit_sha")
+          ? restSnapshot.merge_commit_sha
+          : (externalBinding ? ${JSON.stringify(TEST_MERGE_SHA)} : null))
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
   const comments = ${JSON.stringify(issueComments)};
   write(args.includes("--slurp") ? [comments] : comments);
+} else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/comments/${DECISION_COMMENT_ID}") {
+  if (${JSON.stringify(decisionCommentError)}) {
+    process.stderr.write("HTTP 404: decision comment not found\\n");
+    process.exit(1);
+  }
+  write(nextFixture(decisionComments, decisionCommentCountPath));
+} else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/collaborators/vincentkoc/permission") {
+  if (${JSON.stringify(decisionPermissionError)}) {
+    process.stderr.write("HTTP 503: permission unavailable\\n");
+    process.exit(1);
+  }
+  write({ permission: nextFixture(decisionPermissions, decisionPermissionCountPath) });
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
   write({
     object: {
@@ -2498,9 +2890,14 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
   write({
     baseRefName: "main",
+    baseRefOid: mergeView.baseRefOid ?? ${JSON.stringify(CURRENT_MAIN_SHA)},
+    headRefOid: mergeView.headRefOid ?? ${JSON.stringify(headSha)},
     isDraft: false,
     mergeable: mergeView.mergeable ?? "MERGEABLE",
     mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)},
+    potentialMergeCommit: mergeView.potentialMergeCommit === null
+      ? null
+      : (mergeView.potentialMergeCommit ?? (externalBinding ? { oid: ${JSON.stringify(TEST_MERGE_SHA)} } : null)),
     reviewDecision: "APPROVED",
     statusCheckRollup: mergeView.statusCheckRollup ?? [
       ...${JSON.stringify(statusCheckRollup)},
@@ -2742,6 +3139,7 @@ function mergeResultJson({
   reviewedBaseSha = CURRENT_MAIN_SHA,
   effectiveDiffSha256 = EFFECTIVE_DIFF_SHA256,
   baseAdoptionManifest = undefined,
+  decisionAuthority = null,
 } = {}) {
   const resolvedManifest =
     externalBinding && baseAdoptionManifest === undefined
@@ -2786,6 +3184,7 @@ function mergeResultJson({
         bot_comments_status: "resolved",
         bot_comments_evidence: ["no unresolved bot review threads"],
         validation_commands: ["pnpm check:changed"],
+        decision_authority: decisionAuthority,
         codex_review: {
           command: "/review",
           status: "clean",
@@ -2798,6 +3197,28 @@ function mergeResultJson({
         base_adoption_manifest: resolvedManifest,
       },
     ],
+  };
+}
+
+function exactDecisionAuthority(overrides = {}) {
+  return {
+    schema_version: 1,
+    comment_id: DECISION_COMMENT_ID,
+    author_login: "vincentkoc",
+    head_sha: EXPECTED_HEAD_SHA,
+    body_sha256: createHash("sha256").update(DECISION_BODY).digest("hex"),
+    comment_updated_at: DECISION_COMMENT_UPDATED_AT,
+    ...overrides,
+  };
+}
+
+function liveDecisionComment(overrides = {}) {
+  return {
+    id: Number(DECISION_COMMENT_ID),
+    user: { login: "vincentkoc" },
+    body: DECISION_BODY,
+    updated_at: DECISION_COMMENT_UPDATED_AT,
+    ...overrides,
   };
 }
 

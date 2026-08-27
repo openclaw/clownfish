@@ -453,6 +453,7 @@ test("external merge preflight emits an applicator-valid exact-head merge artifa
   assert.equal(result.merge_preflight[0].reviewed_head_sha, fixture.headSha);
   assert.equal(result.merge_preflight[0].effective_diff_sha256, fixture.effectiveDiffSha256);
   assert.equal(result.merge_preflight[0].effective_diff_files, 1);
+  assert.equal(result.merge_preflight[0].decision_authority, null);
   assert.deepEqual(
     {
       schema_version: result.merge_preflight[0].base_adoption_manifest.schema_version,
@@ -1316,6 +1317,198 @@ test("external merge preflight polls transient unknown mergeability", () => {
   const report = JSON.parse(fs.readFileSync(path.join(fixture.runDir, "preflight-report.json"), "utf8"));
   assert.equal(report.status, "passed");
 });
+
+test("external merge preflight refreshes REST before every GraphQL mergeability attempt", () => {
+  const fixture = makeFixture({
+    restSnapshots: [
+      { mergeable: null, mergeable_state: "unknown" },
+      { mergeable: true, mergeable_state: "unstable" },
+    ],
+    mergeViews: [
+      {
+        mergeable: "UNKNOWN",
+        mergeStateStatus: "UNKNOWN",
+        potentialMergeCommit: { oid: "d".repeat(40) },
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+    "rest",
+    "graphql",
+    "rest",
+    "graphql",
+  ]);
+});
+
+for (const [name, mergeView] of [
+  ["head", { headRefOid: "9".repeat(40) }],
+  ["base", { baseRefOid: "8".repeat(40) }],
+]) {
+  test(`external merge preflight blocks persistent REST/GraphQL ${name} identity mismatch`, () => {
+    const fixture = makeFixture({ mergeViews: [mergeView] });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, new RegExp(`${name}.*REST.*GraphQL|REST.*GraphQL.*${name}`, "i"));
+  });
+}
+
+test("external merge preflight retries an identity mismatch with a fresh REST snapshot", () => {
+  const fixture = makeFixture({
+    mergeViews: [
+      { baseRefOid: "8".repeat(40) },
+      { baseRefOid: "b".repeat(40) },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+    "rest",
+    "graphql",
+    "rest",
+    "graphql",
+  ]);
+});
+
+for (const [kind, firstView] of [
+  ["mergeability", { mergeable: "CONFLICTING", mergeStateStatus: "CLEAN" }],
+  ["merge state", { mergeable: "MERGEABLE", mergeStateStatus: "UNSTABLE" }],
+]) {
+  test(`external merge preflight retries transient REST/GraphQL ${kind} disagreement`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ mergeable: true, mergeable_state: "clean" }],
+      mergeViews: [firstView, { mergeable: "MERGEABLE", mergeStateStatus: "CLEAN" }],
+    });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "passed", report.reason);
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+  });
+}
+
+for (const [kind, mergeView, reason] of [
+  ["mergeability", { mergeable: "CONFLICTING", mergeStateStatus: "CLEAN" }, /REST and GraphQL mergeability disagree/i],
+  ["merge state", { mergeable: "MERGEABLE", mergeStateStatus: "UNSTABLE" }, /REST and GraphQL merge state disagree/i],
+]) {
+  test(`external merge preflight blocks persistent REST/GraphQL ${kind} disagreement after retries`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ mergeable: true, mergeable_state: "clean" }],
+      mergeViews: [mergeView],
+    });
+    const { report } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, reason);
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath).slice(0, 4), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+  });
+}
+
+test("external merge preflight maps authoritative REST conflicts into unknown GraphQL fields", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: false, mergeable_state: "dirty" }],
+    mergeViews: [{ mergeable: "UNKNOWN", mergeStateStatus: "UNKNOWN" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /PR mergeability is CONFLICTING/);
+  assert.match(report.reason, /PR merge state is DIRTY/);
+});
+
+test("external merge preflight blocks unsupported REST merge states", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: true, mergeable_state: "mystery" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /unsupported REST merge state/i);
+});
+
+test("external merge preflight blocks exhausted REST null mergeability", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ mergeable: null, mergeable_state: "unknown" }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+    CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /REST mergeability.*did not settle/i);
+});
+
+test("external merge preflight blocks REST/GraphQL test merge disagreement", () => {
+  const fixture = makeFixture({
+    restSnapshots: [{ merge_commit_sha: "7".repeat(40) }],
+    mergeViews: [{ potentialMergeCommit: { oid: "6".repeat(40) } }],
+  });
+  const { report } = runPreflightFixture(fixture, {
+    CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "1",
+  });
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /test merge.*REST.*GraphQL|REST.*GraphQL.*test merge/i);
+});
+
+for (const [name, restMerge, graphMerge] of [
+  ["REST present and GraphQL absent", "7".repeat(40), null],
+  ["REST absent and GraphQL present", null, { oid: "7".repeat(40) }],
+]) {
+  test(`external merge preflight blocks test merge SHA availability mismatch with ${name}`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ merge_commit_sha: restMerge }],
+      mergeViews: [{ potentialMergeCommit: graphMerge }],
+    });
+    const { report, result } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.equal(report.reason, "REST and GraphQL test merge SHA availability differs");
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+    assert.deepEqual(result.actions, []);
+  });
+}
 
 for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
   test(`external merge preflight accepts ${mergeStateStatus.toLowerCase()} state for exact review`, () => {
@@ -2212,6 +2405,467 @@ function trustedReadyReviewComment({
     ].join("\n"),
     url: "https://github.com/openclaw/openclaw/pull/123#issuecomment-ready-review",
   };
+}
+
+function exactHeadReadyReviewComment({
+  headSha = "a".repeat(40),
+  pullRequest = 123,
+  createdAt = "2026-08-26T13:05:08Z",
+  updatedAt = "2026-08-26T18:19:18Z",
+} = {}) {
+  return {
+    author: { login: "clawsweeper[bot]" },
+    authorAssociation: "CONTRIBUTOR",
+    isMinimized: false,
+    createdAt,
+    updatedAt,
+    body: [
+      "Codex review: needs maintainer review before merge.",
+      "",
+      "## Merge readiness",
+      "",
+      "⚠️ **Ready for maintainer review - 2 items remain**",
+      "",
+      "No actionable review findings were identified.",
+      "",
+      "| Check | Result | Evidence |",
+      "|---|---|---|",
+      "| **Findings** | None | None. |",
+      "| **Security** | None | None. |",
+      "",
+      "### Rank-up moves",
+      "",
+      "- Allow the queued exact-head checks to complete before merging.",
+      "",
+      `<!-- clawsweeper-verdict:needs-human item=${pullRequest} sha=${headSha} confidence=high -->`,
+      `<!-- clawsweeper-review item=${pullRequest} -->`,
+    ].join("\n"),
+    url: `https://github.com/openclaw/openclaw/pull/${pullRequest}#issuecomment-ready-review`,
+  };
+}
+
+const LIVE_REPAIR_OUTCOME_5429512844 = `<!-- clownfish-repair-outcome:automerge-openclaw-openclaw-130108:automerge-openclaw-openclaw-130108-autonomous-2026-08-26T17-57-21-947Z:#130108 -->
+Clownfish 🐠 reef automerge status
+
+This repair lap finished without changing the PR. Clownfish checked the reef and found no safe patch to push this time.
+
+Target: #130108
+Executor outcome: base branch advanced again during validation; reuse blocked: validated_base_not_ancestor_of_head.
+Worker summary: PR #130108 is the canonical item, but it is not merge-ready for this worker lane: the hydrated artifact shows it is open, non-security, behind base, has pending checks, and \`maintainer_can_modify=false\`. Because fix PRs are allowed and merges/closes are blocked, the safe path is a narrow credited replacement PR that carries forward @vincentkoc's test-only deletion.
+
+Worker actions:
+- \`fix_needed\` on \`#130108\`: planned - The useful source PR is blocked from in-place repair by \`maintainer_can_modify=false\` and is behind base; replacement is executable and preserves contributor credit.
+- \`build_fix_artifact\` on \`cluster:automerge-openclaw-openclaw-130108\`: planned - Build one credited replacement PR because the canonical source branch cannot be safely updated by Clownfish.
+
+No push, rebase, replacement PR, merge, or ClawSweeper re-review happened this swim.
+
+fish notes: model gpt-5.5, reasoning medium.`;
+
+const LIVE_REPAIR_OUTCOME_5430046612 = `<!-- clownfish-repair-outcome:automerge-openclaw-openclaw-130108:automerge-openclaw-openclaw-130108-autonomous-2026-08-26T18-55-12-493Z:#130108 -->
+Clownfish 🐠 reef automerge status
+
+No new branch changes from this lap. Clownfish kept the current tidy instead of splashing around.
+
+Target: #130108
+Executor outcome: base branch advanced again during validation; reuse blocked: validation_control_file_drift.
+Worker summary: PR #130108 remains the canonical source item, but it is not repairable in place by this worker lane because the hydrated preflight reports \`maintainer_can_modify=false\` and \`mergeable_state=behind\`. The narrow, executable path is a credited replacement PR carrying forward @vincentkoc's one-file test-only deletion; no close or merge action is planned because the job blocks both.
+
+Worker actions:
+- \`fix_needed\` on \`#130108\`: planned - replace_uneditable_branch_needed_for_safe_automerge_repair
+- \`build_fix_artifact\` on \`cluster:automerge-openclaw-openclaw-130108\`: planned - narrow_credited_replacement_pr
+
+Clownfish left the PR as-is: no push, no rebase, no replacement PR, no merge, and no fresh ClawSweeper pass.
+
+fish notes: model gpt-5.5, reasoning medium.`;
+
+function repairOutcomeComment({
+  createdAt,
+  id,
+  marker = null,
+  action = "fix_needed",
+  detail = "replace_uneditable_branch_needed_for_safe_automerge_repair",
+  concern = "",
+} = {}) {
+  return {
+    author: { login: "vincentkoc" },
+    authorAssociation: "MEMBER",
+    isMinimized: false,
+    createdAt,
+    body: [
+      marker ??
+        `<!-- clownfish-repair-outcome:automerge-openclaw-openclaw-123:automerge-openclaw-openclaw-123-autonomous-${id}:#123 -->`,
+      "Clownfish 🐠 reef automerge status",
+      "",
+      "No new branch changes from this lap.",
+      "",
+      "Target: #123",
+      "Executor outcome: base branch advanced during validation; reuse blocked: validation_control_file_drift.",
+      "Worker summary: PR #123 remains canonical but was behind base; a credited replacement was only planned.",
+      concern,
+      "",
+      "Worker actions:",
+      `- \`${action}\` on \`#123\`: planned - ${detail}`,
+      "- `build_fix_artifact` on `cluster:automerge-openclaw-openclaw-123`: planned - narrow_credited_replacement_pr",
+      "",
+      "Clownfish left the PR as-is: no push, no rebase, no replacement PR, no merge, and no fresh ClawSweeper pass.",
+      "",
+      "fish notes: model gpt-5.5, reasoning medium.",
+    ]
+      .filter(Boolean)
+      .join("\n"),
+    url: `https://github.com/openclaw/openclaw/pull/123#issuecomment-${id}`,
+  };
+}
+
+function exactHeadMaintainerDecision({
+  headSha = "a".repeat(40),
+  pullRequest = 123,
+  createdAt = "2026-08-26T22:05:24Z",
+  prefix = `Maintainer decision for \`${headSha}\`: accept`,
+  authorAssociation = "MEMBER",
+  databaseId = 5431659670,
+} = {}) {
+  return {
+    databaseId,
+    author: { login: "vincentkoc" },
+    authorAssociation,
+    isMinimized: false,
+    createdAt,
+    updatedAt: createdAt,
+    body: [
+      `${prefix} this test-only cleanup; the retained identity-aware lifecycle E2E remains the canonical owner, and exact-head CI is green.`,
+      "Clownfish must validate the current-main effective diff through the exact merge gate.",
+      "No branch repair, rebase, or replacement PR is requested.",
+    ].join(" "),
+    url: `https://github.com/openclaw/openclaw/pull/${pullRequest}#issuecomment-5431659670`,
+  };
+}
+
+function liveRepairOutcomeComment({ id, createdAt, body }) {
+  return {
+    author: { login: "vincentkoc" },
+    authorAssociation: "MEMBER",
+    isMinimized: false,
+    createdAt,
+    body,
+    url: `https://github.com/openclaw/openclaw/pull/130108#issuecomment-${id}`,
+  };
+}
+
+test("external merge preflight accepts the exact #130108 repair-outcome decision sequence", () => {
+  const decision = exactHeadMaintainerDecision({ pullRequest: 130108 });
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5429512844",
+        createdAt: "2026-08-26T18:35:12Z",
+        body: LIVE_REPAIR_OUTCOME_5429512844,
+      }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      decision,
+    ],
+  });
+  const { report, result } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+  assert.deepEqual(result.merge_preflight[0].decision_authority, {
+    schema_version: 1,
+    comment_id: String(decision.databaseId),
+    author_login: "vincentkoc",
+    head_sha: fixture.headSha,
+    body_sha256: createHash("sha256").update(decision.body).digest("hex"),
+    comment_updated_at: decision.updatedAt,
+  });
+});
+
+test("external merge preflight keeps repeated valid exact-head decisions benign and uses the latest boundary", () => {
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5429512844",
+        createdAt: "2026-08-26T18:35:12Z",
+        body: LIVE_REPAIR_OUTCOME_5429512844,
+      }),
+      exactHeadMaintainerDecision({ pullRequest: 130108, createdAt: "2026-08-26T19:00:00Z" }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      exactHeadMaintainerDecision({ pullRequest: 130108 }),
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+test("external merge preflight decision authority accepts stale CONTRIBUTOR association with live admin permission", () => {
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      exactHeadMaintainerDecision({
+        pullRequest: 130108,
+        authorAssociation: "CONTRIBUTOR",
+      }),
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, permissionOptions] of [
+  ["rejects MEMBER association with live read permission", { collaboratorPermissions: { vincentkoc: "read" } }],
+  ["blocks permission lookup failure", { collaboratorPermissionErrors: ["vincentkoc"] }],
+]) {
+  test(`external merge preflight decision authority ${name}`, () => {
+    const fixture = makeFixture({
+      pullRequest: 130108,
+      ...permissionOptions,
+      issueComments: [
+        exactHeadReadyReviewComment({ pullRequest: 130108 }),
+        liveRepairOutcomeComment({
+          id: "5430046612",
+          createdAt: "2026-08-26T19:24:15Z",
+          body: LIVE_REPAIR_OUTCOME_5430046612,
+        }),
+        exactHeadMaintainerDecision({ pullRequest: 130108 }),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+    const ghCalls = fs
+      .readFileSync(fixture.ghCallsPath, "utf8")
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    assert.equal(ghCalls.some((args) => args[0] === "repo" && args[1] === "clone"), false);
+    assert.equal(fs.existsSync(fixture.codexCloneCountPath), false);
+    assert.equal(fs.existsSync(fixture.codexCountPath), false);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+  });
+}
+
+test("external merge preflight refreshes exact-head decision authority for final blockers", () => {
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: ["admin", "read"] },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      exactHeadMaintainerDecision({ pullRequest: 130108 }),
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+  const permissionCalls = fs
+    .readFileSync(fixture.ghCallsPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line))
+    .filter(
+      (args) =>
+        args[0] === "api" &&
+        args[1].includes("/collaborators/vincentkoc/permission"),
+    );
+  assert.equal(permissionCalls.length, 2);
+  assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+});
+
+for (const [name, body] of [
+  ["wrong fix target", LIVE_REPAIR_OUTCOME_5430046612.replace("`#130108`: planned", "`#130109`: planned")],
+  ["wrong artifact target", LIVE_REPAIR_OUTCOME_5430046612.replace("`cluster:automerge-openclaw-openclaw-130108`: planned", "`cluster:wrong`: planned")],
+  ["missing companion action", LIVE_REPAIR_OUTCOME_5430046612.replace(/\n- `build_fix_artifact`[^\n]+/, "")],
+  ["duplicate action", LIVE_REPAIR_OUTCOME_5430046612.replace(/(- `fix_needed`[^\n]+)/, "$1\n$1")],
+  ["marker pull mismatch", LIVE_REPAIR_OUTCOME_5430046612.replace(":#130108 -->", ":#130109 -->")],
+  ["marker run mismatch", LIVE_REPAIR_OUTCOME_5430046612.replace("automerge-openclaw-openclaw-130108-autonomous-", "automerge-openclaw-openclaw-130109-autonomous-")],
+]) {
+  test(`external merge preflight keeps repair outcome with ${name} blocking`, () => {
+    const fixture = makeFixture({
+      pullRequest: 130108,
+      collaboratorPermissions: { vincentkoc: "admin" },
+      issueComments: [
+        exactHeadReadyReviewComment({ pullRequest: 130108 }),
+        liveRepairOutcomeComment({
+          id: "5430046612",
+          createdAt: "2026-08-26T19:24:15Z",
+          body,
+        }),
+        exactHeadMaintainerDecision({ pullRequest: 130108 }),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+for (const [name, objection] of [
+  ["do-not-merge objection", "Do not merge this PR."],
+  ["unsafe-to-merge objection", "This PR is not safe to merge."],
+  ["hold-merge objection", "Hold the merge until validation is repaired."],
+  ["blocked objection", "The PR remains blocked."],
+  ["changes-requested objection", "Changes requested: address the defect."],
+  ["requested-changes objection", "Requested changes remain unresolved."],
+  ["severity-tagged finding", "[P1] Package provenance binding is broken."],
+  ["unresolved defect", "An unresolved defect remains in package provenance binding."],
+  ["remaining bug", "A bug remains in package provenance binding."],
+  ["regression", "This is a regression in package provenance binding."],
+  ["unresolved failure", "Package provenance validation failure remains unresolved."],
+  ["still-fails finding", "Package provenance validation still fails."],
+  ["still-broken finding", "Package provenance binding is still broken."],
+  ["continued failure", "Package provenance validation continues to fail."],
+]) {
+  test(`external merge preflight keeps repair outcome with ${name} blocking`, () => {
+    const body = LIVE_REPAIR_OUTCOME_5430046612.replace(
+      "Worker summary: ",
+      `Worker summary: ${objection} `,
+    );
+    const fixture = makeFixture({
+      pullRequest: 130108,
+      collaboratorPermissions: { vincentkoc: "admin" },
+      issueComments: [
+        exactHeadReadyReviewComment({ pullRequest: 130108 }),
+        liveRepairOutcomeComment({
+          id: "5430046612",
+          createdAt: "2026-08-26T19:24:15Z",
+          body,
+        }),
+        exactHeadMaintainerDecision({ pullRequest: 130108 }),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+for (const [name, comments] of [
+  [
+    "mismatched decision SHA",
+    [
+      exactHeadReadyReviewComment(),
+      repairOutcomeComment({ id: "outcome", createdAt: "2026-08-26T19:24:15Z" }),
+      exactHeadMaintainerDecision({ headSha: "9".repeat(40) }),
+    ],
+  ],
+  [
+    "generic maintainer decision",
+    [
+      exactHeadReadyReviewComment(),
+      repairOutcomeComment({ id: "outcome", createdAt: "2026-08-26T19:24:15Z" }),
+      exactHeadMaintainerDecision({ prefix: "Maintainer decision: accept" }),
+    ],
+  ],
+  [
+    "decision before ready review",
+    [
+      exactHeadMaintainerDecision({ createdAt: "2026-08-26T12:00:00Z" }),
+      exactHeadReadyReviewComment(),
+      repairOutcomeComment({ id: "outcome", createdAt: "2026-08-26T19:24:15Z" }),
+    ],
+  ],
+  [
+    "later repair outcome",
+    [
+      exactHeadReadyReviewComment(),
+      exactHeadMaintainerDecision(),
+      repairOutcomeComment({ id: "outcome", createdAt: "2026-08-26T22:06:00Z" }),
+    ],
+  ],
+  [
+    "malformed repair marker",
+    [
+      exactHeadReadyReviewComment(),
+      repairOutcomeComment({
+        id: "outcome",
+        createdAt: "2026-08-26T19:24:15Z",
+        marker: "<!-- clownfish-repair-outcome:broken -->",
+      }),
+      exactHeadMaintainerDecision(),
+    ],
+  ],
+  [
+    "unknown repair action",
+    [
+      exactHeadReadyReviewComment(),
+      repairOutcomeComment({
+        id: "outcome",
+        createdAt: "2026-08-26T19:24:15Z",
+        action: "delete_branch",
+      }),
+      exactHeadMaintainerDecision(),
+    ],
+  ],
+]) {
+  test(`external merge preflight keeps ${name} blocking`, () => {
+    const { report } = runPreflightFixture(
+      makeFixture({
+        collaboratorPermissions: { vincentkoc: "admin" },
+        issueComments: comments,
+      }),
+    );
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+  });
+}
+
+for (const [name, concern, reason] of [
+  ["code defect", "Known defect: attachment ownership is still broken.", /actionable top-level issue comment/],
+  ["failing checks", "Checks are failing on the exact head.", /actionable top-level issue comment/],
+  ["security concern", "Security concern: token exposure remains possible.", /security-sensitive signal/],
+  ["dependency concern", "Dependency risk: the pinned runtime contract is unresolved.", /actionable top-level issue comment/],
+  ["withdrawal", "The author withdrew this PR.", /actionable top-level issue comment/],
+  ["stop request", "Stop this pull request.", /actionable top-level issue comment/],
+]) {
+  test(`external merge preflight never supersedes a repair outcome with ${name}`, () => {
+    const fixture = makeFixture({
+      collaboratorPermissions: { vincentkoc: "admin" },
+      issueComments: [
+        exactHeadReadyReviewComment(),
+        repairOutcomeComment({
+          id: "outcome",
+          createdAt: "2026-08-26T19:24:15Z",
+          concern,
+        }),
+        exactHeadMaintainerDecision(),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, reason);
+  });
 }
 
 test("external merge preflight accepts an explicit maintainer decision with an exact-gate handoff", () => {
@@ -4451,7 +5105,7 @@ function runExternalMergeRunner(fixture, extraArgs, env) {
 function runPreflightFixture(fixture, extraEnv = {}) {
   const child = spawnSync(
     process.execPath,
-    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", "123", "--run-dir", fixture.runDir],
+    ["scripts/preflight-external-pr-merge.mjs", fixture.jobPath, "--pr", String(fixture.pullRequest), "--run-dir", fixture.runDir],
     {
       cwd: repoRoot,
       encoding: "utf8",
@@ -4470,8 +5124,25 @@ function runPreflightFixture(fixture, extraEnv = {}) {
   };
 }
 
+function snapshotCallKinds(callLogPath) {
+  return fs
+    .readFileSync(callLogPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line))
+    .flatMap((args) => {
+      if (args[0] === "api" && args[1]?.endsWith("/pulls/123")) return ["rest"];
+      if (args[0] === "pr" && args[1] === "view" && args[2] === "123") {
+        return ["graphql"];
+      }
+      return [];
+    });
+}
+
 function makeFixture({
   repo = "openclaw/openclaw",
+  pullRequest = 123,
   issueComments = [],
   reviewComments = [],
   reviews = [],
@@ -4482,6 +5153,7 @@ function makeFixture({
   statusCheckRollup = [],
   mergeStateStatus = "CLEAN",
   mergeViews = null,
+  restSnapshots = null,
   issueUpdatedAt = "2026-06-19T00:00:00Z",
   pullUpdatedAt = "2026-06-19T00:00:00Z",
   pullAssignees = [],
@@ -4557,6 +5229,7 @@ function makeFixture({
     )
     .digest("hex");
   const gitCommandsPath = path.join(root, "git-commands.log");
+  const ghCallsPath = path.join(root, "gh-calls.jsonl");
   const pnpmCommandsPath = path.join(root, "pnpm-commands.log");
   const codexPromptPath = path.join(root, "codex-prompt.txt");
   const codexArgsPath = path.join(root, "codex-args.json");
@@ -4615,11 +5288,11 @@ blocked_actions:
   - "label"
   - "close"
 canonical:
-  - "#123"
+  - "#${pullRequest}"
 candidates:
-  - "#123"
+  - "#${pullRequest}"
 cluster_refs:
-  - "#123"
+  - "#${pullRequest}"
 security_policy: central_security_only
 security_sensitive: false
 allow_instant_close: false
@@ -4638,7 +5311,9 @@ require_fix_before_close: false
 const fs = require("node:fs");
 const path = require("node:path");
 const args = process.argv.slice(2);
+fs.appendFileSync(${JSON.stringify(ghCallsPath)}, JSON.stringify(args) + "\\n");
 const repo = ${JSON.stringify(repo)};
+const pullRequest = ${JSON.stringify(pullRequest)};
 const head = ${JSON.stringify(headSha)};
 const base = ${JSON.stringify(baseSha)};
 const baseTree = ${JSON.stringify(baseTreeSha)};
@@ -4649,6 +5324,7 @@ const squashTree = ${JSON.stringify(squashTreeSha)};
 const baseBlob = ${JSON.stringify(baseBlobSha)};
 const mergeBlob = ${JSON.stringify(mergeBlobSha)};
 const mergeViews = ${JSON.stringify(mergeViews)};
+const restSnapshots = ${JSON.stringify(restSnapshots)};
 const mergedStatePath = ${JSON.stringify(mergedStatePath)};
 const mergeLogPath = ${JSON.stringify(mergeLogPath)};
 const exactMergeCheckStatePath = ${JSON.stringify(exactMergeCheckStatePath)};
@@ -4681,7 +5357,7 @@ if (args[0] === "repo" && args[1] === "clone") {
   process.exit(0);
 }
 if (args[0] === "pr" && args[1] === "merge") {
-  fs.appendFileSync(mergeLogPath, "123\\n");
+  fs.appendFileSync(mergeLogPath, String(pullRequest) + "\\n");
   fs.writeFileSync(mergedStatePath, "merged");
   process.exit(0);
 }
@@ -4690,7 +5366,7 @@ if (args[0] === "pr" && args[1] === "view") {
   const count = fs.existsSync(counterPath) ? Number(fs.readFileSync(counterPath, "utf8")) : 0;
   fs.writeFileSync(counterPath, String(count + 1));
   const mergeView = Array.isArray(mergeViews) ? mergeViews[Math.min(count, mergeViews.length - 1)] : {};
-  write({ baseRefName: "main", comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeCommit: { oid: isMerged() ? squashCommit : testMerge }, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", mergedAt: isMerged() ? "2026-06-19T00:10:00Z" : null, reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, state: isMerged() ? "MERGED" : "OPEN", statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/123" });
+  write({ baseRefName: "main", baseRefOid: mergeView.baseRefOid ?? base, comments: mergeView.comments ?? ${JSON.stringify(issueComments)}, headRefOid: mergeView.headRefOid ?? head, isDraft: false, mergeStateStatus: mergeView.mergeStateStatus ?? ${JSON.stringify(mergeStateStatus)}, mergeable: mergeView.mergeable ?? "MERGEABLE", mergedAt: isMerged() ? "2026-06-19T00:10:00Z" : null, potentialMergeCommit: mergeView.potentialMergeCommit === null ? null : (mergeView.potentialMergeCommit ?? { oid: testMerge }), reviewDecision: mergeView.reviewDecision ?? "APPROVED", reviews: mergeView.reviews ?? ${JSON.stringify(reviews)}, state: isMerged() ? "MERGED" : "OPEN", statusCheckRollup: mergeView.statusCheckRollup ?? ${JSON.stringify(statusCheckRollup)}, updatedAt: mergeView.updatedAt ?? "2026-06-19T00:00:00Z", url: "https://github.com/openclaw/openclaw/pull/" + pullRequest });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "graphql") {
@@ -4704,11 +5380,11 @@ if (args[0] === "api" && args[1] === "graphql") {
   console.log(JSON.stringify({ data: { repository: { pullRequest: { reviewThreads: { pageInfo: { hasNextPage: false }, nodes: threads } } } } }));
   process.exit(0);
 }
-if (args[0] === "api" && args[1].includes("/pulls/123/comments")) {
+if (args[0] === "api" && args[1].includes("/pulls/" + pullRequest + "/comments")) {
   console.log(JSON.stringify(nextValue("review-comments-count", ${JSON.stringify(reviewComments)}, ${JSON.stringify(finalReviewComments)})));
   process.exit(0);
 }
-if (args[0] === "api" && args[1].includes("/issues/123/comments")) {
+if (args[0] === "api" && args[1].includes("/issues/" + pullRequest + "/comments")) {
   const comments = ${JSON.stringify(issueComments)};
   console.log(JSON.stringify(args.includes("--slurp") ? [comments] : comments));
   process.exit(0);
@@ -4719,7 +5395,12 @@ if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/collaborators/")
     process.stderr.write("fixture collaborator permission failure");
     process.exit(1);
   }
-  write({ permission: collaboratorPermissions[login] ?? "read" });
+  const permissions = collaboratorPermissions[login] ?? "read";
+  write({
+    permission: Array.isArray(permissions)
+      ? nextValue("collaborator-permission-" + login, permissions[0], permissions[1])
+      : permissions,
+  });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "repos/" + repo + "/git/ref/heads/main") {
@@ -4765,7 +5446,7 @@ if (args[0] === "api" && args[1] === "repos/" + repo + "/actions/runs/7071") {
     head_sha: head,
     status: "completed",
     conclusion: "success",
-    pull_requests: [{ number: 123, head: { sha: head }, base: { ref: "main" } }],
+    pull_requests: [{ number: pullRequest, head: { sha: head }, base: { ref: "main" } }],
   });
   process.exit(0);
 }
@@ -4873,22 +5554,28 @@ if (
   });
   process.exit(0);
 }
-if (args[0] === "api" && args[1].endsWith("/issues/123")) {
+if (args[0] === "api" && args[1].endsWith("/issues/" + pullRequest)) {
   const issue = nextValue(
     "issue-state-count",
     { state: "open", updated_at: ${JSON.stringify(issueUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)} },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalIssueUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)} },
   );
-  console.log(JSON.stringify({ number: 123, ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", pull_request: { url: "https://api.github.com/repos/" + repo + "/pulls/123" } }));
+  console.log(JSON.stringify({ number: pullRequest, ...issue, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/" + pullRequest, pull_request: { url: "https://api.github.com/repos/" + repo + "/pulls/" + pullRequest } }));
   process.exit(0);
 }
-if (args[0] === "api" && args[1].endsWith("/pulls/123")) {
+if (args[0] === "api" && args[1].endsWith("/pulls/" + pullRequest)) {
+  const restCounterPath = path.join(${JSON.stringify(root)}, "rest-pull-count");
+  const restCount = fs.existsSync(restCounterPath) ? Number(fs.readFileSync(restCounterPath, "utf8")) : 0;
+  fs.writeFileSync(restCounterPath, String(restCount + 1));
+  const restSnapshot = Array.isArray(restSnapshots)
+    ? restSnapshots[Math.min(restCount, restSnapshots.length - 1)]
+    : {};
   const pull = nextValue(
     "pull-state-count",
     { state: "open", updated_at: ${JSON.stringify(pullUpdatedAt)}, labels: ${JSON.stringify(pullLabels)}, assignees: ${JSON.stringify(pullAssignees)}, headSha: head },
     { state: ${JSON.stringify(finalState)}, updated_at: ${JSON.stringify(finalPullUpdatedAt)}, labels: ${JSON.stringify(finalPullLabels)}, assignees: ${JSON.stringify(finalPullAssignees)}, headSha: ${JSON.stringify(finalHeadSha)} },
   );
-  write({ number: 123, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/123", merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, merge_commit_sha: isMerged() ? squashCommit : testMerge, user: ${JSON.stringify(pullUser)}, head: { sha: pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: base, ref: "main" } });
+  write({ number: pullRequest, ...pull, state: isMerged() ? "closed" : pull.state, draft: false, title: ${JSON.stringify(pullTitle)}, body: ${JSON.stringify(pullBody)}, html_url: "https://github.com/" + repo + "/pull/" + pullRequest, merged_at: isMerged() ? "2026-06-19T00:10:00Z" : null, mergeable: Object.hasOwn(restSnapshot, "mergeable") ? restSnapshot.mergeable : true, mergeable_state: Object.hasOwn(restSnapshot, "mergeable_state") ? restSnapshot.mergeable_state : ${JSON.stringify(mergeStateStatus.toLowerCase())}, merge_commit_sha: isMerged() ? squashCommit : (Object.hasOwn(restSnapshot, "merge_commit_sha") ? restSnapshot.merge_commit_sha : testMerge), user: ${JSON.stringify(pullUser)}, head: { sha: restSnapshot.headSha ?? pull.headSha, ref: "fixture", repo: { full_name: "contributor/openclaw" } }, base: { sha: restSnapshot.baseSha ?? base, ref: "main" } });
   process.exit(0);
 }
 process.stderr.write("unexpected gh command: " + args.join(" "));
@@ -5217,11 +5904,13 @@ if (${JSON.stringify(codexFailure)}) {
     codexVersionEnvPath,
     credentialSentinelPath,
     gitCommandsPath,
+    ghCallsPath,
     headSha,
     jobPath,
     mergeTreeSha,
     mergeLogPath,
     pnpmCommandsPath,
+    pullRequest,
     root,
     runDir,
     hostileHome,
