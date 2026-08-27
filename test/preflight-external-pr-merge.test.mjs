@@ -2495,10 +2495,11 @@ function exactHeadMaintainerDecision({
   pullRequest = 123,
   createdAt = "2026-08-26T22:05:24Z",
   prefix = `Maintainer decision for \`${headSha}\`: accept`,
+  authorAssociation = "MEMBER",
 } = {}) {
   return {
     author: { login: "vincentkoc" },
-    authorAssociation: "MEMBER",
+    authorAssociation,
     isMinimized: false,
     createdAt,
     body: [
@@ -2524,6 +2525,7 @@ function liveRepairOutcomeComment({ id, createdAt, body }) {
 test("external merge preflight accepts the exact #130108 repair-outcome decision sequence", () => {
   const fixture = makeFixture({
     pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
     issueComments: [
       exactHeadReadyReviewComment({ pullRequest: 130108 }),
       liveRepairOutcomeComment({
@@ -2547,6 +2549,7 @@ test("external merge preflight accepts the exact #130108 repair-outcome decision
 test("external merge preflight keeps repeated valid exact-head decisions benign and uses the latest boundary", () => {
   const fixture = makeFixture({
     pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
     issueComments: [
       exactHeadReadyReviewComment({ pullRequest: 130108 }),
       liveRepairOutcomeComment({
@@ -2568,6 +2571,96 @@ test("external merge preflight keeps repeated valid exact-head decisions benign 
   assert.equal(report.status, "passed", report.reason);
 });
 
+test("external merge preflight decision authority accepts stale CONTRIBUTOR association with live admin permission", () => {
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: "admin" },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      exactHeadMaintainerDecision({
+        pullRequest: 130108,
+        authorAssociation: "CONTRIBUTOR",
+      }),
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, permissionOptions] of [
+  ["rejects MEMBER association with live read permission", { collaboratorPermissions: { vincentkoc: "read" } }],
+  ["blocks permission lookup failure", { collaboratorPermissionErrors: ["vincentkoc"] }],
+]) {
+  test(`external merge preflight decision authority ${name}`, () => {
+    const fixture = makeFixture({
+      pullRequest: 130108,
+      ...permissionOptions,
+      issueComments: [
+        exactHeadReadyReviewComment({ pullRequest: 130108 }),
+        liveRepairOutcomeComment({
+          id: "5430046612",
+          createdAt: "2026-08-26T19:24:15Z",
+          body: LIVE_REPAIR_OUTCOME_5430046612,
+        }),
+        exactHeadMaintainerDecision({ pullRequest: 130108 }),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /actionable top-level issue comment/);
+    const ghCalls = fs
+      .readFileSync(fixture.ghCallsPath, "utf8")
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+    assert.equal(ghCalls.some((args) => args[0] === "repo" && args[1] === "clone"), false);
+    assert.equal(fs.existsSync(fixture.codexCloneCountPath), false);
+    assert.equal(fs.existsSync(fixture.codexCountPath), false);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+  });
+}
+
+test("external merge preflight refreshes exact-head decision authority for final blockers", () => {
+  const fixture = makeFixture({
+    pullRequest: 130108,
+    collaboratorPermissions: { vincentkoc: ["admin", "read"] },
+    issueComments: [
+      exactHeadReadyReviewComment({ pullRequest: 130108 }),
+      liveRepairOutcomeComment({
+        id: "5430046612",
+        createdAt: "2026-08-26T19:24:15Z",
+        body: LIVE_REPAIR_OUTCOME_5430046612,
+      }),
+      exactHeadMaintainerDecision({ pullRequest: 130108 }),
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /actionable top-level issue comment/);
+  const permissionCalls = fs
+    .readFileSync(fixture.ghCallsPath, "utf8")
+    .trim()
+    .split("\n")
+    .filter(Boolean)
+    .map((line) => JSON.parse(line))
+    .filter(
+      (args) =>
+        args[0] === "api" &&
+        args[1].includes("/collaborators/vincentkoc/permission"),
+    );
+  assert.equal(permissionCalls.length, 2);
+  assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+});
+
 for (const [name, body] of [
   ["wrong fix target", LIVE_REPAIR_OUTCOME_5430046612.replace("`#130108`: planned", "`#130109`: planned")],
   ["wrong artifact target", LIVE_REPAIR_OUTCOME_5430046612.replace("`cluster:automerge-openclaw-openclaw-130108`: planned", "`cluster:wrong`: planned")],
@@ -2579,6 +2672,7 @@ for (const [name, body] of [
   test(`external merge preflight keeps repair outcome with ${name} blocking`, () => {
     const fixture = makeFixture({
       pullRequest: 130108,
+      collaboratorPermissions: { vincentkoc: "admin" },
       issueComments: [
         exactHeadReadyReviewComment({ pullRequest: 130108 }),
         liveRepairOutcomeComment({
@@ -2619,6 +2713,7 @@ for (const [name, objection] of [
     );
     const fixture = makeFixture({
       pullRequest: 130108,
+      collaboratorPermissions: { vincentkoc: "admin" },
       issueComments: [
         exactHeadReadyReviewComment({ pullRequest: 130108 }),
         liveRepairOutcomeComment({
@@ -2695,7 +2790,12 @@ for (const [name, comments] of [
   ],
 ]) {
   test(`external merge preflight keeps ${name} blocking`, () => {
-    const { report } = runPreflightFixture(makeFixture({ issueComments: comments }));
+    const { report } = runPreflightFixture(
+      makeFixture({
+        collaboratorPermissions: { vincentkoc: "admin" },
+        issueComments: comments,
+      }),
+    );
     assert.equal(report.status, "blocked");
     assert.match(report.reason, /actionable top-level issue comment/);
   });
@@ -2711,6 +2811,7 @@ for (const [name, concern, reason] of [
 ]) {
   test(`external merge preflight never supersedes a repair outcome with ${name}`, () => {
     const fixture = makeFixture({
+      collaboratorPermissions: { vincentkoc: "admin" },
       issueComments: [
         exactHeadReadyReviewComment(),
         repairOutcomeComment({
@@ -5255,7 +5356,12 @@ if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/collaborators/")
     process.stderr.write("fixture collaborator permission failure");
     process.exit(1);
   }
-  write({ permission: collaboratorPermissions[login] ?? "read" });
+  const permissions = collaboratorPermissions[login] ?? "read";
+  write({
+    permission: Array.isArray(permissions)
+      ? nextValue("collaborator-permission-" + login, permissions[0], permissions[1])
+      : permissions,
+  });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "repos/" + repo + "/git/ref/heads/main") {

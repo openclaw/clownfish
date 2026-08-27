@@ -765,8 +765,8 @@ function readOnlyBlockers({
   reviewComments: hydratedReviewComments = null,
   threads: hydratedThreads = null,
 }) {
-  const blockers = [];
-  if (view?.snapshotBlockReason) blockers.push(view.snapshotBlockReason);
+  collaboratorPermissionCache.clear();
+  const blockers = view?.snapshotBlockReason ? [view.snapshotBlockReason] : [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
   const trustedExactHeadDecision = trustedExactHeadDecisionState(issueComments, { pull, view });
@@ -2679,9 +2679,9 @@ function isMaintainerDecisionApprovalComment(
 ) {
   const association = String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase();
   const body = String(comment.body ?? "").trim().toLowerCase();
-  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
   if (isExactHeadMaintainerDecision(comment, { pull, view }))
     return commentTimestamp(comment) > (trustedExactHeadDecision?.reviewAt ?? Number.POSITIVE_INFINITY);
+  if (!["MEMBER", "OWNER", "COLLABORATOR"].includes(association)) return false;
   return (
     Number.isFinite(trustedAuthorProgressApprovalAt) &&
     /^maintainer decision:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/.test(body) &&
@@ -2693,10 +2693,10 @@ function isMaintainerDecisionApprovalComment(
 function isExactHeadMaintainerDecision(comment, { pull, view = null }) {
   const body = String(comment.body ?? "").trim().toLowerCase();
   return (
-    ["MEMBER", "OWNER", "COLLABORATOR"].includes(String(comment.author_association ?? comment.authorAssociation ?? "").toUpperCase()) &&
     body.match(/^maintainer decision for `([0-9a-f]{40})`:\s*(?:accept(?:ed|ing)?|approv(?:ed|ing)?)\b/)?.[1] === String(pull?.head?.sha ?? "").toLowerCase() &&
     /\bno (?:branch )?repair,\s*(?:no )?rebase,\s*(?:or|and)\s*(?:no )?replacement (?:pr|pull request)(?: is)? requested\b/.test(body) &&
-    !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view })
+    !isAuthorObjectionComment(body) && !hasExplicitMergeObjection(body, { view }) &&
+    MAINTAINER_REPOSITORY_PERMISSIONS.has(fetchCollaboratorPermission(String(comment.user?.login ?? comment.author?.login ?? "").toLowerCase()))
   );
 }
 
