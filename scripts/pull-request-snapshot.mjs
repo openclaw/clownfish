@@ -27,6 +27,7 @@ function reconcile(pull, view) {
   const restMerge = optionalSha(pull?.merge_commit_sha);
   const graphMerge = optionalSha(view?.potentialMergeCommit?.oid);
   if (restMerge.invalid || graphMerge.invalid) return result(view, "REST or GraphQL test merge SHA is invalid", false, true);
+  if (Boolean(restMerge.sha) !== Boolean(graphMerge.sha)) return result(view, "REST and GraphQL test merge SHA availability differs", true);
   if (restMerge.sha && graphMerge.sha && restMerge.sha !== graphMerge.sha) return result(view, `test merge differs between REST ${restMerge.sha} and GraphQL ${graphMerge.sha}`, true);
   return result({ ...view, mergeable: graphMergeable === "UNKNOWN" ? restMergeable : graphMergeable,
     mergeStateStatus: graphState === "UNKNOWN" ? restState : graphState });

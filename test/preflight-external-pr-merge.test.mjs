@@ -1484,6 +1484,32 @@ test("external merge preflight blocks REST/GraphQL test merge disagreement", () 
   assert.match(report.reason, /test merge.*REST.*GraphQL|REST.*GraphQL.*test merge/i);
 });
 
+for (const [name, restMerge, graphMerge] of [
+  ["REST present and GraphQL absent", "7".repeat(40), null],
+  ["REST absent and GraphQL present", null, { oid: "7".repeat(40) }],
+]) {
+  test(`external merge preflight blocks test merge SHA availability mismatch with ${name}`, () => {
+    const fixture = makeFixture({
+      restSnapshots: [{ merge_commit_sha: restMerge }],
+      mergeViews: [{ potentialMergeCommit: graphMerge }],
+    });
+    const { report, result } = runPreflightFixture(fixture, {
+      CLOWNFISH_MERGEABLE_POLL_ATTEMPTS: "2",
+      CLOWNFISH_MERGEABLE_POLL_DELAY_MS: "0",
+    });
+
+    assert.equal(report.status, "blocked");
+    assert.equal(report.reason, "REST and GraphQL test merge SHA availability differs");
+    assert.deepEqual(snapshotCallKinds(fixture.ghCallsPath), [
+      "rest",
+      "graphql",
+      "rest",
+      "graphql",
+    ]);
+    assert.deepEqual(result.actions, []);
+  });
+}
+
 for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
   test(`external merge preflight accepts ${mergeStateStatus.toLowerCase()} state for exact review`, () => {
     const fixture = makeFixture({

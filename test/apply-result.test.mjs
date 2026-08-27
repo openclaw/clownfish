@@ -2177,6 +2177,57 @@ test("apply-result blocks persistent REST/GraphQL head identity mismatch", () =>
   assert.equal(readCallLog(callLogPath).some((args) => args.slice(0, 2).join(" ") === "pr merge"), false);
 });
 
+for (const [name, restMerge, graphMerge] of [
+  ["REST present and GraphQL absent", TEST_MERGE_SHA, null],
+  ["REST absent and GraphQL present", null, { oid: TEST_MERGE_SHA }],
+]) {
+  test(`apply-result blocks test merge SHA availability mismatch with ${name}`, () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+    const binDir = path.join(tmp, "bin");
+    const callLogPath = path.join(tmp, "gh-calls.jsonl");
+    const mergeStatePath = path.join(tmp, "merge-state");
+    fs.mkdirSync(binDir, { recursive: true });
+    fs.writeFileSync(callLogPath, "");
+    writeReadyMergeGhStub(binDir, {
+      headSha: EXPECTED_HEAD_SHA,
+      externalBinding: true,
+      restSnapshots: [{ merge_commit_sha: restMerge }],
+      mergeViews: [{ potentialMergeCommit: graphMerge }],
+    });
+
+    const jobPath = path.join(tmp, "job.md");
+    const resultPath = path.join(tmp, "result.json");
+    const reportPath = path.join(tmp, "apply-report.json");
+    fs.writeFileSync(jobPath, mergeJobMarkdown());
+    fs.writeFileSync(resultPath, `${JSON.stringify(mergeResultJson({ externalBinding: true }), null, 2)}\n`);
+
+    const result = apply(jobPath, resultPath, reportPath, binDir, {
+      dryRun: false,
+      allowMerge: true,
+      callLogPath,
+      mergeStatePath,
+      env: {
+        CLOWNFISH_APPLY_MERGEABLE_POLL_ATTEMPTS: "2",
+        CLOWNFISH_APPLY_MERGEABLE_POLL_DELAY_MS: "0",
+      },
+    });
+
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.actions[0].status, "blocked");
+    assert.equal(report.actions[0].reason, "REST and GraphQL test merge SHA availability differs");
+    const calls = readCallLog(callLogPath);
+    const snapshotCalls = calls.flatMap((args) => {
+      if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/60063") return ["rest"];
+      if (args[0] === "pr" && args[1] === "view" && args[2] === "60063") return ["graphql"];
+      return [];
+    });
+    assert.deepEqual(snapshotCalls, ["rest", "graphql", "rest", "graphql"]);
+    assert.equal(calls.some((args) => args.slice(0, 2).join(" ") === "pr merge"), false);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+  });
+}
+
 test("apply-result allows unstable merge state when latest checks are clean", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
