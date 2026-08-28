@@ -100,9 +100,9 @@ jobs:
       may_merge: ${{ steps.plan.outputs.may_merge }}
       target_repo: ${{ steps.plan.outputs.target_repo }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -287,7 +287,7 @@ jobs:
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
       OPENCLAW_LOCAL_CHECK: "0"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Create GitHub App token
         id: app_token
@@ -310,12 +310,12 @@ jobs:
             echo "allow_merge=${CLOWNFISH_ALLOW_MERGE}"
           } >> "$GITHUB_OUTPUT"
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 
       - name: Cache Codex CLI and npm downloads
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ~/.npm
@@ -482,7 +482,7 @@ jobs:
       OPENCLAW_LOCAL_CHECK: "0"
       CLOWNFISH_READ_GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Create GitHub App token
         id: app_token
@@ -546,12 +546,12 @@ jobs:
           echo "no GitHub token could reach repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw"
           exit 1
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 
       - name: Cache Codex CLI, npm, and target pnpm downloads
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ~/.npm
@@ -652,7 +652,7 @@ jobs:
       CLOWNFISH_APP_ID: ${{ vars.CLOWNFISH_APP_ID }}
       CLOWNFISH_READ_GH_TOKEN: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Create GitHub App token
         id: app_token
@@ -726,7 +726,7 @@ jobs:
           echo "no GitHub token could reach repos/${CLOWNFISH_ALLOWED_OWNER}/openclaw"
           exit 1
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 

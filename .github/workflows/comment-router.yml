@@ -60,7 +60,7 @@ jobs:
       merge_since: ${{ steps.route.outputs.merge_since }}
       merge_comment_ids: ${{ steps.route.outputs.merge_comment_ids }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -77,7 +77,7 @@ jobs:
           permission-issues: write
           permission-pull-requests: write
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -223,7 +223,7 @@ jobs:
       cancel-in-progress: false
       queue: max
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
@@ -246,7 +246,7 @@ jobs:
           permission-issues: write
           permission-pull-requests: write
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 

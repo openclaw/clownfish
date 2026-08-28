@@ -41,9 +41,9 @@ jobs:
       preflight_passed: ${{ steps.outcome.outputs.preflight_passed }}
       target_repo: ${{ steps.outcome.outputs.target_repo }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v7
         with:
           node-version: "24"
 
@@ -59,7 +59,7 @@ jobs:
           sudo apparmor_parser -r /etc/apparmor.d/bwrap-userns-restrict
 
       - name: Cache Codex CLI and npm downloads
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ~/.npm
@@ -156,7 +156,7 @@ jobs:
       cancel-in-progress: false
       queue: max
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - name: Download preflight artifact
         uses: actions/download-artifact@v8
