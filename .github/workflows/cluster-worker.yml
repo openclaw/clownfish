@@ -282,6 +282,8 @@ jobs:
       CLOWNFISH_MAX_LINKED_REFS: ${{ needs.prepare.outputs.max_linked_refs != '' && needs.prepare.outputs.max_linked_refs || vars.CLOWNFISH_MAX_LINKED_REFS || '20' }}
       CLOWNFISH_MAX_REVIEW_COMMENTS_PER_PR: ${{ needs.prepare.outputs.max_review_comments_per_pr != '' && needs.prepare.outputs.max_review_comments_per_pr || vars.CLOWNFISH_MAX_REVIEW_COMMENTS_PER_PR || '50' }}
       CLOWNFISH_CODEX_TIMEOUT_MS: ${{ vars.CLOWNFISH_CODEX_TIMEOUT_MS || '1800000' }}
+      CLOWNFISH_PLANNER_TIMEOUT_MS: ${{ vars.CLOWNFISH_PLANNER_TIMEOUT_MS || '600000' }}
+      CLOWNFISH_REVIEW_TIMEOUT_MS: ${{ vars.CLOWNFISH_REVIEW_TIMEOUT_MS || '600000' }}
       CLOWNFISH_CODEX_REASONING_EFFORT: ${{ vars.CLOWNFISH_CODEX_REASONING_EFFORT || 'medium' }}
       CLOWNFISH_MODEL: ${{ needs.prepare.outputs.model }}
       CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}

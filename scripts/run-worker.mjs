@@ -22,6 +22,8 @@ const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5";
 const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 30 * 60 * 1000);
 const resultRepairAttempts = Math.max(0, Number(process.env.CLOWNFISH_RESULT_REPAIR_ATTEMPTS ?? 1));
 const resultRepairTimeoutMs = Number(process.env.CLOWNFISH_RESULT_REPAIR_TIMEOUT_MS ?? 10 * 60 * 1000);
+const plannerTimeoutMs = parsePositiveIntegerEnv(process.env.CLOWNFISH_PLANNER_TIMEOUT_MS, 10 * 60 * 1000);
+const reviewTimeoutMs = parsePositiveIntegerEnv(process.env.CLOWNFISH_REVIEW_TIMEOUT_MS, 10 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
 const codexServiceTier = String(process.env.CLOWNFISH_CODEX_SERVICE_TIER ?? "fast").trim();
 const codexStdoutMaxBufferBytes = parsePositiveIntegerEnv(
@@ -76,26 +78,17 @@ if (targetCheckout.path) {
   promptContext.targetCheckoutRepo = job.frontmatter.repo;
 }
 
-if (!dryRun) {
+if (!dryRun || mode === "autonomous") {
   const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir];
+  if (dryRun) plannerArgs.push("--offline");
   const planner = spawnSync(process.execPath, plannerArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
     env: process.env,
+    timeout: plannerTimeoutMs,
+    killSignal: "SIGKILL",
   });
-  if (planner.status !== 0) {
-    console.error(planner.stderr || planner.stdout);
-    process.exit(planner.status ?? 1);
-  }
-  promptContext.clusterPlanPath = path.join(runDir, "cluster-plan.json");
-  promptContext.fixArtifactPath = path.join(runDir, "fix-artifact.json");
-} else if (mode === "autonomous") {
-  const plannerArgs = ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir, "--offline"];
-  const planner = spawnSync(process.execPath, plannerArgs, {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    env: process.env,
-  });
+  exitOnStepTimeout(planner, "Cluster planner", plannerTimeoutMs);
   if (planner.status !== 0) {
     console.error(planner.stderr || planner.stdout);
     process.exit(planner.status ?? 1);
@@ -274,11 +267,27 @@ function repairResultIfNeeded() {
 
 function reviewResult() {
   normalizeResultMetadata();
-  return spawnSync(process.execPath, ["scripts/review-results.mjs", runDir], {
+  const review = spawnSync(process.execPath, ["scripts/review-results.mjs", runDir], {
     cwd: repoRoot(),
     encoding: "utf8",
     env: process.env,
+    timeout: reviewTimeoutMs,
+    killSignal: "SIGKILL",
   });
+  exitOnStepTimeout(review, "Result review", reviewTimeoutMs);
+  return review;
+}
+
+function exitOnStepTimeout(child, stage, timeoutMs) {
+  if (child.error?.code !== "ETIMEDOUT") return;
+  // Preserve diagnostic output without leaving unvalidated actions in result.json.
+  if (fs.existsSync(resultPath)) {
+    fs.renameSync(resultPath, path.join(runDir, "result.before-timeout.json"));
+  }
+  const summary = `${stage} timed out after ${timeoutMs}ms`;
+  writeBlockedResult(summary);
+  console.error(summary);
+  process.exit(0);
 }
 
 function normalizeResultMetadata() {
