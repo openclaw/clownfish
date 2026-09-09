@@ -565,6 +565,9 @@ jobs:
             ${{ runner.os }}-node24-codex-${{ env.CODEX_CLI_VERSION }}-target-pnpm-
             ${{ runner.os }}-node24-codex-
 
+      - name: Install project dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
       - name: Install Codex CLI
         run: |
           set -euo pipefail
