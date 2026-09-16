@@ -494,6 +494,10 @@ including download and parse failures. Artifact downloads have a two-minute
 deadline; set `CLOWNFISH_REQUEUE_DOWNLOAD_TIMEOUT_MS` to a positive integer
 number of milliseconds for larger downloads. Invalid values use the default.
 
+Fix execution removes its automatically created workspace when the process exits,
+after copying report diagnostics. An explicit `--work-dir` remains owned by the
+operator and is retained, as is a separately supplied `--target-dir`.
+
 ```bash
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done
