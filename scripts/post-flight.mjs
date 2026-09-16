@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { execFileSyncWithTimeout } from "./lib.mjs";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
 import {
@@ -528,7 +528,7 @@ function ghWithRetry(ghArgs, attempts = 6) {
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     try {
-      return execFileSync("gh", ghArgs, {
+      return execFileSyncWithTimeout("gh", ghArgs, {
         cwd: repoRoot(),
         encoding: "utf8",
         env,
@@ -537,7 +537,7 @@ function ghWithRetry(ghArgs, attempts = 6) {
       }).trim();
     } catch (error) {
       lastError = error;
-      if (!shouldRetryGh(error) || attempt === attempts - 1) throw error;
+      if (error.code === "ETIMEDOUT" || !shouldRetryGh(error) || attempt === attempts - 1) throw error;
       sleepMs(Math.min(120_000, 10_000 * 2 ** attempt));
     }
   }

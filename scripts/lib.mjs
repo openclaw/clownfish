@@ -15,6 +15,55 @@ const DEFAULT_CAPACITY_POLL_MS = 30_000;
 const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
 const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];
 
+export function subprocessTimeoutMs(value = process.env.CLOWNFISH_GH_EXEC_TIMEOUT_MS) {
+  const parsed = Number(value);
+  return Number.isSafeInteger(parsed) && parsed > 0 && parsed <= 2 ** 31 - 1 ? parsed : 120_000;
+}
+
+function subprocessOptions({ deadline = Infinity, ...options } = {}) {
+  const remaining = deadline - Date.now();
+  if (remaining <= 0) {
+    throw Object.assign(new Error("subprocess deadline exceeded"), { code: "ETIMEDOUT" });
+  }
+  return {
+    ...options, timeout: Math.min(subprocessTimeoutMs(options.timeout), remaining),
+    killSignal: "SIGKILL", detached: process.platform !== "win32",
+  };
+}
+
+function terminateTimedOutGroup(child) {
+  if (child.error?.code !== "ETIMEDOUT" || process.platform === "win32" || !child.pid) return;
+  try {
+    process.kill(-child.pid, "SIGKILL");
+  } catch (error) {
+    if (error.code !== "ESRCH") throw error;
+  }
+}
+
+export function execFileSyncWithTimeout(command, args, options = {}) {
+  const bounded = subprocessOptions(options);
+  try {
+    return execFileSync(command, args, bounded);
+  } catch (error) {
+    if (error.code === "ETIMEDOUT") {
+      terminateTimedOutGroup({ error, pid: error.pid });
+      error.message = `${path.basename(command)} timed out after ${bounded.timeout}ms`;
+    }
+    throw error;
+  }
+}
+
+export function spawnSyncWithTimeout(command, args, options = {}) {
+  const bounded = subprocessOptions(options);
+  const child = spawnSync(command, args, bounded);
+  terminateTimedOutGroup(child);
+  if (child.error?.code === "ETIMEDOUT") {
+    child.error.message = `${path.basename(command)} timed out after ${bounded.timeout}ms`;
+    child.stderr = `${child.stderr ?? ""}${child.error.message}\n`;
+  }
+  return child;
+}
+
 export function repoRoot() {
   return path.resolve(import.meta.dirname, "..");
 }
@@ -44,11 +93,12 @@ export function liveWorkerCapacity({
   workflow = "cluster-worker.yml",
   requested = 1,
   maxLiveWorkers = DEFAULT_MAX_LIVE_WORKERS,
-  ghCommand = defaultGhCommand(),
+  ghCommand,
+  deadline = Infinity,
 } = {}) {
   const requestedCount = readNonNegativeInteger(requested, "requested");
   const max = readPositiveInteger(maxLiveWorkers, "max-live-workers");
-  const activeRuns = listActiveWorkflowRuns({ repo, workflow, ghCommand });
+  const activeRuns = listActiveWorkflowRuns({ repo, workflow, ghCommand, deadline });
   return {
     repo,
     workflow,
@@ -95,9 +145,11 @@ export function waitForLiveWorkerCapacity(options = {}) {
   let latest = null;
 
   while (Date.now() <= deadline) {
-    latest = liveWorkerCapacity(options);
-    if (latest.requested <= latest.max_live_workers && latest.active + latest.requested <= latest.max_live_workers) {
-      return latest;
+    try {
+      latest = liveWorkerCapacity({ ...options, deadline });
+      if (Date.now() < deadline && latest.active + latest.requested <= latest.max_live_workers) return latest;
+    } catch (error) {
+      if (error.code !== "ETIMEDOUT") throw error;
     }
     sleepMs(Math.min(pollMs, Math.max(1, deadline - Date.now())));
   }
@@ -110,8 +162,10 @@ export function waitForLiveWorkerCapacity(options = {}) {
 export function listActiveWorkflowRuns({
   repo = currentProjectRepo(),
   workflow = "cluster-worker.yml",
-  ghCommand = defaultGhCommand(),
+  ghCommand,
+  deadline = Infinity,
 } = {}) {
+  ghCommand ??= defaultGhCommand({ deadline });
   const runs = [];
   for (const status of ACTIVE_WORKFLOW_STATUSES) {
     const workflowPages = ghJson(
@@ -127,7 +181,7 @@ export function listActiveWorkflowRuns({
         "--paginate",
         "--slurp",
       ],
-      { ghCommand },
+      { ghCommand, deadline },
     );
     const workflowRuns = workflowPages.flatMap((page) => page.workflow_runs ?? []);
     if (Array.isArray(workflowRuns)) runs.push(...workflowRuns.map((run) => normalizeWorkflowRun(run, status)));
@@ -159,10 +213,11 @@ function ghJson(ghArgs, options = {}) {
   return JSON.parse(stripAnsi(text) || "null");
 }
 
-function ghRaw(ghArgs, { ghCommand = defaultGhCommand() } = {}) {
+function ghRaw(ghArgs, { ghCommand, deadline = Infinity } = {}) {
   const env = { ...process.env, NO_COLOR: "1", CLICOLOR: "0" };
   delete env.FORCE_COLOR;
-  return execFileSync(ghCommand, ghArgs, {
+  return execFileSyncWithTimeout(ghCommand ?? defaultGhCommand({ deadline }), ghArgs, {
+    deadline,
     cwd: repoRoot(),
     env,
     encoding: "utf8",
@@ -171,13 +226,14 @@ function ghRaw(ghArgs, { ghCommand = defaultGhCommand() } = {}) {
   });
 }
 
-function defaultGhCommand() {
-  return process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"]);
+function defaultGhCommand(options = {}) {
+  return process.env.CLOWNFISH_GH_BIN ?? firstAvailableCommand(["ghx", "gh"], options);
 }
 
-function firstAvailableCommand(commands) {
+function firstAvailableCommand(commands, options = {}) {
   for (const command of commands) {
-    const result = spawnSync(command, ["--version"], { cwd: repoRoot(), stdio: "ignore" });
+    const result = spawnSyncWithTimeout(command, ["--version"], { cwd: repoRoot(), stdio: "ignore", ...options });
+    if (result.error?.code === "ETIMEDOUT") throw result.error;
     if (result.status === 0) return command;
   }
   return commands.at(-1);

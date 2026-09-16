@@ -109,3 +109,20 @@ test("appendLedger never downgrades an executed command to skipped", () => {
   assert.equal(ledger.commands.length, 1);
   assert.equal(ledger.commands[0].status, "executed");
 });
+
+test("appendLedger retains unknown timeout outcomes without claiming execution", () => {
+  const ledger = { commands: [] };
+  appendLedger(ledger, [{
+    idempotency_key: "timeout-1", comment_id: "1", comment_version_key: "1:updated",
+    status: "unknown", reason: "dispatch timed out; verify remote outcome",
+  }]);
+  assert.equal(ledger.commands.length, 1);
+  assert.equal(ledger.commands[0].status, "unknown");
+  assert.match(ledger.commands[0].reason, /verify remote outcome/);
+  appendLedger(ledger, [{
+    idempotency_key: "timeout-1", comment_id: "1", comment_version_key: "1:updated",
+    status: "skipped", reason: "comment version already processed",
+  }]);
+  assert.equal(ledger.commands[0].status, "unknown");
+  assert.match(ledger.commands[0].reason, /verify remote outcome/);
+});

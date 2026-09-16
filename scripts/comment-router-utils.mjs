@@ -28,7 +28,7 @@ export function readLedger(file) {
 
 export function appendLedger(current, entries) {
   const compact = entries
-    .filter((entry) => ["executed", "skipped"].includes(entry.status))
+    .filter((entry) => ["executed", "skipped", "unknown"].includes(entry.status))
     .map((entry) => ({
       idempotency_key: entry.idempotency_key,
       comment_id: entry.comment_id,
@@ -50,6 +50,7 @@ export function appendLedger(current, entries) {
       expected_head_sha: entry.expected_head_sha ?? null,
       finding_id: entry.finding_id ?? null,
       status: entry.status,
+      ...(entry.reason ? { reason: entry.reason } : {}),
       processed_at: new Date().toISOString(),
       target: entry.target
         ? {
@@ -66,6 +67,7 @@ export function appendLedger(current, entries) {
     const key = ledgerEntryKey(entry);
     const previous = byCommentVersion.get(key);
     if (previous?.status === "executed" && entry.status !== "executed") continue;
+    if (previous?.status === "unknown" && entry.status === "skipped") continue;
     byCommentVersion.set(key, entry);
   }
   current.updated_at = new Date().toISOString();

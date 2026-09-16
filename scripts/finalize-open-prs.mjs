@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { execFileSyncWithTimeout } from "./lib.mjs";
 import {
   assertLiveWorkerCapacity,
   currentProjectRepo,
@@ -504,7 +504,7 @@ function selectDispatchCandidates(openPrs) {
     allowRepeat
       ? []
       : readDispatchLedger().attempts
-          ?.filter((attempt) => attempt.status === "dispatched")
+          ?.filter((attempt) => ["pending", "dispatched", "unknown"].includes(attempt.status))
           .map((attempt) => attempt.idempotency_key)
           .filter(Boolean) ?? [],
   );
@@ -605,10 +605,19 @@ function executeDispatches(candidates, dispatchSummary) {
       dispatched_at: new Date().toISOString(),
       status: "pending",
     };
-    dispatchRepair(candidate);
-    attempt.status = "dispatched";
     summary.attempts.push(attempt);
     ledger.attempts.push(attempt);
+    writeDispatchLedger(ledger);
+    try {
+      dispatchRepair(candidate);
+      attempt.status = "dispatched";
+    } catch (error) {
+      attempt.status = error.code === "ETIMEDOUT" ? "unknown" : "failed";
+      attempt.reason = error.message;
+      throw error;
+    } finally {
+      writeDispatchLedger(ledger);
+    }
   }
   writeDispatchLedger(ledger);
   summary.status = "dispatched";
@@ -616,7 +625,7 @@ function executeDispatches(candidates, dispatchSummary) {
 }
 
 function dispatchRepair(candidate) {
-  execFileSync(
+  execFileSyncWithTimeout(
     "gh",
     [
       "workflow",
@@ -805,7 +814,7 @@ function escapeRegExp(value) {
 }
 
 function ghJson(ghArgs) {
-  const text = execFileSync("gh", ghArgs, {
+  const text = execFileSyncWithTimeout("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
     env: ghEnv(),

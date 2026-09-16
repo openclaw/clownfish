@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSyncWithTimeout, spawnSyncWithTimeout } from "./lib.mjs";
 import {
   assertLiveWorkerCapacity,
   currentProjectRepo,
@@ -264,7 +264,17 @@ if (execute) {
       ? waitForLiveWorkerCapacity({ repo: clownfishRepo, workflow, requested: dispatchCount, maxLiveWorkers })
       : assertLiveWorkerCapacity({ repo: clownfishRepo, workflow, requested: dispatchCount, maxLiveWorkers });
   }
-  for (const command of actionable) executeCommand(command);
+  for (const command of actionable) {
+    try {
+      executeCommand(command);
+    } catch (error) {
+      if (error.code !== "ETIMEDOUT") throw error;
+      command.status = "unknown";
+      command.reason = `${error.message}; verify the remote outcome before submitting a new command`;
+      appendLedger(ledger, commands);
+      writeLedger(ledgerPath(), ledger);
+    }
+  }
   appendLedger(
     ledger,
     commands.filter((command) => command.status !== "deferred"),
@@ -583,11 +593,11 @@ function autoRepairAlreadyPlanned(command) {
       entry.repo === command.repo &&
       Number(entry.issue_number) === Number(command.issue_number) &&
       entry.intent === "clawsweeper_auto_repair" &&
-      entry.status === "executed" &&
+      ["executed", "unknown"].includes(entry.status) &&
       isAfterResumeBoundary(entry, resumeBoundary),
   );
   if (priorPrDispatches.length >= maxAutoRepairsPerPr) {
-    return `ClawSweeper auto repair already dispatched ${priorPrDispatches.length} total time(s) for this PR`;
+    return `ClawSweeper auto repair already attempted ${priorPrDispatches.length} total time(s) for this PR`;
   }
 
   if (plannedAutoRepairHeads.has(headKey)) {
@@ -599,12 +609,12 @@ function autoRepairAlreadyPlanned(command) {
       entry.repo === command.repo &&
       Number(entry.issue_number) === Number(command.issue_number) &&
       entry.intent === "clawsweeper_auto_repair" &&
-      entry.status === "executed" &&
+      ["executed", "unknown"].includes(entry.status) &&
       entry.target?.head_sha === command.target?.head_sha &&
       isAfterResumeBoundary(entry, resumeBoundary),
   );
   if (priorDispatches.length >= maxAutoRepairsPerHead) {
-    return `ClawSweeper auto repair already dispatched ${priorDispatches.length} time(s) for this PR head`;
+    return `ClawSweeper auto repair already attempted ${priorDispatches.length} time(s) for this PR head`;
   }
 
   plannedAutoRepairHeads.add(headKey);
@@ -815,7 +825,7 @@ function dispatchClawSweeperReview(command) {
       item_kind: "pull_request",
     },
   });
-  const result = spawnSync(
+  const result = spawnSyncWithTimeout(
     "gh",
     [
       "api",
@@ -837,8 +847,9 @@ function dispatchClawSweeperReview(command) {
       stdio: "pipe",
     },
   );
+  if (result.error?.code === "ETIMEDOUT") throw result.error;
   if (result.status !== 0) {
-    const fallback = spawnSync(
+    const fallback = spawnSyncWithTimeout(
       "gh",
       [
         "workflow",
@@ -868,6 +879,7 @@ function dispatchClawSweeperReview(command) {
         stdio: "pipe",
       },
     );
+    if (fallback.error?.code === "ETIMEDOUT") throw fallback.error;
     if (fallback.status !== 0) {
       throw new Error(
         `failed to dispatch ClawSweeper review for #${command.issue_number}: repository_dispatch=${
@@ -892,7 +904,7 @@ function dispatchClawSweeperReview(command) {
 }
 
 function dispatchRepair(command) {
-  const result = spawnSync(
+  const result = spawnSyncWithTimeout(
     "gh",
     [
       "workflow",
@@ -913,6 +925,7 @@ function dispatchRepair(command) {
     ],
     { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
   );
+  if (result.error?.code === "ETIMEDOUT") throw result.error;
   if (result.status !== 0) {
     throw new Error(`failed to dispatch ${command.target.job_path}: ${result.stderr || result.stdout}`);
   }
@@ -1085,7 +1098,7 @@ function executeAutomerge(command) {
     ghBestEffort(["issue", "edit", String(command.issue_number), "--repo", command.repo, "--add-label", label]);
     return { action: "merge", status: "blocked", reason: gateBlock, merge_method: "squash" };
   }
-  const result = spawnSync(
+  const result = spawnSyncWithTimeout(
     "gh",
     buildAutomergeMergeArgs({
       issueNumber: command.issue_number,
@@ -1099,11 +1112,12 @@ function executeAutomerge(command) {
       stdio: "pipe",
     },
   );
+  if (result.error?.code === "ETIMEDOUT") throw result.error;
   if (result.status !== 0) {
     return {
       action: "merge",
       status: "blocked",
-      reason: `merge command failed: ${stripAnsi(result.stderr || result.stdout).trim()}`,
+      reason: `merge command did not confirm success: ${stripAnsi(result.stderr || result.stdout).trim()}`,
       merge_method: "squash",
     };
   }
@@ -1514,7 +1528,7 @@ function ghPaged(apiPath) {
 }
 
 function ghText(ghArgs) {
-  const text = execFileSync("gh", ghArgs, {
+  const text = execFileSyncWithTimeout("gh", ghArgs, {
     cwd: repoRoot(),
     env: ghEnv(),
     encoding: "utf8",

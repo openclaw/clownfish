@@ -498,6 +498,18 @@ Fix execution removes its automatically created workspace when the process exits
 after copying report diagnostics. An explicit `--work-dir` remains owned by the
 operator and is retained, as is a separately supplied `--target-dir`.
 
+GitHub CLI inspection, dispatch, routing, apply, and finalization calls, along
+with the backlog probe's Git commands, have a two-minute child deadline.
+`CLOWNFISH_GH_EXEC_TIMEOUT_MS` sets a positive integer duration in milliseconds
+(up to 2,147,483,647); invalid values use the default. Capacity queries share
+the remaining wait deadline, and backlog waiting includes its initial probe.
+A backlog timeout blocks dispatch. Read-only secret/variable inspection reports
+unavailable metadata through the existing warning path.
+
+Timed-out writes are not automatically retried. Dispatch, router, and finalizer ledgers
+retain unknown outcomes; verify GitHub state before submitting a new command
+or using the finalizer's explicit `--allow-repeat` option.
+
 ```bash
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done

@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { execFileSyncWithTimeout } from "./lib.mjs";
 import { createHash } from "node:crypto";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { defaultCloseComment, externalMessageProvenance } from "./external-messages.mjs";
@@ -1252,7 +1253,7 @@ function labelForClownfishReview(repo, target) {
 
 function ensureLabel(repo, name, color, description) {
   try {
-    execFileSync("gh", ["label", "create", name, "--repo", repo, "--color", color, "--description", description], {
+    execFileSyncWithTimeout("gh", ["label", "create", name, "--repo", repo, "--color", color, "--description", description], {
       cwd: repoRoot(),
       encoding: "utf8",
       env: process.env,
@@ -3115,7 +3116,7 @@ function ghWithRetry(ghArgs, attempts = 6, env = githubCliEnv()) {
       return ghOnce(ghArgs, env);
     } catch (error) {
       lastError = error;
-      if (!shouldRetryGh(error) || attempt === attempts - 1) throw error;
+      if (error.code === "ETIMEDOUT" || !shouldRetryGh(error) || attempt === attempts - 1) throw error;
       const baseDelayMs = positiveInteger(process.env.CLOWNFISH_GH_RETRY_BASE_MS, 10_000);
       sleepMs(Math.min(120_000, baseDelayMs * 2 ** attempt));
     }
@@ -3124,7 +3125,7 @@ function ghWithRetry(ghArgs, attempts = 6, env = githubCliEnv()) {
 }
 
 function ghOnce(ghArgs, env = githubCliEnv()) {
-  return execFileSync("gh", ghArgs, {
+  return execFileSyncWithTimeout("gh", ghArgs, {
     cwd: repoRoot(),
     encoding: "utf8",
     env,
