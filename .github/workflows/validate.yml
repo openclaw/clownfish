@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Install project dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
       - name: Validate job specs
         run: npm run validate
 
