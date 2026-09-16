@@ -2349,7 +2349,7 @@ for (const outcome of ["validation-block", "write-block", "exception", "no-chang
     if (outcome === "validation-block" || outcome === "operator-work-dir") {
       fs.writeFileSync(path.join(fixture.targetDir, "package.json"), '{"scripts":{}}\n');
       git(["add", "package.json"], { cwd: fixture.targetDir });
-      git(["commit", "-m", "fixture: no validation script"], { cwd: fixture.targetDir });
+      git(["-c", "user.name=Test User", "-c", "user.email=test@example.com", "commit", "-m", "fixture: no validation script"], { cwd: fixture.targetDir });
     } else if (outcome === "exception") {
       fs.writeFileSync(path.join(fixture.targetDir, "untracked.txt"), "fixture");
     }
