@@ -183,14 +183,12 @@ jobs:
             REPORT_FILE="$route_report" node --input-type=module <<'NODE'
           import fs from "node:fs";
           import path from "node:path";
-          import { appendLedger, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
+          import { appendLedger, isRecordableCommand, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
 
           const report = JSON.parse(fs.readFileSync(process.env.REPORT_FILE, "utf8"));
           const ledgerFile = path.join("results", "comment-router.json");
           const latestFile = path.join("results", "comment-router-latest.json");
-          const recordable = (report.commands ?? []).filter((command) =>
-            ["executed", "skipped"].includes(command.status),
-          );
+          const recordable = (report.commands ?? []).filter(isRecordableCommand);
           if (recordable.length > 0) {
             const ledger = readLedger(ledgerFile);
             appendLedger(ledger, recordable);
@@ -299,7 +297,7 @@ jobs:
             REPORT_FILE="$report_file" node --input-type=module <<'NODE'
           import fs from "node:fs";
           import path from "node:path";
-          import { appendLedger, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
+          import { appendLedger, isRecordableCommand, readLedger, writeLedger } from "./scripts/comment-router-utils.mjs";
 
           const report = JSON.parse(fs.readFileSync(process.env.REPORT_FILE, "utf8"));
           const expectedIds = new Set(String(process.env.EXPECTED_COMMENT_IDS ?? "").split(",").filter(Boolean));
@@ -312,9 +310,7 @@ jobs:
 
           const ledgerFile = path.join("results", "comment-router.json");
           const latestFile = path.join("results", "comment-router-latest.json");
-          const recordable = (report.commands ?? []).filter((command) =>
-            ["executed", "skipped"].includes(command.status),
-          );
+          const recordable = (report.commands ?? []).filter(isRecordableCommand);
           if (recordable.length > 0) {
             const ledger = readLedger(ledgerFile);
             appendLedger(ledger, recordable);

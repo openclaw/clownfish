@@ -59,6 +59,7 @@ for (const [file, names, entry, args] of cases) {
       runner: "fixture", executionRunner: "fixture", model: "fixture",
       stripAnsi: (value) => String(value ?? ""), shouldRetryGh: () => true,
       isTransientGhError: () => true, ghRetries: 2, ghRetryBaseMs: 1,
+      childOptions: {},
       sleepMs: () => { throw new Error("unexpected retry"); },
       fetchPullRequestView: () => ({ labels: [], headRefOid: "a".repeat(40) }),
       validateAutomergeReadiness: () => null, automergeGateBlockReason: () => null,

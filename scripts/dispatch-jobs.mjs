@@ -292,6 +292,7 @@ function readPublishBacklog(remainingMs) {
     process.execPath,
     [
       path.join(repoRoot(), "scripts", "publish-backlog.mjs"),
+      "--process-group-owner",
       "--repo",
       repo,
       "--workflow",
