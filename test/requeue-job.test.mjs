@@ -177,3 +177,61 @@ test("cluster worker run names expose repository dispatch ids", () => {
   assert.match(workflow, /run-name: cluster worker .*github\.event\.client_payload\.dispatch_id/);
   assert.match(workflow, /github\.event\.inputs\.dispatch_id/);
 });
+
+for (const outcome of ["success", "download-error", "missing-plan", "malformed-plan", "hang"]) {
+  test(`requeue artifact resolution cleans up after ${outcome}`, (t) => {
+    const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-requeue-artifact-"));
+    t.after(() => fs.rmSync(fixture, { recursive: true, force: true }));
+    const bin = path.join(fixture, "bin");
+    const temp = path.join(fixture, "tmp");
+    fs.mkdirSync(bin);
+    fs.mkdirSync(temp);
+    fs.writeFileSync(path.join(bin, "gh"), `#!/usr/bin/env node
+import fs from "node:fs";
+import path from "node:path";
+const args = process.argv.slice(2);
+if (args[0] !== "run" || args[1] !== "download") process.exit(99);
+const dir = args[args.indexOf("--dir") + 1];
+fs.writeFileSync(path.join(dir, "started"), "yes");
+const outcome = ${JSON.stringify(outcome)};
+if (outcome === "hang") {
+  process.on("SIGTERM", () => {});
+  setTimeout(() => process.exit(88), 2000);
+} else if (outcome === "download-error") {
+  process.stderr.write("HTTP 404: artifact missing");
+  process.exitCode = 1;
+} else if (outcome !== "missing-plan") {
+  fs.writeFileSync(path.join(dir, "cluster-plan.json"), outcome === "malformed-plan" ? "{" : JSON.stringify({
+    source_job: "jobs/openclaw/inbox/cluster-example.md", mode: "plan",
+  }));
+}
+`, { mode: 0o755 });
+    const result = spawnSync(process.execPath, ["scripts/requeue-job.mjs", "--run-id", "999999999999999"], {
+      cwd: repoRoot,
+      encoding: "utf8",
+      timeout: 10000,
+      env: {
+        ...process.env,
+        PATH: `${bin}${path.delimiter}${process.env.PATH}`,
+        TMPDIR: temp, TMP: temp, TEMP: temp,
+        CLOWNFISH_REPO: "openclaw/clownfish",
+        CLOWNFISH_REQUEUE_DOWNLOAD_TIMEOUT_MS: outcome === "hang" ? "500" : "10000",
+      },
+    });
+    assert.equal(result.error, undefined);
+    if (outcome === "success") {
+      assert.equal(result.status, 0, result.stderr);
+      assert.equal(JSON.parse(result.stdout).source_job, "jobs/openclaw/inbox/cluster-example.md");
+    } else {
+      assert.notEqual(result.status, 0);
+      const expected = {
+        "download-error": /HTTP 404: artifact missing/,
+        "missing-plan": /did not include cluster-plan.json/,
+        "malformed-plan": /SyntaxError/,
+        hang: /gh run download timed out after 500ms/,
+      };
+      assert.match(result.stderr, expected[outcome]);
+    }
+    assert.deepEqual(fs.readdirSync(temp), []);
+  });
+}

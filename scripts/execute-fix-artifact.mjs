@@ -314,6 +314,13 @@ try {
     typeof args["work-dir"] === "string"
       ? path.resolve(args["work-dir"])
       : fs.mkdtempSync(path.join(os.tmpdir(), "projectclownfish-fix-"));
+  if (typeof args["work-dir"] !== "string") {
+    const createdWorkRoot = workRoot;
+    // Explicit blocked-path exits also need cleanup, after reports copy diagnostics.
+    process.once("exit", () => {
+      fs.rmSync(createdWorkRoot, { recursive: true, force: true });
+    });
+  }
   targetDir =
     typeof args["target-dir"] === "string"
       ? path.resolve(args["target-dir"])

@@ -2332,3 +2332,59 @@ function git(args, options) {
   assert.equal(child.status, 0, child.stderr || child.stdout);
   return child.stdout.trim();
 }
+
+for (const outcome of ["validation-block", "write-block", "exception", "no-change", "operator-work-dir"]) {
+  test(`execute-fix owns temporary workspace cleanup after ${outcome}`, (t) => {
+    const fixture = makeFixture();
+    t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+    const temp = path.join(fixture.root, "tmp");
+    fs.mkdirSync(temp);
+    const resultPath = path.join(fixture.runDir, "result.json");
+    const reportPath = path.join(fixture.runDir, "report.json");
+    fs.writeFileSync(fixture.jobPath, jobFile("workspace-cleanup"));
+    const result = resultFile("workspace-cleanup");
+    result.fix_artifact.validation_commands = ["pnpm check:changed"];
+    result.fix_artifact.allow_no_pr = true;
+    fs.writeFileSync(resultPath, JSON.stringify(result));
+    if (outcome === "validation-block" || outcome === "operator-work-dir") {
+      fs.writeFileSync(path.join(fixture.targetDir, "package.json"), '{"scripts":{}}\n');
+      git(["add", "package.json"], { cwd: fixture.targetDir });
+      git(["-c", "user.name=Test User", "-c", "user.email=test@example.com", "commit", "-m", "fixture: no validation script"], { cwd: fixture.targetDir });
+    } else if (outcome === "exception") {
+      fs.writeFileSync(path.join(fixture.targetDir, "untracked.txt"), "fixture");
+    }
+    writeExecutable(path.join(fixture.binDir, "codex"), `#!/usr/bin/env node
+const fs = require("node:fs");
+const args = process.argv.slice(2);
+const output = args.includes("--output-last-message") ? args[args.indexOf("--output-last-message") + 1] : null;
+if (output) fs.writeFileSync(output, "synthetic cleanup diagnostic");
+process.exit(${outcome === "write-block" ? 7 : 0});
+`);
+    const sentinel = path.join(fixture.workDir, "operator.txt");
+    fs.writeFileSync(sentinel, "keep");
+    const child = spawnSync(process.execPath, [
+      "scripts/execute-fix-artifact.mjs", fixture.jobPath, resultPath,
+      "--target-dir", fixture.targetDir, "--report", reportPath, "--dry-run",
+      ...(outcome === "operator-work-dir" ? ["--work-dir", fixture.workDir] : []),
+    ], {
+      cwd: repoRoot, encoding: "utf8", timeout: 60000,
+      env: {
+        ...process.env, PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        TMPDIR: temp, TMP: temp, TEMP: temp,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw", CLOWNFISH_ALLOW_EXECUTE: "1", CLOWNFISH_ALLOW_FIX_PR: "1",
+        CLOWNFISH_INSTALL_TARGET_DEPS: "0", CLOWNFISH_FIX_EDIT_ATTEMPTS: "1",
+        CLOWNFISH_SKIP_CODEX_WRITE_PREFLIGHT: outcome === "write-block" ? "0" : "1",
+      },
+    });
+    assert.equal(child.error, undefined);
+    assert.equal(child.status === 0, outcome !== "exception", child.stderr);
+    const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+    assert.equal(report.status, outcome === "exception" ? "failed" : outcome === "no-change" ? "skipped" : "blocked");
+    if (outcome === "write-block" || outcome === "no-change") {
+      assert.ok(fs.readdirSync(path.join(fixture.runDir, "fix-executor-debug")).length > 0);
+    }
+    assert.deepEqual(fs.readdirSync(temp).filter((name) => name.startsWith("projectclownfish-fix-")), []);
+    assert.equal(fs.readFileSync(sentinel, "utf8"), "keep");
+    assert.ok(fs.existsSync(path.join(fixture.targetDir, ".git")));
+  });
+}
