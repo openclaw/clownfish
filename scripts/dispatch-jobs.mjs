@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawn, spawnSync } from "node:child_process";
+import { spawnSyncWithTimeout, subprocessTimeoutMs } from "./lib.mjs";
 import {
   assertLiveWorkerCapacity,
   currentProjectRepo,
@@ -230,7 +231,7 @@ if (!failed) {
 }
 
 if (!failed) {
-  if (!skipPublishBacklogCheck) assertPublishBacklog();
+  if (!skipPublishBacklogCheck) await assertPublishBacklog();
 }
 
 if (!failed) {
@@ -254,8 +255,10 @@ if (!failed) {
   );
 }
 
-function assertPublishBacklog() {
-  let result = readPublishBacklog();
+async function assertPublishBacklog() {
+  const startedAt = Date.now();
+  const deadline = startedAt + (waitForCapacity && publishBacklogWaitMs > 0 ? publishBacklogWaitMs : subprocessTimeoutMs());
+  let result = await readPublishBacklog(Math.max(1, deadline - Date.now()));
   if (result.status === 0) {
     writePublishBacklogOutput(result);
     return;
@@ -266,15 +269,14 @@ function assertPublishBacklog() {
     return;
   }
 
-  const startedAt = Date.now();
-  const deadline = startedAt + publishBacklogWaitMs;
   const initial = publishBacklogSummary(result);
   console.log(
     `publish backlog ${initial?.missing_count ?? "unknown"} exceeds threshold ${publishBacklogThreshold}; waiting up to ${publishBacklogWaitMs}ms for publisher reconciliation`,
   );
   while (Date.now() < deadline) {
     sleepMs(Math.min(publishBacklogPollMs, deadline - Date.now()));
-    result = readPublishBacklog();
+    if (Date.now() >= deadline) break;
+    result = await readPublishBacklog(Math.max(1, deadline - Date.now()));
     if (result.status === 0) {
       writePublishBacklogOutput(result);
       console.log(`publish backlog drained after ${Date.now() - startedAt}ms`);
@@ -285,8 +287,8 @@ function assertPublishBacklog() {
   failed = true;
 }
 
-function readPublishBacklog() {
-  return spawnSync(
+function readPublishBacklog(remainingMs) {
+  return runCommand(
     process.execPath,
     [
       path.join(repoRoot(), "scripts", "publish-backlog.mjs"),
@@ -304,7 +306,7 @@ function readPublishBacklog() {
       ghCommand,
       "--json",
     ],
-    { cwd: repoRoot(), encoding: "utf8", stdio: "pipe" },
+    null, null, null, null, Math.min(subprocessTimeoutMs(), remainingMs),
   );
 }
 
@@ -326,7 +328,7 @@ let index = 0;
 const dispatchAttempts = [];
 if (!failed && repositoryBatchDispatch) {
   while (index < jobsToDispatch.length) {
-    if (!skipPublishBacklogCheck) assertPublishBacklog();
+    if (!skipPublishBacklogCheck) await assertPublishBacklog();
     if (failed) break;
 
     const batch = jobsToDispatch.slice(index, index + batchMatrixLimit);
@@ -343,6 +345,7 @@ if (!failed && repositoryBatchDispatch) {
               batch_dispatch_id: result.batch_dispatch_id,
               stdout: result.stdout,
               stderr: result.stderr,
+              timed_out: result.timed_out,
               dispatched_at: acceptedAt,
             },
             "accepted",
@@ -363,6 +366,7 @@ if (!failed && repositoryBatchDispatch) {
               batch_dispatch_id: result.batch_dispatch_id,
               stdout: result.stdout,
               stderr: result.stderr,
+              timed_out: result.timed_out,
             },
             "failed",
           ),
@@ -377,7 +381,7 @@ if (!failed && repositoryBatchDispatch) {
 while (!failed && index < jobsToDispatch.length) {
   let batchSize = jobsToDispatch.length - index;
   if (throttledDispatch) {
-    if (!skipPublishBacklogCheck) assertPublishBacklog();
+    if (!skipPublishBacklogCheck) await assertPublishBacklog();
     if (failed) break;
 
     const capacity = waitForReservedLiveWorkerCapacity(capacityReservations);
@@ -476,7 +480,7 @@ function appTokenAuthConfigured({ secrets, variables, purpose }) {
 }
 
 function listRepoSecrets(dispatchRepo) {
-  const result = spawnSync(ghCommand, ["secret", "list", "--repo", dispatchRepo, "--json", "name"], {
+  const result = spawnSyncWithTimeout(ghCommand, ["secret", "list", "--repo", dispatchRepo, "--json", "name"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: "pipe",
@@ -496,7 +500,7 @@ function listRepoSecrets(dispatchRepo) {
 }
 
 function listRepoVariables(dispatchRepo) {
-  const result = spawnSync(ghCommand, ["variable", "list", "--repo", dispatchRepo, "--json", "name"], {
+  const result = spawnSyncWithTimeout(ghCommand, ["variable", "list", "--repo", dispatchRepo, "--json", "name"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: "pipe",
@@ -638,7 +642,7 @@ function workflowDispatchArgs(relative, dispatchId = null) {
 }
 
 function isRepositoryDispatchSchemaBug(result) {
-  if (result.status === 0) return false;
+  if (result.status === 0 || result.timed_out) return false;
   const output = `${result.stderr ?? ""}\n${result.stdout ?? ""}`;
   return /HTTP 422/i.test(output) && /links\/0\/schema/i.test(output);
 }
@@ -718,11 +722,24 @@ function batchWorkflowDispatchArgs(batch) {
   ];
 }
 
-function runCommand(command, commandArgs, relative, position, stdin = null, batchDispatchId = null) {
+function runCommand(command, commandArgs, relative, position, stdin = null, batchDispatchId = null, timeoutMs = subprocessTimeoutMs()) {
   return new Promise((resolve) => {
-    const child = spawn(command, commandArgs, { cwd: repoRoot(), stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawn(command, commandArgs, {
+      cwd: repoRoot(), stdio: ["pipe", "pipe", "pipe"], detached: process.platform !== "win32",
+    });
     let stdout = "";
     let stderr = "";
+    let timedOut = false;
+    let inputError = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      try {
+        if (process.platform !== "win32" && child.pid) process.kill(-child.pid, "SIGKILL");
+        else child.kill("SIGKILL");
+      } catch (error) {
+        if (error.code !== "ESRCH") stderr += error.message;
+      }
+    }, timeoutMs);
     child.stdout.on("data", (chunk) => {
       stdout += chunk;
     });
@@ -730,10 +747,17 @@ function runCommand(command, commandArgs, relative, position, stdin = null, batc
       stderr += chunk;
     });
     child.on("error", (error) => {
+      clearTimeout(timer);
       resolve({ relative, position, status: 1, stdout, stderr: `${stderr}${error.message}`, batch_dispatch_id: batchDispatchId });
     });
     child.on("close", (status) => {
-      resolve({ relative, position, status: status ?? 1, stdout, stderr, batch_dispatch_id: batchDispatchId });
+      clearTimeout(timer);
+      if (timedOut) stderr += `child timed out after ${timeoutMs}ms; remote outcome may be unknown\n`;
+      resolve({ relative, position, status: timedOut || inputError ? 1 : (status ?? 1), timed_out: timedOut, stdout, stderr, batch_dispatch_id: batchDispatchId });
+    });
+    child.stdin.on("error", (error) => {
+      inputError = true;
+      stderr += error.message;
     });
     if (stdin !== null) child.stdin.end(stdin);
     else child.stdin.end();
@@ -743,7 +767,8 @@ function runCommand(command, commandArgs, relative, position, stdin = null, batc
 function dispatchAttempt(result, status) {
   return {
     batch_id: dispatchBatchId,
-    status,
+    status: result.timed_out ? "unknown" : status,
+    timed_out: Boolean(result.timed_out),
     repo,
     workflow: repositoryBatchDispatch ? batchWorkflow : workflow,
     source_job: result.relative,
@@ -884,7 +909,14 @@ function waitForReservedLiveWorkerCapacity(reservations) {
   let latest = null;
 
   while (Date.now() <= deadline) {
-    latest = liveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers, ghCommand });
+    try {
+      latest = liveWorkerCapacity({ repo, workflow, requested: 1, maxLiveWorkers, ghCommand, deadline });
+    } catch (error) {
+      if (error.code !== "ETIMEDOUT") throw error;
+      sleepMs(Math.min(pollMs, Math.max(0, deadline - Date.now())));
+      continue;
+    }
+    if (Date.now() >= deadline) break;
     reservations.reconcile(latest.active_runs);
     const reserved = reservations.pending;
     const available = Math.max(0, latest.max_live_workers - latest.active - reserved);

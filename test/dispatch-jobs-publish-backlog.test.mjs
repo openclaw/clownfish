@@ -30,7 +30,7 @@ test("throttled dispatch waits for a transient publisher backlog", () => {
       "--publish-backlog-threshold",
       "0",
       "--publish-backlog-wait-ms",
-      "100",
+      "5000",
       "--publish-backlog-poll-ms",
       "1",
     ],
@@ -38,7 +38,7 @@ test("throttled dispatch waits for a transient publisher backlog", () => {
   );
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
-  assert.match(result.stdout, /waiting up to 100ms for publisher reconciliation/);
+  assert.match(result.stdout, /waiting up to 5000ms for publisher reconciliation/);
   assert.match(result.stdout, /publish backlog drained after/);
   assert.match(result.stdout, /dispatched 1\/1 jobs\/openclaw\/inbox\/cluster-example\.md/);
 });

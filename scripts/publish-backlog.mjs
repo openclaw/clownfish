@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { execFileSync } from "node:child_process";
+import { execFileSyncWithTimeout } from "./lib.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import { currentProjectRepo, parseArgs, repoRoot } from "./lib.mjs";
@@ -23,7 +23,7 @@ if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutra
 }
 
 if (fetch) {
-  execFileSync("git", ["fetch", "origin", "main", "--quiet"], { cwd: repoRoot(), stdio: "ignore" });
+  execFileSyncWithTimeout("git", ["fetch", "origin", "main", "--quiet"], { cwd: repoRoot(), stdio: "ignore" });
 }
 
 const publishedRunIds = readPublishedRunIds();
@@ -87,7 +87,7 @@ function listWorkflowRuns() {
 }
 
 function readPublishedRunIds() {
-  const fromOrigin = execFileSync(
+  const fromOrigin = execFileSyncWithTimeout(
     "git",
     ["ls-tree", "-r", "--name-only", "origin/main", "results/runs", "results/review-rejections"],
     {
@@ -114,7 +114,7 @@ function readPublishedRunIds() {
 }
 
 function readTerminalRejectionIdsFromGit(ref) {
-  const files = execFileSync("git", ["ls-tree", "-r", "--name-only", ref, "results/review-rejections"], {
+  const files = execFileSyncWithTimeout("git", ["ls-tree", "-r", "--name-only", ref, "results/review-rejections"], {
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
@@ -125,7 +125,7 @@ function readTerminalRejectionIdsFromGit(ref) {
   for (const file of files) {
     try {
       const rejection = JSON.parse(
-        execFileSync("git", ["show", `${ref}:${file}`], {
+        execFileSyncWithTimeout("git", ["show", `${ref}:${file}`], {
           cwd: repoRoot(),
           encoding: "utf8",
           stdio: ["ignore", "pipe", "pipe"],
@@ -133,7 +133,8 @@ function readTerminalRejectionIdsFromGit(ref) {
       );
       const runId = validTerminalRejectionRunId(rejection);
       if (runId === path.basename(file, ".json")) ids.add(runId);
-    } catch {
+    } catch (error) {
+      if (error.code === "ETIMEDOUT") throw error;
       continue;
     }
   }
@@ -240,7 +241,7 @@ function ghJson(ghArgs) {
   delete env.FORCE_COLOR;
   for (let attempt = 0; ; attempt++) {
     try {
-      const output = execFileSync(ghCommand, ghArgs, {
+      const output = execFileSyncWithTimeout(ghCommand, ghArgs, {
         cwd: repoRoot(),
         env,
         encoding: "utf8",
@@ -249,7 +250,7 @@ function ghJson(ghArgs) {
       });
       return JSON.parse(stripAnsi(output) || "null");
     } catch (error) {
-      if (attempt >= ghRetries || !isTransientGhError(error)) throw error;
+      if (error.code === "ETIMEDOUT" || attempt >= ghRetries || !isTransientGhError(error)) throw error;
       const delayMs = ghRetryBaseMs * 2 ** attempt;
       console.error(
         `transient ${ghCommand} failure while listing workflow runs; retrying in ${delayMs}ms (${attempt + 1}/${ghRetries})`,
@@ -281,9 +282,10 @@ function numberArg(name, fallback) {
 function firstAvailableCommand(commands) {
   for (const command of commands) {
     try {
-      execFileSync(command, ["--version"], { cwd: repoRoot(), stdio: "ignore" });
+      execFileSyncWithTimeout(command, ["--version"], { cwd: repoRoot(), stdio: "ignore" });
       return command;
-    } catch {
+    } catch (error) {
+      if (error.code === "ETIMEDOUT") throw error;
       continue;
     }
   }

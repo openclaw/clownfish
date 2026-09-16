@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
+import { execFileSyncWithTimeout } from "./lib.mjs";
 import { currentProjectRepo, parseArgs, parseJob, parseSimpleYaml, repoRoot } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
@@ -332,21 +332,31 @@ function readDispatchAttemptsByJob() {
 }
 
 function readSecretNames(repo) {
-  const result = execFileSync(ghCommand(), ["secret", "list", "--repo", repo, "--json", "name"], {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  return new Set(JSON.parse(stripAnsi(result)).map((secret) => String(secret.name)));
+  try {
+    const result = execFileSyncWithTimeout(ghCommand(), ["secret", "list", "--repo", repo, "--json", "name"], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    return new Set(JSON.parse(stripAnsi(result)).map((secret) => String(secret.name)));
+  } catch (error) {
+    console.warn(`warning: could not inspect repo secrets for ${repo}: ${error.message}`);
+    return null;
+  }
 }
 
 function readVariableNames(repo) {
-  const result = execFileSync(ghCommand(), ["variable", "list", "--repo", repo, "--json", "name"], {
-    cwd: repoRoot(),
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  return new Set(JSON.parse(stripAnsi(result)).map((variable) => String(variable.name)));
+  try {
+    const result = execFileSyncWithTimeout(ghCommand(), ["variable", "list", "--repo", repo, "--json", "name"], {
+      cwd: repoRoot(),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    return new Set(JSON.parse(stripAnsi(result)).map((variable) => String(variable.name)));
+  } catch (error) {
+    console.warn(`warning: could not inspect repo variables for ${repo}: ${error.message}`);
+    return null;
+  }
 }
 
 function summarizeAuth({ secrets, variables, targetRepos }) {
