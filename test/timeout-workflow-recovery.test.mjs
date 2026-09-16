@@ -78,3 +78,11 @@ for (const [index, script] of replays.entries()) {
     assert.equal(ledger.commands.find((entry) => entry.idempotency_key === "local")?.status, "unknown");
   });
 }
+
+test("both router publication phases run after a failed command step", () => {
+  for (const name of ["Commit comment router ledger", "Commit merged comment ledger"]) {
+    const step = router.split(`      - name: ${name}\n`)[1]?.split("      - name: ")[0];
+    assert.ok(step, `missing ${name}`);
+    assert.match(step, /^        if: always\(\)/);
+  }
+});

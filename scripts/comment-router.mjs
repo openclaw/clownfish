@@ -273,6 +273,7 @@ if (execute) {
       command.reason = `${error.message}; verify the remote outcome before submitting a new command`;
       appendLedger(ledger, commands);
       writeLedger(ledgerPath(), ledger);
+      if (writeReport) writeReportFile(repoRoot(), report);
     }
   }
   appendLedger(

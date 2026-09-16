@@ -283,6 +283,7 @@ jobs:
             --comment-ids "$comment_ids"
 
       - name: Commit merged comment ledger
+        if: always()
         env:
           EXPECTED_TARGET_REPO: ${{ needs.route-comments.outputs.target_repo }}
           EXPECTED_COMMENT_IDS: ${{ needs.route-comments.outputs.merge_comment_ids }}
