@@ -26,9 +26,13 @@ export function readLedger(file) {
   }
 }
 
+export function isRecordableCommand(entry) {
+  return ["executed", "skipped", "unknown"].includes(entry.status);
+}
+
 export function appendLedger(current, entries) {
   const compact = entries
-    .filter((entry) => ["executed", "skipped", "unknown"].includes(entry.status))
+    .filter(isRecordableCommand)
     .map((entry) => ({
       idempotency_key: entry.idempotency_key,
       comment_id: entry.comment_id,

@@ -509,6 +509,9 @@ unavailable metadata through the existing warning path.
 Timed-out writes are not automatically retried. Dispatch, router, and finalizer ledgers
 retain unknown outcomes; verify GitHub state before submitting a new command
 or using the finalizer's explicit `--allow-repeat` option.
+Finalizer workflows serialize ledger owners, read current main, and publish their ledger even after
+a failed dispatch step. Router publication replay retains unknown outcomes.
+Nested backlog probes and their helpers share the outer cancellation boundary.
 
 ```bash
 npm run validate

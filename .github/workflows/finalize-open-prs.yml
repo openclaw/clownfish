@@ -36,9 +36,14 @@ jobs:
   finalize:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    concurrency:
+      group: projectclownfish-finalizer-${{ github.repository }}
+      cancel-in-progress: false
+      queue: max
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0
 
       - uses: actions/setup-node@v7
@@ -67,10 +72,15 @@ jobs:
           npm run publish-result
 
       - name: Commit finalizer ledger
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md apply-report.json results/finalize-open-prs.json results/finalize-open-prs.md
+          for file in README.md apply-report.json results/finalize-open-prs.json results/finalize-open-prs.md; do
+            if [ -f "$file" ]; then
+              git add "$file"
+            fi
+          done
           if [ -f results/finalize-open-prs-dispatch.json ]; then
             git add results/finalize-open-prs-dispatch.json
           fi

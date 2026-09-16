@@ -320,7 +320,7 @@ function makeFixture() {
   return { root, bin, state };
 }
 
-function runRouter(fixture, args, fixtureComments = comments) {
+function runRouter(fixture, args, fixtureComments = comments, env = {}) {
   return spawnSync(process.execPath, ["scripts/comment-router.mjs", ...args], {
     cwd: fixture.root,
     encoding: "utf8",
@@ -332,6 +332,7 @@ function runRouter(fixture, args, fixtureComments = comments) {
       CLOWNFISH_ALLOW_MERGE: "1",
       FAKE_GH_STATE: fixture.state,
       FAKE_GH_COMMENTS: JSON.stringify(fixtureComments),
+      ...env,
     },
   });
 }
@@ -439,3 +440,32 @@ process.exit(1);
   );
   fs.chmodSync(file, 0o755);
 }
+
+test("router preserves an unknown replay report before a later command fails", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const ghFile = path.join(fixture.bin, "gh");
+  const source = fs.readFileSync(ghFile, "utf8").replace(
+    "const args = process.argv.slice(2);",
+    `const args = process.argv.slice(2);
+if (args[0] === "pr" && args[1] === "merge") {
+  process.on("SIGTERM", () => {});
+  require("node:fs").writeFileSync(process.env.HANG_MARKER, "started");
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 10000);
+}
+if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/1/comments" && args.includes("POST")) {
+  console.error("later publication failed");
+  process.exit(7);
+}`,
+  );
+  fs.writeFileSync(ghFile, source);
+  const marker = path.join(fixture.root, "hang-started");
+  const run = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since], comments, {
+    CLOWNFISH_GH_EXEC_TIMEOUT_MS: "2000", HANG_MARKER: marker,
+  });
+  assert.notEqual(run.status, 0);
+  assert.equal(fs.readFileSync(marker, "utf8"), "started");
+  assert.match(run.stderr, /later publication failed/);
+  const report = readJson(path.join(fixture.root, "results/comment-router-latest.json"));
+  assert.equal(report.commands.find((command) => command.comment_id === "202").status, "unknown");
+});

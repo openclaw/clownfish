@@ -27,12 +27,12 @@ function subprocessOptions({ deadline = Infinity, ...options } = {}) {
   }
   return {
     ...options, timeout: Math.min(subprocessTimeoutMs(options.timeout), remaining),
-    killSignal: "SIGKILL", detached: process.platform !== "win32",
+    killSignal: "SIGKILL", detached: options.detached ?? process.platform !== "win32",
   };
 }
 
-function terminateTimedOutGroup(child) {
-  if (child.error?.code !== "ETIMEDOUT" || process.platform === "win32" || !child.pid) return;
+function terminateTimedOutGroup(child, detached) {
+  if (!detached || child.error?.code !== "ETIMEDOUT" || process.platform === "win32" || !child.pid) return;
   try {
     process.kill(-child.pid, "SIGKILL");
   } catch (error) {
@@ -46,7 +46,7 @@ export function execFileSyncWithTimeout(command, args, options = {}) {
     return execFileSync(command, args, bounded);
   } catch (error) {
     if (error.code === "ETIMEDOUT") {
-      terminateTimedOutGroup({ error, pid: error.pid });
+      terminateTimedOutGroup({ error, pid: error.pid }, bounded.detached);
       error.message = `${path.basename(command)} timed out after ${bounded.timeout}ms`;
     }
     throw error;
@@ -56,7 +56,7 @@ export function execFileSyncWithTimeout(command, args, options = {}) {
 export function spawnSyncWithTimeout(command, args, options = {}) {
   const bounded = subprocessOptions(options);
   const child = spawnSync(command, args, bounded);
-  terminateTimedOutGroup(child);
+  terminateTimedOutGroup(child, bounded.detached);
   if (child.error?.code === "ETIMEDOUT") {
     child.error.message = `${path.basename(command)} timed out after ${bounded.timeout}ms`;
     child.stderr = `${child.stderr ?? ""}${child.error.message}\n`;

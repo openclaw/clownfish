@@ -5,6 +5,20 @@ import path from "node:path";
 import { currentProjectRepo, parseArgs, repoRoot } from "./lib.mjs";
 
 const args = parseArgs(process.argv.slice(2));
+const processGroupOwner = args["process-group-owner"] === true && process.platform !== "win32";
+const childOptions = { detached: process.platform !== "win32" && !processGroupOwner };
+if (processGroupOwner) {
+  // The dispatcher owns this group; failed inner probes must also reap its helpers.
+  process.on("uncaughtExceptionMonitor", (error) => {
+    fs.writeSync(2, `${error.message}\n`);
+  });
+  process.once("exit", (code) => {
+    if (code === 0) return;
+    try { process.kill(-process.pid, "SIGKILL"); } catch (error) {
+      if (error.code !== "ESRCH") throw error;
+    }
+  });
+}
 const repo = String(args.repo ?? currentProjectRepo());
 const workflow = String(args.workflow ?? "cluster-worker.yml");
 const lookback = numberArg("lookback", 500);
@@ -23,7 +37,7 @@ if (!["success", "failure", "cancelled", "timed_out", "action_required", "neutra
 }
 
 if (fetch) {
-  execFileSyncWithTimeout("git", ["fetch", "origin", "main", "--quiet"], { cwd: repoRoot(), stdio: "ignore" });
+  execFileSyncWithTimeout("git", ["fetch", "origin", "main", "--quiet"], { ...childOptions, cwd: repoRoot(), stdio: "ignore" });
 }
 
 const publishedRunIds = readPublishedRunIds();
@@ -91,6 +105,7 @@ function readPublishedRunIds() {
     "git",
     ["ls-tree", "-r", "--name-only", "origin/main", "results/runs", "results/review-rejections"],
     {
+      ...childOptions,
       cwd: repoRoot(),
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],
@@ -115,6 +130,7 @@ function readPublishedRunIds() {
 
 function readTerminalRejectionIdsFromGit(ref) {
   const files = execFileSyncWithTimeout("git", ["ls-tree", "-r", "--name-only", ref, "results/review-rejections"], {
+    ...childOptions,
     cwd: repoRoot(),
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
@@ -126,6 +142,7 @@ function readTerminalRejectionIdsFromGit(ref) {
     try {
       const rejection = JSON.parse(
         execFileSyncWithTimeout("git", ["show", `${ref}:${file}`], {
+          ...childOptions,
           cwd: repoRoot(),
           encoding: "utf8",
           stdio: ["ignore", "pipe", "pipe"],
@@ -242,6 +259,7 @@ function ghJson(ghArgs) {
   for (let attempt = 0; ; attempt++) {
     try {
       const output = execFileSyncWithTimeout(ghCommand, ghArgs, {
+        ...childOptions,
         cwd: repoRoot(),
         env,
         encoding: "utf8",
@@ -282,7 +300,7 @@ function numberArg(name, fallback) {
 function firstAvailableCommand(commands) {
   for (const command of commands) {
     try {
-      execFileSyncWithTimeout(command, ["--version"], { cwd: repoRoot(), stdio: "ignore" });
+      execFileSyncWithTimeout(command, ["--version"], { ...childOptions, cwd: repoRoot(), stdio: "ignore" });
       return command;
     } catch (error) {
       if (error.code === "ETIMEDOUT") throw error;
