@@ -21,6 +21,7 @@ const DEFAULT_RUNNER = process.env.CLOWNFISH_WORKER_RUNNER ?? "blacksmith-4vcpu-
 const DEFAULT_EXECUTION_RUNNER = process.env.CLOWNFISH_EXECUTION_RUNNER ?? "blacksmith-16vcpu-ubuntu-2404";
 const DEFAULT_OBSERVE_TIMEOUT_MS = 5 * 60 * 1000;
 const DEFAULT_GATE_CAPTURE_TIMEOUT_MS = 5 * 60 * 1000;
+const DEFAULT_DOWNLOAD_TIMEOUT_MS = 2 * 60 * 1000;
 
 const args = parseArgs(process.argv.slice(2));
 const repo = String(args.repo ?? DEFAULT_REPO);
@@ -166,20 +167,31 @@ function resolveFromRunId(runId) {
   }
 
   const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), `projectclownfish-requeue-${runId}-`));
-  const downloaded = spawnSync(
-    "gh",
-    ["run", "download", runId, "--repo", repo, "--dir", artifactDir],
-    { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe" },
-  );
-  if (downloaded.status !== 0) {
-    throw new Error(`could not resolve run ${runId}: ${downloaded.stderr || downloaded.stdout}`);
+  try {
+    const configuredTimeout = Number(process.env.CLOWNFISH_REQUEUE_DOWNLOAD_TIMEOUT_MS);
+    const timeout = Number.isSafeInteger(configuredTimeout) && configuredTimeout > 0
+      ? configuredTimeout
+      : DEFAULT_DOWNLOAD_TIMEOUT_MS;
+    const downloaded = spawnSync(
+      "gh",
+      ["run", "download", runId, "--repo", repo, "--dir", artifactDir],
+      { cwd: repoRoot(), encoding: "utf8", env: ghEnv(), stdio: "pipe", timeout, killSignal: "SIGKILL" },
+    );
+    if (downloaded.error?.code === "ETIMEDOUT") {
+      throw new Error(`could not resolve run ${runId}: gh run download timed out after ${timeout}ms`);
+    }
+    if (downloaded.status !== 0) {
+      throw new Error(`could not resolve run ${runId}: ${downloaded.stderr || downloaded.stdout || downloaded.error?.message}`);
+    }
+    const planPath = findFirstFile(artifactDir, "cluster-plan.json");
+    const resultPath = findFirstFile(artifactDir, "result.json");
+    if (!planPath) throw new Error(`run ${runId} artifact did not include cluster-plan.json`);
+    const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+    const result = resultPath ? JSON.parse(fs.readFileSync(resultPath, "utf8")) : null;
+    return { source_job: resolveExistingJobPath(plan.source_job), mode: result?.mode ?? plan.mode };
+  } finally {
+    fs.rmSync(artifactDir, { recursive: true, force: true });
   }
-  const planPath = findFirstFile(artifactDir, "cluster-plan.json");
-  const resultPath = findFirstFile(artifactDir, "result.json");
-  if (!planPath) throw new Error(`run ${runId} artifact did not include cluster-plan.json`);
-  const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
-  const result = resultPath ? JSON.parse(fs.readFileSync(resultPath, "utf8")) : null;
-  return { source_job: resolveExistingJobPath(plan.source_job), mode: result?.mode ?? plan.mode };
 }
 
 function resolveExistingJobPath(sourceJob) {

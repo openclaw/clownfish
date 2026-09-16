@@ -489,6 +489,11 @@ npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
 
 ## Checks
 
+Requeue-by-run-id removes its temporary artifact directory after resolution,
+including download and parse failures. Artifact downloads have a two-minute
+deadline; set `CLOWNFISH_REQUEUE_DOWNLOAD_TIMEOUT_MS` to a positive integer
+number of milliseconds for larger downloads. Invalid values use the default.
+
 ```bash
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done
