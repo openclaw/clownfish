@@ -1,10 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 export const CODEX_REVIEW_DEPENDENCY = {
-  repo: "openclaw/openclaw", version: "codex-cli 0.125.0",
-  url: "https://github.com/openai/codex.git", tag: "rust-v0.125.0",
-  tagObject: "7d8152a5d74226ddaac12f93f7c5ed3f33a60d2a",
-  commit: "637f7dd6d737f3961e6bf32fbb3861c4953269c5",
+  repo: "openclaw/openclaw", version: "codex-cli 0.156.1",
+  url: "https://github.com/openai/codex.git", tag: "rust-v0.156.1",
+  tagObject: "81e8e29b2956dfe9b092c63953a9ed282781e77c",
+  commit: "b412ff32c417f855c2b2d1581b77058eed87c84b",
   files: ["AGENTS.md", "codex-rs/core/src/lib.rs", "codex-rs/protocol/src/protocol.rs", "codex-rs/exec/src/main.rs"],
 };
 const PROVENANCE_PREFIX = "Codex dependency provenance: ";

@@ -531,7 +531,7 @@ test("review-results accepts a blocked external preflight request for calibrated
 for (const [name, evidence] of [
   ["missing", ["Codex /review returned clean."]],
   ["tuple-only", [`Codex dependency provenance: ${JSON.stringify(CODEX_REVIEW_PROVENANCE)}`]],
-  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace("0.125.0", "0.126.0")]],
+  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace(CODEX_REVIEW_PROVENANCE.version, "codex-cli 0.0.0")]],
 ]) {
   test(`review-results rejects ${name} OpenClaw Codex provenance`, () => {
     const head = "7".repeat(40);

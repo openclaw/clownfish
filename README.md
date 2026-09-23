@@ -299,7 +299,7 @@ replies and dispatch workers.
 
 ## Local Run
 
-Requires Node 24.
+Requires Node 24. External merge preflight requires `codex-cli 0.156.1` and verifies its pinned upstream source before accepting review evidence.
 
 ```bash
 # Validate all job files.
