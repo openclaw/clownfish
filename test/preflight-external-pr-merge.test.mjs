@@ -534,9 +534,10 @@ test("external merge preflight binds OpenClaw review to pinned Codex source", ()
   assert.match(prompt, /\.\.\/codex\/codex-rs\/\.\.\.:<line>/);
   assert.equal(Number(fs.readFileSync(fixture.codexVersionCountPath, "utf8")), 1);
   assert.equal(Number(fs.readFileSync(fixture.codexCloneCountPath, "utf8")), 1);
-  assert.match(
-    fs.readFileSync(fixture.gitCommandsPath, "utf8"),
-    /clone --depth 1 --branch rust-v0\.125\.0 --single-branch https:\/\/github\.com\/openai\/codex\.git /,
+  assert.ok(
+    fs.readFileSync(fixture.gitCommandsPath, "utf8").split("\n").some((command) =>
+      command.startsWith(`clone --depth 1 --branch ${codexDependency.tag} --single-branch ${codexDependency.url} `),
+    ),
   );
   assert.deepEqual(JSON.parse(fs.readFileSync(fixture.codexDependencyEnvPath, "utf8")), {
     allowProtocol: "https",
