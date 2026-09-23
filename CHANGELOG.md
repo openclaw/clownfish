@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Accept exact-head informational Dependency Guard notices from trusted automation without treating their advisory security sentence as a merge objection. Thanks @vincentkoc (#311).
 - Keep nested backlog helpers within outer cancellation and preserve uncertain dispatch ledgers through workflow failures and replay.
 - Remove executor-created temporary workspaces after reporting, including blocked and failed exits, while preserving operator work directories. Thanks @SebTardif (#327).
 - Clean up requeue artifact downloads on success and failure, and terminate stalled downloads with a configurable deadline. Thanks @SebTardif (#320, #322).
