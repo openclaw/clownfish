@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Align duplicate-close planning with the applicator exception while preserving fix-first checks for superseded reports. Thanks @vincentkoc (#309).
 - Keep nested backlog helpers within outer cancellation and preserve uncertain dispatch ledgers through workflow failures and replay.
 - Remove executor-created temporary workspaces after reporting, including blocked and failed exits, while preserving operator work directories. Thanks @SebTardif (#327).
 - Clean up requeue artifact downloads on success and failure, and terminate stalled downloads with a configurable deadline. Thanks @SebTardif (#320, #322).
