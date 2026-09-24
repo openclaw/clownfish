@@ -1945,7 +1945,7 @@ test("apply-result rejects an already-merged replay with invalid review policy",
 for (const [name, evidence] of [
   ["missing", ["Codex /review returned clean"]],
   ["tuple-only", [`Codex dependency provenance: ${JSON.stringify(CODEX_REVIEW_PROVENANCE)}`]],
-  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace("637f7d", "000000")]],
+  ["tampered", [codexReviewProvenanceEvidence(codexCitation).replace(CODEX_REVIEW_PROVENANCE.commit, "0".repeat(40))]],
 ]) {
   test(`apply-result rejects ${name} OpenClaw Codex provenance before mutation`, () => {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));

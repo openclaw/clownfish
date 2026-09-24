@@ -534,9 +534,10 @@ test("external merge preflight binds OpenClaw review to pinned Codex source", ()
   assert.match(prompt, /\.\.\/codex\/codex-rs\/\.\.\.:<line>/);
   assert.equal(Number(fs.readFileSync(fixture.codexVersionCountPath, "utf8")), 1);
   assert.equal(Number(fs.readFileSync(fixture.codexCloneCountPath, "utf8")), 1);
-  assert.match(
-    fs.readFileSync(fixture.gitCommandsPath, "utf8"),
-    /clone --depth 1 --branch rust-v0\.125\.0 --single-branch https:\/\/github\.com\/openai\/codex\.git /,
+  assert.ok(
+    fs.readFileSync(fixture.gitCommandsPath, "utf8").split("\n").some((command) =>
+      command.startsWith(`clone --depth 1 --branch ${codexDependency.tag} --single-branch ${codexDependency.url} `),
+    ),
   );
   assert.deepEqual(JSON.parse(fs.readFileSync(fixture.codexDependencyEnvPath, "utf8")), {
     allowProtocol: "https",
@@ -578,7 +579,7 @@ test("external merge preflight isolates dependency bootstrap from hostile Git co
 });
 
 for (const [name, options, reason] of [
-  ["malformed version", { codexVersion: "Codex 0.125.0" }, /unsupported Codex version/],
+  ["malformed version", { codexVersion: CODEX_REVIEW_DEPENDENCY.version.replace("codex-cli", "Codex") }, /unsupported Codex version/],
   ["mismatched version", { codexVersion: "codex-cli 0.126.0" }, /unsupported Codex version/],
   ["clone failure", { codexCloneFailure: "fixture clone failure" }, /fixture clone failure/],
   ["lightweight tag", { codexTagType: "commit" }, /tag is not annotated/],
@@ -704,7 +705,7 @@ test("OpenClaw Codex provenance accepts only one exact canonical record", () => 
     ["zero line", [`${prefix}${JSON.stringify({ ...parsed, line: 0 })}`], /citation/],
     ["noninteger line", [`${prefix}${JSON.stringify({ ...parsed, line: 1.5 })}`], /citation/],
     ["noncanonical serialization", [`${prefix}${JSON.stringify(parsed, null, 2)}`], /not canonical/],
-    ["tuple mismatch", [canonical.replace("0.125.0", "0.126.0")], /does not match/],
+    ["tuple mismatch", [canonical.replace(CODEX_REVIEW_DEPENDENCY.version, "codex-cli 0.0.0")], /does not match/],
   ]) {
     assert.match(validateCodexReviewProvenance("openclaw/openclaw", evidence), reason, name);
   }
@@ -5717,7 +5718,7 @@ if (args[0] === "clone" && dependencyCommand) {
 if (dependencyCommand) {
   if (args[0] === "remote" && args[1] === "get-url") console.log("https://github.com/openai/codex.git");
   else if (args[0] === "cat-file" && args[1] === "-t") console.log(${JSON.stringify(codexTagType)});
-  else if (args[0] === "rev-parse" && args[1] === "refs/tags/rust-v0.125.0") console.log(${JSON.stringify(codexTagObject)});
+  else if (args[0] === "rev-parse" && args[1] === ${JSON.stringify(`refs/tags/${CODEX_REVIEW_DEPENDENCY.tag}`)}) console.log(${JSON.stringify(codexTagObject)});
   else if (args[0] === "rev-parse") console.log(${JSON.stringify(codexCommitSha)});
   else if (args[0] === "status" && args[1] === "--porcelain") {
     const source = path.join(dependencyDir, "codex-rs", "exec", "src", "main.rs");

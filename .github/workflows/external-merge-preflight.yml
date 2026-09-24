@@ -64,13 +64,13 @@ jobs:
           path: |
             ~/.npm
             ~/.projectclownfish/codex
-          key: ${{ runner.os }}-node24-codex-${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}-v1
+          key: ${{ runner.os }}-node24-codex-${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.156.1' }}-v1
           restore-keys: |
             ${{ runner.os }}-node24-codex-
 
       - name: Install Codex CLI
         env:
-          CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.125.0' }}
+          CODEX_CLI_VERSION: ${{ vars.CLOWNFISH_CODEX_CLI_VERSION || '0.156.1' }}
         run: |
           set -euo pipefail
           npm config set prefix "$HOME/.projectclownfish/codex"
