@@ -473,7 +473,7 @@ function buildFixArtifact(plan, job) {
           : "Post-merge closure disabled by job frontmatter.",
       fix_first_close:
         job.frontmatter.require_fix_before_close === true
-          ? "Do not emit close actions until Clownfish has opened/pushed a fix PR or merged a canonical PR in this run."
+          ? "A verified duplicate does not require a fix; close_duplicate remains subject to all other close gates. Keep close_superseded blocked until Clownfish has opened/pushed a fix PR, merged a canonical PR in this run, or verified an already-merged candidate fix. Apply the separate fixed-by-candidate, low-signal, and post-merge close gates."
           : "Close actions may run independently when their own safety gates pass.",
     },
     required_validation: [
