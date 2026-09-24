@@ -2604,7 +2604,7 @@ function isBenignAutomationComment({ author, body, pull, view }) {
   }
   if (isStaleAutomationReviewComment({ author, body, pull })) return true;
   if (!isAutomationAuthor(author)) return false;
-  if (isDependencyGuardAutomationComment({ body, pull })) return true;
+  if (isDependencyGuardAutomationComment({ author, body, pull })) return true;
   if (isClawSweeperReadyReviewComment({ author, body, pull, view })) return true;
   return (
     /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
@@ -2621,11 +2621,12 @@ function isClawSweeperPullRequestAck({ author, body, pull }) {
   return match?.[1] === String(pull?.number ?? "");
 }
 
-function isDependencyGuardAutomationComment({ body, pull }) {
+function isDependencyGuardAutomationComment({ author, body, pull }) {
   if (/^<!--\s*openclaw:dependency-guard\s*-->/.test(body)) return true;
   if (!/^<!--\s*openclaw:dependency-graph-guard\s*-->/.test(body)) return false;
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   if (!/^[0-9a-f]{40}$/.test(headSha)) return false;
+  if (author === "github-actions[bot]" && isTrustedDependencyGraphAutomationComment({ body, headSha })) return true;
   if (/### dependency graph change authorized\b/.test(body)) {
     const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
     return approvedSha === headSha;
@@ -2634,6 +2635,38 @@ function isDependencyGuardAutomationComment({ body, pull }) {
     /^<!--\s*openclaw:dependency-graph-guard\s*-->\s*### dependency graph guard cleared\s+this pr no longer has blocked dependency graph changes\.\s+a future dependency graph change requires a fresh `\/allow-dependencies-change` comment after the guard blocks that new head sha\.\s+- current sha:\s*`([0-9a-f]{40})`\s*$/i,
   );
   return cleared?.[1]?.toLowerCase() === headSha;
+}
+
+function isTrustedDependencyGraphAutomationComment({ body, headSha }) {
+  const lines = String(body)
+    .trim()
+    .toLowerCase()
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length !== 7) return false;
+  if (lines[0] !== "<!-- openclaw:dependency-graph-guard -->") return false;
+  if (lines[1] !== "### dependency graph changes noted") return false;
+  if (
+    lines[2] !==
+    "this pr includes dependency graph changes. the dependency guard is informational because the pr author is a repository admin or a member of `@openclaw/openclaw-secops`."
+  ) {
+    return false;
+  }
+  const currentSha = lines[3].match(/^- current sha:\s*`([0-9a-f]{40})`$/)?.[1];
+  if (currentSha !== headSha) return false;
+  if (!/^- trusted actor:\s*@[a-z0-9](?:[a-z0-9-]{0,38})$/.test(lines[4])) return false;
+  if (
+    !/^- trusted role:\s*`pull request author; (?:repository admin|openclaw-secops)`$/.test(
+      lines[5],
+    )
+  ) {
+    return false;
+  }
+  return (
+    lines[6] ===
+    "security review is still recommended before merge when the dependency graph change is intentional."
+  );
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {

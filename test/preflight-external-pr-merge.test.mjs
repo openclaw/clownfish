@@ -5921,3 +5921,127 @@ if (${JSON.stringify(codexFailure)}) {
 function writeExecutable(filePath, content) {
   fs.writeFileSync(filePath, content, { mode: 0o755 });
 }
+
+test("external merge preflight accepts #120232 exact-head informational dependency state", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeInformationalDependencyGraphComment({ headSha }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, body] of [
+  [
+    "stale head",
+    makeInformationalDependencyGraphComment({ headSha: "c".repeat(40) }),
+  ],
+  [
+    "blocked state",
+    [
+      "<!-- openclaw:dependency-graph-guard -->",
+      "",
+      "### Dependency graph changes are blocked",
+      "",
+      "Security approval is required before merge.",
+      "",
+      `- Current SHA: \`${"a".repeat(40)}\``,
+    ].join("\n"),
+  ],
+  [
+    "unknown trusted role",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      trustedRole: "pull request author; outside collaborator",
+    }),
+  ],
+  [
+    "duplicate marker",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      duplicateMarker: true,
+    }),
+  ],
+  [
+    "appended objection",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      extraLines: ["", "Do not merge; the dependency review found an unsafe package."],
+    }),
+  ],
+]) {
+  test(`external merge preflight blocks informational dependency state with ${name}`, () => {
+    const fixture = makeFixture({
+      headSha: "a".repeat(40),
+      issueComments: [
+        {
+          author: { login: "github-actions[bot]" },
+          authorAssociation: "CONTRIBUTOR",
+          body,
+          url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", name);
+    assert.match(
+      report.reason,
+      /security-sensitive signal|actionable top-level issue comment/,
+      name,
+    );
+  });
+}
+
+function makeInformationalDependencyGraphComment({
+  headSha = "a".repeat(40),
+  trustedRole = "pull request author; openclaw-secops",
+  duplicateMarker = false,
+  extraLines = [],
+} = {}) {
+  return [
+    "<!-- openclaw:dependency-graph-guard -->",
+    ...(duplicateMarker ? ["<!-- openclaw:dependency-graph-guard -->"] : []),
+    "",
+    "### Dependency graph changes noted",
+    "",
+    "This PR includes dependency graph changes. The dependency guard is informational because the PR author is a repository admin or a member of `@openclaw/openclaw-secops`.",
+    "",
+    `- Current SHA: \`${headSha}\``,
+    "- Trusted actor: @vincentkoc",
+    `- Trusted role: \`${trustedRole}\``,
+    "",
+    "Security review is still recommended before merge when the dependency graph change is intentional.",
+    ...extraLines,
+  ].join("\n");
+}
+
+for (const author of ["github-actions[bot]", "untrusted-commenter", "untrusted[bot]", "pretendbot"]) {
+  test(`external merge preflight retains objections beside informational dependency state from ${author}`, () => {
+    const fixture = makeFixture({
+      headSha: "a".repeat(40),
+      issueComments: [
+        {
+          author: { login: author },
+          authorAssociation: "CONTRIBUTOR",
+          body: makeInformationalDependencyGraphComment({ headSha: "a".repeat(40) }),
+        },
+        ...(author === "github-actions[bot]" ? [{
+          author: { login: "reviewer" },
+          authorAssociation: "MEMBER",
+          body: "Please add a regression test before merge.",
+        }] : []),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /security-sensitive signal|actionable top-level issue comment/);
+  });
+}
