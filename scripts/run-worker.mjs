@@ -8,6 +8,7 @@ import {
   parseArgs,
   parseJob,
   renderPrompt,
+  renderResultRepairContext,
   repoRoot,
   validateJob,
 } from "./lib.mjs";
@@ -22,6 +23,7 @@ const model = args.model ?? process.env.CLOWNFISH_MODEL ?? "gpt-5.5";
 const codexTimeoutMs = Number(process.env.CLOWNFISH_CODEX_TIMEOUT_MS ?? 30 * 60 * 1000);
 const resultRepairAttempts = Math.max(0, Number(process.env.CLOWNFISH_RESULT_REPAIR_ATTEMPTS ?? 1));
 const resultRepairTimeoutMs = Number(process.env.CLOWNFISH_RESULT_REPAIR_TIMEOUT_MS ?? 10 * 60 * 1000);
+const RESULT_REPAIR_PROMPT_MAX_CHARS = 96_000;
 const plannerTimeoutMs = parsePositiveIntegerEnv(process.env.CLOWNFISH_PLANNER_TIMEOUT_MS, 10 * 60 * 1000);
 const reviewTimeoutMs = parsePositiveIntegerEnv(process.env.CLOWNFISH_REVIEW_TIMEOUT_MS, 10 * 60 * 1000);
 const codexReasoningEffort = String(process.env.CLOWNFISH_CODEX_REASONING_EFFORT ?? "medium");
@@ -241,11 +243,14 @@ function repairResultIfNeeded() {
       fs.readFileSync(beforePath, "utf8").trim(),
       "```",
       "",
-      "## Original worker prompt",
-      "```md",
-      prompt,
-      "```",
+      renderResultRepairContext(job, mode, promptContext),
     ].join("\n");
+    // Never truncate safety facts to fit a repair. Preserve the invalid artifact
+    // for the final validator instead of paying for an under-informed retry.
+    if (repairPrompt.length > RESULT_REPAIR_PROMPT_MAX_CHARS) {
+      console.error(`Codex result repair skipped: required context exceeds ${RESULT_REPAIR_PROMPT_MAX_CHARS} characters; original result retained for validation.`);
+      return;
+    }
 
     const repair = runCodex({
       input: repairPrompt,

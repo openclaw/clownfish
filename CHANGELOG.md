@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Deduplicate model-facing comment and review evidence by GitHub identity while preserving full artifacts and priority selections. Limit structured-result repair to retained scope, gates, result and validator context, with a 96,000-character admission cap instead of replaying the investigation prompt.
 - Keep nested backlog helpers within outer cancellation and preserve uncertain dispatch ledgers through workflow failures and replay.
 - Remove executor-created temporary workspaces after reporting, including blocked and failed exits, while preserving operator work directories. Thanks @SebTardif (#327).
 - Clean up requeue artifact downloads on success and failure, and terminate stalled downloads with a configurable deadline. Thanks @SebTardif (#320, #322).
