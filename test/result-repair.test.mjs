@@ -9,7 +9,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const head = "a".repeat(40);
 const updatedAt = "2026-09-24T00:00:00Z";
 
-function runFixture(t, variant = "normal") {
+function runFixture(t, variant = "normal", mode = "plan") {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-repair-"));
   const slug = path.basename(dir);
   const bin = path.join(dir, "bin");
@@ -18,11 +18,11 @@ function runFixture(t, variant = "normal") {
   t.after(() => {
     fs.rmSync(dir, { recursive: true, force: true });
     for (const name of fs.existsSync(runsRoot) ? fs.readdirSync(runsRoot) : []) {
-      if (name.startsWith(`${slug}-plan-`)) fs.rmSync(path.join(runsRoot, name), { recursive: true, force: true });
+      if (name.startsWith(`${slug}-${mode}-`)) fs.rmSync(path.join(runsRoot, name), { recursive: true, force: true });
     }
   });
   const jobPath = path.join(dir, `${slug}.md`);
-  fs.writeFileSync(jobPath, `---\nrepo: openclaw/openclaw\ncluster_id: ${slug}\nmode: plan\nallowed_actions:\n  - comment\ncandidates:\n  - "#1"\n---\nExact job scope must survive repair.\n`);
+  fs.writeFileSync(jobPath, `---\nrepo: openclaw/openclaw\ncluster_id: ${slug}\nmode: ${mode}\nallowed_actions:\n  - comment\ncandidates:\n  - "#1"\n---\nExact job scope must survive repair.\n`);
   fs.writeFileSync(path.join(bin, "gh"), `#!/usr/bin/env node
 const args = process.argv.slice(2);
 const write = (value) => process.stdout.write(JSON.stringify(value));
@@ -50,16 +50,17 @@ fs.writeFileSync(callsPath, JSON.stringify(calls));
 const output = args[args.indexOf("--output-last-message") + 1];
 fs.writeFileSync(path.join(dir, "output-path"), output);
 if (process.env.CLOWNFISH_TEST_VARIANT === "missing-plan") fs.rmSync(path.join(path.dirname(output), "cluster-plan.json"));
-fs.writeFileSync(output, JSON.stringify({ status: calls.length === 1 ? "failed" : "planned", repo: "openclaw/openclaw", cluster_id: path.basename(dir), mode: "plan", summary: process.env.CLOWNFISH_TEST_VARIANT === "oversized" ? "x".repeat(100_000) : "fixture result", actions: [], needs_human: [], canonical: null, merge_preflight: [], fix_artifact: null }));
+fs.writeFileSync(output, JSON.stringify({ status: calls.length === 1 ? "failed" : "planned", repo: "openclaw/openclaw", cluster_id: path.basename(dir), mode: "${mode}", summary: process.env.CLOWNFISH_TEST_VARIANT === "oversized" ? "x".repeat(100_000) : "fixture result", actions: [], needs_human: [], canonical: null, merge_preflight: [], fix_artifact: null }));
 `);
   for (const name of ["gh", "codex"]) fs.chmodSync(path.join(bin, name), 0o755);
-  const child = spawnSync(process.execPath, ["scripts/run-worker.mjs", jobPath, "--mode", "plan"], {
+  const child = spawnSync(process.execPath, ["scripts/run-worker.mjs", jobPath, "--mode", mode], {
     cwd: root,
     env: {
       ...process.env,
       PATH: `${bin}${path.delimiter}${process.env.PATH}`,
       CLOWNFISH_TEST_FIXTURE: dir, CLOWNFISH_TEST_VARIANT: variant,
       CLOWNFISH_TARGET_CHECKOUT: "", CLOWNFISH_DRY_RUN: "0",
+      CLOWNFISH_ALLOW_EXECUTE: "1",
       CLOWNFISH_MODEL: "gpt-5.5", CLOWNFISH_CODEX_REASONING_EFFORT: "medium",
       CLOWNFISH_RESULT_REPAIR_ATTEMPTS: "1", CLOWNFISH_HYDRATE_COMMENTS: "1",
       CLOWNFISH_MAX_LINKED_REFS: "0",
@@ -114,3 +115,17 @@ test("missing preflight evidence cannot start a repair or manufacture a passing 
   assert.match(child.stderr, /ENOENT/);
   assert.equal(JSON.parse(fs.readFileSync(output, "utf8")).status, "failed");
 });
+
+for (const [mode, modePrompt] of [["plan", "plan-only"], ["execute", "execute"], ["autonomous", "autonomous"]]) {
+  test(`${mode} repair retains complete worker and selected mode instructions`, (t) => {
+    const { child, calls } = runFixture(t, "normal", mode);
+    assert.equal(child.status, 0, child.stderr || child.stdout);
+    assert.equal(calls.length, 2);
+    for (const file of ["worker-system", modePrompt]) {
+      const instructions = fs.readFileSync(path.join(root, "prompts", `${file}.md`), "utf8");
+      assert.ok(calls[0].input.includes(instructions), `initial prompt includes ${file}`);
+      assert.ok(calls[1].input.includes(instructions), `repair prompt includes ${file}`);
+    }
+    assert.doesNotMatch(calls[1].input, /INVESTIGATION_(BODY|DISCUSSION|REVIEW)/);
+  });
+}

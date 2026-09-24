@@ -254,7 +254,8 @@ maintainer and bot priority windows. The retained cluster plan keeps every
 original evidence collection, including the public IDs and URLs.
 
 Structured-result repair receives the current result, validator errors, full job
-scope and policies, and exact hydrated identities and safety gates. Discussion
+scope, worker and selected mode instructions, policies, and exact hydrated
+identities and safety gates. Discussion
 and history stay in the retained artifacts for targeted inspection; repair does
 not replay the investigation prompt. Missing proof requires a non-mutating or
 blocked outcome. If the complete repair prompt exceeds 96,000 characters, the

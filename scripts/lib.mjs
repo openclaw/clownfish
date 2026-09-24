@@ -572,16 +572,8 @@ function requireArray(errors, object, key) {
 
 export function renderPrompt(job, requestedMode, context = {}) {
   const mode = requestedMode ?? job.frontmatter.mode;
-  const modePrompt =
-    mode === "autonomous"
-      ? "prompts/autonomous.md"
-      : mode === "execute"
-        ? "prompts/execute.md"
-        : "prompts/plan-only.md";
   const parts = [
-    readText("prompts/worker-system.md"),
-    readText(modePrompt),
-    jobPolicyPrompt(job),
+    workerInstructions(job, mode),
     "## Job file",
     "```md",
     job.raw.trim(),
@@ -625,8 +617,16 @@ export function renderPrompt(job, requestedMode, context = {}) {
   return parts.join("\n\n");
 }
 
-function jobPolicyPrompt(job) {
+function workerInstructions(job, mode) {
+  const modePrompt =
+    mode === "autonomous"
+      ? "prompts/autonomous.md"
+      : mode === "execute"
+        ? "prompts/execute.md"
+        : "prompts/plan-only.md";
   return [
+    readText("prompts/worker-system.md"),
+    readText(modePrompt),
     "## Security boundary",
     readText("instructions/security-boundary.md"),
     "## Dedupe policy",
@@ -650,7 +650,9 @@ export function renderResultRepairContext(job, mode, context) {
     return { ...item, pull_request: pull ? identity : null };
   });
   return [
-    jobPolicyPrompt(job),
+    // Repair is a fresh session: retain instruction-level requirements such
+    // as per-candidate coverage that structural validation does not enforce.
+    workerInstructions(job, mode),
     "## Job scope", "```md", job.raw.trim(), "```",
     "## Hydrated scope, identities and safety gates", "```json",
     JSON.stringify({ requested_mode: mode, ...preflight }, null, 2), "```",
