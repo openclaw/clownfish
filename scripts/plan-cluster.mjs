@@ -230,6 +230,8 @@ async function hydrateItem(repo, number) {
     comments_count: issue.comments ?? comments.length,
     hydration_error: hydrationError,
     comments: comments.map((comment) => ({
+      id: comment.id,
+      url: comment.html_url,
       author: comment.user?.login,
       author_association: comment.author_association,
       created_at: comment.created_at,
@@ -269,6 +271,8 @@ async function hydrateItem(repo, number) {
               author: commit.author?.login ?? commit.commit?.author?.name,
             })),
             reviews: reviews.map((review) => ({
+              id: review.id,
+              url: review.html_url,
               author: review.user?.login,
               author_association: review.author_association,
               state: review.state,
@@ -276,6 +280,8 @@ async function hydrateItem(repo, number) {
               body_excerpt: excerpt(review.body),
             })),
             review_comments: reviewComments.map((comment) => ({
+              id: comment.id,
+              url: comment.html_url,
               author: comment.user?.login,
               author_association: comment.author_association,
               path: comment.path,
@@ -594,6 +600,8 @@ function extractLinkedRefs(defaultRepo, item) {
 
 function summarizeComment(comment) {
   return {
+    id: comment.id,
+    url: comment.url,
     author: comment.author,
     author_association: comment.author_association,
     created_at: comment.created_at,
@@ -604,6 +612,8 @@ function summarizeComment(comment) {
 
 function summarizeReview(review) {
   return {
+    id: review.id,
+    url: review.url,
     author: review.author,
     author_association: review.author_association,
     state: review.state,
@@ -614,6 +624,8 @@ function summarizeReview(review) {
 
 function summarizeReviewComment(comment) {
   return {
+    id: comment.id,
+    url: comment.url,
     author: comment.author,
     author_association: comment.author_association,
     path: comment.path,

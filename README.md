@@ -247,6 +247,21 @@ Runs for the same job path and mode are queued instead of running concurrently. 
 
 Full worker prompts, Codex transcripts, and raw artifacts stay in GitHub Actions. The committed ledger keeps only the cluster summary, run URL, action counts, apply outcomes, closed targets, and needs-human entries.
 
+Worker prompts combine repeated comments and reviews by their GitHub identity,
+with `maintainer` and `review_bot` classification tags. Distinct identities and
+records without an identity remain separate. Compaction keeps the existing
+maintainer and bot priority windows. The retained cluster plan keeps every
+original evidence collection, including the public IDs and URLs.
+
+Structured-result repair receives the current result, validator errors, full job
+scope, worker and selected mode instructions, policies, and exact hydrated
+identities and safety gates. Discussion
+and history stay in the retained artifacts for targeted inspection; repair does
+not replay the investigation prompt. Missing proof requires a non-mutating or
+blocked outcome. If the complete repair prompt exceeds 96,000 characters, the
+runner skips inference and leaves the original result to fail validation, with
+an explicit diagnostic. It never truncates safety facts to fit the budget.
+
 ## Modes
 
 - `plan`: produces recommendations only.

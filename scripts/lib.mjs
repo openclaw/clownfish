@@ -572,26 +572,8 @@ function requireArray(errors, object, key) {
 
 export function renderPrompt(job, requestedMode, context = {}) {
   const mode = requestedMode ?? job.frontmatter.mode;
-  const modePrompt =
-    mode === "autonomous"
-      ? "prompts/autonomous.md"
-      : mode === "execute"
-        ? "prompts/execute.md"
-        : "prompts/plan-only.md";
   const parts = [
-    readText("prompts/worker-system.md"),
-    readText(modePrompt),
-    "## Security boundary",
-    readText("instructions/security-boundary.md"),
-    "## Dedupe policy",
-    readText("instructions/dedupe.md"),
-    "## Closure policy",
-    readText("instructions/closure-policy.md"),
-    "## Merge policy",
-    readText("instructions/merge-policy.md"),
-    ...(job.frontmatter.triage_policy === "low_signal_prs"
-      ? ["## Low-signal PR policy", readText("instructions/low-signal-prs.md")]
-      : []),
+    workerInstructions(job, mode),
     "## Job file",
     "```md",
     job.raw.trim(),
@@ -635,12 +617,65 @@ export function renderPrompt(job, requestedMode, context = {}) {
   return parts.join("\n\n");
 }
 
+function workerInstructions(job, mode) {
+  const modePrompt =
+    mode === "autonomous"
+      ? "prompts/autonomous.md"
+      : mode === "execute"
+        ? "prompts/execute.md"
+        : "prompts/plan-only.md";
+  return [
+    readText("prompts/worker-system.md"),
+    readText(modePrompt),
+    "## Security boundary",
+    readText("instructions/security-boundary.md"),
+    "## Dedupe policy",
+    readText("instructions/dedupe.md"),
+    "## Closure policy",
+    readText("instructions/closure-policy.md"),
+    "## Merge policy",
+    readText("instructions/merge-policy.md"),
+    ...(job.frontmatter.triage_policy === "low_signal_prs"
+      ? ["## Low-signal PR policy", readText("instructions/low-signal-prs.md")]
+      : []),
+  ].join("\n\n");
+}
+
+export function renderResultRepairContext(job, mode, context) {
+  const { items, ...preflight } = JSON.parse(fs.readFileSync(context.clusterPlanPath, "utf8"));
+  // Keep exact scope, identities and gates; discussion/history remains available
+  // in the retained artifacts rather than restarting the investigation inline.
+  preflight.items = items.map(({ body_excerpt, comments, maintainer_comments, bot_comments, pull_request: pull, ...item }) => {
+    const { files, commits, reviews, review_comments, review_bot_comments, ...identity } = pull ?? {};
+    return { ...item, pull_request: pull ? identity : null };
+  });
+  return [
+    // Repair is a fresh session: retain instruction-level requirements such
+    // as per-candidate coverage that structural validation does not enforce.
+    workerInstructions(job, mode),
+    "## Job scope", "```md", job.raw.trim(), "```",
+    "## Hydrated scope, identities and safety gates", "```json",
+    JSON.stringify({ requested_mode: mode, ...preflight }, null, 2), "```",
+    "## Retained evidence", "```json",
+    JSON.stringify({
+      cluster_plan: path.resolve(context.clusterPlanPath),
+      fix_artifact: context.fixArtifactPath ? path.resolve(context.fixArtifactPath) : null,
+      target_checkout: context.targetCheckoutPath ? path.resolve(context.targetCheckoutPath) : null,
+    }, null, 2), "```",
+    "Only repair the reported validation failures. Read retained evidence only where that correction needs it; do not restart the investigation or execute actions. Omitted discussion/history is unknown, not evidence of absence. Never invent resolved comments, passed reviews/tests, security clearance, or fix proof. If the necessary evidence is unavailable, downgrade the affected action to a non-mutating or blocked outcome with the exact gap.",
+  ].join("\n\n");
+}
+
 function promptArtifactText(title, absolutePath) {
   const raw = fs.readFileSync(absolutePath, "utf8").trim();
-  if (raw.length <= PROMPT_ARTIFACT_MAX_CHARS) return { text: raw, compacted: false };
   try {
     const parsed = JSON.parse(raw);
-    const compacted = title === "Cluster preflight artifact" ? compactClusterPlan(parsed) : compactDeep(parsed);
+    const isClusterPlan = title === "Cluster preflight artifact";
+    const text = isClusterPlan ? JSON.stringify(promptClusterPlan(parsed), null, 2) : raw;
+    if (text.length <= PROMPT_ARTIFACT_MAX_CHARS) return { text, compacted: false };
+    // Select the existing maintainer/bot priority windows before combining them.
+    // Combining first would let ordinary comments displace those evidence sets.
+    const compacted = isClusterPlan ? promptClusterPlan(compactClusterPlan(parsed)) : compactDeep(parsed);
     const compactText = JSON.stringify(compacted, null, 2);
     if (compactText.length <= PROMPT_ARTIFACT_MAX_CHARS) return { text: compactText, compacted: true };
     return {
@@ -657,11 +692,57 @@ function promptArtifactText(title, absolutePath) {
       compacted: true,
     };
   } catch {
+    if (raw.length <= PROMPT_ARTIFACT_MAX_CHARS) return { text: raw, compacted: false };
     return {
       text: `${raw.slice(0, PROMPT_ARTIFACT_MAX_CHARS - 120)}\n... [artifact truncated for Codex input budget]`,
       compacted: true,
     };
   }
+}
+
+function promptClusterPlan(plan) {
+  return {
+    ...plan,
+    items: (plan.items ?? []).map((item) => {
+      const { maintainer_comments, bot_comments, pull_request: pull, ...rest } = item;
+      const { review_bot_comments, ...pullFields } = pull ?? {};
+      return {
+        ...rest,
+        comments: mergePromptEvidence([
+          [maintainer_comments, "maintainer"], [bot_comments, "review_bot"], [item.comments],
+        ]),
+        pull_request: pull ? {
+          ...pullFields,
+          reviews: mergePromptEvidence([
+            [(review_bot_comments ?? []).filter((entry) => "state" in entry), "review_bot"], [pull.reviews],
+          ]),
+          review_comments: mergePromptEvidence([
+            [(review_bot_comments ?? []).filter((entry) => !("state" in entry)), "review_bot"], [pull.review_comments],
+          ]),
+        } : null,
+      };
+    }),
+  };
+}
+
+function mergePromptEvidence(groups) {
+  const entries = [];
+  const identities = new Map();
+  for (const [records = [], classification] of groups) {
+    for (const record of records) {
+      // Separate collections namespace GitHub IDs by comment/review kind.
+      // Without an identity, matching prose is not proof of the same record.
+      const identity = record.id != null ? `id:${record.id}` : record.url ? `url:${record.url}` : null;
+      let entry = identity === null ? undefined : identities.get(identity);
+      if (!entry) {
+        entry = { ...record, classifications: [] };
+        entries.push(entry);
+        if (identity !== null) identities.set(identity, entry);
+      }
+      if (classification && !entry.classifications.includes(classification)) entry.classifications.push(classification);
+    }
+  }
+  return entries;
 }
 
 function compactClusterPlan(plan) {
