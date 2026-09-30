@@ -3,6 +3,27 @@ import test from "node:test";
 
 import { appendLedger } from "../scripts/comment-router-utils.mjs";
 
+test("appendLedger retains pending confirmations beyond terminal history and preserves terminal outcomes", () => {
+  const pending = {
+    idempotency_key: "pending", comment_id: "202", comment_version_key: "202:updated",
+    repo: "openclaw/openclaw", intent: "clawsweeper_auto_merge", status: "waiting",
+    pending_merge_confirmation: true, expected_head_sha: "a".repeat(40),
+  };
+  const ledger = { commands: [] };
+  appendLedger(ledger, [pending, { idempotency_key: "ordinary-wait", status: "waiting" }]);
+  assert.equal(ledger.commands.length, 1);
+  assert.equal(ledger.commands[0].pending_merge_confirmation, true);
+  appendLedger(ledger, Array.from({ length: 1001 }, (_, index) => ({ idempotency_key: `done-${index}`, status: "executed" })));
+  assert.equal(ledger.commands.length, 1001);
+  assert.equal(ledger.commands.find((entry) => entry.idempotency_key === "pending").status, "waiting");
+  appendLedger(ledger, [{ ...pending, status: "executed" }]);
+  appendLedger(ledger, [pending]);
+  assert.equal(ledger.commands.find((entry) => entry.idempotency_key === "pending").status, "executed");
+  const unknownLedger = { commands: [{ ...pending, status: "unknown" }] };
+  appendLedger(unknownLedger, [pending]);
+  assert.equal(unknownLedger.commands[0].status, "unknown");
+});
+
 test("appendLedger keeps edited comment versions separate", () => {
   const ledger = { updated_at: null, commands: [] };
 

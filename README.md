@@ -533,6 +533,13 @@ automerge require the reviewed head, live merge timestamp and full merge commit 
 success; unconfirmed merges do not announce completion or close linked issues.
 On replay, automerge records GitHub's confirmed merge only for the reviewed head,
 without submitting another merge or claiming Clownfish performed the earlier merge.
+Pending merge confirmations stay in the ledger beyond the recent-comment lookback
+and terminal history limit. The router re-fetches those commands by ID, retires
+edited or deleted commands, and never resubmits a merge while confirmation is pending.
+Post-flight checkpoints a submitted request in its result report before fetching
+confirmation, so retries observe that request instead of submitting it again.
+A fully bound preflight for a new head can supersede the old checkpoint; all live
+merge gates still apply to that new request.
 External merge preflight and ready-PR inventory also block failing or pending legacy
 commit statuses and unfinished checks, while preserving their ignored-check exceptions.
 

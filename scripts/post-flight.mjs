@@ -66,13 +66,23 @@ if (!["execute", "autonomous"].includes(result.mode)) {
 }
 
 const fixReport = readSiblingJson(resultPath, "fix-execution-report.json");
+const previousReport = readSiblingJson(resultPath, "post-flight-report.json");
+const pendingActions = previousReport?.repo === result.repo && previousReport?.cluster_id === result.cluster_id
+  ? (previousReport.actions ?? []).filter((action) => action.pending_merge_confirmation === true)
+  : [];
+for (const action of pendingActions) {
+  const target = parsePullRequestUrl(action.target);
+  if (action.action !== "finalize_fix_pr" || target?.repo !== result.repo || action.pr !== `#${target.number}` || !/^[0-9a-f]{40}$/i.test(String(action.expected_head_sha ?? ""))) {
+    throw new Error("invalid pending post-flight merge checkpoint");
+  }
+}
 const report = {
   repo: result.repo,
   cluster_id: result.cluster_id,
   dry_run: dryRun,
   result_path: path.relative(repoRoot(), resultPath),
   post_flight_at: new Date().toISOString(),
-  actions: [],
+  actions: [...pendingActions],
 };
 
 if (!fixReport) {
@@ -84,7 +94,7 @@ if (!fixReport) {
 for (const action of fixReport.actions ?? []) {
   if (!FIX_PR_ACTIONS.has(String(action.action ?? ""))) continue;
   const finalized = finalizeFixPr(action);
-  report.actions.push(finalized);
+  recordFinalization(finalized);
   if (finalized.status === "executed") {
     report.actions.push(...finalizePostMergeCloseouts(action, finalized));
   }
@@ -113,8 +123,9 @@ function finalizeFixPr(action) {
     return { ...base, status: "blocked", reason: "fix PR URL is missing or outside target repo" };
   }
 
+  const pending = report.actions.find((entry) => entry.action === "finalize_fix_pr" && entry.pr === `#${parsed.number}` && entry.pending_merge_confirmation);
   const policyBlock = validateMergePolicy();
-  if (policyBlock) return { ...base, status: "blocked", pr: `#${parsed.number}`, reason: policyBlock };
+  if (policyBlock) return { ...pending, ...base, status: "blocked", pr: `#${parsed.number}`, reason: policyBlock };
 
   const deadline = Date.now() + POST_FLIGHT_WAIT_MS;
   let pull;
@@ -134,6 +145,7 @@ function finalizeFixPr(action) {
       const proof = verifiedMergeProof(pull, reviewedHeadSha) ?? verifiedMergeProof(view, reviewedHeadSha);
       if (!proof) {
         return {
+          ...pending,
           ...prBase,
           status: "blocked",
           reason: "merged pull request is missing verified merge proof",
@@ -146,8 +158,31 @@ function finalizeFixPr(action) {
         status: "executed",
         reason: "already merged",
         ...proof,
+        expected_head_sha: reviewedHeadSha,
         waited_ms: waitedMs,
       };
+    }
+
+    if (pending) {
+      if (pull.state === "closed" && pull.merged === false) {
+        return { ...prBase, status: "blocked", reason: "queued pull request was closed without merging" };
+      }
+      const sameHead = pull.head?.sha === pending.expected_head_sha;
+      const refreshedReview = !sameHead && !validateMergePreflight(action.merge_preflight, {
+        headSha: pull.head?.sha,
+        baseSha: liveBaseSha,
+      });
+      if (!refreshedReview) {
+        return {
+          ...pending,
+          ...prBase,
+          status: "blocked",
+          reason: sameHead ? "GitHub has not confirmed the queued merge" : "pull request head changed while merge confirmation was pending",
+          retry_recommended: sameHead,
+          waited_ms: waitedMs,
+        };
+      }
+      // A newly reviewed head is a new intent; all live merge gates still apply.
     }
 
     mergeBlock = validateMergeableFixPr({ pull, view, preflight: action.merge_preflight, liveBaseSha });
@@ -231,19 +266,21 @@ function finalizeFixPr(action) {
     }
     throw error;
   }
+  const unconfirmed = {
+    ...prBase,
+    status: "blocked",
+    reason: "merge command returned without a verified merged pull request",
+    pending_merge_confirmation: true,
+    retry_recommended: true,
+    merge_method: "squash",
+    expected_head_sha: expectedHeadSha,
+    waited_ms: waitedMs,
+  };
+  recordFinalization(unconfirmed);
+  writeReport(report, resultPath, false);
   const merged = fetchPullRequest(result.repo, parsed.number);
   const proof = verifiedMergeProof(merged, expectedHeadSha);
-  if (!proof) {
-    return {
-      ...prBase,
-      status: "blocked",
-      reason: "merge command returned without a verified merged pull request",
-      retry_recommended: true,
-      merge_method: "squash",
-      expected_head_sha: expectedHeadSha,
-      waited_ms: waitedMs,
-    };
-  }
+  if (!proof) return unconfirmed;
   return {
     ...prBase,
     status: "executed",
@@ -527,10 +564,15 @@ function readSiblingJson(resultPath, name) {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 }
 
-function writeReport(report, resultPath) {
+function recordFinalization(action) {
+  if (action.pr) report.actions = report.actions.filter((entry) => entry.action !== action.action || entry.pr !== action.pr);
+  report.actions.push(action);
+}
+
+function writeReport(report, resultPath, print = true) {
   const reportPath = path.join(path.dirname(resultPath), "post-flight-report.json");
   fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
-  console.log(JSON.stringify(report, null, 2));
+  if (print) console.log(JSON.stringify(report, null, 2));
 }
 
 function parsePullRequestUrl(value) {

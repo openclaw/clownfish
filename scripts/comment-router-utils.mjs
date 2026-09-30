@@ -27,7 +27,11 @@ export function readLedger(file) {
 }
 
 export function isRecordableCommand(entry) {
-  return ["executed", "skipped", "unknown"].includes(entry.status);
+  return ["executed", "skipped", "unknown"].includes(entry.status) || isPendingMergeConfirmation(entry);
+}
+
+export function isPendingMergeConfirmation(entry) {
+  return entry.status === "waiting" && entry.pending_merge_confirmation === true && entry.intent === "clawsweeper_auto_merge";
 }
 
 export function appendLedger(current, entries) {
@@ -54,6 +58,7 @@ export function appendLedger(current, entries) {
       expected_head_sha: entry.expected_head_sha ?? null,
       finding_id: entry.finding_id ?? null,
       status: entry.status,
+      ...(isPendingMergeConfirmation(entry) ? { pending_merge_confirmation: true } : {}),
       ...(entry.reason ? { reason: entry.reason } : {}),
       processed_at: new Date().toISOString(),
       target: entry.target
@@ -71,11 +76,17 @@ export function appendLedger(current, entries) {
     const key = ledgerEntryKey(entry);
     const previous = byCommentVersion.get(key);
     if (previous?.status === "executed" && entry.status !== "executed") continue;
-    if (previous?.status === "unknown" && entry.status === "skipped") continue;
+    if (previous?.status === "unknown" && entry.status !== "executed") continue;
+    // A resolved old pending command belongs in the newest terminal history.
+    byCommentVersion.delete(key);
     byCommentVersion.set(key, entry);
   }
   current.updated_at = new Date().toISOString();
-  current.commands = [...byCommentVersion.values()].slice(-1000);
+  const values = [...byCommentVersion.values()];
+  current.commands = [
+    ...values.filter(isPendingMergeConfirmation),
+    ...values.filter((entry) => !isPendingMergeConfirmation(entry)).slice(-1000),
+  ];
 }
 
 function ledgerEntryKey(entry) {

@@ -315,14 +315,14 @@ for (const mergeOutcome of ["queued", "missing-sha", "missing-timestamp"]) {
     assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
     assert.equal(state.issue_comments["2"].length, 0);
     const ledgerPath = path.join(fixture.root, "results", "comment-router.json");
-    assert.equal(readJson(ledgerPath).commands.some((entry) => entry.comment_id === "202"), false);
+    assert.equal(readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202")?.status, "waiting");
 
     state.merged = true;
     fs.writeFileSync(fixture.state, JSON.stringify(state));
     const incomplete = runRouter(fixture, args, comments, { FAKE_MERGE_OUTCOME: "missing-sha" });
     assert.equal(incomplete.status, 0, incomplete.stderr || incomplete.stdout);
     assert.equal(JSON.parse(incomplete.stdout).commands[0].status, "waiting");
-    assert.equal(readJson(ledgerPath).commands.some((entry) => entry.comment_id === "202"), false);
+    assert.equal(readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202")?.status, "waiting");
 
     const replay = runRouter(fixture, args);
     assert.equal(replay.status, 0, replay.stderr || replay.stdout);
@@ -385,6 +385,123 @@ test("merge command completion rechecks the reviewed head", (t) => {
   assert.doesNotMatch(state.issue_comments["2"][0].body, /GitHub confirms|Clownfish merged/);
 });
 
+test("queued merge confirmation survives the lookback and serialized replay", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, {
+    FAKE_MERGE_OUTCOME: "queued",
+  });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  assert.equal(JSON.parse(first.stdout).commands[0].status, "waiting");
+  const later = "2026-07-12T06:00:00.000Z";
+  const waiting = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later]);
+  assert.equal(waiting.status, 0, waiting.stderr || waiting.stdout);
+  assert.equal(JSON.parse(waiting.stdout).commands[0]?.status, "waiting");
+  const state = readJson(fixture.state);
+  assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+  state.merged = true;
+  fs.writeFileSync(fixture.state, JSON.stringify(state));
+  const scopeFile = path.join(fixture.root, "deferred.json");
+  const route = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--defer-merges", "--deferred-merge-file", scopeFile]);
+  assert.equal(route.status, 0, route.stderr || route.stdout);
+  assert.deepEqual(readJson(scopeFile).comment_ids, ["202"]);
+  const replay = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--merge-only", "--merge-scope-file", scopeFile, "--comment-ids", "202"]);
+  assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+  assert.equal(JSON.parse(replay.stdout).commands[0].status, "executed");
+  const finalState = readJson(fixture.state);
+  assert.equal(finalState.calls.filter((call) => call.type === "pr_merge").length, 1);
+  assert.equal(finalState.issue_comments["2"].length, 1);
+  assert.match(finalState.issue_comments["2"][0].body, /GitHub confirms/);
+});
+
+for (const [change, mode] of [["edited", "scan"], ["edited", "scoped"], ["deleted", "scan"], ["deleted", "scoped"]]) {
+  test(`pending merge confirmation retires ${change} commands in ${mode} mode`, (t) => {
+    const fixture = makeFixture();
+    t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+    const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+    assert.equal(first.status, 0, first.stderr || first.stdout);
+    const later = "2026-07-12T06:00:00.000Z";
+    const scopeFile = path.join(fixture.root, "deferred.json");
+    const replayArgs = ["--execute", "--repo", "openclaw/openclaw", "--since", later];
+    if (mode === "scoped") {
+      const route = runRouter(fixture, [...replayArgs, "--defer-merges", "--deferred-merge-file", scopeFile]);
+      assert.equal(route.status, 0, route.stderr || route.stdout);
+      replayArgs.push("--merge-only", "--merge-scope-file", scopeFile, "--comment-ids", "202");
+    }
+    const changed = change === "deleted" ? [] : comments.map((comment) => ({ ...comment, updated_at: "2026-07-12T05:00:00.000Z", body: "withdrawn" }));
+    if (mode === "scoped") {
+      const scope = readJson(scopeFile);
+      fs.writeFileSync(scopeFile, JSON.stringify({ ...scope, comments: scope.comments.map((entry) => ({ ...entry, expected_head_sha: "d".repeat(40) })) }));
+      const invalid = runRouter(fixture, replayArgs, changed);
+      assert.notEqual(invalid.status, 0);
+      assert.equal(readJson(path.join(fixture.root, "results/comment-router.json")).commands.find((entry) => entry.comment_id === "202").status, "waiting");
+      fs.writeFileSync(scopeFile, JSON.stringify(scope));
+    }
+    const replay = runRouter(fixture, replayArgs, changed);
+    assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+    assert.equal(JSON.parse(replay.stdout).commands[0]?.status, "skipped");
+    assert.equal(readJson(path.join(fixture.root, "results/comment-router.json")).commands.find((entry) => entry.comment_id === "202").status, "skipped");
+    const state = readJson(fixture.state);
+    assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+    assert.equal(state.issue_comments["2"].length, 0);
+  });
+}
+
+test("pending merge confirmation survives a transient comment lookup failure", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  const run = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", "2026-07-12T06:00:00.000Z"], comments, { FAKE_COMMENT_LOOKUP_FAILURE: "1" });
+  assert.notEqual(run.status, 0);
+  assert.match(run.stderr, /HTTP 503/);
+  assert.equal(readJson(path.join(fixture.root, "results/comment-router.json")).commands.find((entry) => entry.comment_id === "202").status, "waiting");
+  assert.equal(readJson(fixture.state).calls.filter((call) => call.type === "pr_merge").length, 1);
+});
+
+test("pending merge confirmation survives removal of the opt-in label", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), opted_out: true }));
+  const waiting = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", "2026-07-12T06:00:00.000Z"]);
+  assert.equal(waiting.status, 0, waiting.stderr || waiting.stdout);
+  assert.equal(JSON.parse(waiting.stdout).commands[0].status, "waiting");
+  fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), merged: true }));
+  const replay = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", "2026-07-12T06:00:00.000Z"]);
+  assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+  assert.equal(JSON.parse(replay.stdout).commands[0].status, "executed");
+  const state = readJson(fixture.state);
+  assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+  assert.match(state.issue_comments["2"][0].body, /GitHub confirms/);
+});
+
+for (const phase of ["after-merge", "pending-confirmation"]) {
+  test(`merge confirmation retains pending state on ${phase} read timeout`, (t) => {
+    const fixture = makeFixture();
+    t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+    const args = ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"];
+    if (phase === "pending-confirmation") {
+      const first = runRouter(fixture, args, comments, { FAKE_MERGE_OUTCOME: "queued" });
+      assert.equal(first.status, 0, first.stderr || first.stdout);
+      fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), view_calls: 0 }));
+    }
+    const run = runRouter(fixture, args, comments, {
+      FAKE_VIEW_TIMEOUT_AT: phase === "after-merge" ? "3" : "2", CLOWNFISH_GH_EXEC_TIMEOUT_MS: "5000",
+    });
+    assert.equal(run.status, 0, run.stderr || run.stdout);
+    assert.equal(JSON.parse(run.stdout).commands[0].status, "waiting");
+    assert.equal(readJson(path.join(fixture.root, "results/comment-router.json")).commands.find((entry) => entry.comment_id === "202").status, "waiting");
+    assert.equal(readJson(fixture.state).calls.filter((call) => call.type === "pr_merge").length, 1);
+    fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), merged: true }));
+    const replay = runRouter(fixture, args);
+    assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+    assert.equal(JSON.parse(replay.stdout).commands[0].status, "executed");
+    assert.equal(readJson(fixture.state).calls.filter((call) => call.type === "pr_merge").length, 1);
+  });
+}
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-comment-router-"));
   const scripts = path.join(root, "scripts");
@@ -444,7 +561,16 @@ const inputPayload = () => {
 if (args[0] === "api") {
   const endpoint = args[1];
   if (endpoint.startsWith("repos/openclaw/openclaw/issues/comments?since=")) {
-    send([comments]);
+    const since = new URL("https://api.github.com/" + endpoint).searchParams.get("since");
+    send([comments.filter((comment) => comment.updated_at >= since)]);
+    process.exit(0);
+  }
+  const pendingComment = endpoint.match(/^repos\\/openclaw\\/openclaw\\/issues\\/comments\\/(\\d+)$/);
+  if (pendingComment) {
+    if (process.env.FAKE_COMMENT_LOOKUP_FAILURE) { console.error("HTTP 503: Service unavailable"); process.exit(1); }
+    const comment = comments.find((entry) => String(entry.id) === pendingComment[1]);
+    if (!comment) { console.error("HTTP 404: Not Found"); process.exit(1); }
+    send(comment);
     process.exit(0);
   }
   if (endpoint === "repos/openclaw/openclaw/collaborators/maintainer/permission") {
@@ -494,13 +620,16 @@ if (args[0] === "api") {
 if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
   state.view_calls = (state.view_calls || 0) + 1;
   save();
+  if (String(state.view_calls) === process.env.FAKE_VIEW_TIMEOUT_AT) {
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 10000);
+  }
   send({
     headRefName: "feature",
     headRefOid: process.env.FAKE_CONFIRMATION_HEAD_DRIFT && state.view_calls > 1 ? "${"c".repeat(40)}" : state.head || "${reviewedHead}",
     author: { login: "contributor" },
     baseRefName: "main",
     isDraft: false,
-    labels: [{ name: "clownfish:automerge" }],
+    labels: state.opted_out ? [] : [{ name: "clownfish:automerge" }],
     mergeable: "MERGEABLE",
     mergeCommit: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-sha" ? { oid: "${mergedHead}" } : null,
     mergeStateStatus: "CLEAN",
