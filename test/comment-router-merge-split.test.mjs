@@ -301,7 +301,7 @@ test("workflow holds the merge queue through replay and ledger publication", () 
   assert.equal((workflow.match(/\n    concurrency:/g) ?? []).length, 1);
 });
 
-for (const mergeOutcome of ["queued", "missing-sha"]) {
+for (const mergeOutcome of ["queued", "missing-sha", "missing-timestamp"]) {
   test(`merge replay waits without announcing or ledgering ${mergeOutcome} success`, (t) => {
     const fixture = makeFixture();
     t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
@@ -316,8 +316,74 @@ for (const mergeOutcome of ["queued", "missing-sha"]) {
     assert.equal(state.issue_comments["2"].length, 0);
     const ledgerPath = path.join(fixture.root, "results", "comment-router.json");
     assert.equal(readJson(ledgerPath).commands.some((entry) => entry.comment_id === "202"), false);
+
+    state.merged = true;
+    fs.writeFileSync(fixture.state, JSON.stringify(state));
+    const incomplete = runRouter(fixture, args, comments, { FAKE_MERGE_OUTCOME: "missing-sha" });
+    assert.equal(incomplete.status, 0, incomplete.stderr || incomplete.stdout);
+    assert.equal(JSON.parse(incomplete.stdout).commands[0].status, "waiting");
+    assert.equal(readJson(ledgerPath).commands.some((entry) => entry.comment_id === "202"), false);
+
+    const replay = runRouter(fixture, args);
+    assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+    const merge = JSON.parse(replay.stdout).commands[0].actions.find((action) => action.action === "merge");
+    assert.equal(merge.status, "executed");
+    assert.equal(merge.merge_commit_sha, mergedHead);
+    assert.equal(merge.merged_at, "2026-07-12T00:03:00.000Z");
+    const settled = readJson(fixture.state);
+    assert.equal(settled.calls.filter((call) => call.type === "pr_merge").length, 1);
+    assert.equal(settled.issue_comments["2"].length, 1);
+    assert.match(settled.issue_comments["2"][0].body, /GitHub confirms this PR is merged/);
+    assert.doesNotMatch(settled.issue_comments["2"][0].body, /Clownfish merged/);
+    assert.equal(readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202").status, "executed");
+    const repeated = runRouter(fixture, args);
+    assert.equal(repeated.status, 0, repeated.stderr || repeated.stdout);
+    assert.equal(JSON.parse(repeated.stdout).commands[0].status, "skipped");
+    assert.equal(readJson(fixture.state).issue_comments["2"].length, 1);
   });
 }
+
+test("merge replay does not confirm a different head or a closed unmerged PR", (t) => {
+  for (const scenario of [{ merged: true, head: "c".repeat(40) }, { closed: true }]) {
+    const fixture = makeFixture();
+    t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+    fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), ...scenario }));
+    const run = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"]);
+    assert.equal(run.status, 0, run.stderr || run.stdout);
+    assert.equal(JSON.parse(run.stdout).commands[0].status, "skipped");
+    assert.equal(readJson(fixture.state).issue_comments["2"].length, 0);
+    assert.equal(readJson(fixture.state).calls.filter((call) => call.type === "pr_merge").length, 0);
+  }
+});
+
+test("merge replay rechecks the reviewed head before recording confirmation", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), merged: true }));
+  const run = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, {
+    FAKE_CONFIRMATION_HEAD_DRIFT: "1",
+  });
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  const merge = JSON.parse(run.stdout).commands[0].actions.find((action) => action.action === "merge");
+  assert.equal(merge.status, "blocked");
+  const state = readJson(fixture.state);
+  assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 0);
+  assert.doesNotMatch(state.issue_comments["2"][0].body, /GitHub confirms|Clownfish merged|left the PR open/);
+});
+
+test("merge command completion rechecks the reviewed head", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const run = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, {
+    FAKE_POST_MERGE_HEAD_DRIFT: "1",
+  });
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  const merge = JSON.parse(run.stdout).commands[0].actions.find((action) => action.action === "merge");
+  assert.equal(merge.status, "blocked");
+  const state = readJson(fixture.state);
+  assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+  assert.doesNotMatch(state.issue_comments["2"][0].body, /GitHub confirms|Clownfish merged/);
+});
 
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-comment-router-"));
@@ -420,15 +486,17 @@ if (args[0] === "api") {
     process.exit(0);
   }
   if (endpoint === "repos/openclaw/openclaw/issues/2") {
-    send({ number: 2, state: "open", title: "merge target", labels: [], pull_request: {} });
+    send({ number: 2, state: state.merged || state.closed ? "closed" : "open", title: "merge target", labels: [], pull_request: {} });
     process.exit(0);
   }
 }
 
 if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
+  state.view_calls = (state.view_calls || 0) + 1;
+  save();
   send({
     headRefName: "feature",
-    headRefOid: "${reviewedHead}",
+    headRefOid: process.env.FAKE_CONFIRMATION_HEAD_DRIFT && state.view_calls > 1 ? "${"c".repeat(40)}" : state.head || "${reviewedHead}",
     author: { login: "contributor" },
     baseRefName: "main",
     isDraft: false,
@@ -436,9 +504,9 @@ if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
     mergeable: "MERGEABLE",
     mergeCommit: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-sha" ? { oid: "${mergedHead}" } : null,
     mergeStateStatus: "CLEAN",
-    mergedAt: state.merged ? "2026-07-12T00:03:00.000Z" : null,
+    mergedAt: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-timestamp" ? "2026-07-12T00:03:00.000Z" : null,
     reviewDecision: "APPROVED",
-    state: state.merged ? "MERGED" : "OPEN",
+    state: state.merged ? "MERGED" : state.closed ? "CLOSED" : "OPEN",
     statusCheckRollup: [{ name: "ci", status: "COMPLETED", conclusion: "SUCCESS" }],
     title: "merge target"
   });
@@ -447,6 +515,7 @@ if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
 
 if (args[0] === "pr" && args[1] === "merge" && args[2] === "2") {
   state.merged = process.env.FAKE_MERGE_OUTCOME !== "queued";
+  if (process.env.FAKE_POST_MERGE_HEAD_DRIFT) state.head = "${"c".repeat(40)}";
   state.calls.push({ type: "pr_merge", number: "2", args });
   save();
   process.exit(0);

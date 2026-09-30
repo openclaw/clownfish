@@ -10,7 +10,7 @@ const head = "a".repeat(40);
 const base = "b".repeat(40);
 const commit = "c".repeat(40);
 
-for (const outcome of ["queued", "missing-sha", "invalid-sha", "confirmed", "already-missing-sha", "already-confirmed"]) {
+for (const outcome of ["queued", "missing-sha", "invalid-sha", "confirmed", "head-drift", "already-missing-sha", "already-confirmed", "already-head-drift"]) {
   test(`post-flight requires confirmed merge proof before closeout: ${outcome}`, (t) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-post-flight-merge-"));
     t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -56,13 +56,14 @@ const args = process.argv.slice(2);
 const state = JSON.parse(fs.readFileSync(process.env.FIXTURE_STATE, "utf8"));
 state.calls.push(args);
 const outcome = process.env.FIXTURE_OUTCOME;
+const liveHead = state.merged && outcome.endsWith("head-drift") ? "${"d".repeat(40)}" : "${head}";
 let response;
 if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/2") {
-  response = { number: 2, state: state.merged ? "closed" : "open", head: { sha: "${head}" }, base: { ref: "main" },
+  response = { number: 2, state: state.merged ? "closed" : "open", head: { sha: liveHead }, base: { ref: "main" },
     merged_at: state.merged ? "2026-09-26T00:00:00Z" : null,
     merge_commit_sha: outcome.includes("missing-sha") ? null : outcome === "invalid-sha" ? "abc" : "${commit}" };
 } else if (args[0] === "pr" && args[1] === "view") {
-  response = { baseRefName: "main", mergeable: "MERGEABLE", mergeStateStatus: "CLEAN",
+  response = { baseRefName: "main", headRefOid: liveHead, mergeable: "MERGEABLE", mergeStateStatus: "CLEAN",
     mergedAt: state.merged ? "2026-09-26T00:00:00Z" : null,
     mergeCommit: outcome.includes("missing-sha") ? null : { oid: "${commit}" },
     statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: "SUCCESS" }] };

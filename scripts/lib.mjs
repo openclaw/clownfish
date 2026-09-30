@@ -15,7 +15,10 @@ const DEFAULT_CAPACITY_POLL_MS = 30_000;
 const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
 const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];
 
-export function verifiedMergeProof(record) {
+export function verifiedMergeProof(record, expectedHeadSha) {
+  const expected = String(expectedHeadSha ?? "");
+  const headSha = String(record?.head?.sha ?? record?.headRefOid ?? "");
+  if (!/^[0-9a-f]{40}$/i.test(expected) || headSha !== expected) return null;
   const mergedAt = record?.merged_at ?? record?.mergedAt ?? null;
   const sha = String(record?.merge_commit_sha ?? record?.mergeCommit?.oid ?? "");
   if (!mergedAt || !/^[0-9a-f]{40}$/i.test(sha)) return null;

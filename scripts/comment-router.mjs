@@ -529,8 +529,10 @@ function classifyAutoclose(command, issue, pull) {
 }
 
 function classifyAutomergePass(command, issue, pull) {
-  if (String(issue.state ?? "").toLowerCase() !== "open") return { ...command, status: "skipped", reason: "PR is not open" };
   if (!pull) return { ...command, status: "skipped", reason: "ClawSweeper pass marker is not on a PR" };
+  if (String(issue.state ?? "").toLowerCase() !== "open" && !pull.mergedAt && pull.state !== "MERGED") {
+    return { ...command, status: "skipped", reason: "PR is not open" };
+  }
   if (!hasLabel(command.target, AUTOMERGE_LABEL)) return { ...command, status: "skipped", reason: "PR is not opted into Clownfish automerge" };
   const reviewedHeadBlock = automergeReviewedHeadBlockReason({
     expectedHeadSha: command.expected_head_sha,
@@ -1087,6 +1089,24 @@ function executeAutomerge(command) {
   const view = fetchPullRequestView(command.issue_number);
   const labels = (view.labels ?? []).map((item) => item.name ?? item);
   const latestTarget = { ...command.target, ...view, labels, head_sha: view.headRefOid ?? command.target?.head_sha ?? null };
+  if (view.mergedAt || view.state === "MERGED") {
+    const headBlock = automergeReviewedHeadBlockReason({
+      expectedHeadSha: command.expected_head_sha,
+      currentHeadSha: view.headRefOid,
+    });
+    if (headBlock) return { action: "merge", status: "blocked", reason: headBlock };
+    const proof = verifiedMergeProof(view, command.expected_head_sha);
+    if (!proof) {
+      return { action: "merge", status: "waiting", reason: "merged pull request is missing verified merge proof" };
+    }
+    return {
+      action: "merge",
+      status: "executed",
+      reason: "GitHub confirms the reviewed pull request was already merged",
+      already_merged: true,
+      ...proof,
+    };
+  }
   const block = validateAutomergeReadiness({ command, view, target: latestTarget });
   if (block) {
     if (isTransientAutomergeBlock(block, view)) {
@@ -1124,7 +1144,12 @@ function executeAutomerge(command) {
     };
   }
   const merged = fetchPullRequestView(command.issue_number);
-  const proof = verifiedMergeProof(merged);
+  const headBlock = automergeReviewedHeadBlockReason({
+    expectedHeadSha: command.expected_head_sha,
+    currentHeadSha: merged.headRefOid,
+  });
+  if (headBlock) return { action: "merge", status: "blocked", reason: headBlock };
+  const proof = verifiedMergeProof(merged, command.expected_head_sha);
   if (!proof) {
     return {
       action: "merge",

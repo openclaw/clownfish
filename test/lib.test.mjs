@@ -14,16 +14,22 @@ import {
   verifiedMergeProof,
 } from "../scripts/lib.mjs";
 
-test("verified merge proof requires a timestamp and a commit sha", () => {
+test("verified merge proof requires the reviewed head, timestamp and commit sha", () => {
   const sha = "a".repeat(40);
-  assert.equal(verifiedMergeProof(null), null);
-  assert.equal(verifiedMergeProof({ mergedAt: "2026-09-26T00:00:00Z" }), null);
-  assert.equal(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: "abc" }), null);
-  assert.deepEqual(verifiedMergeProof({ mergedAt: "2026-09-26T00:00:00Z", mergeCommit: { oid: sha } }), {
+  const head = "b".repeat(40);
+  const record = { mergedAt: "2026-09-26T00:00:00Z", mergeCommit: { oid: sha }, headRefOid: head };
+  assert.equal(verifiedMergeProof(null, head), null);
+  assert.equal(verifiedMergeProof({ ...record, mergedAt: null }, head), null);
+  assert.equal(verifiedMergeProof({ ...record, mergeCommit: { oid: "abc" } }, head), null);
+  assert.equal(verifiedMergeProof({ ...record, headRefOid: null }, head), null);
+  assert.equal(verifiedMergeProof(record), null);
+  assert.equal(verifiedMergeProof(record, "abc"), null);
+  assert.equal(verifiedMergeProof(record, "c".repeat(40)), null);
+  assert.deepEqual(verifiedMergeProof(record, head), {
     merged_at: "2026-09-26T00:00:00Z",
     merge_commit_sha: sha,
   });
-  assert.deepEqual(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: sha.toUpperCase() }), {
+  assert.deepEqual(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: sha.toUpperCase(), head: { sha: head } }, head), {
     merged_at: "2026-09-26T00:00:00Z",
     merge_commit_sha: sha.toUpperCase(),
   });

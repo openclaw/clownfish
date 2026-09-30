@@ -297,8 +297,10 @@ export function renderResponse(command, dispatched) {
     return [
       marker,
       dispatched?.merge?.status === "executed"
-        ? "Thanks, ClawSweeper. Clear water: Clownfish merged this PR after the passing review. 🐠"
-        : "Thanks, ClawSweeper. Clownfish saw the passing review, but one reef gate still blocked the merge.",
+        ? dispatched.merge.already_merged
+          ? "Thanks, ClawSweeper. GitHub confirms this PR is merged at the reviewed head. 🐠"
+          : "Thanks, ClawSweeper. Clear water: Clownfish merged this PR after the passing review. 🐠"
+        : "Thanks, ClawSweeper. Clownfish saw the passing review, but could not confirm this command completed.",
       "",
       `Source: \`${command.trusted_bot_author ?? command.author ?? "trusted automation"}\``,
       `Feedback: ${command.repair_reason ?? "ClawSweeper reported a passing review."}`,
@@ -307,7 +309,7 @@ export function renderResponse(command, dispatched) {
       "",
       dispatched?.merge?.status === "executed"
         ? "Automerge lap complete. no mystery bubbles."
-        : "I left the PR open for the remaining gate instead of cutting around it.",
+        : "The remaining gate needs attention before this command can complete.",
     ].join("\n");
   }
   if (command.intent === "clawsweeper_needs_human") {

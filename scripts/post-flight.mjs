@@ -130,7 +130,8 @@ function finalizeFixPr(action) {
     prBase = { ...base, pr: `#${parsed.number}`, title: view.title ?? pull.title ?? null };
     const mergedAt = pull.merged_at ?? view.mergedAt ?? null;
     if (mergedAt) {
-      const proof = verifiedMergeProof(pull) ?? verifiedMergeProof(view);
+      const reviewedHeadSha = action.merge_preflight?.head_sha;
+      const proof = verifiedMergeProof(pull, reviewedHeadSha) ?? verifiedMergeProof(view, reviewedHeadSha);
       if (!proof) {
         return {
           ...prBase,
@@ -231,7 +232,7 @@ function finalizeFixPr(action) {
     throw error;
   }
   const merged = fetchPullRequest(result.repo, parsed.number);
-  const proof = verifiedMergeProof(merged);
+  const proof = verifiedMergeProof(merged, expectedHeadSha);
   if (!proof) {
     return {
       ...prBase,
@@ -491,6 +492,7 @@ function fetchPullRequestView(repo, number) {
     "--json",
     [
       "baseRefName",
+      "headRefOid",
       "isDraft",
       "mergeable",
       "mergeCommit",

@@ -452,9 +452,9 @@ test("renderResponse explains blocked automerge pass decisions", () => {
     },
   );
 
-  assert.match(body, /saw the passing review, but one reef gate still blocked the merge/);
+  assert.match(body, /saw the passing review, but could not confirm this command completed/);
   assert.match(body, /Merge status: ClawSweeper pass marker targets a stale PR head SHA/);
-  assert.match(body, /left the PR open/);
+  assert.match(body, /remaining gate needs attention/);
 });
 
 test("repair intent set documents executable repair commands", () => {

@@ -529,8 +529,10 @@ a failed dispatch step. Router publication replay retains unknown outcomes.
 Nested backlog probes and their helpers share the outer cancellation boundary.
 
 A successful merge command can mean GitHub only queued the PR. Post-flight and
-automerge require a live merge timestamp and full merge commit SHA before recording
+automerge require the reviewed head, live merge timestamp and full merge commit SHA before recording
 success; unconfirmed merges do not announce completion or close linked issues.
+On replay, automerge records GitHub's confirmed merge only for the reviewed head,
+without submitting another merge or claiming Clownfish performed the earlier merge.
 External merge preflight and ready-PR inventory also block failing or pending legacy
 commit statuses and unfinished checks, while preserving their ignored-check exceptions.
 
