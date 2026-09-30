@@ -528,6 +528,12 @@ Finalizer workflows serialize ledger owners, read current main, and publish thei
 a failed dispatch step. Router publication replay retains unknown outcomes.
 Nested backlog probes and their helpers share the outer cancellation boundary.
 
+A successful merge command can mean GitHub only queued the PR. Post-flight and
+automerge require a live merge timestamp and full merge commit SHA before recording
+success; unconfirmed merges do not announce completion or close linked issues.
+External merge preflight and ready-PR inventory also block failing or pending legacy
+commit statuses and unfinished checks, while preserving their ignored-check exceptions.
+
 ```bash
 npm run validate
 for f in scripts/*.mjs; do node --check "$f" || exit 1; done

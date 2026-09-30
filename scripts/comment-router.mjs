@@ -10,6 +10,7 @@ import {
   readMaxLiveWorkers,
   repoRoot,
   validateJob,
+  verifiedMergeProof,
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
 import {
@@ -1123,12 +1124,21 @@ function executeAutomerge(command) {
     };
   }
   const merged = fetchPullRequestView(command.issue_number);
+  const proof = verifiedMergeProof(merged);
+  if (!proof) {
+    return {
+      action: "merge",
+      status: "waiting",
+      reason: "merge command returned without a verified merged pull request",
+      merge_method: "squash",
+    };
+  }
   return {
     action: "merge",
     status: "executed",
     reason: "merged by Clownfish automerge",
-    merged_at: merged.mergedAt ?? new Date().toISOString(),
-    merge_commit_sha: merged.mergeCommit?.oid ?? null,
+    merged_at: proof.merged_at,
+    merge_commit_sha: proof.merge_commit_sha,
     merge_method: "squash",
   };
 }

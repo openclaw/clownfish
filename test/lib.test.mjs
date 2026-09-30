@@ -11,7 +11,23 @@ import {
   renderPrompt,
   resolveJobPath,
   validateJob,
+  verifiedMergeProof,
 } from "../scripts/lib.mjs";
+
+test("verified merge proof requires a timestamp and a commit sha", () => {
+  const sha = "a".repeat(40);
+  assert.equal(verifiedMergeProof(null), null);
+  assert.equal(verifiedMergeProof({ mergedAt: "2026-09-26T00:00:00Z" }), null);
+  assert.equal(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: "abc" }), null);
+  assert.deepEqual(verifiedMergeProof({ mergedAt: "2026-09-26T00:00:00Z", mergeCommit: { oid: sha } }), {
+    merged_at: "2026-09-26T00:00:00Z",
+    merge_commit_sha: sha,
+  });
+  assert.deepEqual(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: sha.toUpperCase() }), {
+    merged_at: "2026-09-26T00:00:00Z",
+    merge_commit_sha: sha.toUpperCase(),
+  });
+});
 
 test("security signal detection ignores non-security advisory wording", () => {
   assert.equal(

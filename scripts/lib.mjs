@@ -15,6 +15,13 @@ const DEFAULT_CAPACITY_POLL_MS = 30_000;
 const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
 const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];
 
+export function verifiedMergeProof(record) {
+  const mergedAt = record?.merged_at ?? record?.mergedAt ?? null;
+  const sha = String(record?.merge_commit_sha ?? record?.mergeCommit?.oid ?? "");
+  if (!mergedAt || !/^[0-9a-f]{40}$/i.test(sha)) return null;
+  return { merged_at: mergedAt, merge_commit_sha: sha };
+}
+
 export function subprocessTimeoutMs(value = process.env.CLOWNFISH_GH_EXEC_TIMEOUT_MS) {
   const parsed = Number(value);
   return Number.isSafeInteger(parsed) && parsed > 0 && parsed <= 2 ** 31 - 1 ? parsed : 120_000;

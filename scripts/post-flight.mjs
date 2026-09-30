@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSyncWithTimeout } from "./lib.mjs";
+import { execFileSyncWithTimeout, verifiedMergeProof } from "./lib.mjs";
 import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
 import {
@@ -130,12 +130,21 @@ function finalizeFixPr(action) {
     prBase = { ...base, pr: `#${parsed.number}`, title: view.title ?? pull.title ?? null };
     const mergedAt = pull.merged_at ?? view.mergedAt ?? null;
     if (mergedAt) {
+      const proof = verifiedMergeProof(pull) ?? verifiedMergeProof(view);
+      if (!proof) {
+        return {
+          ...prBase,
+          status: "blocked",
+          reason: "merged pull request is missing verified merge proof",
+          retry_recommended: true,
+          waited_ms: waitedMs,
+        };
+      }
       return {
         ...prBase,
         status: "executed",
         reason: "already merged",
-        merged_at: mergedAt,
-        merge_commit_sha: pull.merge_commit_sha ?? view.mergeCommit?.oid ?? null,
+        ...proof,
         waited_ms: waitedMs,
       };
     }
@@ -222,12 +231,23 @@ function finalizeFixPr(action) {
     throw error;
   }
   const merged = fetchPullRequest(result.repo, parsed.number);
+  const proof = verifiedMergeProof(merged);
+  if (!proof) {
+    return {
+      ...prBase,
+      status: "blocked",
+      reason: "merge command returned without a verified merged pull request",
+      retry_recommended: true,
+      merge_method: "squash",
+      expected_head_sha: expectedHeadSha,
+      waited_ms: waitedMs,
+    };
+  }
   return {
     ...prBase,
     status: "executed",
     reason: "merged by ProjectClownfish post-flight",
-    merged_at: merged.merged_at ?? null,
-    merge_commit_sha: merged.merge_commit_sha ?? null,
+    ...proof,
     merge_method: "squash",
     expected_head_sha: expectedHeadSha,
     waited_ms: waitedMs,

@@ -301,6 +301,24 @@ test("workflow holds the merge queue through replay and ledger publication", () 
   assert.equal((workflow.match(/\n    concurrency:/g) ?? []).length, 1);
 });
 
+for (const mergeOutcome of ["queued", "missing-sha"]) {
+  test(`merge replay waits without announcing or ledgering ${mergeOutcome} success`, (t) => {
+    const fixture = makeFixture();
+    t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+    const args = ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"];
+    const run = runRouter(fixture, args, comments, { FAKE_MERGE_OUTCOME: mergeOutcome });
+    assert.equal(run.status, 0, run.stderr || run.stdout);
+    const command = JSON.parse(run.stdout).commands[0];
+    assert.equal(command.status, "waiting");
+    assert.equal(command.actions.find((action) => action.action === "merge").status, "waiting");
+    const state = readJson(fixture.state);
+    assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+    assert.equal(state.issue_comments["2"].length, 0);
+    const ledgerPath = path.join(fixture.root, "results", "comment-router.json");
+    assert.equal(readJson(ledgerPath).commands.some((entry) => entry.comment_id === "202"), false);
+  });
+}
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-comment-router-"));
   const scripts = path.join(root, "scripts");
@@ -416,7 +434,7 @@ if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
     isDraft: false,
     labels: [{ name: "clownfish:automerge" }],
     mergeable: "MERGEABLE",
-    mergeCommit: state.merged ? { oid: "${mergedHead}" } : null,
+    mergeCommit: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-sha" ? { oid: "${mergedHead}" } : null,
     mergeStateStatus: "CLEAN",
     mergedAt: state.merged ? "2026-07-12T00:03:00.000Z" : null,
     reviewDecision: "APPROVED",
@@ -428,7 +446,7 @@ if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
 }
 
 if (args[0] === "pr" && args[1] === "merge" && args[2] === "2") {
-  state.merged = true;
+  state.merged = process.env.FAKE_MERGE_OUTCOME !== "queued";
   state.calls.push({ type: "pr_merge", number: "2", args });
   save();
   process.exit(0);
