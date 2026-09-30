@@ -502,6 +502,47 @@ for (const phase of ["after-merge", "pending-confirmation"]) {
   });
 }
 
+test("serialized pending confirmation replay rotates beyond the scan cap", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const second = {
+    ...comments[0], id: 303, node_id: "IC_merge_3",
+    issue_url: "https://api.github.com/repos/openclaw/openclaw/issues/3",
+    html_url: "https://github.com/openclaw/openclaw/pull/3#issuecomment-303",
+    created_at: "2026-07-12T00:03:00.000Z", updated_at: "2026-07-12T00:03:00.000Z",
+  };
+  const feed = [comments[0], second];
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], feed, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  const ledgerPath = path.join(fixture.root, "results/comment-router.json");
+  const ledger = readJson(ledgerPath);
+  const older = ledger.commands.find((entry) => entry.comment_id === "202");
+  older.processed_at = "2026-07-12T00:02:30.000Z";
+  ledger.commands.push({
+    ...older, comment_id: "303", issue_number: 3,
+    idempotency_key: older.idempotency_key.replace(":2:202:", ":3:303:").replace(older.comment_updated_at, second.updated_at),
+    comment_version_key: `303:${second.updated_at}`, comment_url: second.html_url,
+    comment_created_at: second.created_at, comment_updated_at: second.updated_at,
+    processed_at: "2026-07-12T00:03:30.000Z",
+  });
+  fs.writeFileSync(ledgerPath, JSON.stringify(ledger));
+  fs.writeFileSync(fixture.state, JSON.stringify({ ...readJson(fixture.state), second_merged: true }));
+  const later = "2026-07-12T06:00:00.000Z";
+  for (const [id, expectedStatus] of [["202", "waiting"], ["303", "executed"]]) {
+    const scopeFile = path.join(fixture.root, `scope-${id}.json`);
+    const route = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--max-comments", "2", "--defer-merges", "--deferred-merge-file", scopeFile], feed);
+    assert.equal(route.status, 0, route.stderr || route.stdout);
+    assert.deepEqual(readJson(scopeFile).comment_ids, [id]);
+    const replay = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--merge-only", "--merge-scope-file", scopeFile, "--comment-ids", id], feed);
+    assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+    assert.equal(JSON.parse(replay.stdout).commands[0].status, expectedStatus);
+  }
+  const settled = readJson(fixture.state);
+  assert.equal(settled.calls.filter((call) => call.type === "pr_merge").length, 1);
+  assert.equal(settled.issue_comments["3"].length, 1);
+  assert.equal(readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202").status, "waiting");
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-comment-router-"));
   const scripts = path.join(root, "scripts");
@@ -615,14 +656,19 @@ if (args[0] === "api") {
     send({ number: 2, state: state.merged || state.closed ? "closed" : "open", title: "merge target", labels: [], pull_request: {} });
     process.exit(0);
   }
+  if (endpoint === "repos/openclaw/openclaw/issues/3") {
+    send({ number: 3, state: state.second_merged ? "closed" : "open", title: "second merge target", labels: [], pull_request: {} });
+    process.exit(0);
+  }
 }
 
-if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
+if (args[0] === "pr" && args[1] === "view" && ["2", "3"].includes(args[2])) {
   state.view_calls = (state.view_calls || 0) + 1;
   save();
   if (String(state.view_calls) === process.env.FAKE_VIEW_TIMEOUT_AT) {
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 10000);
   }
+  const merged = args[2] === "3" ? state.second_merged : state.merged;
   send({
     headRefName: "feature",
     headRefOid: process.env.FAKE_CONFIRMATION_HEAD_DRIFT && state.view_calls > 1 ? "${"c".repeat(40)}" : state.head || "${reviewedHead}",
@@ -631,11 +677,11 @@ if (args[0] === "pr" && args[1] === "view" && args[2] === "2") {
     isDraft: false,
     labels: state.opted_out ? [] : [{ name: "clownfish:automerge" }],
     mergeable: "MERGEABLE",
-    mergeCommit: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-sha" ? { oid: "${mergedHead}" } : null,
+    mergeCommit: merged && process.env.FAKE_MERGE_OUTCOME !== "missing-sha" ? { oid: "${mergedHead}" } : null,
     mergeStateStatus: "CLEAN",
-    mergedAt: state.merged && process.env.FAKE_MERGE_OUTCOME !== "missing-timestamp" ? "2026-07-12T00:03:00.000Z" : null,
+    mergedAt: merged && process.env.FAKE_MERGE_OUTCOME !== "missing-timestamp" ? "2026-07-12T00:03:00.000Z" : null,
     reviewDecision: "APPROVED",
-    state: state.merged ? "MERGED" : state.closed ? "CLOSED" : "OPEN",
+    state: merged ? "MERGED" : state.closed ? "CLOSED" : "OPEN",
     statusCheckRollup: [{ name: "ci", status: "COMPLETED", conclusion: "SUCCESS" }],
     title: "merge target"
   });
