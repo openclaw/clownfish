@@ -536,6 +536,8 @@ without submitting another merge or claiming Clownfish performed the earlier mer
 Pending merge confirmations stay in the ledger beyond the recent-comment lookback
 and terminal history limit. The router re-fetches those commands by ID, retires
 edited or deleted commands, and never resubmits a merge while confirmation is pending.
+With a one-comment scan limit, persisted per-repository scheduling alternates
+pending observations and fresh commands while preserving the one-command limit.
 Post-flight checkpoints a submitted request in its result report before fetching
 confirmation, so retries observe that request instead of submitting it again.
 A fully bound preflight for a new head can supersede the old checkpoint; all live

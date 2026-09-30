@@ -3,6 +3,16 @@ import test from "node:test";
 
 import { appendLedger } from "../scripts/comment-router-utils.mjs";
 
+test("appendLedger preserves per-repo single-slot scheduling across empty and stale reports", () => {
+  const ledger = { commands: [] };
+  const pending = { kind: "pending", at: "2026-07-12T06:02:00.000Z" };
+  appendLedger(ledger, [], { ...pending, repo: "openclaw/openclaw" });
+  appendLedger(ledger, [], { kind: "recent", at: "2026-07-12T06:03:00.000Z", repo: "example/other" });
+  appendLedger(ledger, [], { kind: "recent", at: "2026-07-12T06:01:00.000Z", repo: "openclaw/openclaw" });
+  assert.deepEqual(ledger.single_slot_selections?.["openclaw/openclaw"], pending);
+  assert.equal(ledger.single_slot_selections?.["example/other"].kind, "recent");
+});
+
 test("appendLedger retains pending confirmations beyond terminal history and preserves terminal outcomes", () => {
   const pending = {
     idempotency_key: "pending", comment_id: "202", comment_version_key: "202:updated",

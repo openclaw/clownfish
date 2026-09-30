@@ -159,6 +159,7 @@ if (replayLegacyAutomerge && requestedCommentIds.size === 0) {
 const ledger = readLedger(ledgerPath());
 const pendingMergeCommands = (ledger.commands ?? []).filter(isPendingMergeConfirmation);
 const pendingMergeRetirements = [];
+let singleSlotSelection = null;
 const processedCommentVersions = new Set((ledger.commands ?? []).filter((entry) => !isPendingMergeConfirmation(entry)).map(commentVersionKey).filter(Boolean));
 const processedLegacyAutomergeReplays = new Set(
   (ledger.commands ?? [])
@@ -251,6 +252,7 @@ const report = {
   since,
   execute,
   max_comments: maxComments,
+  ...(execute && singleSlotSelection ? { single_slot_selection: singleSlotSelection } : {}),
   requested_comment_ids: [...requestedCommentIds],
   all_comments_scanned: allComments.length,
   max_autoclose_targets: maxAutocloseTargets,
@@ -266,6 +268,11 @@ const report = {
 };
 
 if (execute) {
+  if (singleSlotSelection) {
+    appendLedger(ledger, [], { ...singleSlotSelection, repo: targetRepo });
+    writeLedger(ledgerPath(), ledger);
+    if (writeReport) writeReportFile(repoRoot(), report);
+  }
   const dispatchCount = actionable.filter((command) => REPAIR_INTENTS.has(command.intent)).length;
   if (dispatchCount > 0) {
     report.live_worker_capacity_before_dispatch = waitForCapacity
@@ -279,7 +286,7 @@ if (execute) {
       if (error.code !== "ETIMEDOUT") throw error;
       command.status = "unknown";
       command.reason = `${error.message}; verify the remote outcome before submitting a new command`;
-      appendLedger(ledger, commands);
+      appendLedger(ledger, commands, singleSlotSelection && { ...singleSlotSelection, repo: targetRepo });
       writeLedger(ledgerPath(), ledger);
       if (writeReport) writeReportFile(repoRoot(), report);
     }
@@ -287,6 +294,7 @@ if (execute) {
   appendLedger(
     ledger,
     commands.filter((command) => command.status !== "deferred"),
+    singleSlotSelection && { ...singleSlotSelection, repo: targetRepo },
   );
   writeLedger(ledgerPath(), ledger);
 }
@@ -1298,11 +1306,22 @@ function listRecentComments() {
   const list = ghPaged(`repos/${targetRepo}/issues/comments?since=${encodeURIComponent(since)}&per_page=100`);
   const pending = pendingMergeCommands.filter((entry) => entry.repo === targetRepo);
   const pendingIds = new Set(pending.map((entry) => String(entry.comment_id)));
+  let recent = list.filter((comment) => !pendingIds.has(String(comment.id)))
+    .sort((left, right) => Date.parse(right.created_at ?? "") - Date.parse(left.created_at ?? ""));
+  let pendingLimit = Math.max(1, Math.floor(maxComments / 2));
+  if (maxComments === 1 && !mergeOnly && requestedCommentIds.size === 0) {
+    recent = recent.filter((comment) => !processedCommentVersions.has(commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at })));
+    const hasRecent = recent.some((comment) => parseComment(comment));
+    const lastSelection = ledger.single_slot_selections?.[targetRepo]?.kind;
+    const kind = pending.length > 0 && (!hasRecent || lastSelection !== "pending") ? "pending" : "recent";
+    singleSlotSelection = { kind, at: new Date().toISOString() };
+    if (kind === "recent") pendingLimit = 0;
+  }
   const selected = pending
     .filter((entry) => requestedCommentIds.size === 0 || requestedCommentIds.has(String(entry.comment_id)))
     .filter((entry) => !mergeOnly || mergeScope.comments.some((scoped) => String(scoped.comment_id) === String(entry.comment_id) && scoped.comment_version_key === commentVersionKey(entry)))
     .sort((left, right) => (Date.parse(left.processed_at) || 0) - (Date.parse(right.processed_at) || 0))
-    .slice(0, requestedCommentIds.size > 0 ? pending.length : Math.max(1, Math.floor(maxComments / 2)));
+    .slice(0, requestedCommentIds.size > 0 ? pending.length : pendingLimit);
   const recovered = [];
   for (const entry of selected) {
     let comment = list.find((candidate) => String(candidate.id) === String(entry.comment_id));
@@ -1333,8 +1352,6 @@ function listRecentComments() {
     recovered.push(comment);
   }
   // Bound old obligations while keeping intake capacity for recent commands.
-  const recent = list.filter((comment) => !pendingIds.has(String(comment.id)))
-    .sort((left, right) => Date.parse(right.created_at ?? "") - Date.parse(left.created_at ?? ""));
   return [...recovered, ...recent];
 }
 

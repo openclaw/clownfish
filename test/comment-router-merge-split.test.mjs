@@ -281,7 +281,7 @@ test("workflow holds the merge queue through replay and ledger publication", () 
   assert.match(routeJob, /overwrite: true/);
   assert.match(routeJob, /merge_comment_ids: \$\{\{ steps\.route\.outputs\.merge_comment_ids \}\}/);
   assert.match(routeJob, /git rebase -X ours origin\/main/);
-  assert.match(routeJob, /appendLedger\(ledger, recordable\)/);
+  assert.match(routeJob, /appendLedger\(ledger, recordable, selection\)/);
   assert.match(routeJob, /git rev-parse HEAD\)" = "\$\(git rev-parse origin\/main\)"[\s\S]*?git commit -m "chore: record Clownfish comment routing"/);
   assert.match(routeJob, /git commit --amend --no-edit/);
   assert.doesNotMatch(routeJob, /git rebase -X theirs/);
@@ -293,7 +293,7 @@ test("workflow holds the merge queue through replay and ledger publication", () 
   assert.match(mergeJob, /--merge-only/);
   assert.match(mergeJob, /--merge-scope-file "\$scope_file"/);
   assert.match(mergeJob, /--comment-ids "\$comment_ids"/);
-  assert.match(mergeJob, /appendLedger\(ledger, recordable\)/);
+  assert.match(mergeJob, /appendLedger\(ledger, recordable, selection\)/);
   assert.match(mergeJob, /git push origin HEAD:main/);
   assert.match(mergeJob, /comment-router-merge-result-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/);
   assert.ok(mergeJob.indexOf("Replay deferred merge comments") < mergeJob.indexOf("Commit merged comment ledger"));
@@ -543,6 +543,74 @@ test("serialized pending confirmation replay rotates beyond the scan cap", (t) =
   assert.equal(readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202").status, "waiting");
 });
 
+test("one-slot serialized scans alternate pending confirmation and fresh commands", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  const later = "2026-07-12T06:00:00.000Z";
+  const fresh = [101, 102].map((id) => ({
+    ...comments[1], id, node_id: `IC_status_${id}`,
+    html_url: `https://github.com/openclaw/openclaw/issues/1#issuecomment-${id}`,
+    created_at: `2026-07-12T06:0${id - 100}:00.000Z`, updated_at: `2026-07-12T06:0${id - 100}:00.000Z`,
+  }));
+  const noise = { ...comments[1], id: 999, body: "Routine discussion", created_at: "2026-07-12T06:03:00.000Z", updated_at: "2026-07-12T06:03:00.000Z" };
+  for (const [index, id] of ["202", "101", "202", "102"].entries()) {
+    const feed = [comments[0], ...fresh.slice(0, index < 2 ? 1 : 2), noise];
+    const scopeFile = path.join(fixture.root, `single-${index}.json`);
+    const route = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--max-comments", "1", "--defer-merges", "--deferred-merge-file", scopeFile], feed);
+    assert.equal(route.status, 0, route.stderr || route.stdout);
+    const report = JSON.parse(route.stdout);
+    assert.equal(report.commands.length, 1);
+    assert.equal(report.commands[0].comment_id, id);
+    if (id === "202") {
+      const replay = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", later, "--merge-only", "--merge-scope-file", scopeFile, "--comment-ids", id], feed);
+      assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+      assert.equal(JSON.parse(replay.stdout).commands[0].status, "waiting");
+    } else {
+      assert.equal(report.commands[0].status, "executed");
+    }
+  }
+  const state = readJson(fixture.state);
+  assert.equal(state.calls.filter((call) => call.type === "pr_merge").length, 1);
+  assert.equal(state.issue_comments["1"].length, 2);
+});
+
+test("one-slot scheduling advances when the selected fresh command fails", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  const ledgerPath = path.join(fixture.root, "results/comment-router.json");
+  const ledger = readJson(ledgerPath);
+  ledger.single_slot_selections = { "openclaw/openclaw": { kind: "pending", at: "2026-07-12T06:00:00.000Z" } };
+  fs.writeFileSync(ledgerPath, JSON.stringify(ledger));
+  const fresh = { ...comments[1], created_at: "2026-07-12T06:01:00.000Z", updated_at: "2026-07-12T06:01:00.000Z" };
+  const feed = [comments[0], fresh];
+  const args = ["--execute", "--repo", "openclaw/openclaw", "--since", "2026-07-12T06:00:00.000Z", "--max-comments", "1"];
+  const failed = runRouter(fixture, args, feed, { FAKE_STATUS_POST_FAILURE: "1" });
+  assert.notEqual(failed.status, 0);
+  assert.match(failed.stderr, /status publication unavailable/);
+  assert.equal(readJson(ledgerPath).single_slot_selections["openclaw/openclaw"].kind, "recent");
+  const next = runRouter(fixture, args, feed);
+  assert.equal(next.status, 0, next.stderr || next.stdout);
+  assert.equal(JSON.parse(next.stdout).commands[0].comment_id, "202");
+  assert.equal(JSON.parse(next.stdout).commands[0].status, "waiting");
+});
+
+test("one-slot dry preview does not publish a scheduling selection", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const first = runRouter(fixture, ["--execute", "--repo", "openclaw/openclaw", "--since", since, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(first.status, 0, first.stderr || first.stdout);
+  const ledgerPath = path.join(fixture.root, "results/comment-router.json");
+  const before = readJson(ledgerPath);
+  const preview = runRouter(fixture, ["--write-report", "--repo", "openclaw/openclaw", "--since", "2026-07-12T06:00:00.000Z", "--max-comments", "1"]);
+  assert.equal(preview.status, 0, preview.stderr || preview.stdout);
+  assert.equal(JSON.parse(preview.stdout).single_slot_selection, undefined);
+  assert.deepEqual(readJson(ledgerPath), before);
+});
+
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-comment-router-"));
   const scripts = path.join(root, "scripts");
@@ -625,6 +693,7 @@ if (args[0] === "api") {
   }
   const createComment = endpoint.match(/^repos\\/openclaw\\/openclaw\\/issues\\/(\\d+)\\/comments$/);
   if (createComment && args.includes("POST")) {
+    if (createComment[1] === "1" && process.env.FAKE_STATUS_POST_FAILURE) { console.error("status publication unavailable"); process.exit(7); }
     const payload = inputPayload();
     state.issue_comments[createComment[1]] ||= [];
     state.issue_comments[createComment[1]].push({ body: payload.body });

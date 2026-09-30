@@ -20,7 +20,12 @@ export function readLedger(file) {
   if (!fs.existsSync(file)) return { updated_at: null, commands: [] };
   try {
     const data = JSON.parse(fs.readFileSync(file, "utf8"));
-    return { updated_at: data.updated_at ?? null, commands: Array.isArray(data.commands) ? data.commands : [] };
+    return {
+      updated_at: data.updated_at ?? null,
+      commands: Array.isArray(data.commands) ? data.commands : [],
+      ...(data.single_slot_selections && typeof data.single_slot_selections === "object" && !Array.isArray(data.single_slot_selections)
+        ? { single_slot_selections: data.single_slot_selections } : {}),
+    };
   } catch {
     return { updated_at: null, commands: [] };
   }
@@ -34,7 +39,7 @@ export function isPendingMergeConfirmation(entry) {
   return entry.status === "waiting" && entry.pending_merge_confirmation === true && entry.intent === "clawsweeper_auto_merge";
 }
 
-export function appendLedger(current, entries) {
+export function appendLedger(current, entries, selection) {
   const compact = entries
     .filter(isRecordableCommand)
     .map((entry) => ({
@@ -87,6 +92,17 @@ export function appendLedger(current, entries) {
     ...values.filter(isPendingMergeConfirmation),
     ...values.filter((entry) => !isPendingMergeConfirmation(entry)).slice(-1000),
   ];
+  if (
+    selection && ["pending", "recent"].includes(selection.kind) &&
+    /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(String(selection.repo ?? "")) &&
+    Number.isFinite(Date.parse(selection.at))
+  ) {
+    current.single_slot_selections ??= {};
+    const previous = current.single_slot_selections[selection.repo];
+    if (!previous || !(Date.parse(previous.at) > Date.parse(selection.at))) {
+      current.single_slot_selections[selection.repo] = { kind: selection.kind, at: selection.at };
+    }
+  }
 }
 
 function ledgerEntryKey(entry) {
