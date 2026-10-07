@@ -4,6 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { setTimeout as delay } from "node:timers/promises";
 import vm from "node:vm";
 import * as lib from "../scripts/lib.mjs";
 
@@ -165,7 +166,7 @@ test("invalid timeout settings cannot disable the subprocess deadline", () => {
 });
 
 for (const runner of ["execFileSyncWithTimeout", "spawnSyncWithTimeout"]) {
-  test(`${runner} terminates descendants on timeout`, { skip: process.platform === "win32" }, (t) => {
+  test(`${runner} terminates descendants on timeout`, { skip: process.platform === "win32" }, async (t) => {
     const f = fixture(t);
     const pidFile = path.join(f.dir, "descendant.pid");
     t.after(() => {
@@ -182,7 +183,14 @@ for (const runner of ["execFileSyncWithTimeout", "spawnSyncWithTimeout"]) {
     } catch (error) { timedOut = error; }
     assert.equal(timedOut?.code, "ETIMEDOUT");
     const pid = fs.readFileSync(pidFile, "utf8").trim();
-    const state = spawnSync("ps", ["-o", "stat=", "-p", pid], { encoding: "utf8" }).stdout.trim();
+    const processState = () => spawnSync("ps", ["-o", "stat=", "-p", pid], { encoding: "utf8" }).stdout.trim();
+    // macOS can briefly report ?E while a SIGKILL is taking effect.
+    const deadline = Date.now() + 2000;
+    let state = processState();
+    while (state && !state.startsWith("Z") && Date.now() < deadline) {
+      await delay(10);
+      state = processState();
+    }
     assert.ok(!state || state.startsWith("Z"), `descendant still running: ${state}`);
   });
 }
