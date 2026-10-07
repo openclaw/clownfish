@@ -232,3 +232,40 @@ expected_head_shas:
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, new RegExp(`#2 head changed after intake: expected ${expected}, found ${live}`));
 });
+
+
+test("fix-first plans allow verified duplicates without relaxing other closeouts", (t) => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-first-"));
+  t.after(() => fs.rmSync(tmp, { recursive: true, force: true }));
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(jobPath, `---
+repo: openclaw/openclaw
+cluster_id: issue-only-dedupe
+mode: autonomous
+allowed_actions:
+  - comment
+  - close
+canonical:
+  - "#101"
+candidates:
+  - "#102"
+allow_instant_close: true
+require_fix_before_close: true
+---
+
+# Duplicate issue cleanup
+`);
+  const result = spawnSync(process.execPath, [
+    "scripts/plan-cluster.mjs", jobPath, "--offline", "--run-dir", tmp,
+  ], { cwd: repoRoot, encoding: "utf8" });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const plan = JSON.parse(fs.readFileSync(path.join(tmp, "fix-artifact.json"), "utf8"));
+  assert.equal(plan.permissions.require_fix_before_close, true);
+  assert.match(plan.drive_plan.fix_first_close, /duplicate.*does not require a fix/i);
+  assert.match(plan.drive_plan.fix_first_close, /superseded.*fix PR|fix PR.*superseded/i);
+  const prompt = spawnSync(process.execPath, [
+    "scripts/render-prompt.mjs", jobPath, "--mode", "autonomous",
+  ], { cwd: repoRoot, encoding: "utf8" });
+  assert.equal(prompt.status, 0, prompt.stderr || prompt.stdout);
+  assert.match(prompt.stdout, /close_duplicate.*exempt from.*require_fix_before_close/);
+});
