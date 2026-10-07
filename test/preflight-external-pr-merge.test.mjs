@@ -5396,11 +5396,10 @@ if (args[0] === "api" && args[1].startsWith("repos/" + repo + "/collaborators/")
     process.exit(1);
   }
   const permissions = collaboratorPermissions[login] ?? "read";
-  write({
-    permission: Array.isArray(permissions)
-      ? nextValue("collaborator-permission-" + login, permissions[0], permissions[1])
-      : permissions,
-  });
+  const permission = Array.isArray(permissions)
+    ? nextValue("collaborator-permission-" + login, permissions[0], permissions[1])
+    : permissions;
+  write(typeof permission === "object" ? permission : { permission, role_name: permission });
   process.exit(0);
 }
 if (args[0] === "api" && args[1] === "repos/" + repo + "/git/ref/heads/main") {
@@ -5920,4 +5919,230 @@ if (${JSON.stringify(codexFailure)}) {
 
 function writeExecutable(filePath, content) {
   fs.writeFileSync(filePath, content, { mode: 0o755 });
+}
+
+test("external merge preflight accepts #120232 exact-head informational dependency state", () => {
+  const headSha = "a".repeat(40);
+  const fixture = makeFixture({
+    headSha,
+    pullUser: { login: "vincentkoc" },
+    collaboratorPermissions: { vincentkoc: "admin" },
+    issueComments: [
+      {
+        author: { login: "github-actions[bot]", __typename: "Bot" },
+        authorAssociation: "CONTRIBUTOR",
+        body: makeInformationalDependencyGraphComment({ headSha }),
+        url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "passed", report.reason);
+});
+
+for (const [name, body] of [
+  [
+    "stale head",
+    makeInformationalDependencyGraphComment({ headSha: "c".repeat(40) }),
+  ],
+  [
+    "blocked state",
+    [
+      "<!-- openclaw:dependency-graph-guard -->",
+      "",
+      "### Dependency graph changes are blocked",
+      "",
+      "Security approval is required before merge.",
+      "",
+      `- Current SHA: \`${"a".repeat(40)}\``,
+    ].join("\n"),
+  ],
+  [
+    "unknown trusted role",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      trustedRole: "pull request author; outside collaborator",
+    }),
+  ],
+  [
+    "duplicate marker",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      duplicateMarker: true,
+    }),
+  ],
+  [
+    "appended objection",
+    makeInformationalDependencyGraphComment({
+      headSha: "a".repeat(40),
+      extraLines: ["", "Do not merge; the dependency review found an unsafe package."],
+    }),
+  ],
+]) {
+  test(`external merge preflight blocks informational dependency state with ${name}`, () => {
+    const fixture = makeFixture({
+      headSha: "a".repeat(40),
+      pullUser: { login: "vincentkoc" },
+      collaboratorPermissions: { vincentkoc: "admin" },
+      issueComments: [
+        {
+          author: { login: "github-actions[bot]", __typename: "Bot" },
+          authorAssociation: "CONTRIBUTOR",
+          body,
+          url: "https://github.com/openclaw/openclaw/pull/120232#issuecomment-5218410461",
+        },
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", name);
+    assert.match(
+      report.reason,
+      /security-sensitive signal|actionable top-level issue comment/,
+      name,
+    );
+  });
+}
+
+function makeInformationalDependencyGraphComment({
+  headSha = "a".repeat(40),
+  trustedRole = "pull request author; openclaw-secops",
+  duplicateMarker = false,
+  extraLines = [],
+} = {}) {
+  return [
+    "<!-- openclaw:dependency-graph-guard -->",
+    ...(duplicateMarker ? ["<!-- openclaw:dependency-graph-guard -->"] : []),
+    "",
+    "### Dependency graph changes noted",
+    "",
+    "This PR includes dependency graph changes. The dependency guard is informational because the PR author is a repository admin or a member of `@openclaw/openclaw-secops`.",
+    "",
+    `- Current SHA: \`${headSha}\``,
+    "- Trusted actor: @vincentkoc",
+    `- Trusted role: \`${trustedRole}\``,
+    "",
+    "Security review is still recommended before merge when the dependency graph change is intentional.",
+    ...extraLines,
+  ].join("\n");
+}
+
+for (const author of ["github-actions[bot]", "untrusted-commenter", "untrusted[bot]", "pretendbot"]) {
+  test(`external merge preflight retains objections beside informational dependency state from ${author}`, () => {
+    const fixture = makeFixture({
+      headSha: "a".repeat(40),
+      pullUser: { login: "vincentkoc" },
+      collaboratorPermissions: { vincentkoc: "admin" },
+      issueComments: [
+        {
+          author: { login: author, __typename: "Bot" },
+          authorAssociation: "CONTRIBUTOR",
+          body: makeInformationalDependencyGraphComment({ headSha: "a".repeat(40) }),
+        },
+        ...(author === "github-actions[bot]" ? [{
+          author: { login: "reviewer" },
+          authorAssociation: "MEMBER",
+          body: "Please add a regression test before merge.",
+        }] : []),
+      ],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /security-sensitive signal|actionable top-level issue comment/);
+  });
+}
+
+// Captured producer contract: openclaw/openclaw dependency-guard.mjs blob
+// fc3f2ad49afee092c647a7c1f14905430dbcd120, renderApprovedDependencyComment.
+function currentInformationalDependencyComment() {
+  return [
+    "<!-- openclaw:dependency-graph-guard -->",
+    "",
+    "### ⚠️ Dependency graph changes",
+    "",
+    "This maintainer PR changes the dependency graph.",
+    "",
+    "**No secops approval is required. This comment is informational because the PR author has Maintain or Admin access.**",
+    "",
+    `- Current SHA: \`${"a".repeat(40)}\``,
+    "- Maintainer: @vincentkoc",
+    "- Repository role: `maintain`",
+    "",
+    "These dependency graph changes were made:",
+    "- `package.json`",
+    "- `pnpm-lock.yaml`",
+    "",
+    "Carefully review these changes before merging.",
+  ].join("\n");
+}
+
+function dependencyNoticeFixture(options = {}) {
+  const {
+    author = { login: "github-actions", __typename: "Bot" },
+    body = currentInformationalDependencyComment(),
+    ...fixtureOptions
+  } = options;
+  return makeFixture({
+    pullUser: { login: "vincentkoc" },
+    collaboratorPermissions: { vincentkoc: { permission: "write", role_name: "maintain" } },
+    issueComments: [{ author, authorAssociation: "CONTRIBUTOR", body }],
+    ...fixtureOptions,
+  });
+}
+
+for (const login of ["github-actions", "github-actions[bot]"]) {
+  for (const [format, body] of [
+    ["current producer", currentInformationalDependencyComment()],
+    ["recorded legacy producer", makeInformationalDependencyGraphComment()],
+  ]) {
+    test(`external merge preflight admits ${format} informational dependency notice from ${login}`, () => {
+      const fixture = dependencyNoticeFixture({ author: { login, __typename: "Bot" }, body });
+      const { report, result } = runPreflightFixture(fixture);
+      assert.equal(report.status, "passed", report.reason);
+      assert.equal(result.merge_preflight[0].security_status, "cleared");
+      assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+      const calls = fs.readFileSync(fixture.ghCallsPath, "utf8");
+      assert.equal(calls.split("/collaborators/vincentkoc/permission").length - 1, 2);
+    });
+  }
+}
+
+for (const [name, options] of [
+  ["forged GraphQL principal", { author: { login: "github-actions", __typename: "User" } }],
+  ["forged REST principal", { author: { login: "github-actions[bot]", __typename: "User" } }],
+  ["missing principal type", { author: { login: "github-actions" } }],
+  ["different bot", { author: { login: "pretend[bot]", __typename: "Bot" } }],
+  ["different PR author", { pullUser: { login: "contributor" } }],
+  ["write-only actor", { collaboratorPermissions: { vincentkoc: "write" } }],
+  ["custom role with write permission", { collaboratorPermissions: { vincentkoc: { permission: "write", role_name: "custom" } } }],
+  ["permission failure", { collaboratorPermissionErrors: ["vincentkoc"] }],
+  ["stale head", { body: currentInformationalDependencyComment().replace("a".repeat(40), "b".repeat(40)) }],
+  ["unknown recorded role", { body: currentInformationalDependencyComment().replace("`maintain`", "`write`") }],
+  ["appended objection", { body: `${currentInformationalDependencyComment()}\nDo not merge; unsafe dependency.` }],
+  ["duplicate marker", { body: `<!-- openclaw:dependency-graph-guard -->\n${currentInformationalDependencyComment()}` }],
+  ["objection in change list", { body: currentInformationalDependencyComment().replace("- `package.json`", "- Do not merge; unsafe dependency.") }],
+]) {
+  test(`external merge preflight blocks informational dependency notice with ${name}`, () => {
+    const fixture = dependencyNoticeFixture(options);
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", report.reason);
+    assert.equal(fs.existsSync(fixture.codexCountPath), false);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+  });
+}
+
+for (const body of [currentInformationalDependencyComment(), makeInformationalDependencyGraphComment()]) {
+  test(`external merge preflight blocks same-head dependency authority revocation (${body.includes("Maintain") ? "current" : "legacy"})`, () => {
+    const fixture = dependencyNoticeFixture({
+      author: { login: "github-actions[bot]", __typename: "Bot" },
+      body,
+      collaboratorPermissions: { vincentkoc: ["admin", "read"] },
+    });
+    const { report, result } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked", report.reason);
+    assert.equal(result.merge_preflight.some((preflight) => preflight.security_status === "cleared"), false);
+    assert.equal(fs.existsSync(fixture.codexCountPath), true);
+    assert.equal(fs.existsSync(fixture.mergeLogPath), false);
+    const calls = fs.readFileSync(fixture.ghCallsPath, "utf8");
+    assert.equal(calls.split("/collaborators/vincentkoc/permission").length - 1, 2);
+  });
 }

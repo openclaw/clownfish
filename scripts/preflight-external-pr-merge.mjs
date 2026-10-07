@@ -2357,7 +2357,7 @@ function fetchIssueComments({ repo, pullRequest }) {
           comments(first: 100) {
             nodes {
               databaseId
-              author { login }
+              author { login __typename }
               authorAssociation
               body
               createdAt
@@ -2524,7 +2524,7 @@ function isNonBlockingCommentEvidence(
   const normalized = body.toLowerCase();
 
   if (isSupersededRepairOutcome(comment, { pull, trustedExactHeadDecision })) return true;
-  if (isBenignAutomationComment({ author, body: normalized, pull, view })) return true;
+  if (isBenignAutomationComment({ author, authorType: comment.author?.__typename ?? comment.user?.type, body: normalized, pull, view })) return true;
   if (
     String(comment.state ?? "").toUpperCase() === "APPROVED" &&
     !hasActionableApprovedReviewBody(normalized)
@@ -2595,7 +2595,7 @@ function hasActionableApprovedReviewBody(body) {
   ].some((pattern) => pattern.test(unresolved));
 }
 
-function isBenignAutomationComment({ author, body, pull, view }) {
+function isBenignAutomationComment({ author, authorType, body, pull, view }) {
   const currentReview = String(body).split(/<details>/, 1)[0];
   if (isClawSweeperPullRequestAck({ author, body, pull })) return true;
   if (isClawSweeperReviewStartComment({ author, body, pull })) return true;
@@ -2604,7 +2604,7 @@ function isBenignAutomationComment({ author, body, pull, view }) {
   }
   if (isStaleAutomationReviewComment({ author, body, pull })) return true;
   if (!isAutomationAuthor(author)) return false;
-  if (isDependencyGuardAutomationComment({ body, pull })) return true;
+  if (isDependencyGuardAutomationComment({ author, authorType, body, pull })) return true;
   if (isClawSweeperReadyReviewComment({ author, body, pull, view })) return true;
   return (
     /clawsweeper pr egg|hatched:|hatch command|automatically marked as stale|clawsweeper-command-status|re-review requested|clownfish is on the reef|tagged `clownfish:automerge`/.test(
@@ -2621,11 +2621,16 @@ function isClawSweeperPullRequestAck({ author, body, pull }) {
   return match?.[1] === String(pull?.number ?? "");
 }
 
-function isDependencyGuardAutomationComment({ body, pull }) {
+function isDependencyGuardAutomationComment({ author, authorType, body, pull }) {
   if (/^<!--\s*openclaw:dependency-guard\s*-->/.test(body)) return true;
   if (!/^<!--\s*openclaw:dependency-graph-guard\s*-->/.test(body)) return false;
   const headSha = String(pull?.head?.sha ?? "").toLowerCase();
   if (!/^[0-9a-f]{40}$/.test(headSha)) return false;
+  if (
+    ["github-actions", "github-actions[bot]"].includes(author) &&
+    authorType === "Bot" &&
+    isTrustedDependencyGraphAutomationComment({ body, headSha, pull })
+  ) return true;
   if (/### dependency graph change authorized\b/.test(body)) {
     const approvedSha = body.match(/\bapproved sha:\s*`([0-9a-f]{40})`/)?.[1];
     return approvedSha === headSha;
@@ -2634,6 +2639,39 @@ function isDependencyGuardAutomationComment({ body, pull }) {
     /^<!--\s*openclaw:dependency-graph-guard\s*-->\s*### dependency graph guard cleared\s+this pr no longer has blocked dependency graph changes\.\s+a future dependency graph change requires a fresh `\/allow-dependencies-change` comment after the guard blocks that new head sha\.\s+- current sha:\s*`([0-9a-f]{40})`\s*$/i,
   );
   return cleared?.[1]?.toLowerCase() === headSha;
+}
+
+function isTrustedDependencyGraphAutomationComment({ body, headSha, pull }) {
+  const lines = String(body)
+    .trim()
+    .toLowerCase()
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines[0] !== "<!-- openclaw:dependency-graph-guard -->") return false;
+  let actor;
+  if (lines[1] === "### dependency graph changes noted") {
+    if (lines.length !== 7) return false;
+    if (lines[2] !== "this pr includes dependency graph changes. the dependency guard is informational because the pr author is a repository admin or a member of `@openclaw/openclaw-secops`.") return false;
+    if (lines[3].match(/^- current sha:\s*`([0-9a-f]{40})`$/)?.[1] !== headSha) return false;
+    actor = lines[4].match(/^- trusted actor:\s*@([a-z0-9][a-z0-9-]{0,38})$/)?.[1];
+    if (!/^- trusted role:\s*`pull request author; (?:repository admin|openclaw-secops)`$/.test(lines[5])) return false;
+    if (lines[6] !== "security review is still recommended before merge when the dependency graph change is intentional.") return false;
+  } else {
+    if (lines.length < 10 || lines[1] !== "### ⚠️ dependency graph changes") return false;
+    if (lines[2] !== "this maintainer pr changes the dependency graph.") return false;
+    if (lines[3] !== "**no secops approval is required. this comment is informational because the pr author has maintain or admin access.**") return false;
+    if (lines[4].match(/^- current sha:\s*`([0-9a-f]{40})`$/)?.[1] !== headSha) return false;
+    actor = lines[5].match(/^- maintainer:\s*@([a-z0-9][a-z0-9-]{0,38})$/)?.[1];
+    if (!/^- repository role:\s*`(?:maintain|admin)`$/.test(lines[6])) return false;
+    if (lines[7] !== "these dependency graph changes were made:") return false;
+    if (!lines.slice(8, -1).every((line) => /^- `[^`]+`$/.test(line))) return false;
+    if (lines.at(-1) !== "carefully review these changes before merging.") return false;
+  }
+  if (!actor || actor !== String(pull?.user?.login ?? "").toLowerCase()) return false;
+  // readOnlyBlockers clears this cache before each admission, including the final read.
+  fetchCollaboratorPermission(actor);
+  return ["maintain", "admin"].includes(collaboratorPermissionCache.get(actor)?.role);
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {
@@ -2709,20 +2747,22 @@ function fetchCollaboratorPermission(login) {
   const normalized = String(login ?? "").trim().toLowerCase();
   if (!normalized) return null;
   if (collaboratorPermissionCache.has(normalized)) {
-    return collaboratorPermissionCache.get(normalized);
+    return collaboratorPermissionCache.get(normalized).permission;
   }
 
   let permission = null;
+  let role = null;
   try {
     const result = ghJson([
       "api",
       `repos/${sourceJob.frontmatter.repo}/collaborators/${encodeURIComponent(normalized)}/permission`,
     ]);
     permission = result?.permission ? String(result.permission).toLowerCase() : null;
+    role = result?.role_name ? String(result.role_name).toLowerCase() : null;
   } catch {
     permission = null;
   }
-  collaboratorPermissionCache.set(normalized, permission);
+  collaboratorPermissionCache.set(normalized, { permission, role });
   return permission;
 }
 
