@@ -6099,6 +6099,11 @@ for (const login of ["github-actions", "github-actions[bot]"]) {
       const { report, result } = runPreflightFixture(fixture);
       assert.equal(report.status, "passed", report.reason);
       assert.equal(result.merge_preflight[0].security_status, "cleared");
+      assert.deepEqual(result.merge_preflight[0].dependency_notice_authority, {
+        schema_version: 1,
+        author_login: "vincentkoc",
+        head_sha: "a".repeat(40),
+      });
       assert.equal(fs.existsSync(fixture.mergeLogPath), false);
       const calls = fs.readFileSync(fixture.ghCallsPath, "utf8");
       assert.equal(calls.split("/collaborators/vincentkoc/permission").length - 1, 2);

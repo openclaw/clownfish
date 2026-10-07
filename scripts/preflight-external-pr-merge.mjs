@@ -40,6 +40,7 @@ const MAX_ADOPTION_MANIFEST_BLOBS = 2048;
 const MAINTAINER_REPOSITORY_PERMISSIONS = new Set(["write", "maintain", "admin"]);
 const collaboratorPermissionCache = new Map();
 let decisionAuthorityBinding = null;
+let dependencyNoticeAuthorityBinding = null;
 const args = parseArgs(process.argv.slice(2));
 const sourceJobPath = args._[0];
 const pullRequest = Number(args.pr ?? args["pull-request"]);
@@ -768,6 +769,7 @@ function readOnlyBlockers({
 }) {
   collaboratorPermissionCache.clear();
   decisionAuthorityBinding = null;
+  dependencyNoticeAuthorityBinding = null;
   const blockers = view?.snapshotBlockReason ? [view.snapshotBlockReason] : [];
   const trustedAuthorEvidenceApprovalAt = trustedAuthorEvidenceApprovalTimestamp(issueComments, { pull });
   const trustedAuthorProgressApprovalAt = trustedAuthorProgressApprovalTimestamp(issueComments, { pull });
@@ -2284,6 +2286,7 @@ function buildMergeResult({
         effective_diff_sha256: reviewContext.effectiveDiffSha256,
         effective_diff_files: reviewContext.effectiveDiffFiles,
         decision_authority: decisionAuthorityBinding,
+        dependency_notice_authority: dependencyNoticeAuthorityBinding,
         security_status: "cleared",
         security_evidence: [
           "Final deterministic security scan after validation and Codex review found no matching signal in the PR title, body, labels, issue comments, reviews, or inline review comments.",
@@ -2671,7 +2674,9 @@ function isTrustedDependencyGraphAutomationComment({ body, headSha, pull }) {
   if (!actor || actor !== String(pull?.user?.login ?? "").toLowerCase()) return false;
   // readOnlyBlockers clears this cache before each admission, including the final read.
   fetchCollaboratorPermission(actor);
-  return ["maintain", "admin"].includes(collaboratorPermissionCache.get(actor)?.role);
+  if (!["maintain", "admin"].includes(collaboratorPermissionCache.get(actor)?.role)) return false;
+  dependencyNoticeAuthorityBinding = { schema_version: 1, author_login: actor, head_sha: headSha };
+  return true;
 }
 
 function isStaleAutomationReviewComment({ author, body, pull }) {

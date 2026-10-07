@@ -202,6 +202,7 @@
           "bot_comments_status",
           "bot_comments_evidence",
           "decision_authority",
+          "dependency_notice_authority",
           "codex_review",
           "validation_commands",
           "base_adoption_manifest"
@@ -269,6 +270,17 @@
               "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
               "body_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
               "comment_updated_at": { "type": "string", "minLength": 1 }
+            }
+          },
+          "dependency_notice_authority": {
+            "description": "Must be null for worker-authored results; only deterministic external preflight can bind a consumed informational dependency notice.",
+            "type": ["object", "null"],
+            "required": ["schema_version", "author_login", "head_sha"],
+            "additionalProperties": false,
+            "properties": {
+              "schema_version": { "type": "integer", "const": 1 },
+              "author_login": { "type": "string", "pattern": "^[a-z0-9](?:[a-z0-9-]{0,37}[a-z0-9])?$" },
+              "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
             }
           },
           "codex_review": {

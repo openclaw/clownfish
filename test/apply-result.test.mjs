@@ -2567,6 +2567,7 @@ function writeReadyMergeGhStub(
     reflectCoordinatorChecksInView = false,
     decisionComment = null,
     decisionPermission = "admin",
+    pullAuthor = "vincentkoc",
     decisionCommentError = false,
     decisionPermissionError = false,
   },
@@ -2649,6 +2650,7 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
     number: 60063,
     state: merged ? "closed" : "open",
     title: "streaming fix",
+    user: { login: ${JSON.stringify(pullAuthor)} },
     updated_at: ${JSON.stringify(issueUpdatedAt)},
     labels: fs.existsSync(adoptionStatePath) && ${JSON.stringify(adoptionLabels)} ? ${JSON.stringify(adoptionLabels)} : ${JSON.stringify(labels)},
     author_association: "NONE",
@@ -2696,7 +2698,8 @@ if (${JSON.stringify(adoptionValidation)} && args[0] === "repo" && args[1] === "
     process.stderr.write("HTTP 503: permission unavailable\\n");
     process.exit(1);
   }
-  write({ permission: nextFixture(decisionPermissions, decisionPermissionCountPath) });
+  const permission = nextFixture(decisionPermissions, decisionPermissionCountPath);
+  write(typeof permission === "object" ? permission : { permission, role_name: permission });
 } else if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/git/ref/heads/main") {
   write({
     object: {
@@ -3360,4 +3363,62 @@ function readCallLog(callLogPath) {
     .split("\n")
     .filter(Boolean)
     .map((line) => JSON.parse(line));
+}
+
+function runDependencyNoticeApply(options = {}) {
+  return runDecisionAuthorityApply({
+    decisionAuthority: null,
+    mutatePreflight(preflight) {
+      preflight.dependency_notice_authority = {
+        schema_version: 1,
+        author_login: "vincentkoc",
+        head_sha: EXPECTED_HEAD_SHA,
+      };
+      options.mutateAuthority?.(preflight);
+    },
+    ...options,
+  });
+}
+
+for (const [name, options] of [
+  ["revoked before authorization", { decisionPermission: "read" }],
+  ["revoked after authorization", { decisionPermission: ["admin", "read"] }],
+  ["write-only role", { decisionPermission: "write" }],
+  ["permission lookup failure", { decisionPermissionError: true }],
+]) {
+  test(`apply-result blocks dependency notice authority ${name}`, () => {
+    const { report, calls, mergeStatePath } = runDependencyNoticeApply(options);
+    assert.equal(report.actions[0].status, "blocked", report.actions[0].reason);
+    assert.match(report.actions[0].reason, /dependency notice/);
+    assert.equal(fs.existsSync(mergeStatePath), false);
+    assert.equal(calls.some((args) => args[0] === "pr" && args[1] === "merge"), false);
+    assert.ok(calls.some((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080"));
+  });
+}
+
+for (const permission of ["admin", { permission: "write", role_name: "maintain" }]) {
+  test(`apply-result accepts current dependency notice role ${JSON.stringify(permission)}`, () => {
+    const { report, calls } = runDependencyNoticeApply({ decisionPermission: permission });
+    assert.equal(report.actions[0].status, "executed", report.actions[0].reason);
+    const permissionIndexes = calls.flatMap((args, index) => args[1]?.endsWith("/collaborators/vincentkoc/permission") ? [index] : []);
+    const authorizeIndex = calls.findIndex((args) => args[1] === "repos/openclaw/openclaw/check-runs/8080");
+    const mergeIndex = calls.findIndex((args) => args[0] === "pr" && args[1] === "merge");
+    assert.equal(permissionIndexes.length, 2);
+    assert.ok(permissionIndexes[0] < authorizeIndex);
+    assert.ok(authorizeIndex < permissionIndexes[1]);
+    assert.ok(permissionIndexes[1] < mergeIndex);
+  });
+}
+
+for (const [name, options] of [
+  ["malformed binding", { mutateAuthority(preflight) { preflight.dependency_notice_authority = {}; } }],
+  ["wrong head", { mutateAuthority(preflight) { preflight.dependency_notice_authority.head_sha = CHANGED_HEAD_SHA; } }],
+  ["different PR author", { pullAuthor: "other" }],
+]) {
+  test(`apply-result rejects dependency notice authority with ${name} before publishing checks`, () => {
+    const { report, calls } = runDependencyNoticeApply(options);
+    assert.equal(report.actions[0].status, "blocked");
+    assert.match(report.actions[0].reason, /dependency.notice.authority/);
+    assert.equal(calls.some((args) => args[1] === "repos/openclaw/openclaw/check-runs"), false);
+  });
 }
