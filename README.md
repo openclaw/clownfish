@@ -504,6 +504,18 @@ npm run self-heal -- --execute --open-execute-window --max-jobs 5 \
 
 ## Checks
 
+External merge preflight recognizes exact-head informational Dependency Guard
+notices in the current Maintain/Admin format and the recorded legacy format.
+The comment must come from the GitHub Actions bot, name the current PR author,
+and match the complete producer template. The author's live repository role
+must be Maintain or Admin at both initial and final admission; a recorded
+secops role alone is insufficient. Missing identity or permission evidence,
+role revocation, stale heads, and separate objections remain blocking. The result
+binds any consumed notice to that author and head; the applicator rechecks the
+role before and after publishing merge authorization, revoking it on failure.
+Older persisted preflights without this binding retain their existing behavior;
+new worker-generated preflights must use a null binding.
+
 Requeue-by-run-id removes its temporary artifact directory after resolution,
 including download and parse failures. Artifact downloads have a two-minute
 deadline; set `CLOWNFISH_REQUEUE_DOWNLOAD_TIMEOUT_MS` to a positive integer

@@ -2720,3 +2720,28 @@ function htmlEntityKeepAction(target, evidence) {
     reason: "numeric HTML entity literal, not a GitHub issue",
   };
 }
+
+for (const [name, authority, valid, worker] of [
+  ["legacy absent", undefined, true, false],
+  ["null", null, true, false],
+  ["bound", { schema_version: 1, author_login: "vincentkoc", head_sha: "7".repeat(40) }, true, false],
+  ["wrong head", { schema_version: 1, author_login: "vincentkoc", head_sha: "8".repeat(40) }, false, false],
+  ["malformed", { schema_version: 1 }, false, false],
+  ["worker authored", { schema_version: 1, author_login: "vincentkoc", head_sha: "7".repeat(40) }, false, true],
+]) {
+  test(`review-results validates ${name} dependency notice authority`, () => {
+    const artifact = externalMergeReviewResult(null);
+    artifact.merge_preflight[0].dependency_notice_authority = authority;
+    if (worker) artifact.actions[0].idempotency_key = "cluster-test:merge:1";
+    const dir = makeResultDir(artifact, {
+      job: mergeJob(),
+      plan: { items: [openPrItem("#1", "2026-06-15T14:15:01Z")] },
+    });
+    const result = review(dir);
+    if (valid) assert.equal(result.status, 0, result.stdout || result.stderr);
+    else {
+      assert.notEqual(result.status, 0);
+      assert.match(result.stdout, /dependency_notice_authority/);
+    }
+  });
+}

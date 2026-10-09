@@ -2291,6 +2291,7 @@ function buildMergePreflight({ fixArtifact, codexReview, headSha, baseSha }) {
     head_sha: headSha,
     base_sha: baseSha,
     decision_authority: null,
+    dependency_notice_authority: null,
     security_status: "cleared",
     security_evidence: ["ProjectClownfish scoped security scan found no security-sensitive fix target, source PR, or fix artifact scope."],
     comments_status: "resolved",

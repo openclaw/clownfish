@@ -74,3 +74,20 @@ export function matchesDecisionAuthority(authority, comment, expectedHeadSha) {
   const live = exactDecisionAuthority(comment, expectedHeadSha);
   return live !== null && Object.entries(live).every(([key, value]) => authority[key] === value);
 }
+
+export function validateDependencyNoticeAuthority(preflight, { expectedHeadSha, allowNonNull }) {
+  const authority = preflight?.dependency_notice_authority;
+  // Persisted preflights from before the informational-notice exception have no binding.
+  if (authority === undefined || authority === null) return "";
+  if (!allowNonNull) return "worker-authored merge_preflight.dependency_notice_authority must be null";
+  if (typeof authority !== "object" || Array.isArray(authority) ||
+      Object.keys(authority).sort().join() !== "author_login,head_sha,schema_version" ||
+      authority.schema_version !== 1 ||
+      !/^[a-z0-9](?:[a-z0-9-]{0,37}[a-z0-9])?$/.test(authority.author_login) ||
+      !/^[0-9a-f]{40}$/.test(authority.head_sha)) {
+    return "merge_preflight.dependency_notice_authority is malformed";
+  }
+  return authority.head_sha === String(expectedHeadSha ?? "").toLowerCase()
+    ? ""
+    : "merge_preflight.dependency_notice_authority head_sha does not match expected head";
+}

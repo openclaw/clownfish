@@ -12,6 +12,7 @@ import {
   matchesDecisionAuthority,
   REQUIRED_CI_GATE_NAME,
   validateDecisionAuthority,
+  validateDependencyNoticeAuthority,
 } from "./external-merge-checks.mjs";
 import { validateCodexReviewProvenance } from "./codex-review-dependency.mjs";
 import { fetchSettledPullRequestSnapshot as fetchAuthoritativePullRequestSnapshot } from "./pull-request-snapshot.mjs";
@@ -460,6 +461,8 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
   const preflight = findMergePreflight(result, target);
   const authorityBlock = validateDecisionAuthority(preflight, { expectedHeadSha, allowNonNull: externalMergeAction });
   if (authorityBlock) return { ...base, status: "blocked", reason: authorityBlock };
+  const dependencyAuthorityBlock = validateDependencyNoticeAuthority(preflight, { expectedHeadSha, allowNonNull: externalMergeAction });
+  if (dependencyAuthorityBlock) return { ...base, status: "blocked", reason: dependencyAuthorityBlock };
 
   let live = fetchIssue(result.repo, target);
   if (!live.pull_request) {
@@ -590,6 +593,11 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       verified_main_sha: mergedProof?.verified_parent_sha ?? null,
       ...externalMergeHeadReport(action, expectedHeadSha, replayBinding),
     };
+  }
+
+  if (preflight.dependency_notice_authority &&
+      preflight.dependency_notice_authority.author_login !== String(live.user?.login ?? "").toLowerCase()) {
+    return { ...base, status: "blocked", reason: "dependency_notice_authority does not match the current PR author" };
   }
 
   if (
@@ -933,7 +941,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       repo: result.repo,
       expectedHeadSha,
       authority: preflight.decision_authority,
-    });
+    }) || verifyDependencyNoticeAuthority({ repo: result.repo, authority: preflight.dependency_notice_authority, pullAuthor: live.user?.login });
     if (authorityBlock) {
       return withExactMergeRevocation({
         repo: result.repo,
@@ -975,7 +983,7 @@ function applyMergeAction({ job, result, action, dryRun, allowMissingUpdatedAt, 
       repo: result.repo,
       expectedHeadSha,
       authority: preflight.decision_authority,
-    });
+    }) || verifyDependencyNoticeAuthority({ repo: result.repo, authority: preflight.dependency_notice_authority, pullAuthor: live.user?.login });
     if (finalAuthorityBlock) {
       return withExactMergeRevocation({
         repo: result.repo,
@@ -1319,6 +1327,21 @@ function verifyDecisionAuthority({ repo, expectedHeadSha, authority }) {
       : "bound exact-head decision author lacks current repository permission";
   } catch (error) {
     return `could not revalidate exact-head decision authority: ${compactErrorText(commandErrorText(error), 500)}`;
+  }
+}
+
+function verifyDependencyNoticeAuthority({ repo, authority, pullAuthor }) {
+  if (!authority) return "";
+  if (authority.author_login !== String(pullAuthor ?? "").toLowerCase()) {
+    return "dependency_notice_authority does not match the current PR author";
+  }
+  try {
+    const role = ghJson(["api", `repos/${repo}/collaborators/${encodeURIComponent(authority.author_login)}/permission`])?.role_name;
+    return ["maintain", "admin"].includes(String(role ?? "").toLowerCase())
+      ? ""
+      : "bound dependency notice author lacks current Maintain/Admin role";
+  } catch (error) {
+    return `could not revalidate dependency notice authority: ${compactErrorText(commandErrorText(error), 500)}`;
   }
 }
 
