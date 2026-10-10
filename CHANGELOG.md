@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Require live merge confirmation before announcing success or closing linked issues, durably reconcile queued merges only against the reviewed head, and block failing commit statuses and pending checks in external preflight and ready-PR inventory. Thanks @SebTardif (#339, #340).
+- Align duplicate-close planning with the applicator exception while preserving fix-first checks for superseded reports. Thanks @vincentkoc (#309).
 - Deduplicate model-facing comment and review evidence by GitHub identity while preserving full artifacts and priority selections. Limit structured-result repair to retained instructions, scope, gates, result and validator context, with a 96,000-character admission cap instead of replaying the investigation prompt.
 - Keep nested backlog helpers within outer cancellation and preserve uncertain dispatch ledgers through workflow failures and replay.
 - Remove executor-created temporary workspaces after reporting, including blocked and failed exits, while preserving operator work directories. Thanks @SebTardif (#327).

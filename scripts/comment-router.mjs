@@ -760,9 +760,9 @@ function executeCommand(command) {
     command.actions = command.actions.map((action) =>
       action.action === "merge" ? { ...action, ...merge, completed_at: new Date().toISOString() } : action,
     );
+    command.pending_merge_confirmation = Boolean(merge.pending_merge_confirmation);
     if (merge.status === "waiting") {
       command.status = "waiting";
-      command.pending_merge_confirmation = Boolean(merge.pending_merge_confirmation);
       return;
     }
   }
@@ -1170,6 +1170,17 @@ function executeAutomerge(command) {
       merge_method: "squash",
     };
   }
+  command.status = "waiting";
+  command.pending_merge_confirmation = true;
+  command.actions = command.actions.map((action) => action.action === "merge" ? {
+    ...action,
+    status: "waiting",
+    pending_merge_confirmation: true,
+    reason: "merge submitted; waiting for GitHub confirmation",
+  } : action);
+  appendLedger(ledger, [command]);
+  writeLedger(ledgerPath(), ledger);
+  if (writeReport) writeReportFile(repoRoot(), report);
   let merged;
   try {
     merged = fetchPullRequestView(command.issue_number);

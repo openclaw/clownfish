@@ -800,3 +800,21 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/1/comments"
   const report = readJson(path.join(fixture.root, "results/comment-router-latest.json"));
   assert.equal(report.commands.find((command) => command.comment_id === "202").status, "unknown");
 });
+
+test("router checkpoints a queued merge before a later command fails", (t) => {
+  const fixture = makeFixture();
+  t.after(() => fs.rmSync(fixture.root, { recursive: true, force: true }));
+  const args = ["--execute", "--repo", "openclaw/openclaw", "--since", since];
+  const failed = runRouter(fixture, args, comments, { FAKE_MERGE_OUTCOME: "queued", FAKE_STATUS_POST_FAILURE: "1" });
+  assert.notEqual(failed.status, 0);
+  assert.match(failed.stderr, /status publication unavailable/);
+  const ledgerPath = path.join(fixture.root, "results/comment-router.json");
+  const pending = readJson(ledgerPath).commands.find((entry) => entry.comment_id === "202");
+  assert.equal(pending.status, "waiting");
+  assert.equal(pending.pending_merge_confirmation, true);
+  const report = readJson(path.join(fixture.root, "results/comment-router-latest.json"));
+  assert.equal(report.commands.find((entry) => entry.comment_id === "202").status, "waiting");
+  const replay = runRouter(fixture, [...args, "--comment-ids", "202"], comments, { FAKE_MERGE_OUTCOME: "queued" });
+  assert.equal(replay.status, 0, replay.stderr || replay.stdout);
+  assert.equal(readJson(fixture.state).calls.filter((call) => call.type === "pr_merge").length, 1);
+});

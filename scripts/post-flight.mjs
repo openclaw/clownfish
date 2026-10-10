@@ -141,8 +141,19 @@ function finalizeFixPr(action) {
     prBase = { ...base, pr: `#${parsed.number}`, title: view.title ?? pull.title ?? null };
     const mergedAt = pull.merged_at ?? view.mergedAt ?? null;
     if (mergedAt) {
-      const reviewedHeadSha = action.merge_preflight?.head_sha;
-      const proof = verifiedMergeProof(pull, reviewedHeadSha) ?? verifiedMergeProof(view, reviewedHeadSha);
+      let reviewedHeadSha = pending?.expected_head_sha ?? action.merge_preflight?.head_sha;
+      let proof = verifiedMergeProof(pull, reviewedHeadSha) ?? verifiedMergeProof(view, reviewedHeadSha);
+      if (!proof && pending && action.merge_preflight?.head_sha !== reviewedHeadSha) {
+        const replacementBlock = validateMergePreflight(action.merge_preflight, {
+          headSha: pull.head?.sha,
+          // The successful merge has already advanced main beyond its reviewed base.
+          baseSha: action.merge_preflight?.base_sha,
+        });
+        if (!replacementBlock) {
+          reviewedHeadSha = action.merge_preflight.head_sha;
+          proof = verifiedMergeProof(pull, reviewedHeadSha) ?? verifiedMergeProof(view, reviewedHeadSha);
+        }
+      }
       if (!proof) {
         return {
           ...pending,

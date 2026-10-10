@@ -10,11 +10,14 @@ const repoRoot = path.resolve(import.meta.dirname, "..");
 test("throttled dispatch waits for a transient publisher backlog", () => {
   const fixture = makeFixture();
   writeFakeGhx(fixture);
+  writeFakeGit(fixture);
 
   const result = spawnSync(
     process.execPath,
     [
       "scripts/dispatch-jobs.mjs",
+      "--repo",
+      "openclaw/clownfish",
       "jobs/openclaw/inbox/cluster-example.md",
       "--mode",
       "plan",
@@ -34,13 +37,26 @@ test("throttled dispatch waits for a transient publisher backlog", () => {
       "--publish-backlog-poll-ms",
       "1",
     ],
-    { cwd: repoRoot, encoding: "utf8", env: { ...process.env, FAKE_GHX_STATE: fixture.state } },
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.bin}${path.delimiter}${process.env.PATH ?? ""}`,
+        FAKE_GHX_STATE: fixture.state,
+        FAKE_GIT_PUBLISHED_RUN_IDS: "[]",
+        FAKE_GIT_TERMINAL_REJECTIONS: "[]",
+      },
+    },
   );
 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.match(result.stdout, /waiting up to 5000ms for publisher reconciliation/);
   assert.match(result.stdout, /publish backlog drained after/);
   assert.match(result.stdout, /dispatched 1\/1 jobs\/openclaw\/inbox\/cluster-example\.md/);
+  const gitCalls = fs.readFileSync(fixture.gitCalls, "utf8").trim().split("\n").map((line) => JSON.parse(line));
+  assert.ok(gitCalls.some(([command]) => command === "fetch"));
+  assert.ok(gitCalls.some(([command]) => command === "ls-tree"));
 });
 
 test("publish backlog accepts a complete cluster batch", () => {
@@ -267,11 +283,15 @@ process.exit(1);
 
 function writeFakeGit(fixture) {
   fixture.bin = path.join(path.dirname(fixture.gh), "bin");
+  fixture.gitCalls = path.join(path.dirname(fixture.gh), "git-calls.jsonl");
   fs.mkdirSync(fixture.bin, { recursive: true });
   fs.writeFileSync(
     path.join(fixture.bin, "git"),
     `#!/usr/bin/env node
+import fs from "node:fs";
 const args = process.argv.slice(2);
+fs.appendFileSync(${JSON.stringify(fixture.gitCalls)}, JSON.stringify(args) + "\\n");
+if (args[0] === "fetch") process.exit(0);
 if (args[0] === "ls-tree") {
   const runIds = JSON.parse(process.env.FAKE_GIT_PUBLISHED_RUN_IDS ?? "[]");
   const terminalRejections = JSON.parse(process.env.FAKE_GIT_TERMINAL_REJECTIONS ?? "[]");

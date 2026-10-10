@@ -10,7 +10,7 @@ const head = "a".repeat(40);
 const base = "b".repeat(40);
 const commit = "c".repeat(40);
 
-for (const outcome of ["queued", "queued-read-timeout", "queued-closed", "queued-reviewed-head", "missing-sha", "invalid-sha", "confirmed", "head-drift", "already-missing-sha", "already-confirmed", "already-head-drift"]) {
+for (const outcome of ["queued", "queued-read-timeout", "queued-closed", "queued-reviewed-head", "queued-rejected-merged-head", "missing-sha", "invalid-sha", "confirmed", "head-drift", "already-missing-sha", "already-confirmed", "already-head-drift"]) {
   test(`post-flight requires confirmed merge proof before closeout: ${outcome}`, (t) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-post-flight-merge-"));
     t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -73,7 +73,7 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/pulls/2") {
     mergeCommit: outcome.includes("missing-sha") ? null : { oid: "${commit}" },
     statusCheckRollup: [{ name: "CI", status: "COMPLETED", conclusion: state.failing_checks ? "FAILURE" : "SUCCESS" }] };
 } else if (args[0] === "api" && args[1].endsWith("git/ref/heads/main")) {
-  response = { object: { sha: "${base}" } };
+  response = { object: { sha: state.merged && outcome === "queued-rejected-merged-head" ? "${commit}" : "${base}" } };
 } else if (args[0] === "api" && args[1] === "graphql") {
   response = { data: { repository: { pullRequest: { reviewThreads: { nodes: [], pageInfo: { hasNextPage: false } } } } } };
 } else if (args[0] === "api" && args[1].includes("/comments?")) {
@@ -119,6 +119,26 @@ if (response !== undefined) process.stdout.write(typeof response === "string" ? 
       assert.equal(waiting.status, 0, waiting.stderr || waiting.stdout);
       assert.equal(JSON.parse(waiting.stdout).actions[0].status, "blocked");
       assert.equal(JSON.parse(fs.readFileSync(state, "utf8")).calls.filter((args) => args[0] === "pr" && args[1] === "merge").length, 1);
+      if (outcome === "queued-rejected-merged-head") {
+        const nextHead = "d".repeat(40);
+        const fixPath = path.join(dir, "fix-execution-report.json");
+        const fix = JSON.parse(fs.readFileSync(fixPath, "utf8"));
+        fix.actions[0].merge_preflight.head_sha = nextHead;
+        fix.actions[0].merge_preflight.codex_review.status = "failed";
+        fs.writeFileSync(fixPath, JSON.stringify(fix));
+        fs.writeFileSync(state, JSON.stringify({ ...JSON.parse(fs.readFileSync(state, "utf8")), head_sha: nextHead, merged: true }));
+        const rejected = invoke();
+        assert.equal(rejected.status, 0, rejected.stderr || rejected.stdout);
+        assert.equal(JSON.parse(rejected.stdout).actions[0].status, "blocked");
+        assert.equal(JSON.parse(fs.readFileSync(state, "utf8")).closed, false);
+        fix.actions[0].merge_preflight.codex_review.status = "passed";
+        fs.writeFileSync(fixPath, JSON.stringify(fix));
+        const accepted = invoke();
+        assert.equal(accepted.status, 0, accepted.stderr || accepted.stdout);
+        assert.equal(JSON.parse(accepted.stdout).actions[0].status, "executed");
+        assert.equal(JSON.parse(fs.readFileSync(state, "utf8")).closed, true);
+        return;
+      }
       if (outcome === "queued-reviewed-head") {
         const nextHead = "d".repeat(40);
         const readState = () => JSON.parse(fs.readFileSync(state, "utf8"));
