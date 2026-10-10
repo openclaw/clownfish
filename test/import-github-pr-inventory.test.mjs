@@ -11,6 +11,21 @@ const intakeWorkflow = fs.readFileSync(
   "utf8",
 );
 
+for (const check of [
+  { context: "legacy-ci", state: "FAILURE" },
+  { context: "legacy-ci", state: "ERROR" },
+  { context: "legacy-ci", state: "PENDING" },
+  { name: "CI", status: "IN_PROGRESS" },
+]) {
+  test(`live PR inventory excludes non-passing ${check.state ?? check.status} checks from ready candidates`, () => {
+    const fixture = makeFixture();
+    writeFakeGh(fixture.gh, { cleanCandidateCheck: check });
+    const result = runImport(fixture, "--strategy", "remediation", "--bucket", "ready_for_maintainer");
+    assert.equal(result.status, 0, result.stderr || result.stdout);
+    assert.equal(JSON.parse(result.stdout).candidates.some((candidate) => candidate.ref === "#110"), false);
+  });
+}
+
 test("autonomous live PR inventory defaults to stale candidates and terminal result filtering", () => {
   const fixture = makeFixture();
   writeFakeGh(fixture.gh);
@@ -1190,7 +1205,7 @@ function writeFakeGh(filePath, options = {}) {
     mergeable: "MERGEABLE",
     mergeStateStatus: "CLEAN",
     reviewDecision: "APPROVED",
-    statusCheckRollup: [{ name: "test", status: "COMPLETED", conclusion: "SUCCESS", completedAt: "2026-01-10T00:00:00Z" }],
+    statusCheckRollup: [options.cleanCandidateCheck ?? { name: "test", status: "COMPLETED", conclusion: "SUCCESS", completedAt: "2026-01-10T00:00:00Z" }],
     labels: [{ name: "proof: sufficient" }, { name: "status: ready for maintainer look" }],
     assignees: [],
     commentsCount: 0,

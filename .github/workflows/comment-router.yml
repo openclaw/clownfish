@@ -189,9 +189,10 @@ jobs:
           const ledgerFile = path.join("results", "comment-router.json");
           const latestFile = path.join("results", "comment-router-latest.json");
           const recordable = (report.commands ?? []).filter(isRecordableCommand);
-          if (recordable.length > 0) {
+          const selection = report.execute === true && report.single_slot_selection ? { ...report.single_slot_selection, repo: report.repo } : undefined;
+          if (recordable.length > 0 || selection) {
             const ledger = readLedger(ledgerFile);
-            appendLedger(ledger, recordable);
+            appendLedger(ledger, recordable, selection);
             writeLedger(ledgerFile, ledger);
           }
           fs.copyFileSync(process.env.REPORT_FILE, latestFile);
@@ -312,9 +313,10 @@ jobs:
           const ledgerFile = path.join("results", "comment-router.json");
           const latestFile = path.join("results", "comment-router-latest.json");
           const recordable = (report.commands ?? []).filter(isRecordableCommand);
-          if (recordable.length > 0) {
+          const selection = report.execute === true && report.single_slot_selection ? { ...report.single_slot_selection, repo: report.repo } : undefined;
+          if (recordable.length > 0 || selection) {
             const ledger = readLedger(ledgerFile);
-            appendLedger(ledger, recordable);
+            appendLedger(ledger, recordable, selection);
             writeLedger(ledgerFile, ledger);
           }
           fs.mkdirSync(path.dirname(latestFile), { recursive: true });

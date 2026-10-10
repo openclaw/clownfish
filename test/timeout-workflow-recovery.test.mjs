@@ -56,6 +56,31 @@ const replays = [...router.matchAll(/node --input-type=module <<\x27NODE\x27\n([
   .filter((script) => script.includes("const recordable ="));
 assert.equal(replays.length, 2);
 for (const [index, script] of replays.entries()) {
+  for (const execute of [true, false]) {
+    test(`router workflow replay ${index + 1} respects execute=${execute} for scheduling without recordable commands`, (t) => {
+      const root = fixture(t);
+      fs.mkdirSync(path.join(root, "scripts"));
+      fs.mkdirSync(path.join(root, "results"));
+      fs.copyFileSync(path.join(repoRoot, "scripts/comment-router-utils.mjs"), path.join(root, "scripts/comment-router-utils.mjs"));
+      const ledgerFile = path.join(root, "results/comment-router.json");
+      fs.writeFileSync(ledgerFile, JSON.stringify({ commands: [] }));
+      const reportFile = path.join(root, "report.json");
+      const selection = { kind: "recent", at: "2026-07-12T06:02:00.000Z" };
+      fs.writeFileSync(reportFile, JSON.stringify({
+        repo: "example/repo", mode: "merge_only", requested_comment_ids: [], commands: [], execute,
+        single_slot_selection: { ...selection, repo: "wrong/repo" },
+      }));
+      const run = spawnSync(process.execPath, ["--input-type=module"], {
+        cwd: root, input: script, encoding: "utf8",
+        env: { ...process.env, REPORT_FILE: reportFile, EXPECTED_TARGET_REPO: "example/repo", EXPECTED_COMMENT_IDS: "" },
+      });
+      assert.equal(run.status, 0, run.stderr);
+      const ledger = JSON.parse(fs.readFileSync(ledgerFile, "utf8"));
+      assert.deepEqual(ledger.single_slot_selections?.["example/repo"], execute ? selection : undefined);
+      assert.equal(ledger.single_slot_selections?.["wrong/repo"], undefined);
+    });
+  }
+
   test(`router workflow replay ${index + 1} restores unknown outcomes after a conflicting ledger update`, (t) => {
     const root = fixture(t);
     fs.mkdirSync(path.join(root, "scripts"));
