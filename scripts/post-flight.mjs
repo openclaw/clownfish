@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSyncWithTimeout, verifiedMergeProof } from "./lib.mjs";
-import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { assertAllowedOwner, hasDeterministicSecuritySignal, hasListedSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { externalMessageProvenance, postMergeCloseoutComment } from "./external-messages.mjs";
 import {
   shouldRequirePrChecks,
@@ -400,6 +400,7 @@ function ensureLabel(repo, name, color, description) {
 }
 
 function hasLiveSecuritySignal(number, labels) {
+  if (hasListedSecuritySignal(job.frontmatter, number)) return true;
   if (hasDeterministicSecuritySignal({ labels })) return true;
   const bodies = ghWithRetry([
     "api",

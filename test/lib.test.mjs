@@ -6,6 +6,7 @@ import test from "node:test";
 
 import {
   hasDeterministicSecuritySignal,
+  hasListedSecuritySignal,
   hasSecuritySignalText,
   parseJob,
   renderPrompt,
@@ -40,6 +41,15 @@ test("security signal detection ignores non-security advisory wording", () => {
     hasSecuritySignalText("pnpm lint:tmp:dynamic-import-warts (advisory-only; no new run-loop.ts advisory)"),
     false,
   );
+});
+
+test("explicit security refs are scoped to the job repository and honor overrides", () => {
+  const fm = { repo: "openclaw/openclaw", security_signal_refs: ["#7", "https://github.com/openclaw/openclaw/pull/8", "https://github.com/other/repo/issues/9"] };
+  assert.equal(hasListedSecuritySignal(fm, 7), true);
+  assert.equal(hasListedSecuritySignal(fm, "#8"), true);
+  assert.equal(hasListedSecuritySignal(fm, 9), false);
+  assert.equal(hasListedSecuritySignal({ ...fm, security_override_refs: ["https://github.com/openclaw/openclaw/issues/7"] }, 7), false);
+  assert.equal(hasListedSecuritySignal({ ...fm, security_override_refs: ["https://github.com/other/repo/issues/7"] }, 7), true);
 });
 
 test("security signal detection keeps explicit security advisory wording", () => {

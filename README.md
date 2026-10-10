@@ -29,6 +29,14 @@ cluster. It follows OpenClaw `SECURITY.md`: trusted-operator exec behavior,
 provider gaps, feature gaps, and hardening-only parity drift are not treated as
 vulnerabilities unless there is a real trust-boundary bypass.
 
+Explicit `security_signal_refs` remain quarantined during planning, close and
+merge application, fix execution, and post-flight closeout, even if the live
+item has no security label or structured marker. `security_override_refs` can
+clear that imported signal; they do not bypass live mutation guards for security
+labels or structured markers, or an existing plan's security quarantine.
+GitHub URLs in these lists apply only to the job's repository. Live title, body,
+and comment prose do not independently expand the deterministic detector.
+
 ## Status
 
 Clownfish is intentionally smaller than ClawSweeper. ClawSweeper scans the whole OpenClaw backlog on a cadence; Clownfish handles targeted clusters that were already grouped by a human, gitcrawl, or another dedupe tool.

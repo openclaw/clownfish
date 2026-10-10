@@ -4,7 +4,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { execFileSyncWithTimeout } from "./lib.mjs";
 import { createHash } from "node:crypto";
-import { assertAllowedOwner, hasDeterministicSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
+import { assertAllowedOwner, hasDeterministicSecuritySignal, hasListedSecuritySignal, parseArgs, parseJob, repoRoot, validateJob } from "./lib.mjs";
 import { defaultCloseComment, externalMessageProvenance } from "./external-messages.mjs";
 import {
   COORDINATOR_CHECK_NAMES,
@@ -2922,6 +2922,7 @@ function validateLowSignalLiveState(repo, target, live, kind) {
 }
 
 function hasSecuritySignal(issue) {
+  if (hasListedSecuritySignal(job.frontmatter, issue.number)) return true;
   if (hasDeterministicSecuritySignal({ labels: issue.labels ?? [] })) return true;
   const comments = ghPaged(`repos/${result.repo}/issues/${issue.number}/comments?per_page=100`).map((comment) => comment.body ?? "");
   return hasDeterministicSecuritySignal({ comments });

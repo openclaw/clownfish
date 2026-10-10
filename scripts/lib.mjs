@@ -854,6 +854,18 @@ export function hasSecuritySignalText(...values) {
   return SECURITY_SIGNAL_PATTERN.test(text);
 }
 
+export function hasListedSecuritySignal(frontmatter, number) {
+  const matches = (ref) => {
+    const text = String(ref ?? "");
+    const local = text.match(/^#?(\d+)$/);
+    if (local) return Number(local[1]) === Number(String(number).replace(/^#/, ""));
+    const url = text.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/(?:issues|pull)\/(\d+)(?:[/?#]|$)/i);
+    return Boolean(url && url[1].toLowerCase() === frontmatter.repo.toLowerCase() && Number(url[2]) === Number(String(number).replace(/^#/, "")));
+  };
+  return (frontmatter.security_signal_refs ?? []).some(matches) &&
+    !(frontmatter.security_override_refs ?? []).some(matches);
+}
+
 export function hasDeterministicSecuritySignal({ labels = [], comments = [] } = {}) {
   const labelTexts = flattenSecurityText(labels).map((label) => label.trim());
   if (labelTexts.some((label) => SECURITY_LABEL_PATTERN.test(label))) return true;

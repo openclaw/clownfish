@@ -609,6 +609,103 @@ test("execute-fix-artifact ignores security-routed lineage that is not a mutable
   assert.doesNotMatch(report.reason, /security-sensitive/);
 });
 
+test("execute-fix skips a security_signal_refs target", () => {
+  const report = runBroadSecurityFix({
+    clusterId: "security-signal-ref-fix",
+    jobText: jobFile("security-signal-ref-fix").replace(
+      "security_sensitive: false\n",
+      'security_sensitive: false\nsecurity_signal_refs:\n  - "#1"\n',
+    ),
+    plan: {
+      security_boundary: { security_sensitive_items: [] },
+      items: [{ ref: "#1", title: "ordinary bug", body_excerpt: "ordinary body" }],
+    },
+  });
+  assert.equal(report.status, "skipped");
+  assert.match(report.reason, /security-sensitive ref #1/);
+});
+
+test("execute-fix keeps an overridden security signal on the normal fix path", () => {
+  const report = runBroadSecurityFix({
+    clusterId: "security-signal-override-fix",
+    jobText: jobFile("security-signal-override-fix").replace(
+      "security_sensitive: false\n",
+      'security_sensitive: false\nsecurity_signal_refs:\n  - "#1"\nsecurity_override_refs:\n  - "#1"\n',
+    ),
+    plan: {
+      security_boundary: { security_sensitive_items: [] },
+      items: [{ ref: "#1", title: "authentication bypass in gateway auth", body_excerpt: "GHSA-1234-5678-abcd" }],
+    },
+  });
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /too broad for autonomous execution/);
+  assert.doesNotMatch(report.reason, /security-sensitive ref/);
+});
+
+test("execute-fix skips a listed mutable source without quarantining unrelated lineage", () => {
+  const report = runBroadSecurityFix({
+    clusterId: "security-source-fix",
+    jobText: jobFile("security-source-fix").replace(
+      "security_sensitive: false\n",
+      'security_sensitive: false\nsecurity_signal_refs:\n  - "#2"\n',
+    ),
+    plan: { security_boundary: { security_sensitive_items: [] } },
+    repairStrategy: "repair_contributor_branch",
+    sourcePrs: ["https://github.com/openclaw/openclaw/pull/2"],
+  });
+  assert.equal(report.status, "skipped");
+  assert.match(report.reason, /security-sensitive source PR #2/);
+});
+
+function runBroadSecurityFix({ clusterId, jobText, plan, repairStrategy = "new_fix_pr", sourcePrs }) {
+  const fixture = makeFixture();
+  const resultPath = path.join(fixture.runDir, "result.json");
+  const reportPath = path.join(fixture.runDir, "fix-execution-report.json");
+  const result = resultFile(clusterId);
+  result.actions = [
+    { action: "fix_needed", status: "planned", target: "#1" },
+    { action: "build_fix_artifact", status: "planned", target: `cluster:${clusterId}` },
+  ];
+  result.fix_artifact = {
+    ...result.fix_artifact,
+    pr_title: "feat: intentionally broad fixture",
+    affected_surfaces: ["src", "tests", "docs", "config", "scripts"],
+    likely_files: ["src/app.js", "src/feature.js", "test/app.test.js", "docs/feature.md", "config/feature.json"],
+    repair_strategy: repairStrategy,
+    ...(sourcePrs ? { source_prs: sourcePrs } : {}),
+  };
+  fs.writeFileSync(fixture.jobPath, jobText);
+  fs.writeFileSync(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  fs.writeFileSync(path.join(fixture.runDir, "cluster-plan.json"), `${JSON.stringify(plan, null, 2)}\n`);
+  const child = spawnSync(
+    process.execPath,
+    [
+      "scripts/execute-fix-artifact.mjs",
+      fixture.jobPath,
+      resultPath,
+      "--target-dir",
+      fixture.targetDir,
+      "--work-dir",
+      fixture.workDir,
+      "--report",
+      reportPath,
+    ],
+    {
+      cwd: repoRoot,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        PATH: `${fixture.binDir}${path.delimiter}${process.env.PATH}`,
+        CLOWNFISH_ALLOWED_OWNER: "openclaw",
+        CLOWNFISH_ALLOW_EXECUTE: "1",
+        CLOWNFISH_ALLOW_FIX_PR: "1",
+      },
+    },
+  );
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  return JSON.parse(fs.readFileSync(reportPath, "utf8"));
+}
+
 test("execute-fix-artifact preserves recoverable replacement branch when review deadline blocks", () => {
   const fixture = makeFixture();
   const resultPath = path.join(fixture.runDir, "result.json");
