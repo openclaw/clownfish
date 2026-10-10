@@ -2380,7 +2380,9 @@ function isFailingCheck(check) {
   if (IGNORED_CHECKS.has(name) || IGNORED_CHECKS.has(String(check.workflowName ?? ""))) return false;
   const status = String(check.status ?? check.state ?? "").toUpperCase();
   const conclusion = String(check.conclusion ?? "").toUpperCase();
-  return ["COMPLETED", "SUCCESS"].includes(status) && conclusion && !PASSING_CHECK_CONCLUSIONS.has(conclusion);
+  if (status === "SUCCESS") return false;
+  if (status === "COMPLETED" && PASSING_CHECK_CONCLUSIONS.has(conclusion)) return false;
+  return true;
 }
 
 function hasCompletedPassingCheckRollup(view) {

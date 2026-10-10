@@ -233,7 +233,6 @@ expected_head_shas:
   assert.match(result.stderr, new RegExp(`#2 head changed after intake: expected ${expected}, found ${live}`));
 });
 
-
 test("fix-first plans allow verified duplicates without relaxing other closeouts", (t) => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-fix-first-"));
   t.after(() => fs.rmSync(tmp, { recursive: true, force: true }));
@@ -269,3 +268,113 @@ require_fix_before_close: true
   assert.equal(prompt.status, 0, prompt.stderr || prompt.stdout);
   assert.match(prompt.stdout, /close_duplicate.*exempt from.*require_fix_before_close/);
 });
+
+test("plan-cluster marks security_signal_refs security-sensitive", () => {
+  const plan = planSecurityIssue({
+    clusterId: "security-signal-ref",
+    frontmatterLines: 'security_signal_refs:\n  - "#7"\n',
+    title: "ordinary duplicate report",
+    body: "same stack trace as the canonical bug",
+  });
+  assert.equal(plan.item.security_sensitive, true);
+  assert.deepEqual(plan.security_sensitive_items, ["#7"]);
+});
+
+test("plan-cluster ignores security prose that only appears in a comment", () => {
+  const plan = planSecurityIssue({
+    clusterId: "security-signal-comment",
+    frontmatterLines: "",
+    title: "ordinary duplicate report",
+    body: "same stack trace as the canonical bug",
+    comments: ["This is an authentication bypass and GHSA-1234-5678-abcd."],
+    hydrateComments: true,
+  });
+  assert.equal(plan.item.comments_hydrated, 1);
+  assert.equal(plan.item.security_sensitive, false);
+  assert.deepEqual(plan.security_sensitive_items, []);
+});
+
+test("plan-cluster keeps an overridden security_signal ref non-security", () => {
+  const plan = planSecurityIssue({
+    clusterId: "security-signal-override",
+    frontmatterLines: 'security_signal_refs:\n  - "#7"\nsecurity_override_refs:\n  - "#7"\n',
+    title: "authentication bypass in gateway auth",
+    body: "maintainer cleared this false positive",
+  });
+  assert.equal(plan.item.security_sensitive, false);
+  assert.deepEqual(plan.security_sensitive_items, []);
+});
+
+function planSecurityIssue({ clusterId, frontmatterLines, title, body, comments = [], hydrateComments = false }) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-plan-security-"));
+  const binDir = path.join(tmp, "bin");
+  const runDir = path.join(tmp, "run");
+  fs.mkdirSync(binDir, { recursive: true });
+  const ghPath = path.join(binDir, "gh");
+  const commentPage = comments.map((commentBody) => ({ body: commentBody }));
+  fs.writeFileSync(
+    ghPath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2);
+function write(value) {
+  process.stdout.write(JSON.stringify(value));
+}
+if (args[0] !== "api") process.exit(1);
+const apiPath = args[1];
+if (apiPath === "repos/openclaw/openclaw/branches/main") {
+  write({ commit: { sha: "abc123" }, _links: { html: "https://github.com/openclaw/openclaw/tree/main" } });
+} else if (apiPath === "repos/openclaw/openclaw/issues/7") {
+  write({
+    state: "open",
+    title: ${JSON.stringify(title)},
+    html_url: "https://github.com/openclaw/openclaw/issues/7",
+    user: { login: "contributor" },
+    author_association: "NONE",
+    labels: [],
+    body: ${JSON.stringify(body)},
+    comments: ${comments.length},
+  });
+} else if (apiPath.startsWith("repos/openclaw/openclaw/issues/7/comments")) {
+  write(${JSON.stringify([commentPage])});
+} else {
+  write([]);
+}
+`,
+  );
+  fs.chmodSync(ghPath, 0o755);
+  const jobPath = path.join(tmp, "job.md");
+  fs.writeFileSync(
+    jobPath,
+    `---
+repo: openclaw/openclaw
+cluster_id: ${clusterId}
+mode: plan
+allowed_actions:
+  - comment
+candidates:
+  - "#7"
+canonical:
+  - "#7"
+${frontmatterLines}
+---
+
+# Security signal plan
+`,
+  );
+  const result = spawnSync("node", ["scripts/plan-cluster.mjs", jobPath, "--run-dir", runDir], {
+    cwd: repoRoot,
+    env: {
+      ...process.env,
+      PATH: `${binDir}${path.delimiter}${process.env.PATH}`,
+      CLOWNFISH_HYDRATE_COMMENTS: hydrateComments ? "1" : "0",
+      CLOWNFISH_MAX_LINKED_REFS: "0",
+    },
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  const plan = JSON.parse(fs.readFileSync(path.join(runDir, "cluster-plan.json"), "utf8"));
+  return {
+    item: plan.items.find((item) => item.ref === "#7"),
+    security_sensitive_items: plan.security_boundary.security_sensitive_items,
+  };
+}

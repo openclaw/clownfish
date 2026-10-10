@@ -10,6 +10,7 @@ import {
   readMaxLiveWorkers,
   repoRoot,
   validateJob,
+  verifiedMergeProof,
   waitForLiveWorkerCapacity,
 } from "./lib.mjs";
 import {
@@ -36,6 +37,7 @@ import {
   appendLedger,
   assertRepo,
   commaSet,
+  isPendingMergeConfirmation,
   issueNumberFromUrl,
   positiveInteger,
   readLedger,
@@ -155,7 +157,10 @@ if (replayLegacyAutomerge && requestedCommentIds.size === 0) {
 }
 
 const ledger = readLedger(ledgerPath());
-const processedCommentVersions = new Set((ledger.commands ?? []).map(commentVersionKey).filter(Boolean));
+const pendingMergeCommands = (ledger.commands ?? []).filter(isPendingMergeConfirmation);
+const pendingMergeRetirements = [];
+let singleSlotSelection = null;
+const processedCommentVersions = new Set((ledger.commands ?? []).filter((entry) => !isPendingMergeConfirmation(entry)).map(commentVersionKey).filter(Boolean));
 const processedLegacyAutomergeReplays = new Set(
   (ledger.commands ?? [])
     .filter((entry) => entry.automation_source === "legacy_automerge_bridge")
@@ -167,6 +172,7 @@ const collaboratorPermissionCache = new Map();
 const mergeScope = mergeOnly ? readMergeScope(mergeScopeFile) : null;
 const allComments = listRecentComments();
 const selectedComments = selectCommentsById(allComments, { ids: requestedCommentIds });
+selectedComments.missingIds = selectedComments.missingIds.filter((id) => !pendingMergeRetirements.some((entry) => String(entry.comment_id) === id));
 if (selectedComments.missingIds.length > 0) {
   throw new Error(
     `requested comment IDs were not found in the scoped feed: ${selectedComments.missingIds.join(", ")}. ` +
@@ -174,8 +180,9 @@ if (selectedComments.missingIds.length > 0) {
   );
 }
 const comments = selectedComments.comments;
-const parseComment = (comment) =>
-  parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots });
+function parseComment(comment) {
+  return parseCommand(comment.body) ?? parseTrustedAutomation(comment, { trustedAuthors: trustedBots });
+}
 let commandCandidates;
 if (mergeOnly) {
   commandCandidates = comments.map((comment) => ({ comment, parsed: parseComment(comment) }));
@@ -187,14 +194,15 @@ if (mergeOnly) {
         .join(", ")}`,
     );
   }
-  validateMergeReplayComments(mergeScope, commandCandidates);
+  validateMergeReplayComments(mergeScope, commandCandidates, pendingMergeRetirements);
 } else {
-  commandCandidates = selectCommandCandidates(comments, {
-    limit: maxComments,
+  const remaining = Math.max(0, maxComments - pendingMergeRetirements.length);
+  commandCandidates = remaining === 0 ? [] : selectCommandCandidates(comments, {
+    limit: remaining,
     parse: parseComment,
   });
 }
-const commands = [];
+const commands = [...pendingMergeRetirements];
 
 for (const { comment, parsed } of commandCandidates) {
   const issueNumber = issueNumberFromUrl(comment.issue_url);
@@ -219,6 +227,7 @@ for (const { comment, parsed } of commandCandidates) {
     automation_source: parsed.automation_source ?? null,
     repair_reason: parsed.repair_reason ?? null,
     expected_head_sha: parsed.expected_head_sha ?? null,
+    pending_merge_confirmation: pendingMergeCommands.some((entry) => entry.repo === targetRepo && commentVersionKey(entry) === commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at })),
     finding_id: parsed.finding_id ?? null,
     status: "pending",
     actions: [],
@@ -243,6 +252,7 @@ const report = {
   since,
   execute,
   max_comments: maxComments,
+  ...(execute && singleSlotSelection ? { single_slot_selection: singleSlotSelection } : {}),
   requested_comment_ids: [...requestedCommentIds],
   all_comments_scanned: allComments.length,
   max_autoclose_targets: maxAutocloseTargets,
@@ -258,6 +268,11 @@ const report = {
 };
 
 if (execute) {
+  if (singleSlotSelection) {
+    appendLedger(ledger, [], { ...singleSlotSelection, repo: targetRepo });
+    writeLedger(ledgerPath(), ledger);
+    if (writeReport) writeReportFile(repoRoot(), report);
+  }
   const dispatchCount = actionable.filter((command) => REPAIR_INTENTS.has(command.intent)).length;
   if (dispatchCount > 0) {
     report.live_worker_capacity_before_dispatch = waitForCapacity
@@ -271,7 +286,7 @@ if (execute) {
       if (error.code !== "ETIMEDOUT") throw error;
       command.status = "unknown";
       command.reason = `${error.message}; verify the remote outcome before submitting a new command`;
-      appendLedger(ledger, commands);
+      appendLedger(ledger, commands, singleSlotSelection && { ...singleSlotSelection, repo: targetRepo });
       writeLedger(ledgerPath(), ledger);
       if (writeReport) writeReportFile(repoRoot(), report);
     }
@@ -279,6 +294,7 @@ if (execute) {
   appendLedger(
     ledger,
     commands.filter((command) => command.status !== "deferred"),
+    singleSlotSelection && { ...singleSlotSelection, repo: targetRepo },
   );
   writeLedger(ledgerPath(), ledger);
 }
@@ -528,9 +544,12 @@ function classifyAutoclose(command, issue, pull) {
 }
 
 function classifyAutomergePass(command, issue, pull) {
-  if (String(issue.state ?? "").toLowerCase() !== "open") return { ...command, status: "skipped", reason: "PR is not open" };
   if (!pull) return { ...command, status: "skipped", reason: "ClawSweeper pass marker is not on a PR" };
-  if (!hasLabel(command.target, AUTOMERGE_LABEL)) return { ...command, status: "skipped", reason: "PR is not opted into Clownfish automerge" };
+  if (String(issue.state ?? "").toLowerCase() !== "open" && !pull.mergedAt && pull.state !== "MERGED") {
+    return { ...command, status: "skipped", reason: "PR is not open" };
+  }
+  // The label gates new merge requests, not observation of a submitted request.
+  if (!command.pending_merge_confirmation && !hasLabel(command.target, AUTOMERGE_LABEL)) return { ...command, status: "skipped", reason: "PR is not opted into Clownfish automerge" };
   const reviewedHeadBlock = automergeReviewedHeadBlockReason({
     expectedHeadSha: command.expected_head_sha,
     currentHeadSha: command.target?.head_sha,
@@ -741,6 +760,7 @@ function executeCommand(command) {
     command.actions = command.actions.map((action) =>
       action.action === "merge" ? { ...action, ...merge, completed_at: new Date().toISOString() } : action,
     );
+    command.pending_merge_confirmation = Boolean(merge.pending_merge_confirmation);
     if (merge.status === "waiting") {
       command.status = "waiting";
       return;
@@ -1083,9 +1103,37 @@ function escapeRegExp(value) {
 }
 
 function executeAutomerge(command) {
-  const view = fetchPullRequestView(command.issue_number);
+  let view;
+  try {
+    view = fetchPullRequestView(command.issue_number);
+    if (!view) throw new Error("GitHub PR response is unavailable");
+  } catch (error) {
+    if (!command.pending_merge_confirmation) throw error;
+    return { action: "merge", status: "waiting", pending_merge_confirmation: true, reason: "GitHub merge confirmation is temporarily unavailable" };
+  }
   const labels = (view.labels ?? []).map((item) => item.name ?? item);
   const latestTarget = { ...command.target, ...view, labels, head_sha: view.headRefOid ?? command.target?.head_sha ?? null };
+  if (view.mergedAt || view.state === "MERGED") {
+    const headBlock = automergeReviewedHeadBlockReason({
+      expectedHeadSha: command.expected_head_sha,
+      currentHeadSha: view.headRefOid,
+    });
+    if (headBlock) return { action: "merge", status: "blocked", reason: headBlock };
+    const proof = verifiedMergeProof(view, command.expected_head_sha);
+    if (!proof) {
+      return { action: "merge", status: "waiting", pending_merge_confirmation: true, reason: "merged pull request is missing verified merge proof" };
+    }
+    return {
+      action: "merge",
+      status: "executed",
+      reason: "GitHub confirms the reviewed pull request was already merged",
+      already_merged: true,
+      ...proof,
+    };
+  }
+  if (command.pending_merge_confirmation) {
+    return { action: "merge", status: "waiting", pending_merge_confirmation: true, reason: "GitHub has not confirmed the queued merge" };
+  }
   const block = validateAutomergeReadiness({ command, view, target: latestTarget });
   if (block) {
     if (isTransientAutomergeBlock(block, view)) {
@@ -1122,13 +1170,44 @@ function executeAutomerge(command) {
       merge_method: "squash",
     };
   }
-  const merged = fetchPullRequestView(command.issue_number);
+  command.status = "waiting";
+  command.pending_merge_confirmation = true;
+  command.actions = command.actions.map((action) => action.action === "merge" ? {
+    ...action,
+    status: "waiting",
+    pending_merge_confirmation: true,
+    reason: "merge submitted; waiting for GitHub confirmation",
+  } : action);
+  appendLedger(ledger, [command]);
+  writeLedger(ledgerPath(), ledger);
+  if (writeReport) writeReportFile(repoRoot(), report);
+  let merged;
+  try {
+    merged = fetchPullRequestView(command.issue_number);
+  } catch {
+    return { action: "merge", status: "waiting", pending_merge_confirmation: true, reason: "merge command succeeded but GitHub confirmation is temporarily unavailable" };
+  }
+  const headBlock = automergeReviewedHeadBlockReason({
+    expectedHeadSha: command.expected_head_sha,
+    currentHeadSha: merged?.headRefOid,
+  });
+  if (headBlock) return { action: "merge", status: "blocked", reason: headBlock };
+  const proof = verifiedMergeProof(merged, command.expected_head_sha);
+  if (!proof) {
+    return {
+      action: "merge",
+      status: "waiting",
+      pending_merge_confirmation: true,
+      reason: "merge command returned without a verified merged pull request",
+      merge_method: "squash",
+    };
+  }
   return {
     action: "merge",
     status: "executed",
     reason: "merged by Clownfish automerge",
-    merged_at: merged.mergedAt ?? new Date().toISOString(),
-    merge_commit_sha: merged.mergeCommit?.oid ?? null,
+    merged_at: proof.merged_at,
+    merge_commit_sha: proof.merge_commit_sha,
     merge_method: "squash",
   };
 }
@@ -1236,7 +1315,55 @@ function existingJobPath(clusterId, repo = targetRepo) {
 
 function listRecentComments() {
   const list = ghPaged(`repos/${targetRepo}/issues/comments?since=${encodeURIComponent(since)}&per_page=100`);
-  return list.sort((left, right) => Date.parse(right.created_at ?? "") - Date.parse(left.created_at ?? ""));
+  const pending = pendingMergeCommands.filter((entry) => entry.repo === targetRepo);
+  const pendingIds = new Set(pending.map((entry) => String(entry.comment_id)));
+  let recent = list.filter((comment) => !pendingIds.has(String(comment.id)))
+    .sort((left, right) => Date.parse(right.created_at ?? "") - Date.parse(left.created_at ?? ""));
+  let pendingLimit = Math.max(1, Math.floor(maxComments / 2));
+  if (maxComments === 1 && !mergeOnly && requestedCommentIds.size === 0) {
+    recent = recent.filter((comment) => !processedCommentVersions.has(commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at })));
+    const hasRecent = recent.some((comment) => parseComment(comment));
+    const lastSelection = ledger.single_slot_selections?.[targetRepo]?.kind;
+    const kind = pending.length > 0 && (!hasRecent || lastSelection !== "pending") ? "pending" : "recent";
+    singleSlotSelection = { kind, at: new Date().toISOString() };
+    if (kind === "recent") pendingLimit = 0;
+  }
+  const selected = pending
+    .filter((entry) => requestedCommentIds.size === 0 || requestedCommentIds.has(String(entry.comment_id)))
+    .filter((entry) => !mergeOnly || mergeScope.comments.some((scoped) => String(scoped.comment_id) === String(entry.comment_id) && scoped.comment_version_key === commentVersionKey(entry)))
+    .sort((left, right) => (Date.parse(left.processed_at) || 0) - (Date.parse(right.processed_at) || 0))
+    .slice(0, requestedCommentIds.size > 0 ? pending.length : pendingLimit);
+  const recovered = [];
+  for (const entry of selected) {
+    let comment = list.find((candidate) => String(candidate.id) === String(entry.comment_id));
+    if (!/^\d+$/.test(String(entry.comment_id))) {
+      pendingMergeRetirements.push({ ...entry, status: "skipped", reason: "pending merge comment ID is invalid", actions: [] });
+      continue;
+    }
+    if (!comment) {
+      try {
+        comment = ghJson(["api", `repos/${targetRepo}/issues/comments/${entry.comment_id}`]);
+      } catch (error) {
+        if (!/HTTP 404/.test(String(error.stderr ?? ""))) throw error;
+        pendingMergeRetirements.push({ ...entry, status: "skipped", reason: "pending merge command is no longer available", actions: [] });
+        continue;
+      }
+    }
+    const parsed = parseComment(comment);
+    if (
+      String(comment.id) !== String(entry.comment_id) ||
+      commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at }) !== commentVersionKey(entry) ||
+      issueNumberFromUrl(comment.issue_url) !== entry.issue_number ||
+      comment.user?.login !== entry.author ||
+      parsed?.intent !== entry.intent || parsed?.expected_head_sha !== entry.expected_head_sha
+    ) {
+      pendingMergeRetirements.push({ ...entry, status: "skipped", reason: "pending merge command changed", actions: [] });
+      continue;
+    }
+    recovered.push(comment);
+  }
+  // Bound old obligations while keeping intake capacity for recent commands.
+  return [...recovered, ...recent];
 }
 
 function fetchIssue(number) {
@@ -1455,26 +1582,34 @@ function readMergeScope(file) {
   return scope;
 }
 
-function validateMergeReplayComments(scope, candidates) {
+function validateMergeReplayComments(scope, candidates, retirements) {
   const scopedById = new Map(scope.comments.map((comment) => [String(comment.comment_id), comment]));
-  assertExactIdSet(
-    scope.comment_ids.map(String),
-    candidates.map(({ comment }) => String(comment.id)),
-    "deferred merge replay comment IDs changed",
-  );
-  for (const { comment, parsed } of candidates) {
-    const id = String(comment.id);
-    const scoped = scopedById.get(id);
-    const current = {
-      comment_version_key: commentVersionKey({
-        comment_id: id,
-        comment_updated_at: comment.updated_at,
-      }),
+  const actual = [
+    ...candidates.map(({ comment, parsed }) => ({
+      id: String(comment.id),
+      comment_version_key: commentVersionKey({ comment_id: comment.id, comment_updated_at: comment.updated_at }),
       issue_number: issueNumberFromUrl(comment.issue_url),
       intent: parsed.intent,
       author: comment.user?.login ?? null,
       expected_head_sha: parsed.expected_head_sha ?? null,
-    };
+    })),
+    ...retirements.map((entry) => ({
+      id: String(entry.comment_id),
+      comment_version_key: commentVersionKey(entry),
+      issue_number: entry.issue_number,
+      intent: entry.intent,
+      author: entry.author,
+      expected_head_sha: entry.expected_head_sha,
+    })),
+  ];
+  assertExactIdSet(
+    scope.comment_ids.map(String),
+    actual.map((entry) => entry.id),
+    "deferred merge replay comment IDs changed",
+  );
+  for (const current of actual) {
+    const id = current.id;
+    const scoped = scopedById.get(id);
     for (const field of [
       "comment_version_key",
       "issue_number",

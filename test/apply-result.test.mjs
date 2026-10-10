@@ -309,6 +309,68 @@ test("apply-result blocks high-risk close targets before comment or close mutati
   }
 });
 
+test("apply-result blocks close of a security_signal_refs target", () => {
+  const report = applyCloseReport({
+    extraFrontmatter: 'security_signal_refs:\n  - "#60063"\n',
+  });
+  assert.equal(report.actions[0].status, "blocked");
+  assert.equal(report.actions[0].reason, "security-sensitive target requires central security triage");
+});
+
+test("apply-result blocks merge of a security_signal_refs target before authorization", (t) => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-security-"));
+  t.after(() => fs.rmSync(tmp, { recursive: true, force: true }));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir);
+  writeReadyMergeGhStub(binDir, {});
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  const callLogPath = path.join(tmp, "calls.jsonl");
+  fs.writeFileSync(callLogPath, "");
+  fs.writeFileSync(jobPath, mergeJobMarkdown().replace("security_sensitive: false", 'security_sensitive: false\nsecurity_signal_refs:\n  - "#60063"'));
+  fs.writeFileSync(resultPath, JSON.stringify(mergeResultJson()));
+  const child = apply(jobPath, resultPath, reportPath, binDir, { dryRun: false, allowMerge: true, callLogPath });
+  assert.equal(child.status, 0, child.stderr || child.stdout);
+  const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
+  assert.equal(report.actions[0].status, "blocked");
+  assert.match(report.actions[0].reason, /security-sensitive/);
+  assert.equal(readCallLog(callLogPath).some((args) => args.includes("POST") || (args[0] === "pr" && args[1] === "merge")), false);
+});
+
+
+test("apply-result does not treat comment prose as a security signal", () => {
+  const report = applyCloseReport({
+    stub: { commentBodies: ["This is an authentication bypass and GHSA-1234-5678-abcd."] },
+  });
+  assert.equal(report.actions[0].status, "planned");
+  assert.equal(report.actions[0].reason, "dry run");
+});
+
+test("apply-result allows close of an overridden security signal ref", () => {
+  const report = applyCloseReport({
+    stub: { title: "authentication bypass in gateway auth", body: "Reported as GHSA-1234-5678-abcd" },
+    extraFrontmatter: 'security_signal_refs:\n  - "#60063"\nsecurity_override_refs:\n  - "#60063"\n',
+  });
+  assert.equal(report.actions[0].status, "planned");
+  assert.equal(report.actions[0].reason, "dry run");
+});
+
+function applyCloseReport({ stub = {}, extraFrontmatter = "" } = {}) {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
+  const binDir = path.join(tmp, "bin");
+  fs.mkdirSync(binDir, { recursive: true });
+  writeGhStub(binDir, stub);
+  const jobPath = path.join(tmp, "job.md");
+  const resultPath = path.join(tmp, "result.json");
+  const reportPath = path.join(tmp, "apply-report.json");
+  fs.writeFileSync(jobPath, jobMarkdown({ allowUnmergedFixClose: true, extraFrontmatter }));
+  fs.writeFileSync(resultPath, `${JSON.stringify(resultJson(), null, 2)}\n`);
+  const result = apply(jobPath, resultPath, reportPath, binDir);
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  return JSON.parse(fs.readFileSync(reportPath, "utf8"));
+}
+
 test("apply-result retains prior reports as apply attempts", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "clownfish-apply-"));
   const binDir = path.join(tmp, "bin");
@@ -2408,7 +2470,16 @@ function runDecisionAuthorityApply({
 
 function writeGhStub(
   binDir,
-  { issueState = "open", includeExistingMarker = false, authorAssociation = "NONE", ansi = false, labels = [] } = {},
+  {
+    issueState = "open",
+    includeExistingMarker = false,
+    authorAssociation = "NONE",
+    ansi = false,
+    labels = [],
+    title = "streaming fix",
+    body = "",
+    commentBodies = [],
+  } = {},
 ) {
   const ghPath = path.join(binDir, "gh");
   const ansiPrefix = ansi ? "\u001b[1;32m" : "";
@@ -2416,6 +2487,10 @@ function writeGhStub(
   const existingCommentBody = includeExistingMarker
     ? `<!-- projectclownfish:close:ghcrawl-199237-agentic-merge:#60063:${resultJson().actions[0].idempotency_key} -->`
     : "";
+  const commentPage = [
+    ...(existingCommentBody ? [{ body: existingCommentBody }] : []),
+    ...commentBodies.map((commentBody) => ({ body: commentBody })),
+  ];
   fs.writeFileSync(
     ghPath,
     `#!/usr/bin/env node
@@ -2430,14 +2505,15 @@ if (args[0] === "api" && args[1] === "repos/openclaw/openclaw/issues/60063") {
   write({
     number: 60063,
     state: ${JSON.stringify(issueState)},
-    title: "streaming fix",
+    title: ${JSON.stringify(title)},
+    body: ${JSON.stringify(body)},
     updated_at: ${JSON.stringify(issueState === "open" ? "2026-06-11T05:07:30Z" : "2026-06-11T12:38:26Z")},
     labels: ${JSON.stringify(labels)},
     author_association: ${JSON.stringify(authorAssociation)},
     pull_request: { url: "https://api.github.com/repos/openclaw/openclaw/pulls/60063" }
   });
 } else if (args[0] === "api" && args[1].startsWith("repos/openclaw/openclaw/issues/60063/comments")) {
-  write(${JSON.stringify(existingCommentBody ? [[{ body: existingCommentBody }]] : [[]])});
+  write(${JSON.stringify([commentPage])});
 } else {
   process.stderr.write("unexpected gh call: " + args.join(" ") + "\\n");
   process.exit(1);
@@ -3040,7 +3116,7 @@ if (${JSON.stringify(validationFailure)} && args[0] === "check:changed") {
   );
 }
 
-function jobMarkdown({ allowUnmergedFixClose }) {
+function jobMarkdown({ allowUnmergedFixClose, extraFrontmatter = "" }) {
   return `---
 repo: openclaw/openclaw
 cluster_id: ghcrawl-199237-agentic-merge
@@ -3060,6 +3136,7 @@ allow_instant_close: true
 require_fix_before_close: true
 allow_unmerged_fix_close: ${allowUnmergedFixClose ? "true" : "false"}
 security_sensitive: false
+${extraFrontmatter}
 ---
 
 # Test job

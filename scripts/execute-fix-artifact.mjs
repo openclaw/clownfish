@@ -6,6 +6,7 @@ import { spawnSync } from "node:child_process";
 import {
   assertAllowedOwner,
   hasDeterministicSecuritySignal,
+  hasListedSecuritySignal,
   parseArgs,
   parseJob,
   repoRoot,
@@ -2567,19 +2568,19 @@ function validateFixSecurityScope({ job, resultPath, fixArtifact, plannedFixActi
 
   for (const action of plannedFixActions) {
     const target = normalizeLocalRef(action.target);
-    if (target && securityRefs.has(target)) {
+    if (target && (securityRefs.has(target) || hasListedSecuritySignal(job.frontmatter, target))) {
       return {
         reason: `fix action targets security-sensitive ref ${target}`,
-        evidence: [`${target} appears in cluster-plan.security_boundary.security_sensitive_items`],
+        evidence: [`${target} is quarantined by the job or cluster plan`],
       };
     }
   }
 
   for (const sourceRef of mutableFixSourceRefs(fixArtifact)) {
-    if (sourceRef && securityRefs.has(sourceRef)) {
+    if (sourceRef && (securityRefs.has(sourceRef) || hasListedSecuritySignal(job.frontmatter, sourceRef))) {
       return {
         reason: `fix artifact mutates security-sensitive source PR ${sourceRef}`,
-        evidence: [`${sourceRef} appears in cluster-plan.security_boundary.security_sensitive_items`],
+        evidence: [`${sourceRef} is quarantined by the job or cluster plan`],
       };
     }
   }

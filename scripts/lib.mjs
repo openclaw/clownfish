@@ -15,6 +15,16 @@ const DEFAULT_CAPACITY_POLL_MS = 30_000;
 const DEFAULT_CAPACITY_TIMEOUT_MS = 30 * 60 * 1000;
 const ACTIVE_WORKFLOW_STATUSES = ["queued", "in_progress", "waiting", "requested", "pending"];
 
+export function verifiedMergeProof(record, expectedHeadSha) {
+  const expected = String(expectedHeadSha ?? "");
+  const headSha = String(record?.head?.sha ?? record?.headRefOid ?? "");
+  if (!/^[0-9a-f]{40}$/i.test(expected) || headSha !== expected) return null;
+  const mergedAt = record?.merged_at ?? record?.mergedAt ?? null;
+  const sha = String(record?.merge_commit_sha ?? record?.mergeCommit?.oid ?? "");
+  if (!mergedAt || !/^[0-9a-f]{40}$/i.test(sha)) return null;
+  return { merged_at: mergedAt, merge_commit_sha: sha };
+}
+
 export function subprocessTimeoutMs(value = process.env.CLOWNFISH_GH_EXEC_TIMEOUT_MS) {
   const parsed = Number(value);
   return Number.isSafeInteger(parsed) && parsed > 0 && parsed <= 2 ** 31 - 1 ? parsed : 120_000;
@@ -842,6 +852,18 @@ function compactDeep(value, options = {}) {
 export function hasSecuritySignalText(...values) {
   const text = values.flatMap(flattenSecurityText).join("\n");
   return SECURITY_SIGNAL_PATTERN.test(text);
+}
+
+export function hasListedSecuritySignal(frontmatter, number) {
+  const matches = (ref) => {
+    const text = String(ref ?? "");
+    const local = text.match(/^#?(\d+)$/);
+    if (local) return Number(local[1]) === Number(String(number).replace(/^#/, ""));
+    const url = text.match(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/(?:issues|pull)\/(\d+)(?:[/?#]|$)/i);
+    return Boolean(url && url[1].toLowerCase() === frontmatter.repo.toLowerCase() && Number(url[2]) === Number(String(number).replace(/^#/, "")));
+  };
+  return (frontmatter.security_signal_refs ?? []).some(matches) &&
+    !(frontmatter.security_override_refs ?? []).some(matches);
 }
 
 export function hasDeterministicSecuritySignal({ labels = [], comments = [] } = {}) {

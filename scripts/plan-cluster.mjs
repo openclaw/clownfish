@@ -6,6 +6,7 @@ import { promisify } from "node:util";
 import {
   assertAllowedOwner,
   hasDeterministicSecuritySignal,
+  hasListedSecuritySignal,
   makeRunDir,
   parseArgs,
   parseJob,
@@ -574,6 +575,7 @@ function classificationHint(item, job) {
 
 function itemSecuritySensitive(item, job) {
   if (securityOverrideRefs(job).has(`#${item.number}`)) return false;
+  if (hasListedSecuritySignal(job.frontmatter, item.number)) return true;
   return hasDeterministicSecuritySignal({
     labels: item.labels,
     comments: [

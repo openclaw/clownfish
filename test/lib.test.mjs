@@ -6,18 +6,50 @@ import test from "node:test";
 
 import {
   hasDeterministicSecuritySignal,
+  hasListedSecuritySignal,
   hasSecuritySignalText,
   parseJob,
   renderPrompt,
   resolveJobPath,
   validateJob,
+  verifiedMergeProof,
 } from "../scripts/lib.mjs";
+
+test("verified merge proof requires the reviewed head, timestamp and commit sha", () => {
+  const sha = "a".repeat(40);
+  const head = "b".repeat(40);
+  const record = { mergedAt: "2026-09-26T00:00:00Z", mergeCommit: { oid: sha }, headRefOid: head };
+  assert.equal(verifiedMergeProof(null, head), null);
+  assert.equal(verifiedMergeProof({ ...record, mergedAt: null }, head), null);
+  assert.equal(verifiedMergeProof({ ...record, mergeCommit: { oid: "abc" } }, head), null);
+  assert.equal(verifiedMergeProof({ ...record, headRefOid: null }, head), null);
+  assert.equal(verifiedMergeProof(record), null);
+  assert.equal(verifiedMergeProof(record, "abc"), null);
+  assert.equal(verifiedMergeProof(record, "c".repeat(40)), null);
+  assert.deepEqual(verifiedMergeProof(record, head), {
+    merged_at: "2026-09-26T00:00:00Z",
+    merge_commit_sha: sha,
+  });
+  assert.deepEqual(verifiedMergeProof({ merged_at: "2026-09-26T00:00:00Z", merge_commit_sha: sha.toUpperCase(), head: { sha: head } }, head), {
+    merged_at: "2026-09-26T00:00:00Z",
+    merge_commit_sha: sha.toUpperCase(),
+  });
+});
 
 test("security signal detection ignores non-security advisory wording", () => {
   assert.equal(
     hasSecuritySignalText("pnpm lint:tmp:dynamic-import-warts (advisory-only; no new run-loop.ts advisory)"),
     false,
   );
+});
+
+test("explicit security refs are scoped to the job repository and honor overrides", () => {
+  const fm = { repo: "openclaw/openclaw", security_signal_refs: ["#7", "https://github.com/openclaw/openclaw/pull/8", "https://github.com/other/repo/issues/9"] };
+  assert.equal(hasListedSecuritySignal(fm, 7), true);
+  assert.equal(hasListedSecuritySignal(fm, "#8"), true);
+  assert.equal(hasListedSecuritySignal(fm, 9), false);
+  assert.equal(hasListedSecuritySignal({ ...fm, security_override_refs: ["https://github.com/openclaw/openclaw/issues/7"] }, 7), false);
+  assert.equal(hasListedSecuritySignal({ ...fm, security_override_refs: ["https://github.com/other/repo/issues/7"] }, 7), true);
 });
 
 test("security signal detection keeps explicit security advisory wording", () => {

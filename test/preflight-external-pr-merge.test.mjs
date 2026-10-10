@@ -1510,6 +1510,48 @@ for (const [name, restMerge, graphMerge] of [
   });
 }
 
+for (const state of ["FAILURE", "ERROR", "PENDING"]) {
+  test(`external merge preflight blocks a non-passing legacy status context: ${state}`, () => {
+    const fixture = makeFixture({
+      mergeStateStatus: "UNSTABLE",
+      statusCheckRollup: [{ context: "legacy-ci", state }],
+    });
+    const { report } = runPreflightFixture(fixture);
+    assert.equal(report.status, "blocked");
+    assert.match(report.reason, /non-passing checks: legacy-ci/);
+  });
+}
+
+for (const check of [
+  { context: "legacy-ci", state: "SUCCESS" },
+  { name: "CI", status: "COMPLETED", conclusion: "SUCCESS" },
+  { name: "optional", status: "COMPLETED", conclusion: "SKIPPED" },
+  { name: "optional", status: "COMPLETED", conclusion: "NEUTRAL" },
+  { name: "auto-response", status: "IN_PROGRESS" },
+]) {
+  test(`external merge preflight accepts passing or ignored checks: ${JSON.stringify(check)}`, () => {
+    const { report } = runPreflightFixture(makeFixture({ mergeStateStatus: "UNSTABLE", statusCheckRollup: [check] }));
+    assert.equal(report.status, "passed", report.reason);
+  });
+}
+
+test("external merge preflight blocks pending checks on an unstable head", () => {
+  const fixture = makeFixture({
+    mergeStateStatus: "UNSTABLE",
+    statusCheckRollup: [
+      {
+        name: "CI",
+        workflowName: "CI",
+        status: "IN_PROGRESS",
+        startedAt: "2026-07-06T20:25:00Z",
+      },
+    ],
+  });
+  const { report } = runPreflightFixture(fixture);
+  assert.equal(report.status, "blocked");
+  assert.match(report.reason, /non-passing checks: CI/);
+});
+
 for (const mergeStateStatus of ["BLOCKED", "BEHIND"]) {
   test(`external merge preflight accepts ${mergeStateStatus.toLowerCase()} state for exact review`, () => {
     const fixture = makeFixture({
