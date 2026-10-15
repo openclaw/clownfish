@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Update the pinned ClawSweeper dispatch token action to v3.3.0 for dependency fixes and current permission inputs.
 - Preserve explicit security-signal quarantine through planning, close/merge application, fix execution, and post-flight, without expanding live prose detection. Thanks @SebTardif (#344).
 - Require live merge confirmation before announcing success or closing linked issues, durably reconcile queued merges only against the reviewed head, and block failing commit statuses and pending checks in external preflight and ready-PR inventory. Thanks @SebTardif (#339, #340).
 - Align duplicate-close planning with the applicator exception while preserving fix-first checks for superseded reports. Thanks @vincentkoc (#309).
